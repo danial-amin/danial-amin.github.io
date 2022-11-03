@@ -609,7 +609,7 @@ img {
 }
 
 .services__description {
-  display: inline-block;
+  display: block;
   font-size: var(--small-font-size);
   color: #FFF;
 }
