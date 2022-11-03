@@ -702,7 +702,6 @@ img {
 }
 
 .services__modal-icon {
-  display: inline-block;
   color: #FFF;
   margin-right: var(--mb-0-25);
 }
