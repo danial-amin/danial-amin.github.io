@@ -612,6 +612,7 @@ img {
   display: block;
   font-size: var(--small-font-size);
   color: #FFF;
+  text-align: justify;
 }
 
 .services__bg {
