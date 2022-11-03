@@ -611,14 +611,12 @@ img {
 .services__description {
   display: inline-block;
   margin-bottom: var(--mb-1-5);
+  font-size: var(--small-font-size);
 }
 
 .services__bg {
   background-color: var(--first-color-second);
   padding-top: 3rem;
-  padding-bottom: 3rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
 }
 .services__content {
   position: relative;
@@ -704,6 +702,7 @@ img {
 }
 
 .services__modal-icon {
+  display: inblock;
   color: var(--first-color);
   margin-right: var(--mb-0-25);
 }
