@@ -3,13 +3,13 @@
   --header-height: 3rem;
   /*========== Colors ==========*/
   /* Change favorite color */
-  --hue-color: 230;
+  --hue-color: 250;
   /*Purple 250 - Green 142 - Blue 230 - Pink 340*/
   /* HSL color mode */
   --first-color: hsl(var(--hue-color), 69%, 61%);
   --first-color-second: hsl(var(--hue-color), 69%, 61%);
   --first-color-alt: hsl(var(--hue-color), 57%, 53%);
-  --first-color-lighter: hsl(var(--hue-color), 85%, 85%);
+  --first-color-lighter: hsl(var(--hue-color), 100%, 90%);
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 8%, 45%);
   --text-color-light: hsl(var(--hue-color), 8%, 65%);
@@ -610,8 +610,8 @@ img {
 
 .services__description {
   display: inline-block;
-  margin-bottom: var(--mb-1-5);
   font-size: var(--small-font-size);
+  color: #FFF;
 }
 
 .services__bg {
@@ -702,8 +702,8 @@ img {
 }
 
 .services__modal-icon {
-  display: inblock;
-  color: var(--first-color);
+  display: inline-block;
+  color: #FFF;
   margin-right: var(--mb-0-25);
 }
 
