@@ -9,7 +9,7 @@
   --first-color: hsl(var(--hue-color), 69%, 61%);
   --first-color-second: hsl(var(--hue-color), 69%, 61%);
   --first-color-alt: hsl(var(--hue-color), 57%, 53%);
-  --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
+  --first-color-lighter: hsl(var(--hue-color), 85%, 85%);
   --title-color: hsl(var(--hue-color), 8%, 15%);
   --text-color: hsl(var(--hue-color), 8%, 45%);
   --text-color-light: hsl(var(--hue-color), 8%, 65%);
@@ -608,6 +608,18 @@ img {
   grid-template-columns: repeat(2, 1fr);
 }
 
+.services__description {
+  display: inline-block;
+  margin-bottom: var(--mb-1-5);
+}
+
+.services__bg {
+  background-color: var(--first-color-second);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
 .services__content {
   position: relative;
   background-color: var(--container-color);
