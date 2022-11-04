@@ -153,6 +153,13 @@ function scrollHeader(){
 }
 window.addEventListener('scroll', scrollHeader)
 
+/*==================== CONTACT FORM ====================*/ 
+var submitted=false;
+$('#gform').on('submit', function(e) {
+    $('#gform *').fadeOut(2000);
+    $('#gform')[0].reset();
+    
+    })
 /*==================== SHOW SCROLL TOP ====================*/ 
 function scrollTop(){
     let scrollTop = document.getElementById('scroll-top');
