@@ -190,3 +190,9 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+var submitted=false;
+const form = document.getElementById('#gform')
+form.on('submit', function(e) {
+    form.fadeOut(2000);
+    form[0].reset();
+});
