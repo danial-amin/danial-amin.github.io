@@ -153,7 +153,6 @@ function scrollHeader(){
 }
 window.addEventListener('scroll', scrollHeader)
 
-/*==================== CONTACT FORM ====================*/ 
 /*==================== SHOW SCROLL TOP ====================*/ 
 function scrollTop(){
     let scrollTop = document.getElementById('scroll-top');
@@ -190,4 +189,11 @@ themeButton.addEventListener('click', () => {
     // We save the theme and the current icon that the user chose
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
+})
+
+/*==================== CONTACT FORM ====================*/ 
+var submitted=false;
+$('#gform').on('submit', function(e) {
+    $('#gform *').fadeOut(2000);
+    $('#gform').reset();
 })
