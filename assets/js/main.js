@@ -190,10 +190,3 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
-
-/*==================== CONTACT FORM ====================*/ 
-var submitted=false;
-('#gform').on('submit', function(e) {
-    ('#gform *').fadeOut(2000);
-    ('#gform').reset();
-})
