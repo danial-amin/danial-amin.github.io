@@ -1818,7 +1818,7 @@
                         </div>
                     </div>
 
-                    <form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSdCRAc3s-vmm2joXaq-0blyQC5UFRNjM38MkG7G2E5pufCXlg/formResponse?" target="hidden_iframe" method="post" onsubmit="submitted=true;" class="contact__form grid">
+                    <form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSdCRAc3s-vmm2joXaq-0blyQC5UFRNjM38MkG7G2E5pufCXlg/formResponse?" target="hidden_iframe" onsubmit="submitted=true;" class="contact__form grid">
                         <div class="contact__inputs grid">
                             <div class="contact__content">
                                 <label for="" class="contact__label">Name</label>
@@ -1905,7 +1905,6 @@
         <script type="text/javascript">
         $('#gform').on('submit', function(e) {
         $('#gform *').fadeOut(2000);
-        $('#gform').prepend('Your submission has been processed...');
         });
         </script>
     </body>
