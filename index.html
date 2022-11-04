@@ -1818,24 +1818,24 @@
                         </div>
                     </div>
 
-                    <form action="https://forms.un-static.com/forms/c984113330ca4c909bcbc1b4ad88012168210e40" target="hidden_iframe" method="post" class="contact__form grid">
+                    <form name="gform" id="gform" enctype="text/plain" action="https://docs.google.com/forms/d/e/1FAIpQLSdCRAc3s-vmm2joXaq-0blyQC5UFRNjM38MkG7G2E5pufCXlg/formResponse?" target="hidden_iframe" method="post" onsubmit="submitted=true;" class="contact__form grid">
                         <div class="contact__inputs grid">
                             <div class="contact__content">
                                 <label for="" class="contact__label">Name</label>
-                                <input name="name" type="text" class="contact__input">
+                                <input name="entry.1018093779" type="text" id="entry.1018093779" class="contact__input">
                             </div>
                             <div class="contact__content">
                                 <label for="" class="contact__label">Email</label>
-                                <input name="email" type="email" class="contact__input">
+                                <input name="entry.2044511482" type="email" id="entry.2044511482" class="contact__input">
                             </div>
                         </div>
                         <div class="contact__content">
                             <label for="" class="contact__label">Project</label>
-                            <input name="project" type="text" class="contact__input">
+                            <input name="entry.719413829" type="text" id="entry.719413829" class="contact__input">
                         </div>
                         <div class="contact__content">
                             <label for="" class="contact__label">Message</label>
-                            <textarea name="message" id="" cols="0" rows="7" class="contact__input"></textarea>
+                            <textarea name="entry.1240616633" id="entry.1240616633" cols="0" rows="7" class="contact__input"></textarea>
                         </div>
                         
                         <div>
@@ -1847,6 +1847,7 @@
                             </button>
                         </div>
                     </form>
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {}"></iframe>
                 </div>
 
             </section>
@@ -1900,5 +1901,12 @@
 
         <!--==================== MAIN JS ====================-->
         <script src="assets/js/main.js"></script>
+        <script type="text/javascript">var submitted=false;</script>
+        <script type="text/javascript">
+        $('#gform').on('submit', function(e) {
+        $('#gform *').fadeOut(2000);
+        $('#gform').prepend('Your submission has been processed...');
+        });
+        </script>
     </body>
 </html>
