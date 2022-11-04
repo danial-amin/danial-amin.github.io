@@ -157,7 +157,7 @@ window.addEventListener('scroll', scrollHeader)
 var submitted=false;
 $('#gform').on('submit', function(e) {
     $('#gform *').fadeOut(2000);
-    $('#gform').reset();
+   /*$('#gform').reset();
     })
 /*==================== SHOW SCROLL TOP ====================*/ 
 function scrollTop(){
