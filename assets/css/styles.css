@@ -636,7 +636,7 @@ img {
 .services__icon {
   display: block;
   font-size: 1.5rem;
-  color: var(--first-color);
+  color: #FFF;
   margin-bottom: var(--mb-1);
 }
 
@@ -845,6 +845,7 @@ img {
 
 .blog__img {
   width: 265px;
+  height: 166px;
   border-radius: .5rem;
   justify-self: center;
 }
