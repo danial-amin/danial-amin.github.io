@@ -861,6 +861,7 @@ img {
   height: 166px;
   border-radius: .5rem;
   justify-self: center;
+  align-self: center;
 }
 /*==================== TESTIMONIAL ====================*/
 .testimonial__data, .testimonial__header {
