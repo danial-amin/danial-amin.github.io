@@ -803,8 +803,9 @@ img {
 
 
 /*==================== Blog ====================*/
-.blog {
+.blog__data {
   text-align: center;
+  align-items: center;
 }
 .blog__container {
   gap: 1.5rem;
@@ -861,7 +862,6 @@ img {
   height: 166px;
   border-radius: .5rem;
   justify-self: center;
-  align-self: center;
 }
 /*==================== TESTIMONIAL ====================*/
 .testimonial__data, .testimonial__header {
