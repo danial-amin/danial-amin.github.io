@@ -28,7 +28,7 @@
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list grid">
                         <li class="nav__item">
-                            <a href="#home" class="nav__link active-link">
+                            <a href="danial-amin.github.io/#home" class="nav__link active-link">
                                 <i class="uil uil-estate nav__icon"></i> Home
                             </a>
                         </li>
@@ -87,23 +87,22 @@
 
         <!--==================== MAIN ====================-->
         <main class="main">
-           
-            <!--==================== SERVICES ====================-->
-            <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-
-                <header class="post-header">
-                  <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
-                  <p class="post-meta">
-                    <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-                      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-                      {{ page.date | date: date_format }}
-                    </time>
-                    {% assign author = page.author | default: site.author %}
-                    {%- if author -%}
-                     <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ author }}</span></span>
-                    {%- endif -%}</p>
-                </header>
-            </article>
+            <section class="blog section">
+                <div class="blog__bg">
+                    <div class="blog__container container grid">
+                        <img src="assets/img/project.webp" alt="" class="blog__img">
+                        <div class="blog__data">
+                            <h2 class="blog__title">Here is the First Blog</h2>
+                            <p class="blog__author">Dnaial Amin</p>
+                            <p class="project__description">Contact me now and We can talk this further.</p>
+                            <a href="#" class="button blog__button">
+                                Read More
+                                <i class="uil uil-message button__icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!--==================== FOOTER ====================-->
@@ -149,17 +148,7 @@
             <i class="uil uil-arrow-up scrollup__icon"></i>
         </a>
 
-        <!--==================== SWIPER JS ====================-->
-        <script src="assets/js/swiper-bundle.min.js"></script>
-
         <!--==================== MAIN JS ====================-->
         <script src="assets/js/main.js"></script>
-        <!--script type="text/javascript">var submitted=false;</script>
-        <script type="text/javascript">
-        $('#gform').on('submit', function(e) {
-            $('#gform *').fadeOut(2000);
-            $('#gform')[0].reset();
-        });
-        </script-->
     </body>
 </html>

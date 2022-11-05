@@ -801,6 +801,49 @@ img {
   justify-self: center;
 }
 
+
+/*==================== Blog ====================*/
+.blog {
+  text-align: center;
+}
+
+.blog__bg {
+  background-color: var(--first-color-second);
+  padding-top: 3rem;
+}
+
+.blog__title {
+  font-size: var(--h2-font-size);
+  margin-bottom: var(--mb-0-75);
+}
+
+.blog__author {
+  font-size: var(--h4-font-size);
+  margin-bottom: var(--mb-0-75);
+}
+
+.blog__summary {
+  font-size: var(--small-font-size);
+  margin-bottom: var(--mb-1-5);
+}
+
+.blog__title, .blog__summary,.blog__author {
+  color: #FFF;
+}
+
+.blog__button {
+  cursor: pointer;
+  font-size: var(--small-font-size);
+}
+
+.blog__button:hover .button__icon {
+  transform: translateX(0.25rem);
+}
+
+.blog__img {
+  width: 232px;
+  justify-self: center;
+}
 /*==================== TESTIMONIAL ====================*/
 .testimonial__data, .testimonial__header {
   display: flex;
