@@ -841,7 +841,8 @@ img {
 }
 
 .blog__img {
-  width: 232px;
+  width: 265px;
+  border-radius: .5rem;
   justify-self: center;
 }
 /*==================== TESTIMONIAL ====================*/
