@@ -810,6 +810,9 @@ img {
 .blog__bg {
   background-color: var(--first-color-second);
   padding-top: 3rem;
+  padding-left: 3rem;
+  padding-bottom: 3rem;
+  padding-right: 3rem;
 }
 
 .blog__title {
