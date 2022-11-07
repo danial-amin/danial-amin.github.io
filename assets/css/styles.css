@@ -817,7 +817,6 @@ img {
   background-color: var(--container-color);
   padding: 3.5rem .5rem 1.25rem 1.5rem;
   border-radius: .25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: .3s;
   overflow: hidden;
 }
@@ -851,7 +850,6 @@ img {
   background-color: var(--container-color);
   padding: 3.5rem .5rem 1.25rem 1.5rem;
   border-radius: .25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: .3s;
   overflow: hidden;
   text-align: justify;
@@ -860,6 +858,7 @@ img {
 .blog__header {
   width: 420px;
   height: 280px;
+  padding: 3.5rem .5rem 1.25rem 1.5rem;
   border-radius: .5rem;
   justify-self: center;
   align-self: center;
