@@ -847,15 +847,15 @@ img {
 .blog__text {
   font-size: var(--small-font-size);
   margin-bottom: var(--mb-1-5);
-  text-justify: auto;
+  margin-left: var(--mb-1-5);
+  margin-right: var(--mb-1-5);
+  margin-top: var(--mb-1-5);
   text-align: justify;
-  overflow: auto;
-  justify-self: justify;
 }
 
 .blog__header {
-  width: 500px;
-  height: 350px;
+  width: 320px;
+  height: 180px;
   border-radius: .5rem;
   justify-self: center;
 }
