@@ -805,7 +805,6 @@ img {
 
 /*==================== Blog ====================*/
 .blog__data {
-  text-align: center;
   align-items: center;
 }
 .blog__container {
@@ -845,7 +844,22 @@ img {
   margin-bottom: var(--mb-1-5);
 }
 
-.blog__title, .blog__summary,.blog__author {
+.blog__text {
+  font-size: var(--small-font-size);
+  margin-bottom: var(--mb-1-5);
+  text-justify: auto;
+  text-align: justify;
+  overflow: auto;
+}
+
+.blog__header {
+  width: 500px;
+  height: 350px;
+  border-radius: .5rem;
+  justify-self: center;
+}
+
+.blog__title, .blog__summary,.blog__author,.blog__text {
   color: #FFF;
 }
 
