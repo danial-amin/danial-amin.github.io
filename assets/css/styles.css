@@ -850,6 +850,7 @@ img {
   text-justify: auto;
   text-align: justify;
   overflow: auto;
+  justify-self: justify;
 }
 
 .blog__header {
