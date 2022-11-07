@@ -846,9 +846,11 @@ img {
 
 .blog__text {
   font-size: var(--small-font-size);
+  padding-left: 3rem;
+  padding-right: 3rem;
   margin-bottom: var(--mb-1-5);
-  margin-left: var(--mb-1-5);
-  margin-right: var(--mb-1-5);
+  margin-left: 2*var(--mb-1-5);
+  margin-right: 2*var(--mb-1-5);
   margin-top: var(--mb-1-5);
   text-align: justify;
 }
@@ -858,6 +860,7 @@ img {
   height: 180px;
   border-radius: .5rem;
   justify-self: center;
+  align-self: center;
 }
 
 .blog__title, .blog__summary,.blog__author,.blog__text {
