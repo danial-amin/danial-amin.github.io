@@ -806,7 +806,6 @@ img {
 /*==================== Blog ====================*/
 .blog__data {
   align-items: center;
-  justify-items: center;
 }
 .blog__container {
   gap: 1.5rem;
@@ -858,7 +857,6 @@ img {
   border-radius: .5rem;
   justify-self: center;
   align-self: center;
-  align-items: center;
 }
 
 .blog__title, .blog__summary,.blog__author,.blog__text {
