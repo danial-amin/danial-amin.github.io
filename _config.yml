@@ -20,9 +20,9 @@ linkedin_username: "danialamin"
 ######### Nothing below needs to be changed (unless you know what you're doing) #########
 #########################################################################################
 theme: "minima"
-
+plugins:
+  - jekyll-seo-tag
 rss: rss
-{% raw %}{% seo %}{% endraw %}
 kramdown:
   syntax_highlighter_opts:
     disable: true
