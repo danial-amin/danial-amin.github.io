@@ -1,6 +1,7 @@
 title: "Danial Amin-Portfolio"
 author: "Danial Amin"
-description: "Some short description of your blog can go here." # This will show up in places like twitter, linkedin, etc, if you share your sites url as a post.
+description: "Data Scientist with 05 years of hands-on experience in Engineering Data
+        , Google Certified, IBM Certified, AWS Certified" # This will show up in places like twitter, linkedin, etc, if you share your sites url as a post.
 
 # Email / Social media user names used by the minima theme:
 # All of these are optional and can be removed or commented out
@@ -21,7 +22,7 @@ linkedin_username: "danialamin"
 theme: "minima"
 
 rss: rss
-
+{% raw %}{% seo %}{% endraw %}
 kramdown:
   syntax_highlighter_opts:
     disable: true
