@@ -20,8 +20,7 @@ linkedin_username: "danialamin"
 ######### Nothing below needs to be changed (unless you know what you're doing) #########
 #########################################################################################
 theme: "minima"
-plugins:
-  - jekyll-seo-tag
+
 rss: rss
 kramdown:
   syntax_highlighter_opts:
@@ -30,6 +29,7 @@ kramdown:
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-seo-tag
 
 titles_from_headings:
   strip_title: true
