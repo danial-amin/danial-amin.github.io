@@ -401,6 +401,8 @@ img {
 .about__description {
   text-align: center;
   margin-bottom: var(--mb-2-5);
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 .about__info {
