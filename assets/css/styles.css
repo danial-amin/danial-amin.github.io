@@ -870,13 +870,13 @@ img {
   /* Mobile first */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1px;
 }
 
 .image-gallery.column {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1px;
 }
 
 .image-item img {
