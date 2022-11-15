@@ -864,19 +864,19 @@ img {
 
 /*====================Projects Gallery-================*/
 .container_projects {
-  padding: 10px 2.5%;
+  padding: 40px 2.5%;
 }
 .image-gallery {
   /* Mobile first */
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 5px;
 }
 
 .image-gallery.column {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 5px;
 }
 
 .image-item img {
