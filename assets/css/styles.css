@@ -870,7 +870,7 @@ img {
   /* Mobile first */
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 
 .image-gallery.column {
