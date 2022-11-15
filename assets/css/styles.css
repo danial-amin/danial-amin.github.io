@@ -870,14 +870,15 @@ img {
   /* Mobile first */
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  column-gap: 5px;
+  row-gap: 5px;
 }
 
 .image-gallery.column {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: 5px;
+  column-gap: 5px;
+  row-gap: 5px;
 }
 
 .image-item img {
