@@ -866,20 +866,20 @@ img {
 .container_projects {
   padding: 40px 5%;
 }
-.image_gallery {
+.image-gallery {
   /* Mobile first */
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.image_gallery.column {
+.image-gallery.column {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.image_item img {
+.image-item img {
   width: 100%;
   border-radius: 5px;
   height: 100%;
@@ -888,12 +888,12 @@ img {
 
 /* overlay styles */
 
-.image_item {
+.image-item {
   position: relative;
   cursor: pointer;
 }
 
-.overlay{
+.overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -910,7 +910,7 @@ img {
 }
 
 /* hover */
-.image_item:hover .overlay {
+.image-item:hover .overlay {
   transform: scale(1);
 }
 /*==================== CONTACT ME ====================*/
