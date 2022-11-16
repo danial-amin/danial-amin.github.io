@@ -931,7 +931,7 @@ img {
   display: flex;
   flex-direction: row;
   max-height: 500px;
-  min-height: 200px;
+  min-height: max-content;
   column-gap: 5px;
   row-gap: 5px;
   align-items: center;
