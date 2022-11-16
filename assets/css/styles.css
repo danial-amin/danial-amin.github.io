@@ -1149,6 +1149,9 @@ img {
   .image-gallery {
     flex-direction: row;
   }
+  .badge-gallery {
+    flex-direction: row;
+  }
 }
 
 /* For medium devices */
@@ -1177,6 +1180,9 @@ img {
     justify-content: center;
   }
   .image-gallery {
+    flex-direction: row;
+  }
+  .badge-gallery {
     flex-direction: row;
   }
 }
@@ -1315,6 +1321,9 @@ img {
   .image-gallery {
     flex-direction: row;
   }
+  .badge-gallery {
+    flex-direction: row;
+  }
 }
 
 /* For large devices */
@@ -1361,6 +1370,9 @@ img {
     grid-template-columns: repeat(2, 1fr);
   }
   .image-gallery {
+    flex-direction: row;
+  }
+  .badge-gallery {
     flex-direction: row;
   }
 }
