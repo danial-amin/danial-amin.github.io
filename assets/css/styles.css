@@ -917,18 +917,19 @@ img {
 }
 /*==================== Badges ====================*/
 .container_badges {
-  padding: 500px 5%;
+  padding: 40px 2.5%;;
   height: 200px;
-  width: 400px;
   align-self: center;
   align-items: flex-start;
 }
 .badge-gallery {
   /* Mobile first */
   display: flex;
+  height: 200px;
   flex-direction: row;
   column-gap: 5px;
   row-gap: 5px;
+  align-self: center;
 }
 
 .badge-gallery.row {
