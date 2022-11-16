@@ -919,6 +919,8 @@ img {
 /*==================== Badges ====================*/
 .container_badges {
   padding: 40px 2.5%;
+  margin: var(--mb-2-5);
+  max-height: 400px;
   align-self: center;
   align-items: center;
   justify-content: center;
