@@ -917,7 +917,8 @@ img {
 }
 /*==================== Badges ====================*/
 .container_badges {
-  padding: 40px 2.5%;
+  padding: 100px 2.5%;
+  height: 200px;
 }
 .badge-gallery {
   /* Mobile first */
