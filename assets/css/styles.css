@@ -915,6 +915,32 @@ img {
 .image-item:hover .overlay {
   transform: scale(1);
 }
+/*==================== Badges ====================*/
+.container_badges {
+  padding: 40px 2.5%;
+}
+.badge-gallery {
+  /* Mobile first */
+  display: flex;
+  flex-direction: column;
+  column-gap: 5px;
+  row-gap: 5px;
+}
+
+.badge-gallery.column {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+  row-gap: 5px;
+}
+
+.badge-item img {
+  width: 100px;
+  border-radius: 5px;
+  height: 100px;
+  object-fit: contain;
+}
+
 /*==================== CONTACT ME ====================*/
 .contact__container {
   row-gap: 3rem;
