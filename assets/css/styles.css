@@ -941,7 +941,7 @@ img {
 
 .badge-gallery.row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   column-gap: 5px;
   row-gap: 5px;
 }
