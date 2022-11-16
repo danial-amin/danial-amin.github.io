@@ -919,7 +919,9 @@ img {
 .container_badges {
   padding: 100px 2.5%;
   height: 200px;
-  width: 400px
+  width: 400px;
+  align-self: center;
+  align-items: flex-start;
 }
 .badge-gallery {
   /* Mobile first */
