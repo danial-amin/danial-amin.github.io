@@ -932,6 +932,7 @@ img {
   column-gap: 5px;
   row-gap: 5px;
   align-items: center;
+  justify-content: center;
 }
 
 .badge-gallery.row {
