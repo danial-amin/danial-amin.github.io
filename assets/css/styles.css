@@ -1100,7 +1100,7 @@ img {
 /*==================== MEDIA QUERIES ====================*/
 /* For small devices */
 @media screen and (max-width: 350px) {
-  .container {
+  .container,.container_badges {
     margin-left: var(--mb-1);
     margin-right: var(--mb-1);
   }
@@ -1195,7 +1195,7 @@ img {
 }
 
 @media screen and (min-width: 768px) {
-  .container {
+  .container,.container_badges {
     margin-left: auto;
     margin-right: auto;
   }
