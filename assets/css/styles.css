@@ -918,9 +918,9 @@ img {
 }
 /*==================== Badges ====================*/
 .container_badges {
-  padding: 40px 2.5%;
+  padding: 2.5% 2.5%;
   margin: var(--mb-2-5);
-  min-width: max-content;
+  min-width: min-content;
   align-self: center;
   align-items: center;
   justify-content: center;
@@ -931,7 +931,7 @@ img {
   display: flex;
   flex-direction: row;
   max-height: 500px;
-  min-height: fit-content;
+  min-height: 200px;
   column-gap: 5px;
   row-gap: 5px;
   align-items: center;
