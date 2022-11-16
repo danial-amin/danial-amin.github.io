@@ -918,7 +918,7 @@ img {
 /*==================== Badges ====================*/
 .container_badges {
   padding: 40px 2.5%;
-  height: 200px;
+  height: 400px;
   align-self: center;
   align-items: center;
 }
@@ -926,7 +926,7 @@ img {
   /* Mobile first */
   padding: 40px 2.5%;
   display: flex;
-  height: 200px;
+  height: 400px;
   flex-direction: row;
   column-gap: 5px;
   row-gap: 5px;
