@@ -930,6 +930,7 @@ img {
   column-gap: 5px;
   row-gap: 5px;
   align-self: center;
+  align-items: center;
 }
 
 .badge-gallery.row {
