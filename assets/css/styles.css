@@ -920,7 +920,7 @@ img {
   padding: 40px 2.5%;;
   height: 200px;
   align-self: center;
-  align-items: flex-start;
+  align-items: center;
 }
 .badge-gallery {
   /* Mobile first */
