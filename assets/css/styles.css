@@ -929,7 +929,7 @@ img {
 
 .badge-gallery.column {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   column-gap: 5px;
   row-gap: 5px;
 }
