@@ -922,14 +922,14 @@ img {
 .badge-gallery {
   /* Mobile first */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   column-gap: 5px;
   row-gap: 5px;
 }
 
-.badge-gallery.column {
+.badge-gallery.row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   column-gap: 5px;
   row-gap: 5px;
 }
