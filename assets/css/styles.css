@@ -919,7 +919,7 @@ img {
 /*==================== Badges ====================*/
 .container_badges {
   padding: 2.5% 2.5%;
-  margin: var(--mb-2-5);
+  margin: 2.5%;
   min-width: min-content;
   align-self: center;
   align-items: center;
