@@ -910,11 +910,12 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  justify-self: center;
 }
 .readmore {
   font-size: var(--small-font-size);
-  color: var(--text-color-light);
-  border-width:3px;
+  color: #ffffff;
+  border-width:1.5px;
   border-style:solid;
   border-color:hsl(0, 0%, 100%);
 }
