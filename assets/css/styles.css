@@ -908,9 +908,6 @@ img {
   color: #fff;
   /* center overlay content */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-self: center;
 }
 .readmore {
   font-size: var(--small-font-size);
