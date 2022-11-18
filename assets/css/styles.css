@@ -920,6 +920,13 @@ img {
   border-color:hsl(0, 0%, 100%);
 }
 
+.title_projects_name {
+  font-size: var(--medium-font-size);
+  color: #ffffff;
+  align-self: center;
+  justify-self: center;
+}
+
 /* hover */
 .image-item:hover .overlay {
   transform: scale(1);
