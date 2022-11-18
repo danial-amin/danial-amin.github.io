@@ -918,7 +918,7 @@ img {
   color: #ffffff;
   border-width:1.5px;
   border-style:solid;
-  border-color:hsl(var(--hue-color), 12%, 36%);
+  border-color:var(--first-color);
 }
 
 .title_project_name {
@@ -926,6 +926,7 @@ img {
   color: #ffffff;
   align-self: center;
   justify-self: center;
+  margin: 0.5%;
 }
 
 /* hover */
