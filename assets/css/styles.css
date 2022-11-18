@@ -920,7 +920,7 @@ img {
   border-color:hsl(0, 0%, 100%);
 }
 
-.title_projects_name {
+.title_project_name {
   font-size: var(--medium-font-size);
   color: #ffffff;
   align-self: center;
