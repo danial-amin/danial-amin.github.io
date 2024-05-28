@@ -70,13 +70,23 @@ const iconTheme = 'uil-sun'
 const selectedTheme = localStorage.getItem('selected-theme')
 const selectedIcon = localStorage.getItem('selected-icon')
 
+// Function to get current hour
+const getCurrentHour = () => new Date().getHours()
+
+// Function to determine default theme based on the current time
+const defaultTheme = () => (getCurrentHour() >= 18 || getCurrentHour() < 6) ? 'dark' : 'light'
+
 // We obtain the current theme that the interface has by validating the dark-theme class
 const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light'
 const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
 
-// We validate if the user previously chose a topic
-if (selectedTheme) {
-  // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
+// Apply the default theme based on time if no theme was previously selected
+if (!selectedTheme) {
+  const theme = defaultTheme()
+  document.body.classList[theme === 'dark' ? 'add' : 'remove'](darkTheme)
+  themeButton.classList[theme === 'dark' ? 'add' : 'remove'](iconTheme)
+} else {
+  // If the user previously chose a theme, use that
   document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
   themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
 }
