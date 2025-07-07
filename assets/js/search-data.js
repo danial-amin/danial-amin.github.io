@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-the-representation-crisis-how-llm-based-synthetic-users-obscure-rather-than-illuminate-user-understanding",
+        },{id: "post-teaching-llms-like-teaching-kids-to-ride-why-analytical-tasks-need-focused-instruction",
+        
+          title: "Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused...",
+        
+        description: "Just as teaching a child to ride a bike requires clear, focused instruction rather than overwhelming information, effective LLM prompt engineering for analytical tasks demands precision, specificity, and structured guidance to overcome cognitive biases and achieve reliable results.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/llm-usage/";
+          
+        },
+      },{id: "post-the-representation-crisis-how-llm-based-synthetic-users-obscure-rather-than-illuminate-user-understanding",
         
           title: "The Representation Crisis - How LLM-Based Synthetic Users Obscure Rather Than Illuminate User...",
         
