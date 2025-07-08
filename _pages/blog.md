@@ -13,7 +13,7 @@ pagination:
   sort_reverse: true
   trail:
     before: 1 # The number of links before the current page
-    after: 3 # The number of links after the current page
+    after: 3  # The number of links after the current page
 ---
 
 <div class="post">
@@ -34,7 +34,7 @@ pagination:
           <span class="remaining-words">{{ remaining_words | join: " " }}</span>
         {% endif %}
       {% else %}
-        <!-- For more than two words, use original logic -->
+        <!-- For more than two words, keep original logic -->
         {% for word in words %}
           <span>{{ word }}</span>{% unless forloop.last %} {% endunless %}
         {% endfor %}
@@ -210,38 +210,22 @@ pagination:
 
 </div>
 
+<!-- ============================================================== -->
+<!--  UPDATED RESPONSIVE STYLES                                     -->
+<!-- ============================================================== -->
 <style>
-/* Mobile-first responsive styles */
+/* =================  GLOBAL ================= */
 .blog-title {
-  font-size: 1.8rem;
-  word-wrap: break-word;
+  font-size: 2rem;          /* desktop + tablet */
+  white-space: nowrap;      /* keep "Word Word" on one line */
+  overflow-wrap: normal;
   line-height: 1.2;
   text-align: center;
 }
 
-.blog-title span {
-  display: inline;
-}
-
-/* For two-word titles: keep together on desktop, split on mobile */
 .blog-title .first-word,
 .blog-title .remaining-words {
-  display: inline;
-}
-
-/* Split two-word titles onto separate lines on mobile */
-@media (max-width: 767px) {
-  .blog-title .first-word,
-  .blog-title .remaining-words {
-    display: block;
-  }
-}
-
-/* For titles with more than two words: split all words on mobile */
-@media (max-width: 767px) {
-  .blog-title span {
-    display: block;
-  }
+  display: inline-block;
 }
 
 .blog-description {
@@ -250,155 +234,78 @@ pagination:
   line-height: 1.3;
 }
 
-.post-title-main {
-  font-size: 1.3rem;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-}
-
-.post-title {
-  word-wrap: break-word;
-  hyphens: auto;
-}
-
-.post-description {
-  font-size: 0.95rem;
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
-}
-
-.post-meta {
-  font-size: 0.85rem;
-  color: #666;
-  margin-bottom: 0.3rem;
-}
-
-.post-tags {
-  font-size: 0.8rem;
-  margin-bottom: 1rem;
-}
-
-.post-item {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-.tag-category-list ul {
-  list-style: none;
-  gap: 0.5rem;
-}
-
-.tag-item {
-  white-space: nowrap;
-}
-
-.separator {
-  color: #999;
-  margin: 0 0.3rem;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  line-height: 1.3;
-  word-wrap: break-word;
-}
-
-.card-text {
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
-/* Featured posts: ensure proper spacing on mobile */
-.featured-posts .col {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-/* Tablet styles */
-@media (min-width: 768px) {
+/* =================  PHONES (≤ 576 px)  ================= */
+@media (max-width: 576px) {
+  /* Site title: split into two lines & shrink font */
   .blog-title {
-    font-size: 2.2rem;
-  }
-  
-  .blog-description {
-    font-size: 1.3rem;
-  }
-  
-  .post-title-main {
-    font-size: 1.5rem;
-  }
-  
-  .post-description {
-    font-size: 1rem;
-  }
-  
-  .post-meta {
-    font-size: 0.9rem;
-  }
-  
-  .post-tags {
-    font-size: 0.85rem;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-  }
-  
-  .card-text {
-    font-size: 0.9rem;
-  }
-  
-  .featured-posts .col {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-}
-
-/* Desktop styles */
-@media (min-width: 1024px) {
-  .blog-title {
-    font-size: 2.5rem;
-  }
-  
-  .blog-description {
-    font-size: 1.4rem;
-  }
-  
-  .post-title-main {
     font-size: 1.6rem;
+    white-space: normal; /* allow wrapping */
   }
-  
-  .post-description {
-    font-size: 1.05rem;
+  .blog-title .first-word,
+  .blog-title .remaining-words {
+    display: block;
   }
-  
-  .post-meta {
-    font-size: 0.95rem;
-  }
-  
-  .post-tags {
-    font-size: 0.9rem;
-  }
-  
+
+  /* Featured-posts grid: force two columns */
   .featured-posts .col {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    flex: 0 0 50%;
+    max-width: 50%;
   }
+
+  /* Featured-post typography */
+  .featured-posts .card-title { font-size: 1rem; }
+  .featured-posts .card-text,
+  .featured-posts .post-meta { font-size: 0.78rem; }
 }
 
-/* Dark theme compatibility */
+/* =================  POST LIST TYPOGRAPHY (BASE)  ================= */
+.post-title-main { font-size: 1.3rem; line-height: 1.3; margin-bottom: 0.5rem; }
+.post-title       { word-wrap: break-word; hyphens: auto; }
+.post-description { font-size: 0.95rem; line-height: 1.4; margin-bottom: 0.5rem; }
+.post-meta        { font-size: 0.85rem; color: #666; margin-bottom: 0.3rem; }
+.post-tags        { font-size: 0.8rem; margin-bottom: 1rem; }
+.post-item        { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+
+/* =================  TAG/CATEGORY LIST  ================= */
+.tag-category-list ul { list-style: none; gap: 0.5rem; }
+.tag-item            { white-space: nowrap; }
+.separator           { color: #999; margin: 0 0.3rem; }
+
+/* =================  CARD TYPOGRAPHY (BASE)  ================= */
+.card-title { font-size: 1.1rem; line-height: 1.3; word-wrap: break-word; }
+.card-text  { font-size: 0.85rem; line-height: 1.4; }
+
+/* Featured posts: padding consistency */
+.featured-posts .col { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+/* =================  TABLET (≥ 768 px)  ================= */
+@media (min-width: 768px) {
+  .blog-title        { font-size: 2.2rem; }
+  .blog-description  { font-size: 1.3rem; }
+  .post-title-main   { font-size: 1.5rem; }
+  .post-description  { font-size: 1rem; }
+  .post-meta         { font-size: 0.9rem; }
+  .post-tags         { font-size: 0.85rem; }
+  .card-title        { font-size: 1.2rem; }
+  .card-text         { font-size: 0.9rem; }
+  .featured-posts .col { padding-left: 0.75rem; padding-right: 0.75rem; }
+}
+
+/* =================  DESKTOP (≥ 1024 px)  ================= */
+@media (min-width: 1024px) {
+  .blog-title        { font-size: 2.5rem; }
+  .blog-description  { font-size: 1.4rem; }
+  .post-title-main   { font-size: 1.6rem; }
+  .post-description  { font-size: 1.05rem; }
+  .post-meta         { font-size: 0.95rem; }
+  .post-tags         { font-size: 0.9rem; }
+  .featured-posts .col { padding-left: 1rem; padding-right: 1rem; }
+}
+
+/* =================  DARK THEME  ================= */
 @media (prefers-color-scheme: dark) {
-  .post-meta {
-    color: #aaa;
-  }
-  
-  .separator {
-    color: #777;
-  }
-  
-  .post-item {
-    border-bottom-color: #333;
-  }
+  .post-meta  { color: #aaa; }
+  .separator  { color: #777; }
+  .post-item  { border-bottom-color: #333; }
 }
 </style>
