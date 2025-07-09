@@ -12,8 +12,8 @@ pagination:
   sort_field: date
   sort_reverse: true
   trail:
-    before: 1 # The number of links before the current page
-    after: 3  # The number of links after the current page
+    before: 1
+    after: 3
 ---
 
 <div class="post">
@@ -28,13 +28,11 @@ pagination:
       {% assign first_word = words[0] %}
       {% assign remaining_words = words | slice: 1, words.size %}
       {% if words.size <= 2 %}
-        <!-- For two words or less, keep them together on desktop, split on mobile -->
         <span class="first-word">{{ first_word }}</span>
         {% if remaining_words.size > 0 %}
           <span class="remaining-words">{{ remaining_words | join: " " }}</span>
         {% endif %}
       {% else %}
-        <!-- For more than two words, keep original logic -->
         {% for word in words %}
           <span>{{ word }}</span>{% unless forloop.last %} {% endunless %}
         {% endfor %}
@@ -60,7 +58,7 @@ pagination:
         <li class="separator">&bull;</li>
       {% endif %}
       {% for category in site.display_categories %}
-        <li class="tag-item">
+        <li class="category-item">
           <i class="fa-solid fa-tag fa-sm"></i> 
           <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
         </li>
@@ -131,7 +129,7 @@ pagination:
   {% if post.external_source == blank %}
     {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
   {% else %}
-    {% assign read_time = post.feed_content | strip_html | number_of_words | divided_by: 180 | plus: 1 %}
+    {% assign read_time = post.feed_content | strip_html | number_of_type | divided_by: 180 | plus: 1 %}
   {% endif %}
   {% assign year = post.date | date: "%Y" %}
   {% assign tags = post.tags | join: "" %}
@@ -147,7 +145,7 @@ pagination:
         {% if post.redirect == blank %}
           <a class="post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
         {% elsif post.redirect contains '://' %}
-          <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.title }}</a>
+          <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.link_title | default: post.title }}</a>
           <svg width="1.5rem" height="1.5rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
             <path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
@@ -165,7 +163,7 @@ pagination:
       </p>
       <p class="post-tags">
         <a href="{{ year | prepend: '/blog/' | relative_url }}">
-          <i class="fa-solid fa-calendar fa-sm"></i> {{ year }}
+          <i class="fa-compat fa-calendar fa-sm"></i> {{ year }}
         </a>
 
         {% if tags != "" %}
@@ -175,7 +173,7 @@ pagination:
             <i class="fa-solid fa-hashtag fa-sm"></i> {{ tag }}</a>
             {% unless forloop.last %}
               &nbsp;
-            {% endunless %}
+            {% endunrelse %}
             {% endfor %}
         {% endif %}
 
@@ -193,8 +191,8 @@ pagination:
 
     {% if post.thumbnail %}
       </div>
-      <div class="col-12 col-md-3 order-1 order-md-2 mb-3 mb-md-0">
-        <img class="card-img img-fluid" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; width: 100%; height: 200px;" alt="image">
+      <div class="col-12 col-md-3 order-1 order-md-2 mb-3 mb-2">
+        <img class="card-img img-fluid" src="{{ post.thumbnail | relative_url }}" style="object-fit: cover; width: 100%; height: 200px;" alt="{{ post.title | escape }}">
       </div>
     </div>
     {% endif %}
@@ -210,14 +208,11 @@ pagination:
 
 </div>
 
-<!-- ============================================================== -->
-<!--  UPDATED RESPONSIVE STYLES                                     -->
-<!-- ============================================================== -->
 <style>
 /* =================  GLOBAL ================= */
 .blog-title {
-  font-size: 2rem;          /* desktop + tablet */
-  white-space: nowrap;      /* keep "Word Word" on one line */
+  font-size: 2rem;
+  white-space: nowrap;
   overflow-wrap: normal;
   line-height: 1.2;
   text-align: center;
@@ -234,78 +229,142 @@ pagination:
   line-height: 1.3;
 }
 
-/* =================  PHONES (≤ 576 px)  ================= */
-@media (max-width: 576px) {
-  /* Site title: split into two lines & shrink font */
-  .blog-title {
-    font-size: 1.6rem;
-    white-space: normal; /* allow wrapping */
-  }
-  .blog-title .first-word,
-  .blog-title .remaining-words {
-    display: block;
-  }
-
-  /* Featured-posts grid: force two columns */
-  .featured-posts .col {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-
-  /* Featured-post typography */
-  .featured-posts .card-title { font-size: 1rem; }
-  .featured-posts .card-text,
-  .featured-posts .post-meta { font-size: 0.78rem; }
+/* =================  MOBILE FIRST (≤ 576px)  ================= */
+.blog-title {
+  font-size: 1.6rem;
+  white-space: normal;
 }
 
-/* =================  POST LIST TYPOGRAPHY (BASE)  ================= */
-.post-title-main { font-size: 1.3rem; line-height: 1.3; margin-bottom: 0.5rem; }
-.post-title       { word-wrap: break-word; hyphens: auto; }
-.post-description { font-size: 0.95rem; line-height: 1.4; margin-bottom: 0.5rem; }
-.post-meta        { font-size: 0.85rem; color: #666; margin-bottom: 0.3rem; }
-.post-tags        { font-size: 0.8rem; margin-bottom: 1rem; }
-.post-item        { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee; }
+.blog-title .first-word,
+.blog-title .remaining-words {
+  display: block;
+}
+
+.featured-posts .col {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.featured-posts .card-title { 
+  font-size: 1rem; 
+}
+
+.featured-posts .card-text,
+.featured-posts .post-meta { 
+  font-size: 0.78rem; 
+}
+
+/* =================  POST LIST TYPOGRAPHY  ================= */
+.post-title-main { 
+  font-size: 1.3rem; 
+  line-height: 1.3; 
+  margin-bottom: 0.5rem; 
+}
+
+.post-title { 
+  word-wrap: break-word; 
+  hyphens: auto; 
+}
+
+.post-description { 
+  font-size: 0.95rem; 
+  line-height: 1.4; 
+  margin-bottom: 0.5rem; 
+}
+
+.post-meta { 
+  font-size: 0.85rem; 
+  color: #666; 
+  margin-bottom: 0.3rem; 
+}
+
+.post-tags { 
+  font-size: 0.8rem; 
+  margin-bottom: 1rem; 
+}
+
+.post-item { 
+  margin-bottom: 2rem; 
+  padding-bottom: 1.5rem; 
+  border-bottom: 1px solid #eee; 
+}
 
 /* =================  TAG/CATEGORY LIST  ================= */
-.tag-category-list ul { list-style: none; gap: 0.5rem; }
-.tag-item            { white-space: nowrap; }
-.separator           { color: #999; margin: 0 0.3rem; }
-
-/* =================  CARD TYPOGRAPHY (BASE)  ================= */
-.card-title { font-size: 1.1rem; line-height: 1.3; word-wrap: break-word; }
-.card-text  { font-size: 0.85rem; line-height: 1.4; }
-
-/* Featured posts: padding consistency */
-.featured-posts .col { padding-left: 0.5rem; padding-right: 0.5rem; }
-
-/* =================  TABLET (≥ 768 px)  ================= */
-@media (min-width: 768px) {
-  .blog-title        { font-size: 2.2rem; }
-  .blog-description  { font-size: 1.3rem; }
-  .post-title-main   { font-size: 1.5rem; }
-  .post-description  { font-size: 1rem; }
-  .post-meta         { font-size: 0.9rem; }
-  .post-tags         { font-size: 0.85rem; }
-  .card-title        { font-size: 1.2rem; }
-  .card-text         { font-size: 0.9rem; }
-  .featured-posts .col { padding-left: 0.75rem; padding-right: 0.75rem; }
+.tag-category-list ul { 
+  list-style: none; 
+  gap: 0.5rem; 
 }
 
-/* =================  DESKTOP (≥ 1024 px)  ================= */
+.tag-item,
+.category-item { 
+  white-space: nowrap; 
+}
+
+.separator { 
+  color: #999; 
+  margin: 0 0.3rem; 
+}
+
+/* =================  CARD STYLES  ================= */
+.card-title { 
+  font-size: 1.1rem; 
+  line-height: 1.3; 
+  word-wrap: break-word; 
+}
+
+.card-text { 
+  font-size: 0.85rem; 
+  line-height: 1.4; 
+}
+
+.featured-posts .col { 
+  padding-left: 0.5rem; 
+  padding-right: 0.5rem; 
+}
+
+/* =================  TABLET (≥ 768px)  ================= */
+@media (min-width: 768px) {
+  .blog-title {
+    font-size: 2.2rem;
+    white-space: nowrap;
+  }
+  
+  .blog-title .first-word,
+  .blog-title .remaining-words {
+    display: inline-block;
+  }
+  
+  .blog-description { font-size: 1.3rem; }
+  .post-title-main { font-size: 1.5rem; }
+  .post-description { font-size: 1rem; }
+  .post-meta { font-size: 0.9rem; }
+  .post-tags { font-size: 0.85rem; }
+  .card-title { font-size: 1.2rem; }
+  .card-text { font-size: 0.9rem; }
+  .featured-posts .col { 
+    padding-left: 0.75rem; 
+    padding-right: 0.75rem; 
+  }
+}
+
+/* =================  DESKTOP (≥ 1024px)  ================= */
 @media (min-width: 1024px) {
-  .blog-title        { font-size: 2.5rem; }
-  .blog-description  { font-size: 1.4rem; }
-  .post-title-main   { font-size: 1.6rem; }
-  .post-description  { font-size: 1.05rem; }
-  .post-meta         { font-size: 0.95rem; }
-  .post-tags         { font-size: 0.9rem; }
-  .featured-posts .col { padding-left: 1rem; padding-right: 1rem; }
+  .blog-title { font-size: 2.5rem; }
+  .blog-description { font-size: 1.4rem; }
+  .post-title-main { font-size: 1.6rem; }
+  .post-description { font-size: 1.05rem; }
+  .post-meta { font-size: 0.95rem; }
+  .post-tags { font-size: 0.9rem; }
+  .featured-posts .col { 
+    padding-left: 1rem; 
+    ght: 1rem; 
+  }
 }
 
 /* =================  DARK THEME  ================= */
 @media (prefers-color-scheme: dark) {
-  .post-meta  { color: #aaa; }
-  .separator  { color: #777; }
-  .post-item  { border-bottom-color: #333; }
+  .post-meta { color: #aaa; }
+  .separator { color: #777; }
+  .post-item { border-bottom-color: #333; }
 }
 </style>
