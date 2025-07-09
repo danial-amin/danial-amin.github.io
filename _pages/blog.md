@@ -42,30 +42,39 @@ pagination:
   </div>
 {% endif %}
 
-{% if site.display_tags and site.display_tags.size > 0 or site.display_categories and site.display_categories.size > 0 %}
+{% assign has_display_tags = site.display_tags | size %}
+{% assign has_display_categories = site.display_categories | size %}
+
+{% if has_display_tags > 0 or has_display_categories > 0 %}
   <div class="tag-category-list">
-    <ul class="p-0 m-0 d-flex flex-wrap align-items-center">
-      {% for tag in site.display_tags %}
-        <li class="tag-item">
-          <i class="fa-solid fa-hashtag fa-sm"></i> 
-          <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
-        </li>
-        {% unless forloop.last %}
-          <li class="separator">&bull;</li>
-        {% endunless %}
-      {% endfor %}
-      {% if site.display_categories.size > 0 and site.display_tags.size > 0 %}
+    <ul class="p-0 m-0 d-flex flex-wrap align-items-center justify-content-center">
+      {% if has_display_tags > 0 %}
+        {% for tag in site.display_tags %}
+          <li class="tag-item">
+            <i class="fa-solid fa-hashtag fa-sm"></i> 
+            <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
+          </li>
+          {% unless forloop.last %}
+            <li class="separator">&bull;</li>
+          {% endunless %}
+        {% endfor %}
+      {% endif %}
+      
+      {% if has_display_categories > 0 and has_display_tags > 0 %}
         <li class="separator">&bull;</li>
       {% endif %}
-      {% for category in site.display_categories %}
-        <li class="category-item">
-          <i class="fa-solid fa-tag fa-sm"></i> 
-          <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
-        </li>
-        {% unless forloop.last %}
-          <li class="separator">&bull;</li>
-        {% endunless %}
-      {% endfor %}
+      
+      {% if has_display_categories > 0 %}
+        {% for category in site.display_categories %}
+          <li class="category-item">
+            <i class="fa-solid fa-tag fa-sm"></i> 
+            <a href="{{ category | slugify | prepend: '/blog/category/' | relative_url }}">{{ category }}</a>
+          </li>
+          {% unless forloop.last %}
+            <li class="separator">&bull;</li>
+          {% endunless %}
+        {% endfor %}
+      {% endif %}
     </ul>
   </div>
 {% endif %}
@@ -210,34 +219,82 @@ pagination:
 
 <style>
 /* =================  GLOBAL ================= */
-.blog-title {
-  font-size: 2rem;
-  white-space: nowrap;
-  overflow-wrap: normal;
-  line-height: 1.2;
+.post {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.header-bar {
   text-align: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.blog-title {
+  font-size: clamp(1.5rem, 8vw, 2.5rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0 0.5rem;
 }
 
 .blog-title .first-word,
 .blog-title .remaining-words {
-  display: inline-block;
+  display: inline;
 }
 
 .blog-description {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 4vw, 1.4rem);
   word-wrap: break-word;
   line-height: 1.3;
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+}
+
+.tag-category-list {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.featured-posts,
+.post-list {
+  width: 100%;
 }
 
 /* =================  MOBILE FIRST (≤ 576px)  ================= */
+.post {
+  padding: 0 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.header-bar {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
 .blog-title {
-  font-size: 1.6rem;
-  white-space: normal;
+  font-size: clamp(1.5rem, 8vw, 2.5rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0 0.5rem;
 }
 
 .blog-title .first-word,
 .blog-title .remaining-words {
-  display: block;
+  display: inline;
+}
+
+.blog-description {
+  font-size: clamp(0.9rem, 4vw, 1.4rem);
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
 }
 
 .featured-posts .col {
@@ -290,19 +347,48 @@ pagination:
 }
 
 /* =================  TAG/CATEGORY LIST  ================= */
+.tag-category-list {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
 .tag-category-list ul { 
   list-style: none; 
-  gap: 0.5rem; 
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
 .tag-item,
 .category-item { 
-  white-space: nowrap; 
+  white-space: nowrap;
+  margin: 0.25rem;
+}
+
+.tag-item a,
+.category-item a {
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.tag-item a:hover,
+.category-item a:hover {
+  background-color: #e9ecef;
+  color: #212529;
 }
 
 .separator { 
   color: #999; 
-  margin: 0 0.3rem; 
+  margin: 0 0.3rem;
+  font-weight: bold;
 }
 
 /* =================  CARD STYLES  ================= */
@@ -324,17 +410,28 @@ pagination:
 
 /* =================  TABLET (≥ 768px)  ================= */
 @media (min-width: 768px) {
+  .post {
+    padding: 0 2rem;
+    max-width: 1200px;
+  }
+  
+  .header-bar {
+    margin-bottom: 2.5rem;
+  }
+  
   .blog-title {
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 6vw, 2.5rem);
     white-space: nowrap;
   }
   
   .blog-title .first-word,
   .blog-title .remaining-words {
-    display: inline-block;
+    display: inline;
   }
   
-  .blog-description { font-size: 1.3rem; }
+  .blog-description { 
+    font-size: clamp(1.1rem, 3vw, 1.4rem); 
+  }
   .post-title-main { font-size: 1.5rem; }
   .post-description { font-size: 1rem; }
   .post-meta { font-size: 0.9rem; }
