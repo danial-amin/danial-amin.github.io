@@ -2,7 +2,8 @@
 layout: distill
 title: Managing Executive Expectations for Generative AI - Bridging the Reality Gap
 description: Generative AI has become a frequent topic of strategic discussions in boardrooms across industries. While the technology offers remarkable capabilities, there's often a significant gap between executive expectations and practical realities. This guide provides a framework for aligning AI implementation with business realities.
-tags: generative-ai executive-strategy ai-implementation business-strategy ai-governance
+tags: generativeAI executive-strategy ai-implementation business-strategy ai-governance AI-landscape Tech-tidbits
+category: industry
 giscus_comments: true
 date: 2025-03-05
 featured: true
