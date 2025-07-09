@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-teaching-llms-like-teaching-kids-to-ride-why-analytical-tasks-need-focused-instruction",
+        },{id: "post-can-llms-be-unbiased-the-dictionary-dilemma-and-the-weight-of-the-world-39-s-opinions",
+        
+          title: "Can LLMs Be Unbiased? - The Dictionary Dilemma and the Weight of the...",
+        
+        description: "Large Language Models inherit the biases of human civilization while claiming objectivity. But should they be neutral arbiters or faithful mirrors of human complexity? The answer reveals fundamental questions about truth, representation, and the nature of knowledge itself.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/llm_bias/";
+          
+        },
+      },{id: "post-teaching-llms-like-teaching-kids-to-ride-why-analytical-tasks-need-focused-instruction",
         
           title: "Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused...",
         
