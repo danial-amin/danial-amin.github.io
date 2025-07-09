@@ -76,7 +76,7 @@ pagination:
 
 <div class="container-fluid featured-posts">
   {% assign is_even = featured_posts.size | modulo: 2 %}
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
+  <div class="row row-cols-2 row-cols-md-2 row-cols-lg-{% if featured_posts.size <= 2 or is_even == 0 %}2{% else %}3{% endif %}">
     {% for post in featured_posts %}
     <div class="col mb-4">
       <a href="{{ post.url | relative_url }}">
@@ -212,7 +212,7 @@ pagination:
 /* =================  GLOBAL CONTAINER  ================= */
 .post {
   width: 100%;
-  max-width: 100%;
+  max-width: 1200px;
   padding: 0 1rem;
   margin: 0 auto;
 }
@@ -223,10 +223,19 @@ pagination:
   width: 100%;
 }
 
+/* Center the main content */
+.post-list {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
 /* =================  RESPONSIVE TITLES  ================= */
 .blog-title {
-  font-size: clamp(1.2rem, 12vw, 4rem);
-  line-height: 1.2;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  line-height: 1.1;
   margin: 0;
   padding: 0 0.5rem;
   text-align: center;
@@ -244,7 +253,7 @@ pagination:
 }
 
 .blog-description {
-  font-size: clamp(0.8rem, 6vw, 2rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
   word-wrap: break-word;
   line-height: 1.3;
   margin: 0.5rem 0;
@@ -280,7 +289,7 @@ pagination:
   border-radius: 0.25rem;
   background-color: #f8f9fa;
   color: #495057;
-  font-size: clamp(0.7rem, 3vw, 0.95rem);
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
   transition: all 0.2s ease;
 }
 
@@ -297,9 +306,10 @@ pagination:
 }
 
 /* =================  FEATURED POSTS & CONTENT  ================= */
-.featured-posts,
-.post-list {
+.featured-posts {
   width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
 }
 
 .featured-posts .col {
@@ -307,9 +317,22 @@ pagination:
   padding-right: 0.5rem;
 }
 
+/* Force 2 columns on mobile for featured posts */
+@media (max-width: 767px) {
+  .featured-posts .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .featured-posts .col {
+    padding: 0;
+  }
+}
+
 /* =================  POST LIST TYPOGRAPHY  ================= */
 .post-title-main {
-  font-size: clamp(1rem, 6vw, 2rem);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
   line-height: 1.3;
   margin-bottom: 0.5rem;
 }
@@ -320,19 +343,19 @@ pagination:
 }
 
 .post-description {
-  font-size: clamp(0.8rem, 4vw, 1.2rem);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
   line-height: 1.4;
   margin-bottom: 0.5rem;
 }
 
 .post-meta {
-  font-size: clamp(0.7rem, 3vw, 1rem);
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   color: #666;
   margin-bottom: 0.3rem;
 }
 
 .post-tags {
-  font-size: clamp(0.65rem, 2.5vw, 0.95rem);
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   margin-bottom: 1rem;
 }
 
@@ -344,13 +367,13 @@ pagination:
 
 /* =================  CARD STYLES  ================= */
 .card-title {
-  font-size: clamp(0.9rem, 5vw, 1.5rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
   line-height: 1.3;
   word-wrap: break-word;
 }
 
 .card-text {
-  font-size: clamp(0.7rem, 4vw, 1rem);
+  font-size: clamp(0.9rem, 2vw, 1rem);
   line-height: 1.4;
 }
 
@@ -369,6 +392,10 @@ pagination:
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
+
+  .post-list {
+    max-width: 900px;
+  }
 }
 
 /* =================  DESKTOP ADJUSTMENTS  ================= */
@@ -380,6 +407,10 @@ pagination:
   .featured-posts .col {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .post-list {
+    max-width: 1000px;
   }
 }
 
