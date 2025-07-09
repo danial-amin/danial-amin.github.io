@@ -225,7 +225,7 @@ pagination:
 
 /* =================  RESPONSIVE TITLES  ================= */
 .blog-title {
-  font-size: clamp(1.5rem, 8vw, 2.5rem);
+  font-size: clamp(1.2rem, 12vw, 4rem);
   line-height: 1.2;
   margin: 0;
   padding: 0 0.5rem;
@@ -244,7 +244,7 @@ pagination:
 }
 
 .blog-description {
-  font-size: clamp(0.9rem, 4vw, 1.4rem);
+  font-size: clamp(0.8rem, 6vw, 2rem);
   word-wrap: break-word;
   line-height: 1.3;
   margin: 0.5rem 0;
@@ -280,7 +280,7 @@ pagination:
   border-radius: 0.25rem;
   background-color: #f8f9fa;
   color: #495057;
-  font-size: 0.875rem;
+  font-size: clamp(0.7rem, 3vw, 0.95rem);
   transition: all 0.2s ease;
 }
 
@@ -309,7 +309,7 @@ pagination:
 
 /* =================  POST LIST TYPOGRAPHY  ================= */
 .post-title-main {
-  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  font-size: clamp(1rem, 6vw, 2rem);
   line-height: 1.3;
   margin-bottom: 0.5rem;
 }
@@ -320,19 +320,19 @@ pagination:
 }
 
 .post-description {
-  font-size: clamp(0.9rem, 3vw, 1.05rem);
+  font-size: clamp(0.8rem, 4vw, 1.2rem);
   line-height: 1.4;
   margin-bottom: 0.5rem;
 }
 
 .post-meta {
-  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+  font-size: clamp(0.7rem, 3vw, 1rem);
   color: #666;
   margin-bottom: 0.3rem;
 }
 
 .post-tags {
-  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  font-size: clamp(0.65rem, 2.5vw, 0.95rem);
   margin-bottom: 1rem;
 }
 
@@ -344,13 +344,13 @@ pagination:
 
 /* =================  CARD STYLES  ================= */
 .card-title {
-  font-size: clamp(1rem, 4vw, 1.2rem);
+  font-size: clamp(0.9rem, 5vw, 1.5rem);
   line-height: 1.3;
   word-wrap: break-word;
 }
 
 .card-text {
-  font-size: clamp(0.8rem, 3vw, 0.9rem);
+  font-size: clamp(0.7rem, 4vw, 1rem);
   line-height: 1.4;
 }
 
