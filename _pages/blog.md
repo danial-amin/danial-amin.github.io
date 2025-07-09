@@ -223,41 +223,61 @@ pagination:
   width: 100%;
 }
 
-/* Center the main content */
-.post-list {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
-}
-
-/* =================  RESPONSIVE TITLES  ================= */
+/* =================  MOBILE FIRST TYPOGRAPHY  ================= */
 .blog-title {
-  font-size: clamp(1.8rem, 5vw, 3rem);
-  line-height: 1.1;
+  font-size: 1.8rem;
+  line-height: 1.2;
   margin: 0;
-  padding: 0 0.5rem;
   text-align: center;
 }
 
 .blog-title span {
-  display: inline;
-}
-
-/* Mobile: stack words vertically */
-@media (max-width: 767px) {
-  .blog-title span {
-    display: block;
-  }
+  display: block;
 }
 
 .blog-description {
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  word-wrap: break-word;
+  font-size: 1rem;
   line-height: 1.3;
   margin: 0.5rem 0;
-  padding: 0 0.5rem;
+}
+
+.post-title-main {
+  font-size: 1.2rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.post-title {
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+.post-description {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+}
+
+.post-meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+.post-tags {
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.post-item {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
 }
 
 /* =================  TAG/CATEGORY LIST  ================= */
@@ -289,7 +309,7 @@ pagination:
   border-radius: 0.25rem;
   background-color: #f8f9fa;
   color: #495057;
-  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  font-size: 0.8rem;
   transition: all 0.2s ease;
 }
 
@@ -305,11 +325,16 @@ pagination:
   font-weight: bold;
 }
 
-/* =================  FEATURED POSTS & CONTENT  ================= */
-.featured-posts {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
+/* =================  CARD STYLES  ================= */
+.card-title {
+  font-size: 1rem;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.card-text {
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .featured-posts .col {
@@ -317,100 +342,97 @@ pagination:
   padding-right: 0.5rem;
 }
 
-/* Force 2 columns on mobile for featured posts */
-@media (max-width: 767px) {
-  .featured-posts .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+/* =================  TABLET (≥ 768px)  ================= */
+@media (min-width: 768px) {
+  .blog-title {
+    font-size: 2.2rem;
   }
   
-  .featured-posts .col {
-    padding: 0;
+  .blog-title span {
+    display: inline;
   }
-}
-
-/* =================  POST LIST TYPOGRAPHY  ================= */
-.post-title-main {
-  font-size: clamp(1.3rem, 3vw, 1.8rem);
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-}
-
-.post-title {
-  word-wrap: break-word;
-  hyphens: auto;
-}
-
-.post-description {
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
-}
-
-.post-meta {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
-  color: #666;
-  margin-bottom: 0.3rem;
-}
-
-.post-tags {
-  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
-  margin-bottom: 1rem;
-}
-
-.post-item {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
-}
-
-/* =================  CARD STYLES  ================= */
-.card-title {
-  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-  line-height: 1.3;
-  word-wrap: break-word;
-}
-
-.card-text {
-  font-size: clamp(0.9rem, 2vw, 1rem);
-  line-height: 1.4;
-}
-
-/* =================  TABLET ADJUSTMENTS  ================= */
-@media (min-width: 768px) {
-  .post {
-    padding: 0 2rem;
-    max-width: 1200px;
+  
+  .blog-description {
+    font-size: 1.2rem;
   }
-
-  .header-bar {
-    margin-bottom: 2.5rem;
+  
+  .post-title-main {
+    font-size: 1.4rem;
+  }
+  
+  .post-description {
+    font-size: 1rem;
+  }
+  
+  .post-meta {
+    font-size: 0.85rem;
+  }
+  
+  .post-tags {
+    font-size: 0.8rem;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+  }
+  
+  .tag-item a,
+  .category-item a {
+    font-size: 0.85rem;
   }
 
   .featured-posts .col {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
-
-  .post-list {
-    max-width: 900px;
-  }
 }
 
-/* =================  DESKTOP ADJUSTMENTS  ================= */
+/* =================  DESKTOP (≥ 1024px)  ================= */
 @media (min-width: 1024px) {
-  .post {
-    padding: 0 3rem;
+  .blog-title {
+    font-size: 2.5rem;
+  }
+  
+  .blog-description {
+    font-size: 1.3rem;
+  }
+  
+  .post-title-main {
+    font-size: 1.5rem;
+  }
+  
+  .post-description {
+    font-size: 1.05rem;
+  }
+  
+  .post-meta {
+    font-size: 0.9rem;
+  }
+  
+  .post-tags {
+    font-size: 0.85rem;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+  
+  .card-text {
+    font-size: 0.95rem;
+  }
+  
+  .tag-item a,
+  .category-item a {
+    font-size: 0.9rem;
   }
 
   .featured-posts .col {
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .post-list {
-    max-width: 1000px;
   }
 }
 
