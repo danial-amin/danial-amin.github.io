@@ -212,7 +212,7 @@ pagination:
 /* =================  GLOBAL CONTAINER  ================= */
 .post {
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   padding: 0 1rem;
   margin: 0 auto;
 }
@@ -220,6 +220,18 @@ pagination:
 .header-bar {
   text-align: center;
   margin-bottom: 2rem;
+  width: 100%;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.featured-posts {
+  margin: 0 auto;
   width: 100%;
 }
 
@@ -344,6 +356,11 @@ pagination:
 
 /* =================  TABLET (≥ 768px)  ================= */
 @media (min-width: 768px) {
+  .post {
+    max-width: 900px;
+    padding: 0 2rem;
+  }
+  
   .blog-title {
     font-size: 2.2rem;
   }
@@ -393,6 +410,11 @@ pagination:
 
 /* =================  DESKTOP (≥ 1024px)  ================= */
 @media (min-width: 1024px) {
+  .post {
+    max-width: 1000px;
+    padding: 0 3rem;
+  }
+  
   .blog-title {
     font-size: 2.5rem;
   }
