@@ -23,12 +23,7 @@ pagination:
 
 {% if blog_name_size > 0 or blog_description_size > 0 %}
   <div class="header-bar">
-    <h1 class="blog-title">
-      {% assign words = site.blog_name | split: " " %}
-      {% for word in words %}
-        <span>{{ word }}</span>{% unless forloop.last %} {% endunless %}
-      {% endfor %}
-    </h1>
+    <h1 class="blog-title">{{ site.blog_name }}</h1>
     <h2 class="blog-description">{{ site.blog_description }}</h2>
   </div>
 {% endif %}
@@ -241,12 +236,8 @@ pagination:
   line-height: 1.4;
   margin: 0;
   text-align: center;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.blog-title span {
-  display: inline;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .blog-description {
