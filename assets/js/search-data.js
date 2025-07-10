@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-can-llms-be-unbiased-the-dictionary-dilemma-and-the-weight-of-the-world-39-s-opinions",
+        },{id: "post-red-teaming-ai-for-social-good-testing-for-hidden-biases-in-the-age-of-generative-ai",
+        
+          title: "Red Teaming AI for Social Good - Testing for Hidden Biases in the...",
+        
+        description: "As generative AI systems become integral to our digital lives, UNESCO&#39;s Red Teaming playbook reveals the urgent need for systematic bias testing. But should we test for biases or accept them as reflections of human complexity? The answer reveals fundamental questions about fairness, representation, and the future of AI for social good.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/red_teaming/";
+          
+        },
+      },{id: "post-can-llms-be-unbiased-the-dictionary-dilemma-and-the-weight-of-the-world-39-s-opinions",
         
           title: "Can LLMs Be Unbiased? - The Dictionary Dilemma and the Weight of the...",
         
