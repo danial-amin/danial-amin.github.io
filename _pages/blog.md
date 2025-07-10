@@ -237,26 +237,31 @@ pagination:
 
 /* =================  MOBILE FIRST TYPOGRAPHY  ================= */
 .blog-title {
-  font-size: 1.8rem;
-  line-height: 1.2;
+  font-size: 1.4rem;
+  line-height: 1.4;
   margin: 0;
   text-align: center;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .blog-title span {
-  display: block;
+  display: inline;
 }
 
 .blog-description {
-  font-size: 1rem;
-  line-height: 1.3;
-  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0.75rem 0;
+  font-weight: 400;
+  opacity: 0.8;
 }
 
 .post-title-main {
-  font-size: 1.2rem;
-  line-height: 1.3;
+  font-size: 1.1rem;
+  line-height: 1.4;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .post-title {
@@ -265,19 +270,20 @@ pagination:
 }
 
 .post-description {
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.5;
   margin-bottom: 0.5rem;
+  color: #555;
 }
 
 .post-meta {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #666;
   margin-bottom: 0.3rem;
 }
 
 .post-tags {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   margin-bottom: 1rem;
 }
 
@@ -321,7 +327,7 @@ pagination:
   border-radius: 0.25rem;
   background-color: #f8f9fa;
   color: #495057;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   transition: all 0.2s ease;
 }
 
@@ -339,19 +345,49 @@ pagination:
 
 /* =================  CARD STYLES  ================= */
 .card-title {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.3;
   word-wrap: break-word;
+  font-weight: 600;
 }
 
 .card-text {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1.4;
+  color: #555;
 }
 
 .featured-posts .col {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+/* =================  SMALL MOBILE (≤ 375px)  ================= */
+@media (max-width: 375px) {
+  .blog-title {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  
+  .blog-description {
+    font-size: 0.8rem;
+  }
+  
+  .post-title-main {
+    font-size: 1rem;
+  }
+  
+  .post-description {
+    font-size: 0.8rem;
+  }
+  
+  .card-title {
+    font-size: 0.85rem;
+  }
+  
+  .card-text {
+    font-size: 0.75rem;
+  }
 }
 
 /* =================  TABLET (≥ 768px)  ================= */
@@ -363,10 +399,7 @@ pagination:
   
   .blog-title {
     font-size: 2.2rem;
-  }
-  
-  .blog-title span {
-    display: inline;
+    line-height: 1.2;
   }
   
   .blog-description {
@@ -379,6 +412,7 @@ pagination:
   
   .post-description {
     font-size: 1rem;
+    color: #666;
   }
   
   .post-meta {
@@ -417,6 +451,7 @@ pagination:
   
   .blog-title {
     font-size: 2.5rem;
+    line-height: 1.1;
   }
   
   .blog-description {
@@ -464,6 +499,10 @@ pagination:
     color: #aaa;
   }
 
+  .post-description {
+    color: #ccc;
+  }
+
   .separator {
     color: #777;
   }
@@ -482,6 +521,10 @@ pagination:
   .category-item a:hover {
     background-color: #4a5568;
     color: #fff;
+  }
+
+  .card-text {
+    color: #ccc;
   }
 }
 </style>
