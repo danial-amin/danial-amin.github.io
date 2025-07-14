@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-red-teaming-ai-for-social-good-testing-for-hidden-biases-in-the-age-of-generative-ai",
+        },{id: "post-llms-as-evaluators-who-watches-the-watchers",
+        
+          title: "LLMs as Evaluators - Who Watches the Watchers?",
+        
+        description: "As LLMs increasingly evaluate other LLMs, grade student work, and assess human performance, we create a circular system where artificial intelligence defines its own success criteria. The implications extend far beyond technical metrics to fundamental questions about authority, standards, and who gets to decide what constitutes quality.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/llms_as_evaluators/";
+          
+        },
+      },{id: "post-red-teaming-ai-for-social-good-testing-for-hidden-biases-in-the-age-of-generative-ai",
         
           title: "Red Teaming AI for Social Good - Testing for Hidden Biases in the...",
         
