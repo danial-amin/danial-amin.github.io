@@ -49,7 +49,7 @@ _styles: >
   }
 ---
 
-After two years of crafting prompts for industry reports across technology, finance, and healthcare sectors, a pattern emerges: **the difference between mediocre and exceptional LLM research output isn't sophisticated prompt engineering—it's consistently applying simple heuristics that most people ignore.**
+After years of crafting prompts for industry reports across technology, finance, and engineering sectors, a pattern emerges: **the difference between mediocre and exceptional LLM research output isn't sophisticated prompt engineering. Rather, it's consistently applying simple heuristics that most people ignore.**
 
 Great prompting for industry research follows predictable principles. While each project has unique requirements, the underlying heuristics remain constant. These aren't abstract theories but practical rules distilled from thousands of research interactions that consistently separate actionable insights from generic AI responses.
 
@@ -63,13 +63,13 @@ The best industry researchers using LLMs don't rely on prompt templates or compl
 
 Generic prompts produce generic research. The most common mistake in industry research is asking LLMs for broad analysis when specific questions yield actionable answers.
 
-**Instead of:** "Analyze the competitive landscape in renewable energy."
+**Instead of:** "Analyze the competitive landscape in renewable energy."<br>
 **Try:** "Identify the three companies that gained the most market share in utility-scale solar installations in the US between 2022-2024, and explain their specific competitive advantages."
 
 The specificity principle operates through three mechanisms:
 
-**Narrow Scope**: Limit analysis to specific timeframes, geographies, or market segments
-**Precise Metrics**: Ask for exact numbers, percentages, or rankings rather than general trends
+**Narrow Scope**: Limit analysis to specific timeframes, geographies, or market segments<br>
+**Precise Metrics**: Ask for exact numbers, percentages, or rankings rather than general trends<br>
 **Concrete Examples**: Demand specific companies, products, or case studies rather than abstract categories
 
 <div class="heuristic-box">
@@ -171,8 +171,8 @@ Great industry research emerges through iterative refinement, not single perfect
 
 Start broad, then systematically narrow focus based on initial findings:
 
-**Round 1**: "What are the major challenges facing electric vehicle manufacturers?"
-**Round 2**: "You mentioned battery supply constraints. Which specific materials are most problematic and why?"
+**Round 1**: "What are the major challenges facing electric vehicle manufacturers?"<br>
+**Round 2**: "You mentioned battery supply constraints. Which specific materials are most problematic and why?"<br>
 **Round 3**: "For lithium shortages specifically, which companies have developed alternative sourcing strategies?"
 
 ### The Contradiction Check
