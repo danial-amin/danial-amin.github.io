@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-llms-as-evaluators-who-watches-the-watchers",
+        },{id: "post-practioners-handbook",
+        
+          title: "Practioners Handbook",
+        
+        description: "",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/practioners-handbook/";
+          
+        },
+      },{id: "post-llms-as-evaluators-who-watches-the-watchers",
         
           title: "LLMs as Evaluators - Who Watches the Watchers?",
         
