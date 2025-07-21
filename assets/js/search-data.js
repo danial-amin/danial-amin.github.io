@@ -30,11 +30,11 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-practioners-handbook",
+        },{id: "post-the-prompt-practitioner-39-s-handbook-heuristics-for-better-industry-research",
         
-          title: "Practioners Handbook",
+          title: "The Prompt Practitioner&#39;s Handbook - Heuristics for Better Industry Research",
         
-        description: "",
+        description: "Effective LLM prompting for industry research isn&#39;t about perfect instructions—it&#39;s about applying battle-tested heuristics that consistently produce actionable insights. These practical principles transform generic AI interactions into focused research partnerships.",
         section: "Posts",
         handler: () => {
           
