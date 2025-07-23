@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-the-prompt-practitioner-39-s-handbook-heuristics-for-better-industry-research",
+        },{id: "post-the-living-memory-when-your-digital-twin-knows-you-better-than-you-know-yourself",
+        
+          title: "The Living Memory - When Your Digital Twin Knows You Better Than You...",
+        
+        description: "Imagine a digital version of yourself that contains every memory you&#39;ve ever formed, every decision you&#39;ve ever made, and every conversation you&#39;ve ever had—powered by an LLM that can think, reason, and respond as you would. This isn&#39;t science fiction; it&#39;s the logical next step in AI development.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/digital-twin/";
+          
+        },
+      },{id: "post-the-prompt-practitioner-39-s-handbook-heuristics-for-better-industry-research",
         
           title: "The Prompt Practitioner&#39;s Handbook - Heuristics for Better Industry Research",
         
