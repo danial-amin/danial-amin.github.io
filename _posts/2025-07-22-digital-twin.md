@@ -1,6 +1,5 @@
 ---
 layout: distill
-tlayout: distill
 title: The Living Memory - When Your Digital Twin Knows You Better Than You Know Yourself
 description: Imagine a digital version of yourself that contains every memory you've ever formed, every decision you've ever made, and every conversation you've ever had—powered by an LLM that can think, reason, and respond as you would. This isn't science fiction; it's the logical next step in AI development.
 tags: digital-twin human-memory generativeAI food-for-thought
