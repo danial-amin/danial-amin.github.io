@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-the-living-memory-when-your-digital-twin-knows-you-better-than-you-know-yourself",
+        },{id: "post-beyond-test-scores-why-we-need-to-measure-ai-39-s-moral-compass-not-its-memory",
+        
+          title: "Beyond Test Scores - Why We Need to Measure AI&#39;s Moral Compass, Not...",
+        
+        description: "We&#39;re celebrating AI systems for acing human exams while ignoring what truly matters—their ability to navigate ethical complexity, understand nuance, and grapple with the moral weight of real-world decisions. It&#39;s time to rethink how we measure artificial intelligence.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/wrong-evaluation/";
+          
+        },
+      },{id: "post-the-living-memory-when-your-digital-twin-knows-you-better-than-you-know-yourself",
         
           title: "The Living Memory - When Your Digital Twin Knows You Better Than You...",
         
