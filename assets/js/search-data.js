@@ -30,7 +30,29 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-beyond-test-scores-why-we-need-to-measure-ai-39-s-moral-compass-not-its-memory",
+        },{id: "post-beyond-the-safety-theater-what-real-ai-safety-looks-like-part-2",
+        
+          title: "Beyond the Safety Theater - What Real AI Safety Looks Like (Part 2)...",
+        
+        description: "With AI companies collectively failing basic safety standards while racing toward AGI, we need radical reforms that go far beyond voluntary pledges and self-assessment. Here&#39;s what genuine AI safety accountability would require—and why the industry won&#39;t adopt it voluntarily.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/ai-safety-pt2/";
+          
+        },
+      },{id: "post-the-ai-safety-mirage-why-industry-rankings-are-failing-us-part-1",
+        
+          title: "The AI Safety Mirage - Why Industry Rankings Are Failing Us (Part 1)...",
+        
+        description: "The Future of Life Institute&#39;s latest AI Safety Index reveals a devastating truth—even the &quot;best&quot; AI companies barely scrape a C+ grade while racing toward AGI. With no company achieving adequate safety standards and critical gaps widening between capability and control, we&#39;re witnessing the collapse of AI safety theater in real time.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/ai-safety-pt1/";
+          
+        },
+      },{id: "post-beyond-test-scores-why-we-need-to-measure-ai-39-s-moral-compass-not-its-memory",
         
           title: "Beyond Test Scores - Why We Need to Measure AI&#39;s Moral Compass, Not...",
         
