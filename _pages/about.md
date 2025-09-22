@@ -10,7 +10,7 @@ profile:
   more_info: >
     <p>University of Vaasa</p>
     <p>Espoo, Finland</p>
-    <p>+358 46 801 4291</p>
+    <p>+358 46 802 4062</p>
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 announcements:
