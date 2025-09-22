@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-beyond-the-safety-theater-what-real-ai-safety-looks-like-part-2",
+        },{id: "post-the-data-fossil-fuel-crisis-why-llms-are-hitting-peak-information",
+        
+          title: "The Data Fossil Fuel Crisis - Why LLMs Are Hitting Peak Information",
+        
+        description: "Large Language Models have consumed the internet&#39;s collective knowledge, but as we enter the era of synthetic training data, we&#39;re creating a closed-loop system that may be fundamentally limiting AI&#39;s potential. Here&#39;s why the current LLM paradigm faces an existential data crisis.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/llm-fossilized/";
+          
+        },
+      },{id: "post-beyond-the-safety-theater-what-real-ai-safety-looks-like-part-2",
         
           title: "Beyond the Safety Theater - What Real AI Safety Looks Like (Part 2)...",
         
