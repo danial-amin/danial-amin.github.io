@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-the-data-fossil-fuel-crisis-why-llms-are-hitting-peak-information",
+        },{id: "post-the-personality-mirror-how-llms-39-hidden-character-shapes-everything-you-know",
+        
+          title: "The Personality Mirror - How LLMs&#39; Hidden Character Shapes Everything You Know",
+        
+        description: "Every LLM has a distinct personality that fundamentally warps the information it provides. As we mistake these AI quirks for objective intelligence, we&#39;re unknowingly filtering all human knowledge through a handful of synthetic worldviews. The implications are more profound than anyone realizes.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/personality-in-llm/";
+          
+        },
+      },{id: "post-the-data-fossil-fuel-crisis-why-llms-are-hitting-peak-information",
         
           title: "The Data Fossil Fuel Crisis - Why LLMs Are Hitting Peak Information",
         
