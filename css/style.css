@@ -982,12 +982,12 @@ body {
 
 .timeline-line {
     position: absolute;
-    top: 100px;
+    top: 40px;
     left: 0;
     right: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--accent-color, #3b82f6), var(--secondary-accent, #8b5cf6));
-    z-index: 1;
+    z-index: 3;
     visibility: visible;
     opacity: 1;
 }
