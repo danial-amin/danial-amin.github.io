@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems - Danial Amin</title>
+    <meta name="description" content="Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions.">
+    <meta name="keywords" content="ai ethics global-south technology colonialism">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems">
+    <meta property="og:description" content="Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2025-06-27-AI-Ethics.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems">
+    <meta name="twitter:description" content="Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions.">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom styles for this article -->
+    <style>
+        
+        
+        /* Article-specific styles */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        .article-content code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .article-content pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-content a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        .article-content a:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        .article-content strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .article-content em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--accent-hover);
+        }
+        
+        /* Author bio */
+        .author-bio {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .author-bio h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .author-bio p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-bio a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .author-bio a:hover {
+            text-decoration: underline;
+        }
+        
+        /* References */
+        .references {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .references h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .references ol {
+            counter-reset: reference-counter;
+        }
+        
+        .references li {
+            counter-increment: reference-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .references li::before {
+            content: "[" counter(reference-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Footnotes */
+        .footnotes {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .footnotes h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footnotes ol {
+            counter-reset: footnote-counter;
+        }
+        
+        .footnotes li {
+            counter-increment: footnote-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .footnotes li::before {
+            content: "[" counter(footnote-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .article-content {
+                padding: 1rem 0.5rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Research</span>
+                    <span class="article-date">2025-06-27</span>
+                    <span class="article-read-time">10 min read</span>
+                </div>
+                <h1 class="article-title">The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems</h1>
+                <p class="article-excerpt">Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions.</p>
+                <div class="article-tags">
+                    <span class="tag">ai ethics global-south technology colonialism</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+    <li><a href="#the-data-extraction-reality">The Data Extraction Reality</a></li>
+<li><a href="#the-invisible-workforce">The Invisible Workforce</a></li>
+<li><a href="#language-and-cultural-bias-in-practice">Language and Cultural Bias in Practice</a></li>
+<li><a href="#the-innovation-periphery">The Innovation Periphery</a></li>
+<li><a href="#a-more-nuanced-path-forward">A More Nuanced Path Forward</a></li>
+<li><a href="#questions-for-the-ai-community">Questions for the AI Community</a></li>
+
+        </ul>
+    </div>
+    
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions. This isn't an abstract critique—it's based on real observations from the ground about data flows, labor practices, and whose voices shape AI development.</p>
+<p>Over the past seven years, I've had the privilege of working on AI projects across multiple continents—from aerospace applications in Pakistan to startup ecosystems in Ireland, from enterprise solutions in the Caribbean to design innovation in France. What I've observed isn't the democratizing force that AI advocates often promise, but a more complex reality where the benefits and burdens of AI development are unevenly distributed.</p>
+<div class="key-insight">
+<strong>Key Insight:</strong> The current AI ecosystem doesn't just have bias problems—it has structural inequality problems that go far deeper than algorithmic fairness.
+</div>
+
+<p>This post reflects on what I've learned about the global AI ecosystem and raises questions we need to address as the technology becomes more pervasive.</p>
+<h2 id="the-data-extraction-reality">The Data Extraction Reality<a class="headerlink" href="#the-data-extraction-reality" title="Link to this section">&para;</a></h2>
+<p>During my time leading data science teams at various organizations, I've seen how data flows in the global AI economy. When we built analytics frameworks for enterprise clients, the pattern was consistent: data generated in emerging markets often gets processed and monetized by platforms headquartered elsewhere<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
+<div class="data-flow-diagram">
+Lagos User Data → Silicon Valley AI Company → Licensed Back to Lagos Banks
+</div>
+
+<p>Take mobile financial services, an area I've worked on extensively. While innovations like M-Pesa originated in Kenya<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, the behavioral data generated by millions of users across Africa increasingly flows to Western AI companies building credit scoring and fraud detection systems. The insights derived from this data—understanding spending patterns, predicting financial behavior, optimizing user interfaces—become intellectual property that's then licensed back to local financial institutions<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>.</p>
+<p>This isn't inherently problematic, but it raises questions about value distribution. When a startup in Silicon Valley uses transaction data from Lagos to improve their algorithm, who benefits from that improvement? Usually, it's the shareholders of the Silicon Valley company, not the Lagos users whose behavior created the training data.</p>
+<p><d-footnote>This pattern mirrors historical resource extraction, where raw materials were shipped from colonies to metropolitan centers for processing, then sold back as finished goods.</d-footnote></p>
+<h2 id="the-invisible-workforce">The Invisible Workforce<a class="headerlink" href="#the-invisible-workforce" title="Link to this section">&para;</a></h2>
+<p>Through platforms like Omdena, where I led machine learning projects for social impact, I regularly worked with data scientists and ML engineers from across the Global South. The talent and dedication were extraordinary, but the economic dynamics were troubling.</p>
+<p>The global AI workforce structure reveals concerning patterns about how labor and profits are distributed:</p>
+<div class="l-body">
+  <iframe src="{{ '/assets/plotly/ai-workforce-flow.html' | relative_url }}" frameborder='0' scrolling='no' height="500px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div>
+
+<p>Many of the data annotation and model training tasks that make AI systems possible are outsourced to countries where labor costs are lower<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>. I've seen brilliant engineers in Pakistan, India, and the Philippines working on cutting-edge AI projects for a fraction of what their counterparts in Silicon Valley earn for similar work.</p>
+<p>Content moderation—the essential but traumatic work of training AI systems to recognize harmful content—is disproportionately performed by workers in Kenya, the Philippines, and other countries where Western tech companies can hire talent cheaply<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup>. These workers face significant psychological risks while protecting users in wealthier countries from disturbing content.</p>
+<h2 id="language-and-cultural-bias-in-practice">Language and Cultural Bias in Practice<a class="headerlink" href="#language-and-cultural-bias-in-practice" title="Link to this section">&para;</a></h2>
+<p>While building LLM-based solutions like <strong>Bob-The Startup Advisor</strong> and <strong>Sandy-The Financial Advisor</strong>, I encountered the limitations of current AI models firsthand. Despite claims of multilingual capability, these systems struggle with non-English contexts in ways that go beyond simple translation.</p>
+<p>Large language models trained primarily on English text exhibit systematic biases when dealing with non-Western concepts<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>. When I tested financial advisory models with questions about Islamic banking principles or traditional business practices common in South Asian markets, the responses were often inadequate or culturally inappropriate.</p>
+<p _="%" enddetails="enddetails">{% details Example: Testing Cultural Context %}
+When I asked my financial advisor LLM about <em>hawala</em> (traditional Islamic money transfer), it provided generic responses about "informal banking" without understanding the cultural and religious principles that make hawala a legitimate and important financial instrument in many communities.</p>
+<p>This isn't just a technical limitation—it reflects whose knowledge and perspectives are valued in AI training data. The vast majority of text used to train large language models comes from English-language sources, primarily from Western contexts<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup>. Local knowledge systems, indigenous practices, and non-Western ways of organizing information are systematically underrepresented.</p>
+<h2 id="the-innovation-periphery">The Innovation Periphery<a class="headerlink" href="#the-innovation-periphery" title="Link to this section">&para;</a></h2>
+<p>One of the most frustrating aspects of the current AI ecosystem is how innovation is perceived and valued. During my MBA at Rennes School of Business, I studied how technological innovation is often framed as flowing from "centers" (Silicon Valley, Boston, London) to "peripheries" (everywhere else).</p>
+<p>The following chart illustrates how AI investment is concentrated in wealthy regions:</p>
+<div class="l-body">
+  <iframe src="{{ '/assets/plotly/ai-investment-distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="400px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div>
+
+<p>This framing ignores the reality I've witnessed: incredible innovation happening across the Global South, often out of necessity rather than venture capital abundance. The aerospace projects I worked on in Pakistan involved sophisticated optimization algorithms developed under resource constraints that would be unimaginable in Western tech companies.</p>
+<p>Yet these innovations rarely receive global recognition or investment. The AI research emerging from universities in Nigeria, Pakistan, Brazil, or India is often overlooked by major conferences and journals, which maintain editorial boards dominated by Western institutions<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup>.</p>
+<h2 id="a-more-nuanced-path-forward">A More Nuanced Path Forward<a class="headerlink" href="#a-more-nuanced-path-forward" title="Link to this section">&para;</a></h2>
+<p>I'm not arguing that all AI development should be localized or that global collaboration is inherently problematic. The projects I've worked on have benefited enormously from international collaboration and knowledge sharing.</p>
+<p>But we need more honest conversations about power dynamics in AI development. Some concrete steps that could help:</p>
+<ol>
+<li>
+<p><strong>Equitable Partnership Models</strong>: When AI companies use data from emerging markets, they should share the value created, not just extract insights<sup id="fnref:9"><a class="footnote-ref" href="#fn:9">9</a></sup>.</p>
+</li>
+<li>
+<p><strong>Diverse Training Data</strong>: Deliberate efforts to include non-Western knowledge sources in AI training data, with proper compensation and attribution to source communities<sup id="fnref:10"><a class="footnote-ref" href="#fn:10">10</a></sup>.</p>
+</li>
+<li>
+<p><strong>Local AI Capacity Building</strong>: Investment in AI research institutions and startups in the Global South, not just outsourcing implementation work<sup id="fnref:11"><a class="footnote-ref" href="#fn:11">11</a></sup>.</p>
+</li>
+<li>
+<p><strong>Ethical Labor Practices</strong>: Fair compensation and psychological support for workers performing essential but difficult AI training tasks<sup id="fnref:12"><a class="footnote-ref" href="#fn:12">12</a></sup>.</p>
+</li>
+</ol>
+<p>The following chart compares current AI value distribution with a more equitable proposed model:</p>
+<div class="l-body">
+  <iframe src="{{ '/assets/plotly/ai-value-distribution.html' | relative_url }}" frameborder='0' scrolling='no' height="400px" width="100%" style="border: 1px dashed grey;"></iframe>
+</div>
+
+<h2 id="questions-for-the-ai-community">Questions for the AI Community<a class="headerlink" href="#questions-for-the-ai-community" title="Link to this section">&para;</a></h2>
+<p>As someone who has worked across this ecosystem, I'm left with questions that the AI community needs to address:</p>
+<ul>
+<li>How do we ensure that AI development serves local needs rather than just global markets?</li>
+<li>What does equitable participation in the AI economy actually look like?</li>
+<li>How can we preserve cultural diversity while benefiting from AI's connective potential?</li>
+<li>Who should have control over AI systems that affect millions of people?</li>
+</ul>
+<p>These aren't abstract philosophical questions—they're practical challenges that will determine whether AI becomes a force for reducing or increasing global inequality.</p>
+<p>The technology itself is remarkable. I've seen AI systems optimize supply chains, predict equipment failures, and automate routine tasks in ways that genuinely improve people's lives. But technology alone doesn't determine outcomes—the economic and social structures around it do.</p>
+<p>As AI practitioners, we have a responsibility to think critically about these structures and work toward more equitable alternatives. The future of AI isn't predetermined, but it won't democratize itself.</p>
+<div class="author-bio">
+<strong>About the Author:</strong> Danial Amin is an AI Tech Lead currently working on generative AI solutions for design optimization at Samsung Design Innovation Center in France. He has led AI projects across multiple continents and holds advanced degrees in both technical and business domains. You can connect with him on <a href="https://linkedin.com/in/danial-amin">LinkedIn</a> or view his technical work on <a href="https://github.com/danial-amin">GitHub</a>.
+</div>
+
+<hr />
+<p><em>What do you think? Have you experienced similar patterns in your work with AI systems? Share your thoughts in the comments below.</em></p>
+<hr />
+<p><em>This work has been prepared in collaboration with a Generative AI language model (LLM), which contributed to drafting and refining portions of the text under the author’s direction.</em></p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Link to this section">&para;</a></h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Zuboff, S. (2019). <em>The Age of Surveillance Capitalism: The Fight for a Human Future at the New Frontier of Power</em>. PublicAffairs.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Hughes, N., &amp; Lonie, S. (2007). M-PESA: mobile money for the "unbanked" turning cellphones into 24-hour tellers in Kenya. <em>Innovations</em>, 2(1-2), 63-81.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
+<p>Aitken, R. (2017). 'All data is credit data': Constituting the unbanked. <em>Competition &amp; Change</em>, 21(4), 274-300.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Gray, M. L., &amp; Suri, S. (2019). <em>Ghost Work: How to Stop Silicon Valley from Building a New Global Underclass</em>. Houghton Mifflin Harcourt.&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:5">
+<p>Roberts, S. T. (2019). <em>Behind the Screen: Content Moderation in the Shadows of Social Media</em>. Yale University Press.&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+<li id="fn:6">
+<p>Bender, E. M., Gebru, T., McMillan-Major, A., &amp; Shmitchell, S. (2021). On the dangers of stochastic parrots: Can language models be too big? <em>Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency</em>, 610-623.&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
+</li>
+<li id="fn:7">
+<p>Rogers, A., Kovaleva, O., Downey, M., &amp; Rumshisky, A. (2020). What's in your embedding? Analyzing word embedding bias in conceptual spaces. <em>Proceedings of the 1st Workshop on Gender Bias in Natural Language Processing</em>, 1-16.&#160;<a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">&#8617;</a></p>
+</li>
+<li id="fn:8">
+<p>Mohamed, S., Png, M. T., &amp; Isaac, W. (2020). Decolonising science–reconstructing relations. <em>eLife</em>, 9, e65546.&#160;<a class="footnote-backref" href="#fnref:8" title="Jump back to footnote 8 in the text">&#8617;</a></p>
+</li>
+<li id="fn:9">
+<p>McDonald, S., &amp; Milne, R. (2021). Corporate power and global health governance: The example of foundation and pharmaceutical industry relations. <em>Global Social Policy</em>, 21(2), 275-297.&#160;<a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 9 in the text">&#8617;</a></p>
+</li>
+<li id="fn:10">
+<p>Blodgett, S. L., Barocas, S., Daumé III, H., &amp; Wallach, H. (2020). Language (technology) is power: A critical survey of "bias" in NLP. <em>Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics</em>, 5454-5476.&#160;<a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 10 in the text">&#8617;</a></p>
+</li>
+<li id="fn:11">
+<p>Adams, R. (2021). Can artificial intelligence be decolonized? <em>Interdisciplinary Science Reviews</em>, 46(1-2), 176-197.&#160;<a class="footnote-backref" href="#fnref:11" title="Jump back to footnote 11 in the text">&#8617;</a></p>
+</li>
+<li id="fn:12">
+<p>Gillespie, T. (2018). <em>Custodians of the Internet: Platforms, Content Moderation, and the Hidden Decisions That Shape Social Media</em>. Yale University Press.&#160;<a class="footnote-backref" href="#fnref:12" title="Jump back to footnote 12 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is currently working at Samsung Design Innovation Center, France. You can connect with him on <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p></div>
+
+    <!-- References -->
+    
+        <div class="references">
+            <h3>References</h3>
+            <p>References and citations will be processed from the markdown content.</p>
+        </div>
+        
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/interactive-bg.js"></script>
+    <script src="../js/theme-switcher.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

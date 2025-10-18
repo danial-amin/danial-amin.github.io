@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction - Danial Amin</title>
+    <meta name="description" content="Just as teaching a child to ride a bike requires clear, focused instruction rather than overwhelming information, effective LLM prompt engineering for analytical tasks demands precision, specificity, and structured guidance to overcome cognitive biases and achieve reliable results.">
+    <meta name="keywords" content="llm prompt-engineering analytical-tasks cognitive-bias instruction-design">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction">
+    <meta property="og:description" content="Just as teaching a child to ride a bike requires clear, focused instruction rather than overwhelming information, effective LLM prompt engineering for analytical tasks demands precision, specificity, and structured guidance to overcome cognitive biases and achieve reliable results.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2025-07-07-llm-usage.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction">
+    <meta name="twitter:description" content="Just as teaching a child to ride a bike requires clear, focused instruction rather than overwhelming information, effective LLM prompt engineering for analytical tasks demands precision, specificity, and structured guidance to overcome cognitive biases and achieve reliable results.">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom styles for this article -->
+    <style>
+        
+        
+        /* Article-specific styles */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        .article-content code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .article-content pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-content a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        .article-content a:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        .article-content strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .article-content em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--accent-hover);
+        }
+        
+        /* Author bio */
+        .author-bio {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .author-bio h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .author-bio p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-bio a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .author-bio a:hover {
+            text-decoration: underline;
+        }
+        
+        /* References */
+        .references {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .references h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .references ol {
+            counter-reset: reference-counter;
+        }
+        
+        .references li {
+            counter-increment: reference-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .references li::before {
+            content: "[" counter(reference-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Footnotes */
+        .footnotes {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .footnotes h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footnotes ol {
+            counter-reset: footnote-counter;
+        }
+        
+        .footnotes li {
+            counter-increment: footnote-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .footnotes li::before {
+            content: "[" counter(footnote-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .article-content {
+                padding: 1rem 0.5rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Research</span>
+                    <span class="article-date">2025-07-07</span>
+                    <span class="article-read-time">10 min read</span>
+                </div>
+                <h1 class="article-title">Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction</h1>
+                <p class="article-excerpt">Just as teaching a child to ride a bike requires clear, focused instruction rather than overwhelming information, effective LLM prompt engineering for analytical tasks demands precision, specificity, and structured guidance to overcome cognitive biases and achieve reliable results.</p>
+                <div class="article-tags">
+                    <span class="tag">llm prompt-engineering analytical-tasks cognitive-bias instruction-design</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+    <li><a href="#the-bicycle-principle">The Bicycle Principle</a></li>
+<li><a href="#one-instruction-at-a-time">One Instruction at a Time</a></li>
+<li><a href="#the-confirmation-valley-problem">The Confirmation Valley Problem</a></li>
+<li><a href="#focused-correction-over-information-overload">Focused Correction Over Information Overload</a></li>
+
+        </ul>
+    </div>
+    
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Watch a parent teaching their child to ride a bicycle. They don't begin by explaining gyroscopic forces or traffic regulations. Instead: "Look ahead, not down." "Pedal steadily." "I'm holding the seat." <strong>This same principle—focused, sequential instruction rather than comprehensive information dumps—holds the key to effective LLM use for research and report writing.</strong></p>
+<p>Just as overwhelming a child with too much information leads to crashes, overwhelming LLMs with extensive context and multiple simultaneous requests leads to shallow analysis, confirmation bias, and the frustrating tendency to produce generic responses rather than insightful research—common problems when using AI for academic or professional writing tasks.</p>
+<div class="key-insight">
+<strong>Core Principle:</strong> Effective LLM analytical instruction mirrors effective child instruction—clear, focused, sequential guidance that builds capability gradually rather than attempting to convey everything at once.
+</div>
+
+<h2 id="the-bicycle-principle">The Bicycle Principle<a class="headerlink" href="#the-bicycle-principle" title="Link to this section">&para;</a></h2>
+<p>Consider the typical bicycle instruction sequence: establish positioning, introduce pedaling, focus vision ahead, integrate movement with support, build independent confidence. Each instruction is specific, actionable, and focused on a single skill component.</p>
+<p>LLMs helping with research and writing face similar challenges: balancing multiple sources, maintaining coherent arguments, navigating complex information, and avoiding common pitfalls like confirmation bias and superficial analysis.</p>
+<p>Yet our typical approach resembles ineffective bicycle instruction: asking for comprehensive research reports with multiple objectives, extensive source requirements, and complex analytical frameworks all at once—leading to generic outputs and missed insights.</p>
+<h2 id="one-instruction-at-a-time">One Instruction at a Time<a class="headerlink" href="#one-instruction-at-a-time" title="Link to this section">&para;</a></h2>
+<p>The most fundamental principle is single-focus instruction. Rather than asking for complete reports, effective LLM use breaks research and writing tasks into discrete, sequential steps that can be built upon progressively.</p>
+<p><strong>Comprehensive Approach (Common Mistake):</strong></p>
+<div class="highlight"><pre><span></span><code>&quot;Write a comprehensive research report on climate change impacts 
+including economic effects, environmental consequences, policy 
+responses, technological solutions, and future projections with 
+detailed citations and analysis.&quot;
+</code></pre></div>
+
+<p><strong>Sequential Approach (More Effective):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nv">Step</span><span class="w"> </span><span class="mi">1</span>:<span class="w"> </span><span class="s2">&quot;Identify the three most significant economic impacts of climate change.&quot;</span>
+<span class="nv">Step</span><span class="w"> </span><span class="mi">2</span>:<span class="w"> </span><span class="s2">&quot;For each impact, find two credible studies with specific data.&quot;</span>
+<span class="nv">Step</span><span class="w"> </span><span class="mi">3</span>:<span class="w"> </span><span class="s2">&quot;Analyze what factors make these impacts particularly severe.&quot;</span>
+[<span class="k">Continue</span><span class="w"> </span><span class="nv">with</span><span class="w"> </span><span class="nv">focused</span><span class="w"> </span><span class="nv">steps</span>...]
+</code></pre></div>
+
+<p>The sequential approach prevents shallow analysis, enables you to guide the research direction, maintains focus on specific questions, and allows you to verify each component before building further.</p>
+<div class="instruction-framework">
+<strong>Implementation Strategy:</strong> Structure research tasks as sequential prompts, each with a single clear objective. Review and verify each step before proceeding to maintain quality and direction.
+</div>
+
+<h3 id="information-precision-over-overload">Information Precision Over Overload<a class="headerlink" href="#information-precision-over-overload" title="Link to this section">&para;</a></h3>
+<p>More information seems better but often degrades research quality through signal dilution, priority confusion, source overload, and scattered focus. </p>
+<p><strong>Information Overload Example:</strong> "Research renewable energy using academic papers, government reports, industry analyses, news articles, and expert interviews, covering technology, economics, policy, and environmental impacts."</p>
+<p><strong>Focused Approach:</strong> Step 1: Current solar panel efficiency data from academic sources only. Step 2: After understanding efficiency trends, add economic cost data. Step 3: Then examine policy impacts on adoption rates.</p>
+<h2 id="the-confirmation-valley-problem">The Confirmation Valley Problem<a class="headerlink" href="#the-confirmation-valley-problem" title="Link to this section">&para;</a></h2>
+<p>The most insidious challenge is the "confirmation valley"—getting stuck in comfortable patterns that limit genuine insight. In bicycle instruction, children become dependent on training wheels. In LLM research, models default to familiar arguments and common perspectives rather than exploring nuanced or challenging viewpoints.</p>
+<h3 id="the-most-probable-outcome-trap">The Most Probable Outcome Trap<a class="headerlink" href="#the-most-probable-outcome-trap" title="Link to this section">&para;</a></h3>
+<p>When researching complex topics, LLMs gravitate toward mainstream, well-documented perspectives rather than exploring nuanced arguments. Asked to research social media's impact on democracy, an LLM might focus on commonly cited studies about misinformation and polarization, missing emerging research on positive civic engagement or counterintuitive findings about information literacy.</p>
+<p>This creates blindness to:
+- Contrarian but well-supported arguments
+- Emerging research that challenges conventional wisdom
+- Nuanced perspectives from different disciplines
+- Counterintuitive findings that add depth</p>
+<h3 id="breaking-free">Breaking Free<a class="headerlink" href="#breaking-free" title="Link to this section">&para;</a></h3>
+<p>Actively challenge LLMs beyond comfortable patterns:
+- <strong>Challenge Prompting</strong>: "What evidence contradicts this mainstream view?"
+- <strong>Alternative Exploration</strong>: "Present three alternative interpretations of this data."
+- <strong>Assumption Testing</strong>: "What assumptions underlie this argument?"
+- <strong>Contrarian Investigation</strong>: "What do critics of this position argue, and why?"</p>
+<h2 id="focused-correction-over-information-overload">Focused Correction Over Information Overload<a class="headerlink" href="#focused-correction-over-information-overload" title="Link to this section">&para;</a></h2>
+<p>When research or writing goes off track, provide surgical intervention rather than starting over.</p>
+<p><strong>Instead of:</strong> "This analysis seems superficial. Please provide more thorough research."
+<strong>Try:</strong> "Your analysis focuses on economic impacts but doesn't address social consequences. Research how these economic changes specifically affect community structures."</p>
+<p>Effective correction:
+- Preserves valid research already completed
+- Focuses attention on specific gaps or weaknesses
+- Builds understanding of what makes research thorough
+- Maintains progress without discouraging restart</p>
+<p>Common error patterns in research tasks:
+- <strong>Confirmation Bias</strong>: Seeking sources that support initial assumptions
+- <strong>Surface-Level Analysis</strong>: Summarizing sources without deeper synthesis
+- <strong>Source Imbalance</strong>: Overrelying on easily accessible information
+- <strong>Argument Weakness</strong>: Accepting claims without examining evidence quality
+- <strong>Scope Creep</strong>: Expanding topics without deepening analysis</p>
+<h2 id="conclusion-building-analytical-momentum">Conclusion: Building Analytical Momentum<a class="headerlink" href="#conclusion-building-analytical-momentum" title="Link to this section">&para;</a></h2>
+<p>The bicycle analogy reveals that effective instruction builds genuine competence through focused, sequential guidance. The current tendency toward comprehensive prompting mirrors ineffective bicycle instruction—overwhelming systems leads to shallow results.</p>
+<p><strong>Research Best Practices:</strong>
+- <strong>Sequential Task Structure</strong>: Break research into discrete, manageable steps
+- <strong>Information Precision</strong>: Provide exactly needed sources and context
+- <strong>Targeted Guidance</strong>: Address specific research gaps, not general quality
+- <strong>Progressive Complexity</strong>: Build from simple to sophisticated analysis
+- <strong>Confirmation Valley Awareness</strong>: Challenge comfortable but limiting perspectives</p>
+<p>The goal isn't perfect prompts but instruction sequences that build genuine research and writing capabilities. Just as effective bicycle instruction creates confident cyclists who can navigate any terrain, focused research instruction creates LLM interactions capable of tackling sophisticated topics with depth and insight.</p>
+<p>The apparent inefficiency of sequential instruction pays dividends in more thorough, nuanced research that produces genuinely valuable reports and analyses. Whether for academic papers, business reports, or policy briefs, the difference between effective and ineffective LLM use lies in applying patient, focused, sequential instruction principles.</p>
+<hr />
+<p><em>Teaching, whether of children or LLMs, builds competence that transcends immediate context. The best instruction creates capable research partners that can tackle any topic with rigor.</em></p>
+<hr />
+<p><strong>AI Attribution</strong>: This article was written with the assistance of Claude, an AI assistant created by Anthropic.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is currently working at Samsung Design Innovation Center, France. You can connect with him on <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p></div>
+
+    <!-- References -->
+    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/interactive-bg.js"></script>
+    <script src="../js/theme-switcher.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

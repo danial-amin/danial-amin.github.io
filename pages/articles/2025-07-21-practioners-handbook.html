@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Prompt Practitioner's Handbook - Heuristics for Better Industry Research - Danial Amin</title>
+    <meta name="description" content="Effective LLM prompting for industry research isn't about perfect instructions—it's about applying battle-tested heuristics that consistently produce actionable insights. These practical principles transform generic AI interactions into focused research partnerships.">
+    <meta name="keywords" content="llm bias evaluation objectivity generativeAI fair-AI, food for thought">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="The Prompt Practitioner's Handbook - Heuristics for Better Industry Research">
+    <meta property="og:description" content="Effective LLM prompting for industry research isn't about perfect instructions—it's about applying battle-tested heuristics that consistently produce actionable insights. These practical principles transform generic AI interactions into focused research partnerships.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2025-07-21-practioners-handbook.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Prompt Practitioner's Handbook - Heuristics for Better Industry Research">
+    <meta name="twitter:description" content="Effective LLM prompting for industry research isn't about perfect instructions—it's about applying battle-tested heuristics that consistently produce actionable insights. These practical principles transform generic AI interactions into focused research partnerships.">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom styles for this article -->
+    <style>
+        
+        
+        /* Article-specific styles */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        .article-content code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .article-content pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-content a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        .article-content a:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        .article-content strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .article-content em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--accent-hover);
+        }
+        
+        /* Author bio */
+        .author-bio {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .author-bio h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .author-bio p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-bio a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .author-bio a:hover {
+            text-decoration: underline;
+        }
+        
+        /* References */
+        .references {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .references h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .references ol {
+            counter-reset: reference-counter;
+        }
+        
+        .references li {
+            counter-increment: reference-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .references li::before {
+            content: "[" counter(reference-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Footnotes */
+        .footnotes {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .footnotes h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footnotes ol {
+            counter-reset: footnote-counter;
+        }
+        
+        .footnotes li {
+            counter-increment: footnote-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .footnotes li::before {
+            content: "[" counter(footnote-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .article-content {
+                padding: 1rem 0.5rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Research</span>
+                    <span class="article-date">2025-07-21</span>
+                    <span class="article-read-time">10 min read</span>
+                </div>
+                <h1 class="article-title">The Prompt Practitioner's Handbook - Heuristics for Better Industry Research</h1>
+                <p class="article-excerpt">Effective LLM prompting for industry research isn't about perfect instructions—it's about applying battle-tested heuristics that consistently produce actionable insights. These practical principles transform generic AI interactions into focused research partnerships.</p>
+                <div class="article-tags">
+                    <span class="tag">llm bias evaluation objectivity generativeAI fair-AI</span><span class="tag">food for thought</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+    <li><a href="#the-specificity-principle">The Specificity Principle</a></li>
+<li><a href="#the-constraint-framework">The Constraint Framework</a></li>
+<li><a href="#the-evidence-demand">The Evidence Demand</a></li>
+<li><a href="#the-iteration-protocol">The Iteration Protocol</a></li>
+
+        </ul>
+    </div>
+    
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>After years of crafting prompts for industry reports across technology, finance, and engineering sectors, a pattern emerges: <strong>the difference between mediocre and exceptional LLM research output isn't sophisticated prompt engineering. Rather, it's consistently applying simple heuristics that most people ignore.</strong></p>
+<p>Great prompting for industry research follows predictable principles. While each project has unique requirements, the underlying heuristics remain constant. These aren't abstract theories but practical rules distilled from thousands of research interactions that consistently separate actionable insights from generic AI responses.</p>
+<p>The best industry researchers using LLMs don't rely on prompt templates or complex frameworks. They internalize core heuristics that guide every interaction, ensuring that each prompt moves them closer to meaningful business intelligence rather than impressive-sounding fluff.</p>
+<div class="key-insight">
+<strong>Core Truth:</strong> Effective research prompting is about constraint, not creativity. The best prompts severely limit what the LLM can say, forcing it to produce precise, evidence-backed insights rather than expansive generalities.
+</div>
+
+<h2 id="the-specificity-principle">The Specificity Principle<a class="headerlink" href="#the-specificity-principle" title="Link to this section">&para;</a></h2>
+<p>Generic prompts produce generic research. The most common mistake in industry research is asking LLMs for broad analysis when specific questions yield actionable answers.</p>
+<p><strong>Instead of:</strong> "Analyze the competitive landscape in renewable energy."<br>
+<strong>Try:</strong> "Identify the three companies that gained the most market share in utility-scale solar installations in the US between 2022-2024, and explain their specific competitive advantages."</p>
+<p>The specificity principle operates through three mechanisms:</p>
+<p><strong>Narrow Scope</strong>: Limit analysis to specific timeframes, geographies, or market segments<br>
+<strong>Precise Metrics</strong>: Ask for exact numbers, percentages, or rankings rather than general trends<br>
+<strong>Concrete Examples</strong>: Demand specific companies, products, or case studies rather than abstract categories</p>
+<div class="heuristic-box">
+<strong>Heuristic #1:</strong> If your prompt could apply to any industry or time period, it's too generic. Good research prompts contain at least three specific constraints that narrow the scope to actionable intelligence.
+</div>
+
+<h3 id="the-context-sandwich-method">The Context Sandwich Method<a class="headerlink" href="#the-context-sandwich-method" title="Link to this section">&para;</a></h3>
+<p>Effective research prompts sandwich the core question between relevant context and output constraints:</p>
+<div class="prompt-example">
+Context: "The pharmaceutical industry is facing increased pressure from generic competition and regulatory scrutiny on drug pricing."
+
+Core Question: "What are the top three strategic responses large pharma companies have implemented in the past 18 months to maintain profitability?"
+
+Output Constraint: "For each strategy, provide: the specific companies using it, measurable outcomes where available, and implementation challenges they've faced."
+</div>
+
+<p>This structure ensures the LLM understands the business context while preventing rambling responses that lack specificity.</p>
+<h2 id="the-constraint-framework">The Constraint Framework<a class="headerlink" href="#the-constraint-framework" title="Link to this section">&para;</a></h2>
+<p>Constraints aren't limitations—they're focusing mechanisms that force LLMs to prioritize quality over quantity. The most effective research prompts impose multiple constraints that guide the response toward actionable insights.</p>
+<h3 id="the-three-layer-constraint-system">The Three-Layer Constraint System<a class="headerlink" href="#the-three-layer-constraint-system" title="Link to this section">&para;</a></h3>
+<p><strong>Format Constraints</strong>: Specify exactly how you want information structured
+- "Present findings as a ranked list with brief justifications"
+- "Organize by geographic region with subsections for market drivers"
+- "Use bullet points with quantified impacts where possible"</p>
+<p><strong>Evidence Constraints</strong>: Demand specific types of supporting information
+- "Cite specific financial results or growth metrics"
+- "Reference recent M&amp;A activity or partnerships"
+- "Include regulatory changes or policy impacts"</p>
+<p><strong>Scope Constraints</strong>: Define clear boundaries for the analysis
+- "Focus only on public companies with &gt;$1B revenue"
+- "Limit to developments in the past 12 months"
+- "Exclude early-stage startups and private companies"</p>
+<div class="heuristic-box">
+<strong>Heuristic #2:</strong> The best research prompts feel restrictive. If your prompt gives the LLM too much freedom, you'll get creative writing instead of business intelligence.
+</div>
+
+<h3 id="the-exclusion-technique">The Exclusion Technique<a class="headerlink" href="#the-exclusion-technique" title="Link to this section">&para;</a></h3>
+<p>Explicitly stating what you don't want often produces better results than only stating what you do want:</p>
+<div class="prompt-example">
+"Analyze supply chain disruptions in semiconductor manufacturing. Do NOT include: general COVID-19 impacts, theoretical future scenarios, or companies with <$100M revenue. DO focus on: specific bottlenecks, company-level responses, and measurable timeline impacts."
+</div>
+
+<p>This prevents LLMs from defaulting to commonly discussed but less relevant information.</p>
+<h2 id="the-evidence-demand">The Evidence Demand<a class="headerlink" href="#the-evidence-demand" title="Link to this section">&para;</a></h2>
+<p>Industry research requires evidence-backed conclusions, not plausible-sounding speculation. The evidence demand principle ensures every claim can be traced to specific sources or verifiable information.</p>
+<h3 id="the-according-to-requirement">The "According to" Requirement<a class="headerlink" href="#the-according-to-requirement" title="Link to this section">&para;</a></h3>
+<p>Force the LLM to attribute claims to specific sources:</p>
+<p><strong>Weak</strong>: "The SaaS market is experiencing rapid growth."
+<strong>Strong</strong>: "According to [specific report/data], SaaS revenue grew X% in [timeframe], driven by [specific factors]."</p>
+<div class="prompt-example">
+"Identify emerging trends in fintech adoption among small businesses. For each trend, specify: the data source, sample size or methodology, timeframe of the study, and which specific business segments show strongest adoption."
+</div>
+
+<h3 id="the-quantification-demand">The Quantification Demand<a class="headerlink" href="#the-quantification-demand" title="Link to this section">&para;</a></h3>
+<p>Whenever possible, require numerical evidence:</p>
+<ul>
+<li>Market size figures with growth rates</li>
+<li>Adoption percentages with timelines</li>
+<li>Revenue impacts with year-over-year comparisons</li>
+<li>User base numbers with geographic breakdowns</li>
+</ul>
+<div class="heuristic-box">
+<strong>Heuristic #3:</strong> If the LLM can't provide numbers, names, or dates to support a claim, the claim probably isn't valuable for industry research. Demand specificity at every assertion.
+</div>
+
+<h3 id="the-source-separation-technique">The Source Separation Technique<a class="headerlink" href="#the-source-separation-technique" title="Link to this section">&para;</a></h3>
+<p>Ask the LLM to distinguish between different types of evidence:</p>
+<div class="prompt-example">
+"Separate your analysis into: (1) Data from industry reports and surveys, (2) Information from company financial filings, (3) Insights from executive interviews or statements, (4) Analysis from consulting firm research. Label each section clearly."
+</div>
+
+<p>This helps evaluate the reliability and relevance of different information sources.</p>
+<h2 id="the-iteration-protocol">The Iteration Protocol<a class="headerlink" href="#the-iteration-protocol" title="Link to this section">&para;</a></h2>
+<p>Great industry research emerges through iterative refinement, not single perfect prompts. The iteration protocol treats each LLM response as a foundation for deeper investigation rather than a final answer.</p>
+<h3 id="the-drill-down-strategy">The Drill-Down Strategy<a class="headerlink" href="#the-drill-down-strategy" title="Link to this section">&para;</a></h3>
+<p>Start broad, then systematically narrow focus based on initial findings:</p>
+<p><strong>Round 1</strong>: "What are the major challenges facing electric vehicle manufacturers?"<br>
+<strong>Round 2</strong>: "You mentioned battery supply constraints. Which specific materials are most problematic and why?"<br>
+<strong>Round 3</strong>: "For lithium shortages specifically, which companies have developed alternative sourcing strategies?"</p>
+<h3 id="the-contradiction-check">The Contradiction Check<a class="headerlink" href="#the-contradiction-check" title="Link to this section">&para;</a></h3>
+<p>Actively test the reliability of LLM outputs by requesting contrary evidence:</p>
+<div class="prompt-example">
+"You identified three growth drivers for cloud adoption. Now provide three factors that might slow or reverse this trend. Which evidence is stronger—the growth drivers or the limiting factors?"
+</div>
+
+<h3 id="the-cross-sector-validation">The Cross-Sector Validation<a class="headerlink" href="#the-cross-sector-validation" title="Link to this section">&para;</a></h3>
+<p>Verify insights by examining similar patterns in adjacent industries:</p>
+<div class="prompt-example">
+"You've identified subscription fatigue in streaming services. Do similar patterns exist in SaaS, news media, or fitness apps? What does this suggest about the sustainability of subscription models generally?"
+</div>
+
+<div class="heuristic-box">
+<strong>Heuristic #4:</strong> Never accept the first response as complete. The best insights emerge when you push the LLM to defend, refine, or contradict its initial analysis.
+</div>
+
+<h2 id="implementation-strategy">Implementation Strategy<a class="headerlink" href="#implementation-strategy" title="Link to this section">&para;</a></h2>
+<p>Applying these heuristics requires systematic practice rather than occasional use. The most effective approach involves developing standard question templates that embed these principles:</p>
+<p><strong>For Market Analysis</strong>: "In [specific market segment] during [timeframe], which [number] companies achieved [specific metric], what [measurable strategies] did they use, and what [quantified outcomes] resulted?"</p>
+<p><strong>For Competitive Intelligence</strong>: "Among [defined competitor set] in [geographic/product scope], what [specific competitive moves] occurred in [timeframe], with what [measurable impacts] on [specific metrics]?"</p>
+<p><strong>For Trend Analysis</strong>: "What evidence from [source types] indicates [specific trend] is [strengthening/weakening] in [market segment] during [timeframe], and which [specific indicators] provide the strongest signal?"</p>
+<p>The goal isn't perfect prompts but consistent application of focusing heuristics that transform generic LLM capabilities into sharp research tools. These principles work because they align with how business decisions are actually made—based on specific, evidence-backed insights rather than general observations.</p>
+<hr />
+<p><strong>The Bottom Line:</strong> Effective LLM research prompting is a discipline, not an art. Master these four heuristics—specificity, constraints, evidence demands, and iteration—and transform your industry research from impressive-sounding summaries into actionable business intelligence.</p>
+<p><strong>AI Attribution</strong>: This article was written with the assistance of Claude, an AI assistant created by Anthropic, demonstrating the prompting principles it advocates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is currently working at Samsung Design Innovation Center, France. You can connect with him on <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p></div>
+
+    <!-- References -->
+    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/interactive-bg.js"></script>
+    <script src="../js/theme-switcher.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

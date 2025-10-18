@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG, Finetuning, and Prompt Engineering - Extending the Capabilities of LLMs - Danial Amin</title>
+    <meta name="description" content="Large Language Models have revolutionized AI with their ability to understand and generate human-like text. However, these models have inherent limitations in their knowledge and capabilities. This comprehensive guide explores three key techniques that have emerged to address these limitations and extend LLM capabilities.">
+    <meta name="keywords" content="llm rag finetuning prompt-engineering ai-capabilities">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="RAG, Finetuning, and Prompt Engineering - Extending the Capabilities of LLMs">
+    <meta property="og:description" content="Large Language Models have revolutionized AI with their ability to understand and generate human-like text. However, these models have inherent limitations in their knowledge and capabilities. This comprehensive guide explores three key techniques that have emerged to address these limitations and extend LLM capabilities.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2025-03-26-RAG-works.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RAG, Finetuning, and Prompt Engineering - Extending the Capabilities of LLMs">
+    <meta name="twitter:description" content="Large Language Models have revolutionized AI with their ability to understand and generate human-like text. However, these models have inherent limitations in their knowledge and capabilities. This comprehensive guide explores three key techniques that have emerged to address these limitations and extend LLM capabilities.">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom styles for this article -->
+    <style>
+        
+        
+        /* Article-specific styles */
+        .article-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        
+        .article-content h3 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        .article-content code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .article-content pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .article-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .article-content a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.3s ease;
+        }
+        
+        .article-content a:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        .article-content strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .article-content em {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .toc a:hover {
+            color: var(--accent-hover);
+        }
+        
+        /* Author bio */
+        .author-bio {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .author-bio h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .author-bio p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .author-bio a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .author-bio a:hover {
+            text-decoration: underline;
+        }
+        
+        /* References */
+        .references {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .references h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .references ol {
+            counter-reset: reference-counter;
+        }
+        
+        .references li {
+            counter-increment: reference-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .references li::before {
+            content: "[" counter(reference-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Footnotes */
+        .footnotes {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        .footnotes h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .footnotes ol {
+            counter-reset: footnote-counter;
+        }
+        
+        .footnotes li {
+            counter-increment: footnote-counter;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+        
+        .footnotes li::before {
+            content: "[" counter(footnote-counter) "]";
+            font-weight: bold;
+            color: var(--accent);
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .article-content {
+                padding: 1rem 0.5rem;
+            }
+            
+            .article-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .article-content h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Research</span>
+                    <span class="article-date">2025-03-26</span>
+                    <span class="article-read-time">10 min read</span>
+                </div>
+                <h1 class="article-title">RAG, Finetuning, and Prompt Engineering - Extending the Capabilities of LLMs</h1>
+                <p class="article-excerpt">Large Language Models have revolutionized AI with their ability to understand and generate human-like text. However, these models have inherent limitations in their knowledge and capabilities. This comprehensive guide explores three key techniques that have emerged to address these limitations and extend LLM capabilities.</p>
+                <div class="article-tags">
+                    <span class="tag">llm rag finetuning prompt-engineering ai-capabilities</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+    <li><a href="#retrieval-augmented-generation-rag">Retrieval-Augmented Generation (RAG)</a></li>
+<li><a href="#finetuning">Finetuning</a></li>
+<li><a href="#prompt-engineering">Prompt Engineering</a></li>
+<li><a href="#similarities-between-the-approaches">Similarities Between the Approaches</a></li>
+<li><a href="#key-differences">Key Differences</a></li>
+<li><a href="#choosing-the-right-approach">Choosing the Right Approach</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+
+        </ul>
+    </div>
+    
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Large Language Models (LLMs) have revolutionized artificial intelligence with their ability to understand and generate human-like text. However, these models have inherent limitations in their knowledge and capabilities. Three key techniques have emerged over the time to address these limitations and extend LLM capabilities: Retrieval-Augmented Generation (RAG), finetuning, and prompt engineering.</p>
+<div class="key-insight">
+<strong>Core Challenge:</strong> While LLMs possess remarkable general capabilities, they face temporal, domain, and contextual boundaries that limit their effectiveness in specialized applications. The solution lies in strategic enhancement techniques that address these specific limitations.
+</div>
+
+<p>This comprehensive guide explores each approach, their purposes, and how they compare in extending LLM capabilities beyond their inherent constraints.</p>
+<h2 id="retrieval-augmented-generation-rag">Retrieval-Augmented Generation (RAG)<a class="headerlink" href="#retrieval-augmented-generation-rag" title="Link to this section">&para;</a></h2>
+<p>RAG enhances LLMs by connecting them to external knowledge sources, enabling them to access information beyond their training data.</p>
+<h3 id="how-rag-works">How RAG Works<a class="headerlink" href="#how-rag-works" title="Link to this section">&para;</a></h3>
+<div class="technique-diagram">
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   User Query    │───▶│ Knowledge Base  │───▶│ Retrieved Info  │
+│                 │    │   Retrieval     │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                              │                         │
+                              ▼                         ▼
+                    ┌─────────────────┐    ┌─────────────────┐
+                    │ Context         │───▶│ Augmented       │
+                    │ Integration     │    │ Generation      │
+                    └─────────────────┘    └─────────────────┘
+</div>
+
+<p><strong>Knowledge Retrieval</strong>: When a user asks a question, RAG searches an external knowledge base for relevant information.</p>
+<p><strong>Context Integration</strong>: The retrieved information is provided to the LLM as additional context.</p>
+<p><strong>Augmented Generation</strong>: The LLM uses this additional context alongside its internal knowledge to generate a response.</p>
+<h3 id="why-rag-matters">Why RAG Matters<a class="headerlink" href="#why-rag-matters" title="Link to this section">&para;</a></h3>
+<div class="comparison-highlight">
+<strong>Addressing Temporal and Domain Boundaries:</strong> RAG directly addresses the temporal and domain boundary limitations by connecting LLMs to up-to-date information sources.
+</div>
+
+<p>RAG enables models to:</p>
+<ul>
+<li>Provide answers based on current information beyond their training cutoff</li>
+<li>Access specialized knowledge in domains where the model lacks depth</li>
+<li>Cite specific sources, increasing response reliability and transparency</li>
+</ul>
+<h2 id="finetuning">Finetuning<a class="headerlink" href="#finetuning" title="Link to this section">&para;</a></h2>
+<p>Finetuning adapts pre-trained LLMs to specific domains, tasks, or styles by additional training on specialized datasets.</p>
+<h3 id="how-finetuning-works">How Finetuning Works<a class="headerlink" href="#how-finetuning-works" title="Link to this section">&para;</a></h3>
+<div class="technique-box">
+<strong>Process Overview:</strong> Transform general-purpose models into domain specialists through targeted training
+</div>
+
+<p><strong>Starting Point</strong>: Begin with a pre-trained LLM that has general knowledge.</p>
+<p><strong>Additional Training</strong>: Continue training the model on carefully selected datasets relevant to the target domain or task.</p>
+<p><strong>Parameter Adjustment</strong>: The model's parameters are adjusted to optimize performance for the specific application.</p>
+<h3 id="why-finetuning-matters">Why Finetuning Matters<a class="headerlink" href="#why-finetuning-matters" title="Link to this section">&para;</a></h3>
+<p>Finetuning addresses the domain boundary challenges by:</p>
+<ul>
+<li>Deepening the model's expertise in specific knowledge areas</li>
+<li>Teaching the model to follow particular formats, styles, or processes</li>
+<li>Aligning the model's outputs with specific organizational requirements or values</li>
+<li>Improving performance on specialized tasks like medical diagnosis or legal analysis</li>
+</ul>
+<h2 id="prompt-engineering">Prompt Engineering<a class="headerlink" href="#prompt-engineering" title="Link to this section">&para;</a></h2>
+<p>Prompt engineering is the art and science of crafting effective instructions to guide LLM behavior and outputs.</p>
+<h3 id="how-prompt-engineering-works">How Prompt Engineering Works<a class="headerlink" href="#how-prompt-engineering-works" title="Link to this section">&para;</a></h3>
+<div class="technique-box">
+<strong>Approach:</strong> Strategic instruction design to optimize model performance without modification
+</div>
+
+<p><strong>Instruction Design</strong>: Carefully crafting the wording, structure, and guidance given to the LLM</p>
+<p><strong>Context Framing</strong>: Providing relevant background information and setting the stage for the response</p>
+<p><strong>Response Shaping</strong>: Using techniques like few-shot examples or specific formatting requirements</p>
+<h3 id="why-prompt-engineering-matters">Why Prompt Engineering Matters<a class="headerlink" href="#why-prompt-engineering-matters" title="Link to this section">&para;</a></h3>
+<p>Prompt engineering addresses contextual boundaries by:</p>
+<ul>
+<li>Helping models understand the specific requirements of a task</li>
+<li>Guiding models to produce outputs in desired formats or styles</li>
+<li>Encouraging more thorough reasoning or specific analytical approaches</li>
+<li>Improving response consistency and reliability without changing the model itself</li>
+</ul>
+<h2 id="similarities-between-the-approaches">Similarities Between the Approaches<a class="headerlink" href="#similarities-between-the-approaches" title="Link to this section">&para;</a></h2>
+<p>All three techniques share important commonalities:</p>
+<p><strong>Knowledge Enhancement</strong>: Each approach helps LLMs overcome inherent knowledge limitations, though through different mechanisms.</p>
+<p><strong>Performance Optimization</strong>: All three aim to improve the quality, relevance, and reliability of LLM outputs.</p>
+<p><strong>Specialization</strong>: Each technique allows for adapting general-purpose LLMs to more specialized applications.</p>
+<p><strong>Boundary Management</strong>: All address the challenge of knowledge boundaries described in contemporary LLM research.</p>
+<h2 id="key-differences">Key Differences<a class="headerlink" href="#key-differences" title="Link to this section">&para;</a></h2>
+<p>Despite their similarities, these approaches differ significantly:</p>
+<p><strong>Implementation Complexity</strong>: Prompt engineering requires minimal technical infrastructure, while RAG needs retrieval systems and finetuning requires substantial computational resources.</p>
+<p><strong>Model Modification</strong>: Finetuning changes the model's parameters, RAG adds external components, and prompt engineering works with the model as-is.</p>
+<p><strong>Adaptability</strong>: Prompt engineering offers the highest flexibility for quick adjustments, RAG allows dynamic knowledge updates, and finetuning provides deep but less flexible specialization.</p>
+<p><strong>Knowledge Recency</strong>: RAG provides the most current information access, prompt engineering can incorporate recent context, and finetuning is limited to training data vintage.</p>
+<h2 id="choosing-the-right-approach">Choosing the Right Approach<a class="headerlink" href="#choosing-the-right-approach" title="Link to this section">&para;</a></h2>
+<p>The optimal approach depends on specific requirements:</p>
+<div class="comparison-highlight">
+<strong>Decision Framework:</strong> Select techniques based on your specific needs, resources, and constraints
+</div>
+
+<p><strong>Use RAG when</strong>: You need access to current information, specialized documents, or want to ensure factual accuracy with citations.</p>
+<p><strong>Use finetuning when</strong>: You need deep specialization in a particular domain, consistent adherence to specific patterns, or improved performance on specialized tasks.</p>
+<p><strong>Use prompt engineering when</strong>: You need flexibility, have limited technical resources, or want to quickly adapt how the model responds without changing its underlying capabilities.</p>
+<p><strong>Use combinations when</strong>: Most real-world applications benefit from combined approaches, such as using prompt engineering with a finetuned model connected to a RAG system.</p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Link to this section">&para;</a></h2>
+<p>RAG, finetuning, and prompt engineering represent complementary approaches to extending LLM capabilities and addressing their inherent knowledge boundaries. While each approach has its strengths and limitations, they all contribute to making LLMs more useful, reliable, and applicable to real-world problems.</p>
+<div class="key-insight">
+<strong>Future Perspective:</strong> As these technologies continue to evolve, we can expect even more sophisticated ways to enhance LLM performance and overcome their limitations through strategic combination of these techniques.
+</div>
+
+<p>Understanding these techniques is essential for organizations looking to deploy LLMs effectively. By selecting the right approach—or combination of approaches—for specific use cases, organizations can maximize the value of these powerful AI tools while managing their limitations appropriately.</p>
+<hr />
+<p><em>How has your experience been with these LLM enhancement techniques? Which approach has proven most effective for your specific use cases? Share your insights in the comments below.</em></p>
+<hr />
+<p><em>This work has been prepared in collaboration with a Generative AI language model (LLM), which contributed to drafting and refining portions of the text under the author’s direction.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is currently working at Samsung Design Innovation Center, France. You can connect with him on <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p></div>
+
+    <!-- References -->
+    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/interactive-bg.js"></script>
+    <script src="../js/theme-switcher.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
