@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,11 +23,11 @@
             </div>
             <div class="nav-menu">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="./projects.html" class="nav-link">Projects</a>
+                <a href="./blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
-                    <span class="theme-icon">ðŸŒ™</span>
+                    <span class="theme-icon">🌙</span>
                 </button>
             </div>
             <div class="hamburger" id="hamburger">
@@ -42,7 +42,7 @@
     <section class="blog-header">
         <div class="container">
             <div class="blog-hero">
-                <span class="section-badge">ðŸ“š Insights & Research</span>
+                <span class="section-badge">📚 Insights & Research</span>
                 <h1 class="section-title">Latest Articles</h1>
                 <p class="blog-description">
                     Exploring the frontiers of AI, sharing research insights, and discussing the latest trends 
@@ -123,25 +123,40 @@
             border-color: var(--accent-color);
         }
         
-        /* Optimize grid layout for more cards per row */
+        /* Grid layout - exactly 3 cards per row */
         .blog-preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
         }
         
-        @media (min-width: 1200px) {
+        @media (max-width: 1024px) {
             .blog-preview-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1.25rem;
             }
         }
         
-        @media (min-width: 1400px) {
+        @media (max-width: 768px) {
             .blog-preview-grid {
-                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                grid-template-columns: 1fr;
                 gap: 1rem;
             }
+        }
+        
+        /* Ensure consistent card heights */
+        .blog-preview-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blog-preview-excerpt {
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
     </style>
 
@@ -155,7 +170,7 @@
                     <article class="blog-preview-card" data-category="ai-research">
                         <div class="blog-preview-meta">
                             <span class="blog-date">October 12, 2025</span>
-                            <span class="blog-category">Featured â€¢ AI Research</span>
+                            <span class="blog-category">Featured • AI Research</span>
                         </div>
                         <h3 class="blog-preview-title">The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security</h3>
                         <p class="blog-preview-excerpt">
@@ -163,8 +178,8 @@
                         </p>
                         <div class="blog-preview-tags">
                             <span class="tag">generativeAI</span>
-                            <span class="tag">AI-security</span>
-                            <span class="tag">data-poisoning</span>
+                            <span class="tag">AI Security</span>
+                            <span class="tag">Data Poisoning</span>
                             <span class="tag">backdoors</span>
                         </div>
                         <div class="read-more-link">
@@ -174,7 +189,7 @@
                             </svg>
                         </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card 1 -->
                 <a href="articles/2025-09-25-personality-in-llm.html" class="blog-card-link">
@@ -199,7 +214,7 @@
                             </svg>
                         </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card 2 -->
                 <a href="articles/2025-09-22-llm-fossilized.html" class="blog-card-link">
@@ -224,10 +239,10 @@
                             </svg>
                         </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card 3 -->
-                <a href="articles/2025-07-26-ai-safety-pt2.html" class="blog-card-link">
+                <a href="articles/2025-07-26-AI Safety-pt2.html" class="blog-card-link">
                     <article class="blog-preview-card" data-category="ai-research">
                         <div class="blog-preview-meta">
                             <span class="blog-date">July 26, 2025</span>
@@ -238,9 +253,9 @@
                             Continuing our exploration of AI safety, this article examines advanced alignment techniques including constitutional AI, debate, and interpretability methods that could help ensure AI systems remain beneficial...
                         </p>
                         <div class="blog-preview-tags">
-                            <span class="tag">ai-safety</span>
+                            <span class="tag">AI Safety</span>
                             <span class="tag">alignment</span>
-                            <span class="tag">constitutional-ai</span>
+                            <span class="tag">Constitutional AI</span>
                         </div>
                         <div class="read-more-link">
                             Read Article
@@ -249,10 +264,10 @@
                             </svg>
                         </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
-                <a href="articles/2025-07-25-ai-safety-pt1.html" class="blog-card-link">
+                <a href="articles/2025-07-25-AI Safety-pt1.html" class="blog-card-link">
                     <article class="blog-preview-card" data-category="ai-research">
                         <div class="blog-preview-meta">
                         <span class="blog-date">July 25, 2025</span>
@@ -263,18 +278,18 @@
                             As AI systems become more powerful, ensuring their safety and alignment with human values becomes increasingly critical. This article explores the fundamental challenges and approaches to AI safety...
                         </p>
                     <div class="blog-preview-tags">
-                        <span class="tag">ai-safety</span>
+                        <span class="tag">AI Safety</span>
                         <span class="tag">alignment</span>
                         <span class="tag">values</span>
                             </div>
-                    <a href="articles/2025-07-25-ai-safety-pt1.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-23-wrong-evaluation.html" class="blog-card-link">
@@ -292,14 +307,14 @@
                         <span class="tag">metrics</span>
                         <span class="tag">assessment</span>
                             </div>
-                    <a href="articles/2025-07-23-wrong-evaluation.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-22-digital-twin.html" class="blog-card-link">
@@ -313,18 +328,18 @@
                             Digital twins represent a powerful convergence of AI, IoT, and simulation technologies. This article explores how AI-enhanced digital twins are transforming industries from manufacturing to healthcare...
                         </p>
                     <div class="blog-preview-tags">
-                        <span class="tag">digital-twins</span>
+                        <span class="tag">Digital Twins</span>
                         <span class="tag">simulation</span>
                         <span class="tag">iot</span>
                             </div>
-                    <a href="articles/2025-07-22-digital-twin.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-21-practioners-handbook.html" class="blog-card-link">
@@ -340,16 +355,16 @@
                     <div class="blog-preview-tags">
                         <span class="tag">practitioner</span>
                         <span class="tag">skills</span>
-                        <span class="tag">best-practices</span>
+                        <span class="tag">Best Practices</span>
                             </div>
-                    <a href="articles/2025-07-21-practioners-handbook.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-13-llms_as_evaluators.html" class="blog-card-link">
@@ -367,14 +382,14 @@
                         <span class="tag">evaluation</span>
                         <span class="tag">assessment</span>
                             </div>
-                    <a href="articles/2025-07-13-llms_as_evaluators.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-10-red_teaming.html" class="blog-card-link">
@@ -388,18 +403,18 @@
                             Red teaming has emerged as a crucial practice for identifying vulnerabilities in AI systems. This article examines how adversarial testing can help improve AI safety and robustness...
                         </p>
                     <div class="blog-preview-tags">
-                        <span class="tag">red-teaming</span>
+                        <span class="tag">Red Teaming</span>
                         <span class="tag">security</span>
                         <span class="tag">adversarial</span>
                             </div>
-                    <a href="articles/2025-07-10-red_teaming.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-09-llm_bias.html" class="blog-card-link">
@@ -417,14 +432,14 @@
                         <span class="tag">fairness</span>
                         <span class="tag">inclusion</span>
                             </div>
-                    <a href="articles/2025-07-09-llm_bias.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                         </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
+                </div>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-07-llm-usage.html" class="blog-card-link">
@@ -442,409 +457,238 @@
                         <span class="tag">optimization</span>
                         <span class="tag">cost</span>
                     </div>
-                    <a href="articles/2025-07-07-llm-usage.html" class="read-more-link">
+                    <div class="read-more-link">
                         Read Article
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                         </svg>
-                    </a>
+                    </div>
                     </article>
-                </a>
-
-                <!-- Blog Card 12 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-07-02-representation.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">The Representation Problem in AI - Beyond Bias</h3>
-                        <p class="blog-description">
-                            AI systems often fail to adequately represent diverse perspectives and experiences. This article explores how representation issues go beyond bias to affect the fundamental design of AI systems...
-                        </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">7</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-07-02</span>
-                                <span class="metric-label">Published</span>
-                            </div>
-                        </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">representation</span>
-                            <span class="tech-tag">diversity</span>
-                            <span class="tech-tag">inclusion</span>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Blog Card 13 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-06-30-personality_ai.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-07-02-representation.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">July 02, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">Personality in AI - The Next Frontier</h3>
-                        <p class="blog-description">
-                            As AI systems become more sophisticated, the question of personality and character becomes increasingly relevant. This article explores how AI personality could shape human-AI interaction...
+                        <h3 class="blog-preview-title">The Representation Problem in AI - Beyond Bias</h3>
+                        <p class="blog-preview-excerpt">
+                            AI systems often fail to adequately represent diverse perspectives and experiences. This article explores how representa...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">6</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-06-30</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">representation</span>
+                            <span class="tag">diversity</span>
+                            <span class="tag">inclusion</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">personality</span>
-                            <span class="tech-tag">ai</span>
-                            <span class="tech-tag">interaction</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 14 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-06-29-yes-man.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-06-30-personality_ai.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">June 30, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">The "Yes Man" Problem - When AI Always Agrees</h3>
-                        <p class="blog-description">
-                            AI systems trained to be helpful and agreeable can develop a "yes man" problem, always agreeing with users rather than providing critical feedback. This article examines the implications and solutions...
+                        <h3 class="blog-preview-title">Personality in AI - The Next Frontier</h3>
+                        <p class="blog-preview-excerpt">
+                            As AI systems become more sophisticated, the question of personality and character becomes increasingly relevant. This a...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">5</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-06-29</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">personality</span>
+                            <span class="tag">ai</span>
+                            <span class="tag">interaction</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">alignment</span>
-                            <span class="tech-tag">feedback</span>
-                            <span class="tech-tag">critical-thinking</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 15 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-06-27-AI-Ethics.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-06-29-yes-man.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">June 29, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems</h3>
-                        <p class="blog-description">
-                            Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Ireland, and France, I've witnessed firsthand how the current AI development paradigm creates unequal relationships between technology-producing and technology-consuming regions...
+                        <h3 class="blog-preview-title">The "Yes Man" Problem - When AI Always Agrees</h3>
+                        <p class="blog-preview-excerpt">
+                            AI systems trained to be helpful and agreeable can develop a "yes man" problem, always agreeing with users rather than p...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">12</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-06-27</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">alignment</span>
+                            <span class="tag">feedback</span>
+                            <span class="tag">Critical Thinking</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">ai</span>
-                            <span class="tech-tag">ethics</span>
-                            <span class="tech-tag">global-south</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 16 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-04-15-Specialist-vs-Generalist.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-06-27-AI-Ethics.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">June 27, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">Specialist vs Generalist - The AI Career Dilemma</h3>
-                        <p class="blog-description">
-                            In the rapidly evolving AI landscape, professionals face a critical choice: specialize deeply in one area or maintain broad generalist knowledge. This article explores the trade-offs and strategies for both paths...
+                        <h3 class="blog-preview-title">The Hidden Costs of AI Development - What I've Learned Working Across Global Tech Ecosystems</h3>
+                        <p class="blog-preview-excerpt">
+                            Through my work as an AI Tech Lead across startups, enterprises, and government projects spanning Pakistan, the US, Irel...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">9</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-04-15</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">ai</span>
+                            <span class="tag">ethics</span>
+                            <span class="tag">Global South</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">career</span>
-                            <span class="tech-tag">specialization</span>
-                            <span class="tech-tag">generalist</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 17 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-03-26-RAG-works.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-04-15-Specialist-vs-Generalist.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">April 15, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">How RAG Actually Works - Beyond the Hype</h3>
-                        <p class="blog-description">
-                            Retrieval-Augmented Generation (RAG) has become a cornerstone of modern AI applications, but understanding how it actually works is crucial for effective implementation. This article breaks down the technical details...
+                        <h3 class="blog-preview-title">Specialist vs Generalist - The AI Career Dilemma</h3>
+                        <p class="blog-preview-excerpt">
+                            In the rapidly evolving AI landscape, professionals face a critical choice: specialize deeply in one area or maintain br...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">8</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-03-26</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">career</span>
+                            <span class="tag">specialization</span>
+                            <span class="tag">generalist</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">rag</span>
-                            <span class="tech-tag">retrieval</span>
-                            <span class="tech-tag">generation</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 18 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-03-05-expectations.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-03-26-RAG-works.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">March 26, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">Managing Expectations in AI Development</h3>
-                        <p class="blog-description">
-                            AI development is often characterized by unrealistic expectations and hype cycles. This article examines how to set appropriate expectations and manage stakeholder concerns in AI projects...
+                        <h3 class="blog-preview-title">How RAG Actually Works - Beyond the Hype</h3>
+                        <p class="blog-preview-excerpt">
+                            Retrieval-Augmented Generation (RAG) has become a cornerstone of modern AI applications, but understanding how it actual...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">6</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-03-05</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">rag</span>
+                            <span class="tag">retrieval</span>
+                            <span class="tag">generation</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">expectations</span>
-                            <span class="tech-tag">management</span>
-                            <span class="tech-tag">stakeholders</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 19 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-02-20-titans.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-03-05-expectations.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">March 05, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">Titans - The Next "Attention is All You Need" Moment for LLM Architecture</h3>
-                        <p class="blog-description">
-                            Google Research's new paper "Titans - Learning to Memorize at Test Time" may represent a watershed moment in AI architecture, addressing the fundamental scaling limitations that have plagued current LLM architectures...
+                        <h3 class="blog-preview-title">Managing Expectations in AI Development</h3>
+                        <p class="blog-preview-excerpt">
+                            AI development is often characterized by unrealistic expectations and hype cycles. This article examines how to set appr...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">10</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-02-20</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">expectations</span>
+                            <span class="tag">management</span>
+                            <span class="tag">stakeholders</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">titans-architecture</span>
-                            <span class="tech-tag">transformer-alternative</span>
-                            <span class="tech-tag">llm-scaling</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
                 </div>
 
-                <!-- Blog Card 20 -->
-                <div class="blog-card" data-category="ai-research">
-                    <div class="blog-image">
-                        <div class="blog-overlay">
-                            <div class="blog-links">
-                                <a href="articles/2025-01-28-deepseek.html" class="blog-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Read Article</span>
-                                </a>
-                            </div>
+                <!-- Blog Card -->
+                <a href="articles/2025-02-20-titans.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">February 20, 2025</span>
+                            <span class="blog-category">Ai Research</span>
                         </div>
-                        <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">ðŸ¤–</div>
-                        </div>
-                    </div>
-                    <div class="blog-content">
-                        <div class="blog-header">
-                            <div class="blog-type">Ai Research</div>
-                            <div class="blog-status">Published</div>
-                        </div>
-                        <h3 class="blog-title">DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know</h3>
-                        <p class="blog-description">
-                            The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While most discussions center around scaling parameters and computing power, DeepSeek's approach introduces a radical shift in how we think about model architecture and deployment efficiency...
+                        <h3 class="blog-preview-title">Titans - The Next "Attention is All You Need" Moment for LLM Architecture</h3>
+                        <p class="blog-preview-excerpt">
+                            Google Research's new paper "Titans - Learning to Memorize at Test Time" may represent a watershed moment in AI architec...
                         </p>
-                        <div class="blog-metrics">
-                            <div class="metric">
-                                <span class="metric-value">11</span>
-                                <span class="metric-label">Min Read</span>
-                            </div>
-                            <div class="metric">
-                                <span class="metric-value">2025-01-28</span>
-                                <span class="metric-label">Published</span>
-                            </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">Titans Architecture</span>
+                            <span class="tag">Transformer Alternative</span>
+                            <span class="tag">LLM Scaling</span>
                         </div>
-                        <div class="blog-tech">
-                            <span class="tech-tag">deepseek-r1</span>
-                            <span class="tech-tag">mixture-of-experts</span>
-                            <span class="tech-tag">parameter-activation</span>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
                         </div>
-                    </div>
+                    </article>
+                </div>
+
+                <!-- Blog Card -->
+                <a href="articles/2025-01-28-deepseek.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">January 28, 2025</span>
+                            <span class="blog-category">Ai Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know</h3>
+                        <p class="blog-preview-excerpt">
+                            The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While mo...
+                        </p>
+                        <div class="blog-preview-tags">
+                            <span class="tag">DeepSeek R1</span>
+                            <span class="tag">Mixture of Experts</span>
+                            <span class="tag">Parameter Activation</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
                 </div>
             </div>
         </div>
@@ -892,3 +736,4 @@
     <script src="../js/blog-filter.js"></script>
 </body>
 </html>
+

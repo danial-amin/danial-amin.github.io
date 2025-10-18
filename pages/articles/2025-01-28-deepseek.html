@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know - Danial Amin</title>
     <meta name="description" content="The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While most discussions center around scaling parameters and computing power, DeepSeek's approach introduces a radical shift in how we think about model architecture and deployment efficiency.">
-    <meta name="keywords" content="deepseek-r1 mixture-of-experts parameter-activation model-efficiency production-deployment">
+    <meta name="keywords" content="DeepSeek R1 Mixture of Experts Parameter Activation model-efficiency production-deployment">
     <meta name="author" content="Danial Amin">
     <meta property="og:title" content="DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know">
     <meta property="og:description" content="The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While most discussions center around scaling parameters and computing power, DeepSeek's approach introduces a radical shift in how we think about model architecture and deployment efficiency.">
@@ -33,7 +33,7 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 800px;
+            max-width: 100%;
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-medium);
         }
@@ -83,7 +83,7 @@
         /* Article Content with Semi-Opaque Overlay */
         .article-content {
             position: relative;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -104,7 +104,7 @@
         .article-body {
             position: relative;
             z-index: 1;
-            background: var(--card-bg);
+            background: rgba(var(--card-bg-rgb), 0.85);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
@@ -219,11 +219,17 @@
         .toc a {
             color: var(--accent);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
         }
         
         .toc a:hover {
             color: var(--accent-hover);
+            background: var(--accent);
+            color: white;
+            transform: translateX(4px);
         }
         
         /* Author bio */
@@ -341,8 +347,8 @@
             </div>
             <div class="nav-menu">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="./projects.html" class="nav-link">Projects</a>
+                <a href="./blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
                     <span class="theme-icon">ðŸŒ™</span>
@@ -368,7 +374,7 @@
                 <h1 class="article-title">DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know</h1>
                 <p class="article-excerpt">The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While most discussions center around scaling parameters and computing power, DeepSeek's approach introduces a radical shift in how we think about model architecture and deployment efficiency.</p>
                 <div class="article-tags">
-                    <span class="tag">deepseek-r1 mixture-of-experts parameter-activation model-efficiency production-deployment</span>
+                    <span class="tag">DeepSeek R1 Mixture of Experts Parameter Activation model-efficiency production-deployment</span>
                 </div>
             </div>
         </div>
@@ -401,9 +407,9 @@
             </div>
             <h1 class="article-title">DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know</h1>
             <div class="article-tags">
-                <span class="tag">deepseek-r1</span>
-                <span class="tag">mixture-of-experts</span>
-                <span class="tag">parameter-activation</span>
+                <span class="tag">DeepSeek R1</span>
+                <span class="tag">Mixture of Experts</span>
+                <span class="tag">Parameter Activation</span>
             </div>
         </div>
     </section>
@@ -421,7 +427,7 @@
 <p>This analysis explores the technical innovations and industry implications of DeepSeek R1's groundbreaking approach to parameter activation and model efficiency.</p>
 <h2 id="the-architecture-revolution">The Architecture Revolution</h2>
 <p>At its core, DeepSeek R1 leverages a Mixture of Experts (MoE) architecture that fundamentally redefines how we approach large-scale model deployment in production environments.</p>
-<h3 id="selective-parameter-activation">Selective Parameter Activation</h3>
+<h3 id="selective-Parameter Activation">Selective Parameter Activation</h3>
 <div class="technical-specs">
 <strong>Core Innovation:</strong> Only 37B parameters activated out of 671B total during inference (5.5% activation rate)
 </div>
@@ -539,4 +545,5 @@
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 

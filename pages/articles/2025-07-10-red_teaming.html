@@ -28,7 +28,7 @@
         
         /* Article-specific styles */
         .article-content {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -141,11 +141,17 @@
         .toc a {
             color: var(--accent);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
         }
         
         .toc a:hover {
             color: var(--accent-hover);
+            background: var(--accent);
+            color: white;
+            transform: translateX(4px);
         }
         
         /* Author bio */
@@ -257,7 +263,7 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 800px;
+            max-width: 100%;
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-medium);
         }
@@ -307,7 +313,7 @@
         /* Article Content with Semi-Opaque Overlay */
         .article-content {
             position: relative;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -328,7 +334,7 @@
         .article-body {
             position: relative;
             z-index: 1;
-            background: var(--card-bg);
+            background: rgba(var(--card-bg-rgb), 0.85);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
@@ -349,8 +355,8 @@
             </div>
             <div class="nav-menu">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="./projects.html" class="nav-link">Projects</a>
+                <a href="./blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
                     <span class="theme-icon">ðŸŒ™</span>
@@ -388,7 +394,7 @@
         <h3>Table of Contents</h3>
         <ul>
     <li><a href="#the-hidden-crisis-in-ai-systems">The Hidden Crisis in AI Systems</a></li>
-<li><a href="#what-is-red-teaming-for-ai">What is Red Teaming for AI?</a></li>
+<li><a href="#what-is-Red Teaming-for-ai">What is Red Teaming for AI?</a></li>
 <li><a href="#unintended-vs-intended-harms">Unintended vs. Intended Harms</a></li>
 <li><a href="#the-democratization-of-ai-testing">The Democratization of AI Testing</a></li>
 <li><a href="#real-world-impact">Real-World Impact</a></li>
@@ -425,7 +431,7 @@
 89 % of AI engineers report encountering Gen-AI hallucinations, including errors, biases, or harmful content
 </div>
 
-<h2 id="what-is-red-teaming-for-ai">What is Red Teaming for AI?</h2>
+<h2 id="what-is-Red Teaming-for-ai">What is Red Teaming for AI?</h2>
 <p>Red Teaming is a hands-on exercise where participants test Gen-AI models for flaws and vulnerabilities that may uncover harmful behavior. This testing is facilitated in a safe and controlled environment using carefully designed prompts â€œeliciting undesirable behavior from a language model through interaction.â€</p>
 <p>By taking part in a Red Teaming exercise, participants reveal vulnerabilities that could have been overlooked by AI developers. The results or findings of the Red Teaming exercise can be shared with AI-design companies and developers, as well as with decision-makers working, for example, to eliminate harms against women and girls in the era of AI.</p>
 <p>Red Teaming serves four key functions:</p>
@@ -451,10 +457,10 @@ If AI systems will inevitably contain biases, should we focus on eliminating bia
 <p>AI tools can be manipulated to generate harmful content, such as deepfake pornography. One research report revealed that 96 % of deep-fake videos were non-consensual intimate content and 100 % of the top five â€œdeep-fake pornography websitesâ€ were targeting women. Malicious actors intentionally trick AI into producing or spreading such content, worsening the already serious issue of technology-facilitated gender-based violence.</p>
 <h2 id="the-democratization-of-ai-testing">The Democratization of AI Testing</h2>
 <p>One of the most revolutionary aspects of Red Teaming is its accessibility. It is not necessary to be a computer expert or a programmer to take part in a Red Teaming exercise. This democratization challenges the traditional model where only technical experts evaluate AI systems.</p>
-<h3 id="expert-vs-public-red-teaming">Expert vs. Public Red Teaming</h3>
+<h3 id="expert-vs-public-Red Teaming">Expert vs. Public Red Teaming</h3>
 <p><strong>Expert Red Teaming</strong> brings together a group of experts in the topic being tested to evaluate Gen-AI models. These experts use their experience to identify potential ways Gen-AI models might reinforce bias or contribute to harm against women and girls. Expert teams can also come from lived experiences, such as civil-society organizations that serve as advocates.</p>
 <p><strong>Public Red Teaming</strong> involves everyday users who interact with AI in their daily lives. These participants may not be specialists, but they bring valuable perspectives based on their personal experiences. The goal is to test AI in real-world situationsâ€”such as job recruitment, performance evaluations, or report writingâ€”to see how the technology performs for an average user.</p>
-<h3 id="target-audiences-for-red-teaming">Target Audiences for Red Teaming</h3>
+<h3 id="target-audiences-for-Red Teaming">Target Audiences for Red Teaming</h3>
 <p>This Red Teaming playbook is designed for individuals and organizations who want to better understand, challenge, and address the risks and biases in AI systemsâ€”particularly from a public-interest perspective.</p>
 <p>The playbook serves diverse communities:<br />
 - <strong>Researchers and Academics</strong> â€“ Scholars in AI ethics, digital rights, and social sciences<br />
@@ -533,4 +539,5 @@ Encourage collaboration between technical experts, subject-matter specialists, a
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 

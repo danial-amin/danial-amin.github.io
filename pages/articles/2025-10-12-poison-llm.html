@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security - Danial Amin</title>
     <meta name="description" content="Groundbreaking research from Anthropic, UK AISI, and the Alan Turing Institute reveals that as few as 250 malicious documents can backdoor language models of any size. This finding fundamentally challenges assumptions about AI security and suggests poisoning attacks may be far more practical than the industry previously believed.">
-    <meta name="keywords" content="generativeAI AI-security data-poisoning backdoors training-vulnerabilities">
+    <meta name="keywords" content="generativeAI AI Security Data Poisoning backdoors training-vulnerabilities">
     <meta name="author" content="Danial Amin">
     <meta property="og:title" content="The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security">
     <meta property="og:description" content="Groundbreaking research from Anthropic, UK AISI, and the Alan Turing Institute reveals that as few as 250 malicious documents can backdoor language models of any size. This finding fundamentally challenges assumptions about AI security and suggests poisoning attacks may be far more practical than the industry previously believed.">
@@ -28,7 +28,7 @@
         
         /* Article-specific styles */
         .article-content {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -141,11 +141,17 @@
         .toc a {
             color: var(--accent);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
         }
         
         .toc a:hover {
             color: var(--accent-hover);
+            background: var(--accent);
+            color: white;
+            transform: translateX(4px);
         }
         
         /* Author bio */
@@ -257,7 +263,7 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 800px;
+            max-width: 100%;
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-medium);
         }
@@ -307,7 +313,7 @@
         /* Article Content with Semi-Opaque Overlay */
         .article-content {
             position: relative;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -328,7 +334,7 @@
         .article-body {
             position: relative;
             z-index: 1;
-            background: var(--card-bg);
+            background: rgba(var(--card-bg-rgb), 0.85);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
@@ -349,8 +355,8 @@
             </div>
             <div class="nav-menu">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="./projects.html" class="nav-link">Projects</a>
+                <a href="./blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
                     <span class="theme-icon">ðŸŒ™</span>
@@ -376,7 +382,7 @@
                 <h1 class="article-title">The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security</h1>
                 <p class="article-excerpt">Groundbreaking research from Anthropic, UK AISI, and the Alan Turing Institute reveals that as few as 250 malicious documents can backdoor language models of any size. This finding fundamentally challenges assumptions about AI security and suggests poisoning attacks may be far more practical than the industry previously believed.</p>
                 <div class="article-tags">
-                    <span class="tag">generativeAI AI-security data-poisoning backdoors training-vulnerabilities</span>
+                    <span class="tag">generativeAI AI Security Data Poisoning backdoors training-vulnerabilities</span>
                 </div>
             </div>
         </div>
@@ -478,7 +484,7 @@
 <p>More sophisticated backdoor behaviorsâ€”generating subtle code vulnerabilities, manipulating reasoning about specific topics, or bypassing safety mechanismsâ€”may require different poison quantities or prove more resistant to small-sample attacks. Understanding these dynamics is essential for comprehensive threat assessment.</p>
 <h3 id="mitigation-strategies">Mitigation Strategies</h3>
 <p>Practical defenses against fixed-number poisoning attacks include several complementary approaches. Data deduplication can reduce the impact of repeated poisoned content, though determined attackers can generate diverse poisoned documents. Anomaly detection during training identifies unusual model behaviors that might indicate backdoor formation.</p>
-<p>Adversarial training techniques that expose models to known poisoning patterns during controlled training phases might build resistance to backdoor formation. Post-training validation and red-teaming can identify successfully implanted backdoors before model deployment. Organizations should also consider ensemble approaches using multiple independently trained models to reduce single-point-of-failure risks.</p>
+<p>Adversarial training techniques that expose models to known poisoning patterns during controlled training phases might build resistance to backdoor formation. Post-training validation and Red Teaming can identify successfully implanted backdoors before model deployment. Organizations should also consider ensemble approaches using multiple independently trained models to reduce single-point-of-failure risks.</p>
 <div class="analysis-box">
 <strong>Strategic Priority:</strong> AI security strategies must evolve beyond assuming larger models trained on more data are inherently more resistant to poisoning. Organizations need specific defenses designed to detect and mitigate attacks succeeding with small absolute content volumes.
 </div>
@@ -520,4 +526,5 @@
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 

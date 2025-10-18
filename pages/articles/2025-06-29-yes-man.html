@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The "Yes Sir" Problem - Why LLMs Can't Disagree and What This Means for AI Development - Danial Amin</title>
     <meta name="description" content="Large Language Models exhibit a fundamental inability to meaningfully disagree with users, not due to safety constraints but because of deeper limitations in reasoning and argumentation capabilities. This compliance bias has profound implications for AI development and human-AI interaction.">
-    <meta name="keywords" content="llm limitations reasoning argumentation ai-safety">
+    <meta name="keywords" content="llm limitations reasoning argumentation AI Safety">
     <meta name="author" content="Danial Amin">
     <meta property="og:title" content="The "Yes Sir" Problem - Why LLMs Can't Disagree and What This Means for AI Development">
     <meta property="og:description" content="Large Language Models exhibit a fundamental inability to meaningfully disagree with users, not due to safety constraints but because of deeper limitations in reasoning and argumentation capabilities. This compliance bias has profound implications for AI development and human-AI interaction.">
@@ -28,7 +28,7 @@
         
         /* Article-specific styles */
         .article-content {
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -141,11 +141,17 @@
         .toc a {
             color: var(--accent);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
         }
         
         .toc a:hover {
             color: var(--accent-hover);
+            background: var(--accent);
+            color: white;
+            transform: translateX(4px);
         }
         
         /* Author bio */
@@ -257,7 +263,7 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 800px;
+            max-width: 100%;
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-medium);
         }
@@ -307,7 +313,7 @@
         /* Article Content with Semi-Opaque Overlay */
         .article-content {
             position: relative;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -328,7 +334,7 @@
         .article-body {
             position: relative;
             z-index: 1;
-            background: var(--card-bg);
+            background: rgba(var(--card-bg-rgb), 0.85);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
@@ -349,8 +355,8 @@
             </div>
             <div class="nav-menu">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="./projects.html" class="nav-link">Projects</a>
+                <a href="./blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
                     <span class="theme-icon">ðŸŒ™</span>
@@ -376,7 +382,7 @@
                 <h1 class="article-title">The "Yes Sir" Problem - Why LLMs Can't Disagree and What This Means for AI Development</h1>
                 <p class="article-excerpt">Large Language Models exhibit a fundamental inability to meaningfully disagree with users, not due to safety constraints but because of deeper limitations in reasoning and argumentation capabilities. This compliance bias has profound implications for AI development and human-AI interaction.</p>
                 <div class="article-tags">
-                    <span class="tag">llm limitations reasoning argumentation ai-safety</span>
+                    <span class="tag">llm limitations reasoning argumentation AI Safety</span>
                 </div>
             </div>
         </div>
@@ -551,4 +557,5 @@ User Input â†’ Pattern Recognition â†’ Statistical Association â†�
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 
