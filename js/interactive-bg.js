@@ -2,11 +2,9 @@ class InteractiveBackground {
     constructor() {
         this.canvas = document.getElementById('interactive-bg');
         this.ctx = this.canvas.getContext('2d');
-        this.lines = [];
+        this.artifacts = [];
         this.mouse = { x: 0, y: 0 };
-        this.particles = [];
-        this.maxLines = 100;
-        this.maxParticles = 50;
+        this.maxArtifacts = 15;
         this.animationId = null;
         
         this.init();
@@ -16,8 +14,7 @@ class InteractiveBackground {
     
     init() {
         this.resizeCanvas();
-        this.createInitialLines();
-        this.createParticles();
+        this.createArtifacts();
     }
     
     resizeCanvas() {
@@ -28,269 +25,133 @@ class InteractiveBackground {
     setupEventListeners() {
         window.addEventListener('resize', () => {
             this.resizeCanvas();
-            this.createInitialLines();
+            this.createArtifacts();
         });
         
         window.addEventListener('mousemove', (e) => {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
-            this.createMouseLine();
         });
+    }
+    
+    createArtifacts() {
+        this.artifacts = [];
         
-        window.addEventListener('click', (e) => {
-            this.createClickEffect(e.clientX, e.clientY);
-        });
-    }
-    
-    createInitialLines() {
-        this.lines = [];
-        for (let i = 0; i < 20; i++) {
-            this.lines.push({
-                x1: Math.random() * this.canvas.width,
-                y1: Math.random() * this.canvas.height,
-                x2: Math.random() * this.canvas.width,
-                y2: Math.random() * this.canvas.height,
-                opacity: Math.random() * 0.3 + 0.1,
-                speed: Math.random() * 0.5 + 0.2,
-                angle: Math.random() * Math.PI * 2,
-                length: Math.random() * 100 + 50,
-                life: 1,
-                decay: Math.random() * 0.01 + 0.005
-            });
-        }
-    }
-    
-    createParticles() {
-        this.particles = [];
-        for (let i = 0; i < this.maxParticles; i++) {
-            this.particles.push({
+        // Create geometric shapes
+        for (let i = 0; i < this.maxArtifacts; i++) {
+            const type = Math.random() < 0.5 ? 'circle' : 'square';
+            this.artifacts.push({
                 x: Math.random() * this.canvas.width,
                 y: Math.random() * this.canvas.height,
-                size: Math.random() * 3 + 1,
-                opacity: Math.random() * 0.5 + 0.2,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                life: 1,
-                decay: Math.random() * 0.005 + 0.002
+                originalX: 0,
+                originalY: 0,
+                size: Math.random() * 40 + 20,
+                type: type,
+                rotation: Math.random() * Math.PI * 2,
+                rotationSpeed: (Math.random() - 0.5) * 0.02,
+                opacity: Math.random() * 0.3 + 0.1,
+                wobbleAmount: Math.random() * 50 + 30,
+                speed: Math.random() * 0.5 + 0.2
             });
         }
-    }
-    
-    createMouseLine() {
-        if (this.lines.length > this.maxLines) return;
         
-        const angle = Math.random() * Math.PI * 2;
-        const length = Math.random() * 150 + 100;
-        
-        this.lines.push({
-            x1: this.mouse.x,
-            y1: this.mouse.y,
-            x2: this.mouse.x + Math.cos(angle) * length,
-            y2: this.mouse.y + Math.sin(angle) * length,
-            opacity: 0.6,
-            speed: Math.random() * 1 + 0.5,
-            angle: angle,
-            length: length,
-            life: 1,
-            decay: 0.02,
-            isMouseLine: true
+        // Store original positions
+        this.artifacts.forEach(artifact => {
+            artifact.originalX = artifact.x;
+            artifact.originalY = artifact.y;
         });
     }
     
-    createClickEffect(x, y) {
-        // Create burst of lines
-        for (let i = 0; i < 8; i++) {
-            const angle = (i / 8) * Math.PI * 2;
-            const length = Math.random() * 80 + 40;
+    updateArtifacts() {
+        this.artifacts.forEach(artifact => {
+            // Gentle floating animation
+            artifact.y += Math.sin(Date.now() * 0.001 + artifact.originalX * 0.01) * 0.3;
+            artifact.x += Math.cos(Date.now() * 0.0008 + artifact.originalY * 0.01) * 0.2;
             
-            this.lines.push({
-                x1: x,
-                y1: y,
-                x2: x + Math.cos(angle) * length,
-                y2: y + Math.sin(angle) * length,
-                opacity: 0.8,
-                speed: Math.random() * 2 + 1,
-                angle: angle,
-                length: length,
-                life: 1,
-                decay: 0.03,
-                isClickEffect: true
-            });
-        }
-        
-        // Create particles
-        for (let i = 0; i < 10; i++) {
-            this.particles.push({
-                x: x + (Math.random() - 0.5) * 20,
-                y: y + (Math.random() - 0.5) * 20,
-                size: Math.random() * 4 + 2,
-                opacity: 0.8,
-                vx: (Math.random() - 0.5) * 4,
-                vy: (Math.random() - 0.5) * 4,
-                life: 1,
-                decay: 0.02,
-                isClickEffect: true
-            });
-        }
-    }
-    
-    updateLines() {
-        for (let i = this.lines.length - 1; i >= 0; i--) {
-            const line = this.lines[i];
+            // Mouse interaction - subtle wobble
+            const dx = this.mouse.x - artifact.x;
+            const dy = this.mouse.y - artifact.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
             
-            // Update position based on angle and speed
-            line.x1 += Math.cos(line.angle) * line.speed;
-            line.y1 += Math.sin(line.angle) * line.speed;
-            line.x2 += Math.cos(line.angle) * line.speed;
-            line.y2 += Math.sin(line.angle) * line.speed;
-            
-            // Apply mouse attraction for regular lines
-            if (!line.isMouseLine && !line.isClickEffect) {
-                const dx = this.mouse.x - line.x1;
-                const dy = this.mouse.y - line.y1;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 150) {
+                const force = (150 - distance) / 150;
+                const wobbleX = Math.sin(Date.now() * 0.01) * force * artifact.wobbleAmount * 0.3;
+                const wobbleY = Math.cos(Date.now() * 0.01) * force * artifact.wobbleAmount * 0.3;
                 
-                if (distance < 200) {
-                    const force = (200 - distance) / 200 * 0.02;
-                    line.x1 += dx * force;
-                    line.y1 += dy * force;
-                    line.x2 += dx * force;
-                    line.y2 += dy * force;
-                }
-            }
-            
-            // Update life
-            line.life -= line.decay;
-            line.opacity = line.life * (line.isMouseLine ? 0.6 : line.isClickEffect ? 0.8 : 0.3);
-            
-            // Remove dead lines
-            if (line.life <= 0 || 
-                line.x1 < -100 || line.x1 > this.canvas.width + 100 ||
-                line.y1 < -100 || line.y1 > this.canvas.height + 100) {
-                this.lines.splice(i, 1);
-            }
-        }
-    }
-    
-    updateParticles() {
-        for (let i = this.particles.length - 1; i >= 0; i--) {
-            const particle = this.particles[i];
-            
-            // Update position
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-            
-            // Apply mouse attraction
-            if (!particle.isClickEffect) {
-                const dx = this.mouse.x - particle.x;
-                const dy = this.mouse.y - particle.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 150) {
-                    const force = (150 - distance) / 150 * 0.01;
-                    particle.vx += dx * force;
-                    particle.vy += dy * force;
-                }
-            }
-            
-            // Add friction
-            particle.vx *= 0.99;
-            particle.vy *= 0.99;
-            
-            // Update life
-            particle.life -= particle.decay;
-            particle.opacity = particle.life * (particle.isClickEffect ? 0.8 : 0.5);
-            
-            // Wrap around screen for regular particles
-            if (!particle.isClickEffect) {
-                if (particle.x < 0) particle.x = this.canvas.width;
-                if (particle.x > this.canvas.width) particle.x = 0;
-                if (particle.y < 0) particle.y = this.canvas.height;
-                if (particle.y > this.canvas.height) particle.y = 0;
-                
-                // Reset life for wrapped particles
-                if (particle.life <= 0) {
-                    particle.life = 1;
-                    particle.opacity = Math.random() * 0.5 + 0.2;
-                }
+                artifact.x = artifact.originalX + wobbleX;
+                artifact.y = artifact.originalY + wobbleY;
             } else {
-                // Remove click effect particles when dead
-                if (particle.life <= 0) {
-                    this.particles.splice(i, 1);
-                }
+                // Return to original position slowly
+                artifact.x += (artifact.originalX - artifact.x) * 0.02;
+                artifact.y += (artifact.originalY - artifact.y) * 0.02;
             }
-        }
-    }
-    
-    drawLines() {
-        // Get theme colors
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
-        const baseColor = isDark ? '59, 130, 246' : '59, 130, 246'; // Blue
-        
-        this.lines.forEach(line => {
-            if (line.opacity > 0) {
-                this.ctx.beginPath();
-                this.ctx.moveTo(line.x1, line.y1);
-                this.ctx.lineTo(line.x2, line.y2);
-                
-                // Create gradient for lines
-                const gradient = this.ctx.createLinearGradient(line.x1, line.y1, line.x2, line.y2);
-                gradient.addColorStop(0, `rgba(${baseColor}, ${line.opacity})`);
-                gradient.addColorStop(0.5, `rgba(${baseColor}, ${line.opacity * 0.8})`);
-                gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
-                
-                this.ctx.strokeStyle = gradient;
-                this.ctx.lineWidth = line.isClickEffect ? 2 : line.isMouseLine ? 1.5 : 1;
-                this.ctx.lineCap = 'round';
-                this.ctx.stroke();
-            }
+            
+            // Update rotation
+            artifact.rotation += artifact.rotationSpeed;
+            
+            // Wrap around screen
+            if (artifact.originalX < -artifact.size) artifact.originalX = this.canvas.width + artifact.size;
+            if (artifact.originalX > this.canvas.width + artifact.size) artifact.originalX = -artifact.size;
+            if (artifact.originalY < -artifact.size) artifact.originalY = this.canvas.height + artifact.size;
+            if (artifact.originalY > this.canvas.height + artifact.size) artifact.originalY = -artifact.size;
         });
     }
     
-    drawParticles() {
+    drawArtifacts() {
         const isDark = document.body.getAttribute('data-theme') === 'dark';
-        const baseColor = isDark ? '59, 130, 246' : '59, 130, 246';
+        const primaryColor = isDark ? '59, 130, 246' : '59, 130, 246'; // Blue
+        const secondaryColor = isDark ? '139, 92, 246' : '139, 92, 246'; // Purple
         
-        this.particles.forEach(particle => {
-            if (particle.opacity > 0) {
+        this.artifacts.forEach((artifact, index) => {
+            this.ctx.save();
+            
+            // Move to artifact position
+            this.ctx.translate(artifact.x, artifact.y);
+            this.ctx.rotate(artifact.rotation);
+            
+            // Create gradient
+            const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, artifact.size);
+            const useSecondary = index % 3 === 0;
+            const color = useSecondary ? secondaryColor : primaryColor;
+            
+            gradient.addColorStop(0, `rgba(${color}, ${artifact.opacity})`);
+            gradient.addColorStop(1, `rgba(${color}, 0)`);
+            
+            if (artifact.type === 'circle') {
                 this.ctx.beginPath();
-                this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                
-                // Create radial gradient for particles
-                const gradient = this.ctx.createRadialGradient(
-                    particle.x, particle.y, 0,
-                    particle.x, particle.y, particle.size
-                );
-                gradient.addColorStop(0, `rgba(${baseColor}, ${particle.opacity})`);
-                gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
-                
+                this.ctx.arc(0, 0, artifact.size / 2, 0, Math.PI * 2);
                 this.ctx.fillStyle = gradient;
                 this.ctx.fill();
+            } else {
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(-artifact.size / 2, -artifact.size / 2, artifact.size, artifact.size);
             }
+            
+            this.ctx.restore();
         });
     }
     
     drawConnections() {
         const isDark = document.body.getAttribute('data-theme') === 'dark';
-        const baseColor = isDark ? '59, 130, 246' : '59, 130, 246';
+        const lineColor = isDark ? '59, 130, 246' : '59, 130, 246';
         
-        // Draw connections between nearby particles
-        for (let i = 0; i < this.particles.length; i++) {
-            for (let j = i + 1; j < this.particles.length; j++) {
-                const p1 = this.particles[i];
-                const p2 = this.particles[j];
+        // Draw subtle connections between nearby artifacts
+        for (let i = 0; i < this.artifacts.length; i++) {
+            for (let j = i + 1; j < this.artifacts.length; j++) {
+                const a1 = this.artifacts[i];
+                const a2 = this.artifacts[j];
                 
-                const dx = p1.x - p2.x;
-                const dy = p1.y - p2.y;
+                const dx = a1.x - a2.x;
+                const dy = a1.y - a2.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 100) {
-                    const opacity = (100 - distance) / 100 * 0.1;
+                if (distance < 200) {
+                    const opacity = (200 - distance) / 200 * 0.1;
                     
                     this.ctx.beginPath();
-                    this.ctx.moveTo(p1.x, p1.y);
-                    this.ctx.lineTo(p2.x, p2.y);
-                    this.ctx.strokeStyle = `rgba(${baseColor}, ${opacity})`;
+                    this.ctx.moveTo(a1.x, a1.y);
+                    this.ctx.lineTo(a2.x, a2.y);
+                    this.ctx.strokeStyle = `rgba(${lineColor}, ${opacity})`;
                     this.ctx.lineWidth = 0.5;
                     this.ctx.stroke();
                 }
@@ -303,12 +164,9 @@ class InteractiveBackground {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
         // Update and draw everything
-        this.updateLines();
-        this.updateParticles();
-        
+        this.updateArtifacts();
         this.drawConnections();
-        this.drawLines();
-        this.drawParticles();
+        this.drawArtifacts();
         
         // Continue animation
         this.animationId = requestAnimationFrame(() => this.animate());
@@ -320,7 +178,6 @@ class InteractiveBackground {
         }
         window.removeEventListener('resize', this.resizeCanvas);
         window.removeEventListener('mousemove', this.updateMouse);
-        window.removeEventListener('click', this.createClickEffect);
     }
 }
 
