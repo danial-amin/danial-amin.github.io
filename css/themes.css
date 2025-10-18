@@ -47,53 +47,53 @@
     --tooltip-border: #34405a;
 }
 
-/* Pleasant Eye-Friendly Light Theme (Beige/Sand) */
+/* Pleasant Eye-Friendly Light Theme (Lighter Beige/Sand) */
 [data-theme="light"] {
-    --bg-primary: #f9f6f2; /* beige/sand */
-    --bg-secondary: #f4ede4;
-    --section-bg: #f3eee8;
-    --card-bg: rgba(242, 228, 202, 0.85);
-    --hover-bg: rgba(185, 163, 126, 0.11);
-    --input-bg: #f6f2e7;
+    --bg-primary: #fcfaf7; /* slightly lighter beige/sand */
+    --bg-secondary: #f8f4ec;
+    --section-bg: #f7f2ea;
+    --card-bg: rgba(245, 233, 210, 0.88);
+    --hover-bg: rgba(211, 188, 145, 0.09);
+    --input-bg: #fbf7ee;
 
-    --text-primary: #3f3531;
-    --text-secondary: #948367;
+    --text-primary: #59483f; /* a bit lighter than #3f3531 */
+    --text-secondary: #ac9878;
 
-    --accent-color: #bb9457;
-    --accent-hover: #a98456;
-    --secondary-accent: #ffc286;
-    --success-color: #6b9080;
+    --accent-color: #e2bc88;
+    --accent-hover: #ceb271;
+    --secondary-accent: #ffe4b7;
+    --success-color: #92bc9b;
 
-    --border-color: rgba(185, 163, 126, 0.19);
-    --border-hover: rgba(185, 163, 126, 0.27);
+    --border-color: rgba(211, 188, 145, 0.16);
+    --border-hover: rgba(211, 188, 145, 0.23);
 
-    --badge-bg: rgba(187, 148, 87, 0.13);
-    --badge-text: #7c5e29;
-    --badge-border: rgba(187, 148, 87, 0.17);
+    --badge-bg: rgba(226, 188, 136, 0.09);
+    --badge-text: #a18656;
+    --badge-border: rgba(226, 188, 136, 0.12);
 
-    --tech-bg: rgba(236, 222, 193, 0.15);
-    --tech-text: #7c6342;
-    --tech-border: rgba(185, 163, 126, 0.14);
+    --tech-bg: rgba(246, 238, 217, 0.11);
+    --tech-text: #a18656;
+    --tech-border: rgba(211, 188, 145, 0.10);
     
-    --shadow-small: 0 2px 8px rgba(187, 148, 87, 0.10);
-    --shadow-medium: 0 8px 32px rgba(187, 148, 87, 0.17);
-    --shadow-large: 0 20px 64px rgba(187, 148, 87, 0.23);
-    --shadow-accent: rgba(255, 194, 134, 0.11);
+    --shadow-small: 0 2px 8px rgba(226, 188, 136, 0.07);
+    --shadow-medium: 0 8px 32px rgba(226, 188, 136, 0.13);
+    --shadow-large: 0 20px 64px rgba(226, 188, 136, 0.17);
+    --shadow-accent: rgba(255, 228, 183, 0.08);
 
-    --navbar-bg: rgba(245, 236, 226, 0.85);
+    --navbar-bg: rgba(252, 246, 237, 0.82);
 
     /* GitHub Contributions Colors - Light (Beige) Theme */
-    --contribution-bg: #f5ede2;
-    --contribution-border: #e2ceb7;
-    --contribution-hover-border: #bb9457;
-    --contribution-level-0: #f6f2e7;
-    --contribution-level-1: #eadfc9;
-    --contribution-level-2: #dec9a5;
-    --contribution-level-3: #bb9457;
-    --contribution-level-4: #a98456;
-    --tooltip-bg: #fff7eb;
-    --tooltip-text: #3f3531;
-    --tooltip-border: #e2ceb7;
+    --contribution-bg: #fcf5ea;
+    --contribution-border: #efdcc4;
+    --contribution-hover-border: #e2bc88;
+    --contribution-level-0: #fbf7ee;
+    --contribution-level-1: #f4ebd6;
+    --contribution-level-2: #efdebc;
+    --contribution-level-3: #e2bc88;
+    --contribution-level-4: #ceb271;
+    --tooltip-bg: #fffaf3;
+    --tooltip-text: #59483f;
+    --tooltip-border: #efdcc4;
 }
 
 /* Theme-specific styles */

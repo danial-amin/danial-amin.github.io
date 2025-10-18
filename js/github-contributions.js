@@ -60,7 +60,15 @@ class GitHubContributions {
     }
 
     updateYearDisplay() {
-        this.yearTitle.textContent = `${this.currentYear} Contributions`;
+        // Add fade effect for year title
+        this.yearTitle.style.opacity = '0.5';
+        this.yearTitle.style.transform = 'translateY(5px)';
+        
+        setTimeout(() => {
+            this.yearTitle.textContent = `${this.currentYear} Contributions`;
+            this.yearTitle.style.opacity = '1';
+            this.yearTitle.style.transform = 'translateY(0)';
+        }, 150);
     }
 
     updateIndicators() {
@@ -77,17 +85,16 @@ class GitHubContributions {
     }
 
     async loadYearData(year) {
-        this.showLoadingState();
-        
+        // Don't show loading state for smooth transitions
         try {
             // Generate contributions with specific target numbers
             const contributions = this.generateContributionsWithTarget(year);
-            this.renderContributions(contributions);
+            this.updateContributions(contributions);
             this.updateStats(contributions);
-            } catch (error) {
-                console.error(`Error loading data for ${year}:`, error);
+        } catch (error) {
+            console.error(`Error loading data for ${year}:`, error);
             const contributions = this.generateContributionsWithTarget(year);
-            this.renderContributions(contributions);
+            this.updateContributions(contributions);
             this.updateStats(contributions);
         }
     }
@@ -284,6 +291,44 @@ class GitHubContributions {
         });
     }
 
+    updateContributions(contributions) {
+        // Get existing day elements
+        const existingDays = this.contributionGrid.querySelectorAll('.contribution-day');
+        
+        // If grid is empty, render it first
+        if (existingDays.length === 0) {
+            this.renderContributions(contributions);
+            return;
+        }
+        
+        // Update existing elements with smooth transitions
+        contributions.forEach((day, index) => {
+            if (index < existingDays.length) {
+                const dayElement = existingDays[index];
+                
+                // Update data attributes
+                dayElement.setAttribute('data-date', day.date);
+                dayElement.setAttribute('data-count', day.count);
+                
+                // Add transition class for smooth animation
+                dayElement.classList.add('transitioning');
+                
+                // Update the level class with a slight delay for smooth transition
+                setTimeout(() => {
+                    // Remove all level classes
+                    dayElement.classList.remove('level-0', 'level-1', 'level-2', 'level-3', 'level-4');
+                    // Add new level class
+                    dayElement.classList.add(`level-${day.level}`);
+                    
+                    // Remove transition class after animation
+                    setTimeout(() => {
+                        dayElement.classList.remove('transitioning');
+                    }, 300);
+                }, 50);
+            }
+        });
+    }
+
     updateStats(contributions) {
         const totalCount = contributions.reduce((sum, day) => sum + day.count, 0);
         const streak = this.calculateLongestStreak(contributions);
@@ -292,8 +337,21 @@ class GitHubContributions {
         const realisticTotal = this.addRealisticVariation(totalCount);
         const realisticStreak = this.addRealisticVariation(streak, 0.1);
         
-        this.totalContributions.textContent = `${realisticTotal} contributions`;
-        this.longestStreak.textContent = `${realisticStreak} day streak`;
+        // Add smooth transition for stats
+        this.totalContributions.style.opacity = '0.5';
+        this.totalContributions.style.transform = 'translateY(3px)';
+        this.longestStreak.style.opacity = '0.5';
+        this.longestStreak.style.transform = 'translateY(3px)';
+        
+        setTimeout(() => {
+            this.totalContributions.textContent = `${realisticTotal} contributions`;
+            this.longestStreak.textContent = `${realisticStreak} day streak`;
+            
+            this.totalContributions.style.opacity = '1';
+            this.totalContributions.style.transform = 'translateY(0)';
+            this.longestStreak.style.opacity = '1';
+            this.longestStreak.style.transform = 'translateY(0)';
+        }, 200);
     }
 
     addRealisticVariation(value, variation = 0.15) {

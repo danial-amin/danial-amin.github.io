@@ -2234,6 +2234,7 @@ body {
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
+    transition: all 0.3s ease;
 }
 
 .contribution-stats {
@@ -2248,6 +2249,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    transition: all 0.3s ease;
 }
 
 .total-contributions::before {
@@ -2278,9 +2280,14 @@ body {
     border-radius: 2px;
     background: var(--contribution-bg);
     border: 1px solid var(--contribution-border);
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
+}
+
+.contribution-day.transitioning {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.1);
 }
 
 .contribution-day:hover {
@@ -2368,6 +2375,10 @@ body {
 .slide-indicators {
     display: flex;
     gap: 0.4rem;
+}
+
+.slide-indicators .indicator {
+    transition: all 0.3s ease;
 }
 
 .indicator {
