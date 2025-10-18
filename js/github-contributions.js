@@ -97,7 +97,7 @@ class GitHubContributions {
     }
 
     async loadGitHubData() {
-        const years = ['2025', '2024', '2023', '2022', '2021'];
+        const years = ['2025', '2024', '2023', '2022', '2021', '2020', '2019'];
         
         for (const year of years) {
             try {

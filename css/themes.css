@@ -32,6 +32,19 @@
     --shadow-accent: rgba(59, 130, 246, 0.2);
     
     --navbar-bg: rgba(10, 10, 10, 0.8);
+    
+    /* GitHub Contributions Colors - Dark Theme */
+    --contribution-bg: #161b22;
+    --contribution-border: #30363d;
+    --contribution-hover-border: #58a6ff;
+    --contribution-level-0: #161b22;
+    --contribution-level-1: #0e4429;
+    --contribution-level-2: #006d32;
+    --contribution-level-3: #26a641;
+    --contribution-level-4: #39d353;
+    --tooltip-bg: #21262d;
+    --tooltip-text: #f0f6fc;
+    --tooltip-border: #30363d;
 }
 
 /* Light Theme */
@@ -68,6 +81,19 @@
     --shadow-accent: rgba(59, 130, 246, 0.15);
     
     --navbar-bg: rgba(255, 255, 255, 0.8);
+    
+    /* GitHub Contributions Colors - Light Theme */
+    --contribution-bg: #f6f8fa;
+    --contribution-border: #d0d7de;
+    --contribution-hover-border: #0969da;
+    --contribution-level-0: #f6f8fa;
+    --contribution-level-1: #9be9a8;
+    --contribution-level-2: #40c463;
+    --contribution-level-3: #30a14e;
+    --contribution-level-4: #216e39;
+    --tooltip-bg: #ffffff;
+    --tooltip-text: #24292f;
+    --tooltip-border: #d0d7de;
 }
 
 /* Theme-specific styles */
