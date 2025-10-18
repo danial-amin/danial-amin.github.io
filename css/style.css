@@ -1617,6 +1617,17 @@ body {
         padding: 100px 0 60px;
     }
     
+    /* Hide hero-visual on mobile and adjust hero container */
+    .hero-visual {
+        display: none;
+    }
+    
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+    
     .hero-stats {
         gap: 1rem;
         justify-content: center;
@@ -1724,13 +1735,13 @@ body {
     }
     
     .timeline-track {
-        height: 350px;
+        height: 280px; /* Reduced height for mobile */
         padding-top: 0;
     }
     
     .timeline-line {
-        top: 13.5%;
-        transform: translateY(-50%);
+        top: 20px; /* Moved up significantly */
+        transform: none; /* Remove transform to position at top */
     }
     
     .timeline-item {
@@ -1740,7 +1751,7 @@ body {
     .timeline-card {
         padding: 1.5rem;
         max-width: 260px;
-        min-height: 400px;
+        min-height: 350px; /* Reduced height for mobile */
     }
     
     .timeline-role {
