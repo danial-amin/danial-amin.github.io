@@ -884,19 +884,19 @@ body {
 
 .timeline-track {
     position: relative;
-    height: 400px;
+    height: 500px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 100px;
 }
 
 .timeline-line {
     position: absolute;
-    top: 50%;
+    top: 120px;
     left: 0;
     right: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--accent-color), var(--secondary-accent));
-    transform: translateY(-50%);
     z-index: 1;
 }
 
@@ -923,6 +923,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 20px;
 }
 
 .timeline-dot {
@@ -935,6 +936,7 @@ body {
     z-index: 2;
     position: relative;
     margin-bottom: 1rem;
+    top: -20px;
 }
 
 .timeline-card {
@@ -947,6 +949,10 @@ body {
     transition: all 0.3s ease;
     width: 100%;
     max-width: 320px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .timeline-card:hover {
@@ -983,6 +989,11 @@ body {
     color: var(--text-secondary);
     line-height: 1.6;
     font-size: 0.9rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 /* Pause animation on hover */
@@ -1327,7 +1338,12 @@ body {
     
     /* Experience Timeline Mobile */
     .timeline-track {
-        height: 300px;
+        height: 350px;
+        padding-top: 80px;
+    }
+    
+    .timeline-line {
+        top: 100px;
     }
     
     .timeline-item {
@@ -1337,6 +1353,7 @@ body {
     .timeline-card {
         padding: 1.5rem;
         max-width: 260px;
+        height: 240px;
     }
     
     .timeline-role {
@@ -1373,7 +1390,12 @@ body {
     
     /* Experience Timeline Small Mobile */
     .timeline-track {
-        height: 250px;
+        height: 300px;
+        padding-top: 60px;
+    }
+    
+    .timeline-line {
+        top: 80px;
     }
     
     .timeline-item {
@@ -1383,6 +1405,7 @@ body {
     .timeline-card {
         padding: 1.25rem;
         max-width: 220px;
+        height: 200px;
     }
     
     .timeline-role {
