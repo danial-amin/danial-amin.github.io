@@ -1043,7 +1043,7 @@ body {
     transition: all 0.3s ease;
     width: 100%;
     max-width: 320px;
-    height: 280px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
