@@ -13,22 +13,7 @@ class InteractiveBackground {
         this.maxMeshes = Math.floor(Math.random() * 6) + 3; // 3-8 meshes
         this.animationId = null;
 
-        this.themeColors = {
-            light: [
-                "--color-primary", // Expecting blue
-                "--color-secondary", // Expecting purple
-                "--color-tertiary", // Expecting pink
-                "--color-accent", // Expecting green or accent
-                "--color-highlight", // Any highlight
-            ],
-            dark: [
-                "--color-primary-dark",
-                "--color-secondary-dark",
-                "--color-tertiary-dark",
-                "--color-accent-dark",
-                "--color-highlight-dark"
-            ]
-        };
+        // Theme colors are now handled dynamically using --text-primary
 
         this.init();
         this.setupEventListeners();
@@ -36,24 +21,19 @@ class InteractiveBackground {
     }
 
     getThemeColors() {
-        const isDark = document.body.getAttribute('data-theme') === 'dark';
         const root = getComputedStyle(document.documentElement);
-        const colorVars = isDark && this.themeColors.dark.some(c => root.getPropertyValue(c)) ?
-            this.themeColors.dark :
-            this.themeColors.light;
-        // get color values from CSS variables as rgb or hex
-        return colorVars
-            .map((v) => root.getPropertyValue(v).trim())
-            .filter((c) => !!c);
+        // Use text-primary color for both themes
+        const textPrimary = root.getPropertyValue('--text-primary').trim();
+        return textPrimary ? [textPrimary] : ['#3b82f6']; // fallback blue
     }
 
     randomThemeColor(opacity = 1) {
-        // Return a theme color as rgba(x,x,x,opacity) or just hex with opacity fallback if needed
+        // Return the theme's text-primary color with specified opacity
         const colors = this.getThemeColors();
         if (!colors.length)
             return `rgba(59,130,246,${opacity})`; // default fallback blue
 
-        let c = colors[Math.floor(Math.random() * colors.length)];
+        let c = colors[0]; // Use the single text-primary color
         if (c.startsWith('rgb')) {
             // rgb/rgba already
             if (opacity < 1 && c.startsWith('rgb(')) {
