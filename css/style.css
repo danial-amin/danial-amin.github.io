@@ -411,6 +411,11 @@ body {
 .changing-word {
     position: relative;
     display: inline-block;
+    background: linear-gradient(90deg, var(--accent-gradient-start, #39f), var(--accent-gradient-end, #a0f));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 .changing-word::after {
@@ -1143,9 +1148,31 @@ body {
         gap: 0.5rem;
     }
     
+    /* Unify filter button style with .btn (theme button) */
     .filter-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: 500;
+        border: none;
+        border-radius: 0.5rem;
+        background: var(--btn-bg, var(--accent-color));
+        color: var(--btn-color, #fff);
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+        outline: none;
+    }
+    .filter-btn:hover,
+    .filter-btn:focus {
+        background: var(--btn-hover-bg, var(--accent-color-dark));
+        color: var(--btn-hover-color, #fff);
+    }
+    .filter-btn.active {
+        background: var(--btn-active-bg, var(--accent-color-dark));
+        color: var(--btn-active-color, #fff);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.10);
     }
     
     .project-metrics {
