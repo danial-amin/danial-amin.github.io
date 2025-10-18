@@ -348,10 +348,11 @@ body {
     box-shadow: 0 0 50px var(--shadow-accent, rgba(59, 130, 246, 0.4)), 0 0 100px rgba(59, 130, 246, 0.3);
     animation: center-glow 3s ease-in-out infinite;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     border: 3px solid rgba(255, 255, 255, 0.2);
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto;
 }
 
 .center-node:hover {
@@ -383,12 +384,13 @@ body {
     justify-content: center;
     backdrop-filter: blur(20px);
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     z-index: 2;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px var(--accent-color);
     animation: node-float 6s ease-in-out infinite;
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto;
 }
 
 .network-node:hover {
@@ -452,40 +454,40 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Node Positioning - Organic Layout */
+/* Node Positioning - Stable Organic Layout */
 .node-1 { 
-    top: 80px; 
-    left: 280px; 
+    top: 100px; 
+    left: 300px; 
     transform: translate(-50%, -50%);
     animation-delay: 0s;
 }
 .node-2 { 
-    top: 140px; 
-    left: 420px;
+    top: 150px; 
+    left: 400px;
     transform: translate(-50%, -50%);
     animation-delay: 0.5s;
 }
 .node-3 { 
-    top: 380px; 
-    left: 390px;
+    top: 350px; 
+    left: 380px;
     transform: translate(-50%, -50%);
     animation-delay: 1s;
 }
 .node-4 { 
-    top: 420px; 
-    left: 180px;
+    top: 400px; 
+    left: 200px;
     transform: translate(-50%, -50%);
     animation-delay: 1.5s;
 }
 .node-5 { 
-    top: 340px; 
-    left: 70px;
+    top: 320px; 
+    left: 100px;
     transform: translate(-50%, -50%);
     animation-delay: 2s;
 }
 .node-6 { 
-    top: 110px; 
-    left: 120px;
+    top: 120px; 
+    left: 150px;
     transform: translate(-50%, -50%);
     animation-delay: 2.5s;
 }
@@ -980,7 +982,7 @@ body {
 
 .timeline-line {
     position: absolute;
-    top: 20px;
+    top: 260px;
     left: 0;
     right: 0;
     height: 3px;
