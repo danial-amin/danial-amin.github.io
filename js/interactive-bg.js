@@ -4,9 +4,13 @@ class InteractiveBackground {
         this.ctx = this.canvas.getContext('2d');
         this.artifacts = [];
         this.networks = [];
+        this.topographicalLines = [];
+        this.meshes = [];
         this.mouse = { x: 0, y: 0 };
         this.maxArtifacts = Math.floor(Math.random() * 30) + 22; // More items, now 22-51
         this.maxNetworks = Math.floor(Math.random() * 4) + 2; // 2-5 networks, also a bit more random
+        this.maxTopographicalLines = Math.floor(Math.random() * 8) + 5; // 5-12 topographical lines
+        this.maxMeshes = Math.floor(Math.random() * 6) + 3; // 3-8 meshes
         this.animationId = null;
 
         this.themeColors = {
@@ -83,6 +87,8 @@ class InteractiveBackground {
         this.resizeCanvas();
         this.createArtifacts();
         this.createNetworks();
+        this.createTopographicalLines();
+        this.createMeshes();
     }
 
     resizeCanvas() {
@@ -95,6 +101,8 @@ class InteractiveBackground {
             this.resizeCanvas();
             this.createArtifacts();
             this.createNetworks();
+            this.createTopographicalLines();
+            this.createMeshes();
         });
 
         window.addEventListener('mousemove', (e) => {
@@ -105,33 +113,15 @@ class InteractiveBackground {
 
     createArtifacts() {
         this.artifacts = [];
-        const shapes = ["circle", "square", "triangle", "pentagon", "hexagon", "star"];
+        const shapes = ["circle", "square", "triangle", "pentagon", "hexagon"];
         const minSize = 10, maxSize = 46;
         const width = this.canvas.width, height = this.canvas.height;
 
         for (let i = 0; i < this.maxArtifacts; i++) {
             const type = shapes[Math.floor(Math.random() * shapes.length)];
-            // Randomly scatter more towards center or edges
-            let placementMode = Math.random();
-            let x, y;
-            if (placementMode < 0.35) { // center
-                const angle = Math.random() * Math.PI * 2;
-                const radius = Math.random() * Math.min(width, height) * 0.25;
-                x = width / 2 + Math.cos(angle) * radius + (Math.random() - 0.5) * 20;
-                y = height / 2 + Math.sin(angle) * radius + (Math.random() - 0.5) * 20;
-            } else if (placementMode < 0.65) { // edges
-                const edge = Math.floor(Math.random() * 4);
-                if (edge === 0) { x = Math.random() * width; y = 0; }
-                else if (edge === 1) { x = 0; y = Math.random() * height; }
-                else if (edge === 2) { x = Math.random() * width; y = height; }
-                else { x = width; y = Math.random() * height; }
-                // Jitter
-                x += (Math.random() - 0.5) * 30;
-                y += (Math.random() - 0.5) * 30;
-            } else { // anywhere
-                x = Math.random() * width;
-                y = Math.random() * height;
-            }
+            // Truly random placement across entire background
+            const x = Math.random() * width;
+            const y = Math.random() * height;
             // artifact properties with more randomness
             this.artifacts.push({
                 x: x,
@@ -200,6 +190,84 @@ class InteractiveBackground {
                 opacity: Math.random() * 0.33 + 0.21,
                 wobbleAmount: Math.random() * 34 + 9,
                 color: this.randomThemeColor(Math.random() * 0.7 + 0.3)
+            });
+        }
+    }
+
+    createTopographicalLines() {
+        this.topographicalLines = [];
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+
+        for (let i = 0; i < this.maxTopographicalLines; i++) {
+            const centerX = Math.random() * width;
+            const centerY = Math.random() * height;
+            const radius = Math.random() * Math.min(width, height) * 0.3 + 50;
+            const segments = Math.floor(Math.random() * 8) + 12; // 12-19 segments
+            const points = [];
+
+            // Create irregular contour line
+            for (let j = 0; j < segments; j++) {
+                const angle = (j / segments) * Math.PI * 2;
+                const variation = (Math.random() - 0.5) * radius * 0.3;
+                const currentRadius = radius + variation;
+                
+                points.push({
+                    x: centerX + Math.cos(angle) * currentRadius,
+                    y: centerY + Math.sin(angle) * currentRadius
+                });
+            }
+
+            this.topographicalLines.push({
+                points: points,
+                color: this.randomThemeColor(Math.random() * 0.3 + 0.1),
+                opacity: Math.random() * 0.4 + 0.1,
+                lineWidth: Math.random() * 1.5 + 0.5,
+                animationOffset: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    createMeshes() {
+        this.meshes = [];
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+
+        for (let i = 0; i < this.maxMeshes; i++) {
+            const centerX = Math.random() * width;
+            const centerY = Math.random() * height;
+            const meshSize = Math.random() * 200 + 100;
+            const gridDensity = Math.floor(Math.random() * 8) + 6; // 6-13 grid points
+            const gridPoints = [];
+
+            // Create grid points
+            for (let x = 0; x < gridDensity; x++) {
+                for (let y = 0; y < gridDensity; y++) {
+                    const offsetX = (x / (gridDensity - 1) - 0.5) * meshSize;
+                    const offsetY = (y / (gridDensity - 1) - 0.5) * meshSize;
+                    const jitterX = (Math.random() - 0.5) * meshSize * 0.1;
+                    const jitterY = (Math.random() - 0.5) * meshSize * 0.1;
+                    
+                    gridPoints.push({
+                        x: centerX + offsetX + jitterX,
+                        y: centerY + offsetY + jitterY,
+                        originalX: centerX + offsetX + jitterX,
+                        originalY: centerY + offsetY + jitterY
+                    });
+                }
+            }
+
+            this.meshes.push({
+                centerX: centerX,
+                centerY: centerY,
+                originalCenterX: centerX,
+                originalCenterY: centerY,
+                gridPoints: gridPoints,
+                gridDensity: gridDensity,
+                color: this.randomThemeColor(Math.random() * 0.4 + 0.2),
+                opacity: Math.random() * 0.3 + 0.1,
+                wobbleAmount: Math.random() * 20 + 10,
+                animationOffset: Math.random() * Math.PI * 2
             });
         }
     }
@@ -279,6 +347,50 @@ class InteractiveBackground {
         });
     }
 
+    updateTopographicalLines() {
+        this.topographicalLines.forEach(line => {
+            const time = Date.now() * 0.001;
+            line.points.forEach((point, index) => {
+                const wave = Math.sin(time + line.animationOffset + index * 0.1) * 2;
+                point.x += wave * 0.1;
+                point.y += Math.cos(time + line.animationOffset + index * 0.1) * 1.5;
+            });
+        });
+    }
+
+    updateMeshes() {
+        this.meshes.forEach(mesh => {
+            // Mouse interaction with mesh center
+            const dx = this.mouse.x - mesh.centerX;
+            const dy = this.mouse.y - mesh.centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+                const force = (150 - distance) / 150;
+                const t = Date.now() * 0.003;
+                const wobbleX = Math.sin(t + mesh.centerX * 0.001) * force * mesh.wobbleAmount;
+                const wobbleY = Math.cos(t * 0.7 + mesh.centerY * 0.001) * force * mesh.wobbleAmount;
+
+                mesh.centerX = mesh.originalCenterX + wobbleX;
+                mesh.centerY = mesh.originalCenterY + wobbleY;
+            } else {
+                mesh.centerX += (mesh.originalCenterX - mesh.centerX) * 0.02;
+                mesh.centerY += (mesh.originalCenterY - mesh.centerY) * 0.02;
+            }
+
+            // Update grid points based on center movement
+            mesh.gridPoints.forEach((point, index) => {
+                const gridX = Math.floor(index / mesh.gridDensity);
+                const gridY = index % mesh.gridDensity;
+                const offsetX = (gridX / (mesh.gridDensity - 1) - 0.5) * 200;
+                const offsetY = (gridY / (mesh.gridDensity - 1) - 0.5) * 200;
+                
+                point.x = mesh.centerX + offsetX;
+                point.y = mesh.centerY + offsetY;
+            });
+        });
+    }
+
     drawArtifacts() {
         this.artifacts.forEach((artifact) => {
             this.ctx.save();
@@ -287,9 +399,9 @@ class InteractiveBackground {
             this.ctx.translate(artifact.x, artifact.y);
             this.ctx.rotate(artifact.rotation);
 
-            // Set color (use gradient only for circles/stars for more visual variety; use fill otherwise)
+            // Set color (use gradient only for circles for more visual variety; use fill otherwise)
             let fillStyle;
-            if (artifact.type === "circle" || artifact.type === "star") {
+            if (artifact.type === "circle") {
                 const gradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, artifact.size);
                 gradient.addColorStop(0, this.randomThemeColor(Math.min(1.0, artifact.colorOpacity)));
                 gradient.addColorStop(1, this.randomThemeColor(0.01 + Math.random() * 0.03));
@@ -335,17 +447,6 @@ class InteractiveBackground {
                     const y = Math.sin(angle) * artifact.size / 2;
                     if (i === 0) this.ctx.moveTo(x, y);
                     else this.ctx.lineTo(x, y);
-                }
-                this.ctx.closePath();
-                this.ctx.fillStyle = fillStyle;
-                this.ctx.fill();
-            } else if (artifact.type === 'star') {
-                this.ctx.beginPath();
-                const spikes = 5, outerRadius = artifact.size / 2, innerRadius = artifact.size / 4;
-                for (let i = 0; i < spikes * 2; i++) {
-                    const radius = i % 2 === 0 ? outerRadius : innerRadius;
-                    const angle = Math.PI / 2 + (i * Math.PI) / spikes;
-                    this.ctx.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
                 }
                 this.ctx.closePath();
                 this.ctx.fillStyle = fillStyle;
@@ -407,6 +508,74 @@ class InteractiveBackground {
         });
     }
 
+    drawTopographicalLines() {
+        this.topographicalLines.forEach(line => {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = line.color;
+            this.ctx.globalAlpha = line.opacity;
+            this.ctx.lineWidth = line.lineWidth;
+            
+            // Draw the contour line
+            this.ctx.moveTo(line.points[0].x, line.points[0].y);
+            for (let i = 1; i < line.points.length; i++) {
+                this.ctx.lineTo(line.points[i].x, line.points[i].y);
+            }
+            this.ctx.closePath();
+            this.ctx.stroke();
+            
+            this.ctx.globalAlpha = 1;
+        });
+    }
+
+    drawMeshes() {
+        this.meshes.forEach(mesh => {
+            this.ctx.strokeStyle = mesh.color;
+            this.ctx.globalAlpha = mesh.opacity;
+            this.ctx.lineWidth = 0.8;
+
+            // Draw horizontal grid lines
+            for (let y = 0; y < mesh.gridDensity; y++) {
+                this.ctx.beginPath();
+                for (let x = 0; x < mesh.gridDensity; x++) {
+                    const index = y * mesh.gridDensity + x;
+                    const point = mesh.gridPoints[index];
+                    if (x === 0) {
+                        this.ctx.moveTo(point.x, point.y);
+                    } else {
+                        this.ctx.lineTo(point.x, point.y);
+                    }
+                }
+                this.ctx.stroke();
+            }
+
+            // Draw vertical grid lines
+            for (let x = 0; x < mesh.gridDensity; x++) {
+                this.ctx.beginPath();
+                for (let y = 0; y < mesh.gridDensity; y++) {
+                    const index = y * mesh.gridDensity + x;
+                    const point = mesh.gridPoints[index];
+                    if (y === 0) {
+                        this.ctx.moveTo(point.x, point.y);
+                    } else {
+                        this.ctx.lineTo(point.x, point.y);
+                    }
+                }
+                this.ctx.stroke();
+            }
+
+            // Draw grid points
+            mesh.gridPoints.forEach(point => {
+                this.ctx.beginPath();
+                this.ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
+                this.ctx.fillStyle = mesh.color;
+                this.ctx.globalAlpha = mesh.opacity * 1.5;
+                this.ctx.fill();
+            });
+
+            this.ctx.globalAlpha = 1;
+        });
+    }
+
     drawConnections() {
         // Draw subtle connections between nearby artifacts with random color from the theme
         for (let i = 0; i < this.artifacts.length; i++) {
@@ -436,7 +605,11 @@ class InteractiveBackground {
 
         this.updateArtifacts();
         this.updateNetworks();
+        this.updateTopographicalLines();
+        this.updateMeshes();
 
+        this.drawTopographicalLines();
+        this.drawMeshes();
         this.drawConnections();
         this.drawArtifacts();
         this.drawNetworks();

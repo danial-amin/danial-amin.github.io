@@ -38,13 +38,15 @@
     --contribution-border: #30363d;
     --contribution-hover-border: #58a6ff;
     --contribution-level-0: #161b22;
-    --contribution-level-1: #0e4429;
-    --contribution-level-2: #006d32;
-    --contribution-level-3: #26a641;
-    --contribution-level-4: #39d353;
+    --contribution-level-1: #1a1a2e;
+    --contribution-level-2: #16213e;
+    --contribution-level-3: #0f3460;
+    --contribution-level-4: #e94560;
     --tooltip-bg: #21262d;
     --tooltip-text: #f0f6fc;
     --tooltip-border: #30363d;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
 }
 
 /* Light Theme */
@@ -87,13 +89,15 @@
     --contribution-border: #d0d7de;
     --contribution-hover-border: #0969da;
     --contribution-level-0: #f6f8fa;
-    --contribution-level-1: #9be9a8;
-    --contribution-level-2: #40c463;
-    --contribution-level-3: #30a14e;
-    --contribution-level-4: #216e39;
+    --contribution-level-1: #e1f5fe;
+    --contribution-level-2: #b3e5fc;
+    --contribution-level-3: #4fc3f7;
+    --contribution-level-4: #ff6b35;
     --tooltip-bg: #ffffff;
     --tooltip-text: #24292f;
     --tooltip-border: #d0d7de;
+    --success-color: #059669;
+    --warning-color: #d97706;
 }
 
 /* Theme-specific styles */
