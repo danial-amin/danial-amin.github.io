@@ -33,7 +33,7 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin: 2rem auto;
-            max-width: 100%;
+            max-width: 800px;
             backdrop-filter: blur(20px);
             box-shadow: var(--shadow-medium);
         }
@@ -83,7 +83,7 @@
         /* Article Content with Semi-Opaque Overlay */
         .article-content {
             position: relative;
-            max-width: 100%;
+            max-width: 800px;
             margin: 0 auto;
             padding: 2rem 1rem;
             line-height: 1.7;
@@ -104,7 +104,7 @@
         .article-body {
             position: relative;
             z-index: 1;
-            background: rgba(var(--card-bg-rgb), 0.85);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2rem;
@@ -198,7 +198,8 @@
             background: var(--bg-secondary);
             padding: 1.5rem;
             border-radius: 0.5rem;
-            margin: 2rem 0;
+            margin: 2rem auto;
+            max-width: 800px;
         }
         
         .toc h3 {
@@ -237,7 +238,8 @@
             background: var(--bg-secondary);
             padding: 1.5rem;
             border-radius: 0.5rem;
-            margin: 2rem 0;
+            margin: 2rem auto;
+            max-width: 800px;
             border-left: 4px solid var(--accent);
         }
         
@@ -265,6 +267,9 @@
             margin-top: 3rem;
             padding-top: 2rem;
             border-top: 1px solid var(--border-color);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .references h3 {
@@ -295,6 +300,9 @@
             padding-top: 2rem;
             border-top: 1px solid var(--border-color);
             font-size: 0.9rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .footnotes h3 {
@@ -416,7 +424,7 @@
 
     <!-- Article Content with Semi-Opaque Overlay -->
     <section class="article-content">
-        <div class="article-overlay"></div>
+
         <div class="container">
             <div class="article-body">
                 <p>The recent release of DeepSeek R1 challenges our conventional understanding of large language model deployment. While most discussions in the industry center around scaling parameters and computing power, DeepSeek's approach introduces a radical shift in how we think about model architecture and deployment efficiency.</p>
@@ -545,5 +553,6 @@
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 
 
