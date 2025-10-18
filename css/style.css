@@ -274,12 +274,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .hero-network {
     position: relative;
     width: 500px;
     height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .connection-lines {
@@ -295,13 +299,31 @@ body {
 .connection {
     stroke: var(--accent-color);
     stroke-width: 2;
-    opacity: 0.4;
-    animation: pulse-line 3s ease-in-out infinite;
+    opacity: 0.3;
+    stroke-dasharray: 5 5;
+    animation: connection-flow 4s linear infinite;
+    filter: drop-shadow(0 0 3px var(--accent-color));
 }
 
-@keyframes pulse-line {
-    0%, 100% { opacity: 0.4; stroke-width: 2; }
-    50% { opacity: 0.8; stroke-width: 3; }
+.connection-1 { animation-delay: 0s; }
+.connection-2 { animation-delay: 0.5s; }
+.connection-3 { animation-delay: 1s; }
+.connection-4 { animation-delay: 1.5s; }
+.connection-5 { animation-delay: 2s; }
+.connection-6 { animation-delay: 2.5s; }
+
+@keyframes connection-flow {
+    0% { 
+        stroke-dashoffset: 0;
+        opacity: 0.3;
+    }
+    50% { 
+        opacity: 0.8;
+    }
+    100% { 
+        stroke-dashoffset: -20;
+        opacity: 0.3;
+    }
 }
 
 .network-center {
@@ -313,35 +335,43 @@ body {
 }
 
 .center-node {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     background: linear-gradient(135deg, var(--accent-color), var(--secondary-accent));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: white;
-    box-shadow: var(--shadow-large);
-    animation: center-pulse 4s ease-in-out infinite;
+    box-shadow: 0 0 40px var(--shadow-accent), 0 0 80px rgba(59, 130, 246, 0.3);
+    animation: center-glow 3s ease-in-out infinite;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid rgba(255, 255, 255, 0.1);
 }
 
 .center-node:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px var(--shadow-accent);
+    transform: scale(1.15);
+    box-shadow: 0 0 60px var(--shadow-accent), 0 0 120px rgba(59, 130, 246, 0.5);
+    animation-play-state: paused;
 }
 
-@keyframes center-pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+@keyframes center-glow {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 0 40px var(--shadow-accent), 0 0 80px rgba(59, 130, 246, 0.3);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 0 60px var(--shadow-accent), 0 0 120px rgba(59, 130, 246, 0.5);
+    }
 }
 
 .network-node {
     position: absolute;
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
     background: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 50%;
@@ -350,62 +380,106 @@ body {
     justify-content: center;
     backdrop-filter: blur(20px);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
+    box-shadow: var(--shadow-small);
+    animation: node-float 6s ease-in-out infinite;
 }
 
 .network-node:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
     border-color: var(--accent-color);
-    box-shadow: var(--shadow-medium);
+    box-shadow: var(--shadow-large), 0 0 20px var(--shadow-accent);
     background: var(--hover-bg);
+    animation-play-state: paused;
 }
 
 .network-node::before {
     content: attr(data-skill);
     position: absolute;
-    top: -40px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--card-bg);
     color: var(--text-primary);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
     white-space: nowrap;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
     pointer-events: none;
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-medium);
+    backdrop-filter: blur(10px);
 }
 
 .network-node:hover::before {
     opacity: 1;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+@keyframes node-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(1deg); }
+    50% { transform: translateY(-5px) rotate(0deg); }
+    75% { transform: translateY(-12px) rotate(-1deg); }
 }
 
 .node-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
 }
 
 .node-icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .node-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Node Positioning */
-.node-1 { top: 50px; left: 50%; transform: translateX(-50%); }
-.node-2 { top: 137px; right: 61px; }
-.node-3 { bottom: 137px; right: 61px; }
-.node-4 { bottom: 50px; left: 50%; transform: translateX(-50%); }
-.node-5 { bottom: 137px; left: 61px; }
-.node-6 { top: 137px; left: 61px; }
+.node-1 { 
+    top: 50px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    animation-delay: 0s;
+}
+.node-2 { 
+    top: 137px; 
+    right: 61px;
+    animation-delay: 0.5s;
+}
+.node-3 { 
+    bottom: 137px; 
+    right: 61px;
+    animation-delay: 1s;
+}
+.node-4 { 
+    bottom: 50px; 
+    left: 50%; 
+    transform: translateX(-50%);
+    animation-delay: 1.5s;
+}
+.node-5 { 
+    bottom: 137px; 
+    left: 61px;
+    animation-delay: 2s;
+}
+.node-6 { 
+    top: 137px; 
+    left: 61px;
+    animation-delay: 2.5s;
+}
 /* Changing Word Animation */
 .changing-word {
     position: relative;
