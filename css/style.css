@@ -1668,7 +1668,7 @@ body {
     .timeline-card {
         padding: 1.5rem;
         max-width: 260px;
-        height: 240px;
+        height: 350px;
     }
     
     .timeline-role {
@@ -1721,7 +1721,7 @@ body {
     .timeline-card {
         padding: 1.25rem;
         max-width: 220px;
-        height: 200px;
+        height: 250px;
     }
     
     .timeline-role {
@@ -2060,7 +2060,7 @@ body {
 
 /* Timeline adjustments for more experiences */
 .timeline-card {
-    height: 200px;
+    height: 400px;
     padding: 1.5rem;
 }
 
@@ -2126,7 +2126,7 @@ body {
     }
     
     .timeline-card {
-        height: 180px;
+        height: 350px;
         padding: 1.25rem;
     }
     
