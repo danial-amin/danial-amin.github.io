@@ -14,7 +14,6 @@ class GitHubContributions {
         this.contributionGrid = document.getElementById('contribution-grid');
         this.totalContributions = document.querySelector('.total-contributions');
         this.longestStreak = document.querySelector('.longest-streak');
-        this.githubUsername = 'danial-amin';
         
         this.init();
     }
@@ -81,246 +80,100 @@ class GitHubContributions {
         this.showLoadingState();
         
         try {
-            // Try to fetch real GitHub data first
-            const contributions = await this.fetchRealGitHubData(year);
-            if (contributions && contributions.length > 0) {
-                this.renderContributions(contributions);
-                this.updateStats(contributions);
-                this.showDataSourceIndicator('real');
-            } else {
-                // Fallback to realistic mock data if API fails
-                const mockContributions = this.generateRealisticContributions(year);
-                this.renderContributions(mockContributions);
-                this.updateStats(mockContributions);
-                this.showDataSourceIndicator('mock');
-            }
-        } catch (error) {
-            console.error(`Error loading data for ${year}:`, error);
-            // Fallback to realistic mock data
-            const contributions = this.generateRealisticContributions(year);
+            // Generate contributions with specific target numbers
+            const contributions = this.generateContributionsWithTarget(year);
+            this.renderContributions(contributions);
+            this.updateStats(contributions);
+            } catch (error) {
+                console.error(`Error loading data for ${year}:`, error);
+            const contributions = this.generateContributionsWithTarget(year);
             this.renderContributions(contributions);
             this.updateStats(contributions);
         }
     }
 
-    async fetchRealGitHubData(year) {
-        try {
-            // Try multiple approaches to get GitHub data
-            let contributions = null;
-            
-            // Method 1: Try to get contribution data from GitHub's contribution graph
-            try {
-                contributions = await this.fetchContributionsFromGraph(year);
-                if (contributions && contributions.length > 0) {
-                    return contributions;
-                }
-            } catch (error) {
-                console.log('Graph method failed, trying events method...');
-            }
-            
-            // Method 2: Fallback to events API
-            const response = await fetch(`https://api.github.com/users/${this.githubUsername}/events?per_page=100`);
-            
-            if (!response.ok) {
-                throw new Error(`GitHub API error: ${response.status}`);
-            }
-            
-            const events = await response.json();
-            
-            // Process events into contribution data
-            contributions = this.processGitHubEvents(events, year);
-            return contributions;
-            
-        } catch (error) {
-            console.error('Error fetching GitHub data:', error);
-            return null;
-        }
-    }
 
-    async fetchContributionsFromGraph(year) {
-        // This is a more direct approach to get contribution data
-        // We'll use a combination of repository data and commit activity
-        try {
-            // Get user's repositories
-            const reposResponse = await fetch(`https://api.github.com/users/${this.githubUsername}/repos?per_page=100&sort=updated`);
-            
-            if (!reposResponse.ok) {
-                throw new Error(`Repos API error: ${reposResponse.status}`);
-            }
-            
-            const repos = await reposResponse.json();
-            
-            // Get commit activity for each repository
-            const contributions = await this.processRepositoryActivity(repos, year);
-            return contributions;
-            
-        } catch (error) {
-            console.error('Error fetching from graph:', error);
-            return null;
-        }
-    }
-
-    async processRepositoryActivity(repos, year) {
-        const contributionMap = new Map();
-        const startDate = new Date(`${year}-01-01`);
-        const currentDate = new Date();
-        const endDate = year === '2025' ? currentDate : new Date(`${year}-12-31`);
+    generateContributionsWithTarget(year) {
+        // Target contribution numbers for each year
+        const targetContributions = {
+            '2025': 729,  // Till October
+            '2024': 686,
+            '2023': 450,
+            '2022': 980,
+            '2021': 230,
+            '2020': 160
+        };
         
-        // Process each repository
-        for (const repo of repos.slice(0, 20)) { // Limit to top 20 repos to avoid rate limits
-            try {
-                // Get commit activity for the repository
-                const commitsResponse = await fetch(`https://api.github.com/repos/${repo.full_name}/commits?since=${startDate.toISOString()}&until=${endDate.toISOString()}&per_page=100`);
-                
-                if (commitsResponse.ok) {
-                    const commits = await commitsResponse.json();
-                    
-                    // Process commits by date
-                    commits.forEach(commit => {
-                        const commitDate = new Date(commit.commit.author.date);
-                        const dateStr = commitDate.toISOString().split('T')[0];
-                        
-                        if (!contributionMap.has(dateStr)) {
-                            contributionMap.set(dateStr, {
-                                date: dateStr,
-                                count: 0,
-                                level: 0
-                            });
-                        }
-                        
-                        const dayData = contributionMap.get(dateStr);
-                        dayData.count += 1;
-                    });
-                }
-                
-                // Add small delay to avoid rate limiting
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-            } catch (error) {
-                console.log(`Error processing repo ${repo.name}:`, error);
-                continue;
-            }
-        }
-        
-        // Convert to array and calculate levels
-        const contributions = [];
-        contributionMap.forEach((dayData) => {
-            // Calculate contribution level based on count
-            if (dayData.count === 0) dayData.level = 0;
-            else if (dayData.count <= 2) dayData.level = 1;
-            else if (dayData.count <= 5) dayData.level = 2;
-            else if (dayData.count <= 10) dayData.level = 3;
-            else dayData.level = 4;
-            
-            contributions.push(dayData);
-        });
-        
-        // Fill in missing dates
-        return this.fillMissingDates(contributions, year);
-    }
-
-    fillMissingDates(contributions, year) {
-        const startDate = new Date(`${year}-01-01`);
-        const currentDate = new Date();
-        const endDate = year === '2025' ? currentDate : new Date(`${year}-12-31`);
-        
-        const allDays = [];
-        const daysInYear = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-        
-        for (let i = 0; i < daysInYear; i++) {
-            const date = new Date(startDate);
-            date.setDate(date.getDate() + i);
-            
-            if (year === '2025' && date > currentDate) {
-                break;
-            }
-            
-            const dateStr = date.toISOString().split('T')[0];
-            const existingDay = contributions.find(d => d.date === dateStr);
-            
-            if (existingDay) {
-                allDays.push(existingDay);
-            } else {
-                allDays.push({
-                    date: dateStr,
-                    count: 0,
-                    level: 0
-                });
-            }
-        }
-        
-        return allDays;
-    }
-
-    processGitHubEvents(events, year) {
+        const targetTotal = targetContributions[year] || 0;
         const contributions = [];
         const startDate = new Date(`${year}-01-01`);
         const currentDate = new Date();
         const endDate = year === '2025' ? currentDate : new Date(`${year}-12-31`);
         
-        // Create a map to store contributions by date
-        const contributionMap = new Map();
-        
-        // Process events and group by date
-        events.forEach(event => {
-            const eventDate = new Date(event.created_at);
-            
-            // Only process events from the requested year
-            if (eventDate >= startDate && eventDate <= endDate) {
-                const dateStr = eventDate.toISOString().split('T')[0];
-                
-                if (!contributionMap.has(dateStr)) {
-                    contributionMap.set(dateStr, {
-                        date: dateStr,
-                        count: 0,
-                        level: 0
-                    });
-                }
-                
-                const dayData = contributionMap.get(dateStr);
-                dayData.count += 1;
-            }
-        });
-        
-        // Convert map to array and calculate levels
-        contributionMap.forEach((dayData) => {
-            // Calculate contribution level based on count
-            if (dayData.count === 0) dayData.level = 0;
-            else if (dayData.count <= 2) dayData.level = 1;
-            else if (dayData.count <= 5) dayData.level = 2;
-            else if (dayData.count <= 10) dayData.level = 3;
-            else dayData.level = 4;
-            
-            contributions.push(dayData);
-        });
-        
-        // Fill in missing dates with zero contributions
-        const allDays = [];
         const daysInYear = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+        
+        // Create a realistic distribution of contributions
+        const activeDays = Math.floor(daysInYear * 0.6); // 60% of days have activity
+        const contributionsPerDay = Math.floor(targetTotal / activeDays);
+        const remainder = targetTotal % activeDays;
+        
+        let contributionCount = 0;
+        let activeDayCount = 0;
         
         for (let i = 0; i < daysInYear; i++) {
             const date = new Date(startDate);
             date.setDate(date.getDate() + i);
             
+            // Skip future dates for current year
             if (year === '2025' && date > currentDate) {
                 break;
             }
             
-            const dateStr = date.toISOString().split('T')[0];
-            const existingDay = contributions.find(d => d.date === dateStr);
+            const dayOfWeek = date.getDay();
+            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             
-            if (existingDay) {
-                allDays.push(existingDay);
-            } else {
-                allDays.push({
-                    date: dateStr,
-                    count: 0,
-                    level: 0
-                });
+            // Determine if this day should have contributions
+            let dayContributions = 0;
+            let level = 0;
+            
+            // More activity on weekdays, less on weekends
+            const activityChance = isWeekend ? 0.3 : 0.7;
+            
+            if (Math.random() < activityChance && activeDayCount < activeDays && contributionCount < targetTotal) {
+                dayContributions = contributionsPerDay;
+                
+                // Add remainder to some days
+                if (activeDayCount < remainder) {
+                    dayContributions += 1;
+                }
+                
+                // Add some variation
+                const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+                dayContributions = Math.max(1, dayContributions + variation);
+                
+                // Ensure we don't exceed target
+                if (contributionCount + dayContributions > targetTotal) {
+                    dayContributions = targetTotal - contributionCount;
+                }
+                
+                // Calculate level based on contribution count
+                if (dayContributions <= 2) level = 1;
+                else if (dayContributions <= 5) level = 2;
+                else if (dayContributions <= 10) level = 3;
+                else level = 4;
+                
+                contributionCount += dayContributions;
+                activeDayCount++;
             }
+            
+            contributions.push({
+                date: date.toISOString().split('T')[0],
+                count: dayContributions,
+                level: level
+            });
         }
         
-        return allDays;
+        return contributions;
     }
 
     generateRealisticContributions(year) {
@@ -470,8 +323,7 @@ class GitHubContributions {
             <div style="display: flex; align-items: center; justify-content: center; height: 120px; color: var(--text-secondary);">
                 <div style="text-align: center;">
                     <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⏳</div>
-                    <div>Fetching your GitHub data...</div>
-                    <div style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">This may take a moment</div>
+                    <div>Loading contributions...</div>
                 </div>
             </div>
         `;
@@ -508,46 +360,6 @@ class GitHubContributions {
         }
     }
 
-    showDataSourceIndicator(source) {
-        // Add a small indicator showing data source
-        const indicator = document.createElement('div');
-        indicator.className = 'data-source-indicator';
-        indicator.style.cssText = `
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-            opacity: 0.7;
-            background: var(--bg-secondary);
-            padding: 2px 6px;
-            border-radius: 3px;
-            border: 1px solid var(--border-color);
-        `;
-        
-        if (source === 'real') {
-            indicator.innerHTML = '📊 Live GitHub Data';
-            indicator.style.color = 'var(--success-color, #10b981)';
-        } else {
-            indicator.innerHTML = '🎭 Demo Data';
-            indicator.style.color = 'var(--warning-color, #f59e0b)';
-        }
-        
-        // Remove any existing indicator
-        const existingIndicator = document.querySelector('.data-source-indicator');
-        if (existingIndicator) {
-            existingIndicator.remove();
-        }
-        
-        document.querySelector('.contributions-container').appendChild(indicator);
-        
-        // Auto-remove after 3 seconds
-        setTimeout(() => {
-            if (indicator.parentNode) {
-                indicator.remove();
-            }
-        }, 3000);
-    }
 }
 
 // Initialize when DOM is loaded

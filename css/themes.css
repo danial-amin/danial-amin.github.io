@@ -45,8 +45,6 @@
     --tooltip-bg: #21262d;
     --tooltip-text: #f0f6fc;
     --tooltip-border: #30363d;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
 }
 
 /* Light Theme */
@@ -96,8 +94,6 @@
     --tooltip-bg: #ffffff;
     --tooltip-text: #24292f;
     --tooltip-border: #d0d7de;
-    --success-color: #059669;
-    --warning-color: #d97706;
 }
 
 /* Theme-specific styles */
