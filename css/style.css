@@ -299,11 +299,11 @@ body {
 
 .connection {
     stroke: var(--accent-color);
-    stroke-width: 2;
-    opacity: 0.4;
+    stroke-width: 3;
+    opacity: 0.8;
     stroke-dasharray: 8 4;
     animation: connection-flow 6s linear infinite;
-    filter: drop-shadow(0 0 4px var(--accent-color));
+    filter: drop-shadow(0 0 6px var(--accent-color));
 }
 
 .connection-1 { animation-delay: 0s; }
@@ -980,7 +980,7 @@ body {
 
 .timeline-line {
     position: absolute;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     height: 3px;
