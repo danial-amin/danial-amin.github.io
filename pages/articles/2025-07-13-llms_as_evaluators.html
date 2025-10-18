@@ -28,6 +28,7 @@
         
         /* Article-specific styles */
         .article-content {
+            position: relative;
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem 1rem;
@@ -141,7 +142,7 @@
         
         .toc a {
             color: var(--accent);
-            text-decoration: none;
+            text-decoration: underline;
             transition: all 0.3s ease;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
@@ -153,6 +154,7 @@
             background: var(--accent);
             color: white;
             transform: translateX(4px);
+            text-decoration: underline;
         }
         
         /* Author bio */
@@ -252,8 +254,12 @@
         /* Responsive design */
         @media (max-width: 768px) {
             .article-content {
-                padding: 1rem 0.5rem;
-            }
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
             
             .article-content h2 {
                 font-size: 1.5rem;
@@ -516,6 +522,7 @@
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
 
 
 

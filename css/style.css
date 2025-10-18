@@ -2620,6 +2620,17 @@ body {
     border-color: var(--accent-color);
 }
 
+/* Remove blue underlined text from blog cards */
+.blog-card-link * {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.blog-card-link a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
 /* Blog grid layout - exactly 3 cards per row */
 .blog-preview-grid {
     display: grid;
