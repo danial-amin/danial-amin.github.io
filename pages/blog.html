@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Alex Chen</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../index.html">Alex Chen</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <section class="blog-header">
+        <div class="container">
+            <div class="blog-hero">
+                <span class="section-badge">Insights & Research</span>
+                <h1 class="section-title">Latest Articles</h1>
+                <p class="blog-description">
+                    Exploring the frontiers of AI, sharing research insights, and discussing the latest trends 
+                    in machine learning, data science, and technology innovation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Article -->
+    <section class="featured-article">
+        <div class="container">
+            <article class="article-card featured">
+                <div class="article-image">
+                    <div class="article-image-placeholder">
+                        <div class="placeholder-icon">🤖</div>
+                    </div>
+                    <div class="article-badge">Featured</div>
+                </div>
+                <div class="article-content">
+                    <div class="article-meta">
+                        <span class="article-date">October 15, 2025</span>
+                        <span class="article-category">AI Research</span>
+                        <span class="article-read-time">12 min read</span>
+                    </div>
+                    <h2 class="article-title">The Future of AI in Healthcare: Beyond Diagnosis</h2>
+                    <p class="article-excerpt">
+                        Exploring how artificial intelligence is revolutionizing healthcare beyond traditional diagnostic applications. 
+                        From personalized treatment plans to drug discovery, we examine the transformative potential of AI in modern medicine 
+                        and the ethical considerations that come with it.
+                    </p>
+                    <div class="article-tags">
+                        <span class="tag">Artificial Intelligence</span>
+                        <span class="tag">Healthcare</span>
+                        <span class="tag">Ethics</span>
+                        <span class="tag">Machine Learning</span>
+                    </div>
+                    <a href="#" class="read-more-btn">
+                        <span>Read Full Article</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Blog Posts Grid -->
+    <section class="blog-posts">
+        <div class="container">
+            <div class="posts-grid">
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">🧠</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">October 10, 2025</span>
+                            <span class="article-category">Deep Learning</span>
+                            <span class="article-read-time">8 min read</span>
+                        </div>
+                        <h3 class="article-title">Building Scalable ML Pipelines: Lessons from Production</h3>
+                        <p class="article-excerpt">
+                            A comprehensive guide to creating production-ready machine learning pipelines that can handle 
+                            massive datasets and real-time predictions. Learn from real-world challenges and solutions.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">MLOps</span>
+                            <span class="tag">Production</span>
+                            <span class="tag">Scalability</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">📊</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">October 5, 2025</span>
+                            <span class="article-category">Data Science</span>
+                            <span class="article-read-time">6 min read</span>
+                        </div>
+                        <h3 class="article-title">The Art of Feature Engineering in Modern ML</h3>
+                        <p class="article-excerpt">
+                            Feature engineering remains crucial in the age of deep learning. Discover advanced techniques 
+                            and automated approaches that can significantly improve model performance.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">Feature Engineering</span>
+                            <span class="tag">AutoML</span>
+                            <span class="tag">Data Science</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">🔬</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">September 28, 2025</span>
+                            <span class="article-category">Research</span>
+                            <span class="article-read-time">10 min read</span>
+                        </div>
+                        <h3 class="article-title">Ethical AI: Balancing Innovation and Responsibility</h3>
+                        <p class="article-excerpt">
+                            As AI becomes more prevalent, the importance of ethical considerations grows. This article discusses 
+                            frameworks for responsible AI development and deployment in real-world applications.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">Ethics</span>
+                            <span class="tag">AI Governance</span>
+                            <span class="tag">Responsibility</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">September 22, 2025</span>
+                            <span class="article-category">Tutorial</span>
+                            <span class="article-read-time">15 min read</span>
+                        </div>
+                        <h3 class="article-title">Fine-tuning Large Language Models: A Practical Guide</h3>
+                        <p class="article-excerpt">
+                            Step-by-step tutorial on fine-tuning large language models for specific tasks. Covers parameter-efficient 
+                            methods, dataset preparation, and evaluation strategies with practical code examples.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">LLM</span>
+                            <span class="tag">Fine-tuning</span>
+                            <span class="tag">Tutorial</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">🌐</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">September 15, 2025</span>
+                            <span class="article-category">Industry Trends</span>
+                            <span class="article-read-time">7 min read</span>
+                        </div>
+                        <h3 class="article-title">The Rise of Edge AI: Computing at the Source</h3>
+                        <p class="article-excerpt">
+                            Exploring the growing trend of edge AI deployment, its benefits for latency-sensitive applications, 
+                            and the challenges of running ML models on resource-constrained devices.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">Edge AI</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">Optimization</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-image">
+                        <div class="article-image-placeholder">
+                            <div class="placeholder-icon">🎯</div>
+                        </div>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-date">September 8, 2025</span>
+                            <span class="article-category">Computer Vision</span>
+                            <span class="article-read-time">9 min read</span>
+                        </div>
+                        <h3 class="article-title">Vision Transformers vs CNNs: When to Use What</h3>
+                        <p class="article-excerpt">
+                            A detailed comparison of Vision Transformers and Convolutional Neural Networks, examining their 
+                            strengths, weaknesses, and optimal use cases in modern computer vision applications.
+                        </p>
+                        <div class="article-tags">
+                            <span class="tag">Computer Vision</span>
+                            <span class="tag">Transformers</span>
+                            <span class="tag">CNN</span>
+                        </div>
+                        <a href="#" class="read-more-btn">
+                            <span>Read More</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <div class="newsletter-text">
+                    <h2>Stay Updated</h2>
+                    <p>Get the latest insights on AI, machine learning, and data science delivered to your inbox.</p>
+                </div>
+                <form class="newsletter-form">
+                    <div class="form-group-inline">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Subscribe</span>
+                        </button>
+                    </div>
+                    <p class="newsletter-privacy">No spam, unsubscribe at any time.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Alex Chen. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/interactive-bg.js"></script>
+    <script src="../js/theme-switcher.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
