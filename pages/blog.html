@@ -55,8 +55,8 @@
     <!-- Blog Filter -->
     <section class="blog-filter">
         <div class="container">
-            <div class="filter-controls" style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 1.5rem;">
-                <button class="filter-btn active" data-filter="all" style="--btn-bg: var(--accent, #2d72e0); --btn-color: #fff;">All Articles</button>
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All Articles</button>
                 <button class="filter-btn" data-filter="ai-research">AI Research</button>
                 <button class="filter-btn" data-filter="tutorial">Tutorial</button>
                 <button class="filter-btn" data-filter="industry">Industry Trends</button>
@@ -67,100 +67,6 @@
             </div>
         </div>
     </section>
-    <style>
-        .filter-controls .filter-btn {
-            padding: 0.5rem 1.2rem;
-            font-size: 1rem;
-            font-weight: 500;
-            background: var(--btn-bg, #23272f);
-            color: var(--btn-color, #b7bdd6);
-            border: none;
-            outline: none;
-            border-radius: 32px;
-            cursor: pointer;
-            transition: 
-                background 0.17s, 
-                color 0.17s, 
-                box-shadow 0.17s;
-            box-shadow: 0 1px 7px 0 rgba(32,36,54,0.08);
-            letter-spacing: 0.01em;
-        }
-        .filter-controls .filter-btn:not(.active):hover,
-        .filter-controls .filter-btn:focus-visible {
-            background: var(--accent, #2d72e0);
-            color: #fff;
-        }
-        .filter-controls .filter-btn.active {
-            background: var(--accent, #2d72e0) !important;
-            color: #fff !important;
-            box-shadow: 0 2px 16px 0 rgba(45,114,224,0.17);
-        }
-        @media (max-width: 600px) {
-            .filter-controls {
-                gap: 0.5rem;
-            }
-            .filter-controls .filter-btn {
-                font-size: 0.98rem;
-                padding: 0.44rem 1rem;
-            }
-        }
-        
-        /* Blog card link styling */
-        .blog-card-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        .blog-card-link:hover {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .blog-card-link:hover .blog-preview-card {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-large);
-            border-color: var(--accent-color);
-        }
-        
-        /* Grid layout - exactly 3 cards per row */
-        .blog-preview-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        @media (max-width: 1024px) {
-            .blog-preview-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.25rem;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .blog-preview-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-        
-        /* Ensure consistent card heights */
-        .blog-preview-card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .blog-preview-excerpt {
-            flex-grow: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
 
     <!-- Blog Cards Grid -->
     <section class="blog-showcase">
@@ -191,7 +97,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card 1 -->
                 <a href="articles/2025-09-25-personality-in-llm.html" class="blog-card-link">
@@ -216,7 +122,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card 2 -->
                 <a href="articles/2025-09-22-llm-fossilized.html" class="blog-card-link">
@@ -241,7 +147,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card 3 -->
                 <a href="articles/2025-07-26-AI Safety-pt2.html" class="blog-card-link">
@@ -266,32 +172,32 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-25-AI Safety-pt1.html" class="blog-card-link">
                     <article class="blog-preview-card" data-category="ai-research">
                         <div class="blog-preview-meta">
-                        <span class="blog-date">July 25, 2025</span>
-                        <span class="blog-category">AI Research</span>
-                            </div>
-                    <h3 class="blog-preview-title">AI Safety Part 1 - Understanding the Challenge</h3>
-                    <p class="blog-preview-excerpt">
+                            <span class="blog-date">July 25, 2025</span>
+                            <span class="blog-category">AI Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">AI Safety Part 1 - Understanding the Challenge</h3>
+                        <p class="blog-preview-excerpt">
                             As AI systems become more powerful, ensuring their safety and alignment with human values becomes increasingly critical. This article explores the fundamental challenges and approaches to AI safety...
                         </p>
-                    <div class="blog-preview-tags">
-                        <span class="tag">AI Safety</span>
-                        <span class="tag">alignment</span>
-                        <span class="tag">values</span>
-                            </div>
-                    <div class="read-more-link">
-                        Read Article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                    </svg>
-                    </div>
+                        <div class="blog-preview-tags">
+                            <span class="tag">AI Safety</span>
+                            <span class="tag">alignment</span>
+                            <span class="tag">values</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-23-wrong-evaluation.html" class="blog-card-link">
@@ -316,7 +222,7 @@
                                     </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-22-digital-twin.html" class="blog-card-link">
@@ -341,7 +247,7 @@
                                     </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-21-practioners-handbook.html" class="blog-card-link">
@@ -366,7 +272,7 @@
                                     </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-13-llms_as_evaluators.html" class="blog-card-link">
@@ -391,7 +297,7 @@
                                     </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-10-red_teaming.html" class="blog-card-link">
@@ -416,7 +322,7 @@
                                     </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-09-llm_bias.html" class="blog-card-link">
@@ -441,7 +347,7 @@
                         </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-07-llm-usage.html" class="blog-card-link">
@@ -466,7 +372,7 @@
                         </svg>
                     </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-07-02-representation.html" class="blog-card-link">
@@ -491,7 +397,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-06-30-personality_ai.html" class="blog-card-link">
@@ -516,7 +422,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-06-29-yes-man.html" class="blog-card-link">
@@ -541,7 +447,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-06-27-AI-Ethics.html" class="blog-card-link">
@@ -566,7 +472,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-04-15-Specialist-vs-Generalist.html" class="blog-card-link">
@@ -591,7 +497,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-03-26-RAG-works.html" class="blog-card-link">
@@ -616,7 +522,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-03-05-expectations.html" class="blog-card-link">
@@ -641,7 +547,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-02-20-titans.html" class="blog-card-link">
@@ -666,7 +572,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
 
                 <!-- Blog Card -->
                 <a href="articles/2025-01-28-deepseek.html" class="blog-card-link">
@@ -691,7 +597,7 @@
                             </svg>
                         </div>
                     </article>
-                </div>
+                </a>
             </div>
         </div>
     </section>

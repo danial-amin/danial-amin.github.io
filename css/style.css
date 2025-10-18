@@ -2557,3 +2557,103 @@ body {
         font-size: 0.7rem;
     }
 }
+
+/* Blog Filter Styles */
+.blog-filter {
+    padding: 0 0 60px 0;
+    background: var(--section-bg);
+}
+
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    background: var(--btn-bg, #23272f);
+    color: var(--btn-color, #b7bdd6);
+    border: none;
+    outline: none;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: 
+        background 0.17s, 
+        color 0.17s, 
+        box-shadow 0.17s;
+    box-shadow: 0 1px 7px 0 rgba(32,36,54,0.08);
+    letter-spacing: 0.01em;
+}
+
+.filter-btn:not(.active):hover,
+.filter-btn:focus-visible {
+    background: var(--accent, #2d72e0);
+    color: #fff;
+}
+
+.filter-btn.active {
+    background: var(--accent, #2d72e0) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 16px 0 rgba(45,114,224,0.17);
+}
+
+/* Blog card link styling */
+.blog-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.blog-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog-card-link:hover .blog-preview-card {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-large);
+    border-color: var(--accent-color);
+}
+
+/* Blog grid layout - exactly 3 cards per row */
+.blog-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .blog-preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .blog-preview-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* Ensure consistent card heights */
+.blog-preview-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-preview-excerpt {
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
