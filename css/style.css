@@ -275,8 +275,6 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
     margin: 2rem 0;
 }
 
@@ -302,10 +300,10 @@ body {
 .connection {
     stroke: var(--accent-color);
     stroke-width: 2;
-    opacity: 0.3;
-    stroke-dasharray: 5 5;
-    animation: connection-flow 4s linear infinite;
-    filter: drop-shadow(0 0 3px var(--accent-color));
+    opacity: 0.4;
+    stroke-dasharray: 8 4;
+    animation: connection-flow 6s linear infinite;
+    filter: drop-shadow(0 0 4px var(--accent-color));
 }
 
 .connection-1 { animation-delay: 0s; }
@@ -318,14 +316,14 @@ body {
 @keyframes connection-flow {
     0% { 
         stroke-dashoffset: 0;
-        opacity: 0.3;
+        opacity: 0.4;
     }
     50% { 
         opacity: 0.8;
     }
     100% { 
-        stroke-dashoffset: -20;
-        opacity: 0.3;
+        stroke-dashoffset: -24;
+        opacity: 0.4;
     }
 }
 
@@ -338,20 +336,20 @@ body {
 }
 
 .center-node {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     background: linear-gradient(135deg, var(--accent-color, #3b82f6), var(--secondary-accent, #8b5cf6));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     color: white;
-    box-shadow: 0 0 40px var(--shadow-accent, rgba(59, 130, 246, 0.3)), 0 0 80px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 50px var(--shadow-accent, rgba(59, 130, 246, 0.4)), 0 0 100px rgba(59, 130, 246, 0.3);
     animation: center-glow 3s ease-in-out infinite;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.2);
     visibility: visible;
     opacity: 1;
 }
@@ -375,10 +373,10 @@ body {
 
 .network-node {
     position: absolute;
-    width: 75px;
-    height: 75px;
-    background: var(--card-bg, rgba(255, 255, 255, 0.1));
-    border: 2px solid var(--border-color, rgba(255, 255, 255, 0.2));
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--card-bg, rgba(255, 255, 255, 0.1)), rgba(255, 255, 255, 0.05));
+    border: 2px solid var(--accent-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -387,17 +385,17 @@ body {
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
-    box-shadow: var(--shadow-small, 0 4px 20px rgba(0, 0, 0, 0.3));
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px var(--accent-color);
     animation: node-float 6s ease-in-out infinite;
     visibility: visible;
     opacity: 1;
 }
 
 .network-node:hover {
-    transform: scale(1.2);
+    transform: scale(1.15);
     border-color: var(--accent-color);
-    box-shadow: var(--shadow-large), 0 0 20px var(--shadow-accent);
-    background: var(--hover-bg);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3), 0 0 30px var(--accent-color);
+    background: linear-gradient(135deg, var(--hover-bg), rgba(255, 255, 255, 0.1));
     animation-play-state: paused;
 }
 
@@ -454,37 +452,41 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Node Positioning */
+/* Node Positioning - Organic Layout */
 .node-1 { 
-    top: 50px; 
-    left: 50%; 
-    transform: translateX(-50%);
+    top: 80px; 
+    left: 280px; 
+    transform: translate(-50%, -50%);
     animation-delay: 0s;
 }
 .node-2 { 
-    top: 137px; 
-    right: 61px;
+    top: 140px; 
+    left: 420px;
+    transform: translate(-50%, -50%);
     animation-delay: 0.5s;
 }
 .node-3 { 
-    bottom: 137px; 
-    right: 61px;
+    top: 380px; 
+    left: 390px;
+    transform: translate(-50%, -50%);
     animation-delay: 1s;
 }
 .node-4 { 
-    bottom: 50px; 
-    left: 50%; 
-    transform: translateX(-50%);
+    top: 420px; 
+    left: 180px;
+    transform: translate(-50%, -50%);
     animation-delay: 1.5s;
 }
 .node-5 { 
-    bottom: 137px; 
-    left: 61px;
+    top: 340px; 
+    left: 70px;
+    transform: translate(-50%, -50%);
     animation-delay: 2s;
 }
 .node-6 { 
-    top: 137px; 
-    left: 61px;
+    top: 110px; 
+    left: 120px;
+    transform: translate(-50%, -50%);
     animation-delay: 2.5s;
 }
 
@@ -978,7 +980,7 @@ body {
 
 .timeline-line {
     position: absolute;
-    top: 50%;
+    top: 10px;
     left: 0;
     right: 0;
     height: 3px;
@@ -986,7 +988,6 @@ body {
     z-index: 1;
     visibility: visible;
     opacity: 1;
-    transform: translateY(-50%);
 }
 
 .timeline-items {
