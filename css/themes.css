@@ -11,8 +11,10 @@
     --text-secondary: #8eb2d9;
 
     --accent-color: #5d9bff;
+    --accent-gradient-start: #5d9bff;
     --accent-hover: #3486ec;
     --secondary-accent: #33ffc2;
+    --accent-gradient-end: #33ffc2;
     --success-color: #27c79c;
 
     --border-color: rgba(81, 164, 253, 0.12);
@@ -61,6 +63,8 @@
 
     --accent-color: #e2bc88;
     --accent-hover: #ceb271;
+    --accent-gradient-start: #59483f;
+    --accent-gradient-end: #ffe4b7;
     --secondary-accent: #ffe4b7;
     --success-color: #92bc9b;
 
