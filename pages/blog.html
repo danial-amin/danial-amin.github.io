@@ -52,235 +52,408 @@
         </div>
     </section>
 
+    <!-- Blog Filter -->
+    <section class="blog-filter">
+        <div class="container">
+            <div class="filter-controls" style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 1.5rem;">
+                <button class="filter-btn active" data-filter="all" style="--btn-bg: var(--accent, #2d72e0); --btn-color: #fff;">All Articles</button>
+                <button class="filter-btn" data-filter="ai-research">AI Research</button>
+                <button class="filter-btn" data-filter="tutorial">Tutorial</button>
+                <button class="filter-btn" data-filter="industry">Industry Trends</button>
+                <button class="filter-btn" data-filter="deep-learning">Deep Learning</button>
+                <button class="filter-btn" data-filter="data-science">Data Science</button>
+                <button class="filter-btn" data-filter="computer-vision">Computer Vision</button>
+                <button class="filter-btn" data-filter="nlp">NLP</button>
+            </div>
+        </div>
+    </section>
+    <style>
+        .filter-controls .filter-btn {
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            background: var(--btn-bg, #23272f);
+            color: var(--btn-color, #b7bdd6);
+            border: none;
+            outline: none;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: 
+                background 0.17s, 
+                color 0.17s, 
+                box-shadow 0.17s;
+            box-shadow: 0 1px 7px 0 rgba(32,36,54,0.08);
+            letter-spacing: 0.01em;
+        }
+        .filter-controls .filter-btn:not(.active):hover,
+        .filter-controls .filter-btn:focus-visible {
+            background: var(--accent, #2d72e0);
+            color: #fff;
+        }
+        .filter-controls .filter-btn.active {
+            background: var(--accent, #2d72e0) !important;
+            color: #fff !important;
+            box-shadow: 0 2px 16px 0 rgba(45,114,224,0.17);
+        }
+        @media (max-width: 600px) {
+            .filter-controls {
+                gap: 0.5rem;
+            }
+            .filter-controls .filter-btn {
+                font-size: 0.98rem;
+                padding: 0.44rem 1rem;
+            }
+        }
+    </style>
+
     <!-- Blog Cards Grid -->
-    <section class="blog-cards">
+    <section class="blog-showcase">
         <div class="container">
             <div class="blog-cards-grid">
 
                 <!-- Blog Card - Featured Article -->
-                <div class="blog-card featured">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">🤖</span>
+                <div class="blog-card featured" data-category="ai-research">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/ai-healthcare-future.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
                         </div>
-                        <span class="blog-card-badge">Featured</span>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">🤖</div>
+                        </div>
+                        <span class="blog-badge">Featured</span>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">October 15, 2025</span>
-                            <span class="blog-card-category">AI Research</span>
-                            <span class="blog-card-read-time">12 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Featured • AI Research</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h2 class="blog-card-title">The Future of AI in Healthcare: Beyond Diagnosis</h2>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">The Future of AI in Healthcare: Beyond Diagnosis</h3>
+                        <p class="blog-description">
                             Exploring how artificial intelligence is revolutionizing healthcare beyond traditional diagnostic applications. 
                             From personalized treatment plans to drug discovery, we examine the transformative potential of AI in modern medicine 
                             and the ethical considerations that come with it.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">Artificial Intelligence</span>
-                            <span class="tag">Healthcare</span>
-                            <span class="tag">Ethics</span>
-                            <span class="tag">Machine Learning</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">12</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">1.2K</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">45</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read Full Article</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">Artificial Intelligence</span>
+                            <span class="tech-tag">Healthcare</span>
+                            <span class="tech-tag">Ethics</span>
+                            <span class="tech-tag">Machine Learning</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 1 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">🧠</span>
+                <div class="blog-card" data-category="deep-learning">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/scalable-ml-pipelines.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">🧠</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">October 10, 2025</span>
-                            <span class="blog-card-category">Deep Learning</span>
-                            <span class="blog-card-read-time">8 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Deep Learning • Tutorial</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">Building Scalable ML Pipelines: Lessons from Production</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">Building Scalable ML Pipelines: Lessons from Production</h3>
+                        <p class="blog-description">
                             A comprehensive guide to creating production-ready machine learning pipelines that can handle 
                             massive datasets and real-time predictions. Learn from real-world challenges and solutions.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">MLOps</span>
-                            <span class="tag">Production</span>
-                            <span class="tag">Scalability</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">8</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">850</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">23</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">MLOps</span>
+                            <span class="tech-tag">Production</span>
+                            <span class="tech-tag">Scalability</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 2 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">📊</span>
+                <div class="blog-card" data-category="data-science">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/feature-engineering-modern-ml.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">📊</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">October 5, 2025</span>
-                            <span class="blog-card-category">Data Science</span>
-                            <span class="blog-card-read-time">6 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Data Science • Tutorial</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">The Art of Feature Engineering in Modern ML</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">The Art of Feature Engineering in Modern ML</h3>
+                        <p class="blog-description">
                             Feature engineering remains crucial in the age of deep learning. Discover advanced techniques 
                             and automated approaches that can significantly improve model performance.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">Feature Engineering</span>
-                            <span class="tag">AutoML</span>
-                            <span class="tag">Data Science</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">6</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">650</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">18</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">Feature Engineering</span>
+                            <span class="tech-tag">AutoML</span>
+                            <span class="tech-tag">Data Science</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 3 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">🔬</span>
+                <div class="blog-card" data-category="ai-research">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/ethical-ai-innovation-responsibility.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">🔬</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">September 28, 2025</span>
-                            <span class="blog-card-category">Research</span>
-                            <span class="blog-card-read-time">10 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">AI Research • Ethics</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">Ethical AI: Balancing Innovation and Responsibility</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">Ethical AI: Balancing Innovation and Responsibility</h3>
+                        <p class="blog-description">
                             As AI becomes more prevalent, the importance of ethical considerations grows. This article discusses 
                             frameworks for responsible AI development and deployment in real-world applications.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">Ethics</span>
-                            <span class="tag">AI Governance</span>
-                            <span class="tag">Responsibility</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">10</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">950</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">32</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">Ethics</span>
+                            <span class="tech-tag">AI Governance</span>
+                            <span class="tech-tag">Responsibility</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 4 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">💻</span>
+                <div class="blog-card" data-category="tutorial nlp">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/fine-tuning-llm-practical-guide.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">💻</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">September 22, 2025</span>
-                            <span class="blog-card-category">Tutorial</span>
-                            <span class="blog-card-read-time">15 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Tutorial • NLP</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">Fine-tuning Large Language Models: A Practical Guide</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">Fine-tuning Large Language Models: A Practical Guide</h3>
+                        <p class="blog-description">
                             Step-by-step tutorial on fine-tuning large language models for specific tasks. Covers parameter-efficient 
                             methods, dataset preparation, and evaluation strategies with practical code examples.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">LLM</span>
-                            <span class="tag">Fine-tuning</span>
-                            <span class="tag">Tutorial</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">15</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">1.1K</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">28</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">LLM</span>
+                            <span class="tech-tag">Fine-tuning</span>
+                            <span class="tech-tag">Tutorial</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 5 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">🌐</span>
+                <div class="blog-card" data-category="industry">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/rise-edge-ai-computing-source.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">🌐</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">September 15, 2025</span>
-                            <span class="blog-card-category">Industry Trends</span>
-                            <span class="blog-card-read-time">7 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Industry Trends • Edge AI</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">The Rise of Edge AI: Computing at the Source</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">The Rise of Edge AI: Computing at the Source</h3>
+                        <p class="blog-description">
                             Exploring the growing trend of edge AI deployment, its benefits for latency-sensitive applications, 
                             and the challenges of running ML models on resource-constrained devices.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">Edge AI</span>
-                            <span class="tag">IoT</span>
-                            <span class="tag">Optimization</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">7</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">720</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">15</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">Edge AI</span>
+                            <span class="tech-tag">IoT</span>
+                            <span class="tech-tag">Optimization</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Blog Card 6 -->
-                <div class="blog-card">
-                    <div class="blog-card-image">
-                        <div class="blog-card-image-placeholder">
-                            <span class="placeholder-icon">🎯</span>
+                <div class="blog-card" data-category="computer-vision">
+                    <div class="blog-image">
+                        <div class="blog-overlay">
+                            <div class="blog-links">
+                                <a href="articles/vision-transformers-vs-cnns.html" class="blog-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Read Article</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="blog-image-placeholder">
+                            <div class="placeholder-icon">🎯</div>
                         </div>
                     </div>
-                    <div class="blog-card-content">
-                        <div class="blog-card-meta">
-                            <span class="blog-card-date">September 8, 2025</span>
-                            <span class="blog-card-category">Computer Vision</span>
-                            <span class="blog-card-read-time">9 min read</span>
+                    <div class="blog-content">
+                        <div class="blog-header">
+                            <div class="blog-type">Computer Vision • Research</div>
+                            <div class="blog-status">Published</div>
                         </div>
-                        <h3 class="blog-card-title">Vision Transformers vs CNNs: When to Use What</h3>
-                        <p class="blog-card-excerpt">
+                        <h3 class="blog-title">Vision Transformers vs CNNs: When to Use What</h3>
+                        <p class="blog-description">
                             A detailed comparison of Vision Transformers and Convolutional Neural Networks, examining their 
                             strengths, weaknesses, and optimal use cases in modern computer vision applications.
                         </p>
-                        <div class="blog-card-tags">
-                            <span class="tag">Computer Vision</span>
-                            <span class="tag">Transformers</span>
-                            <span class="tag">CNN</span>
+                        <div class="blog-metrics">
+                            <div class="metric">
+                                <span class="metric-value">9</span>
+                                <span class="metric-label">Min Read</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">890</span>
+                                <span class="metric-label">Views</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">21</span>
+                                <span class="metric-label">Comments</span>
+                            </div>
                         </div>
-                        <a href="#" class="blog-card-read-more">
-                            <span>Read More</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                            </svg>
-                        </a>
+                        <div class="blog-tech">
+                            <span class="tech-tag">Computer Vision</span>
+                            <span class="tech-tag">Transformers</span>
+                            <span class="tech-tag">CNN</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -326,5 +499,6 @@
     <script src="../js/interactive-bg.js"></script>
     <script src="../js/theme-switcher.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/blog-filter.js"></script>
 </body>
 </html>
