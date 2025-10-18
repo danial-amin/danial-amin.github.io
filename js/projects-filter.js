@@ -8,6 +8,9 @@ class ProjectsFilter {
     }
     
     init() {
+        console.log('Projects filter initialized');
+        console.log('Filter buttons found:', this.filterButtons.length);
+        console.log('Project cards found:', this.projectCards.length);
         this.setupFilterButtons();
         this.addProjectStyles();
     }
@@ -25,14 +28,20 @@ class ProjectsFilter {
     setActiveFilter(filter) {
         this.activeFilter = filter;
         
+        console.log('Setting active filter to:', filter);
+        
         // Update button states
         this.filterButtons.forEach(button => {
             button.classList.remove('active');
+            console.log('Removed active from:', button.textContent);
         });
         
         const activeButton = document.querySelector(`[data-filter="${filter}"]`);
         if (activeButton) {
             activeButton.classList.add('active');
+            console.log('Added active to:', activeButton.textContent);
+        } else {
+            console.log('No button found for filter:', filter);
         }
     }
     

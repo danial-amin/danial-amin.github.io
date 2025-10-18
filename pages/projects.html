@@ -55,8 +55,8 @@
     <!-- Projects Filter -->
     <section class="projects-filter">
         <div class="container">
-            <div class="filter-controls" style="display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-bottom: 1.5rem;">
-                <button class="filter-btn active" data-filter="all" style="--btn-bg: var(--accent, #2d72e0); --btn-color: #fff;">All Projects</button>
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
                 <button class="filter-btn" data-filter="agentic">Agentic AI</button>
                 <button class="filter-btn" data-filter="rag">RAG Systems</button>
                 <button class="filter-btn" data-filter="fintech">Fintech</button>
@@ -65,44 +65,6 @@
             </div>
         </div>
     </section>
-    <style>
-        .filter-controls .filter-btn {
-            padding: 0.5rem 1.2rem;
-            font-size: 1rem;
-            font-weight: 500;
-            background: var(--btn-bg, #23272f);
-            color: var(--btn-color, #b7bdd6);
-            border: none;
-            outline: none;
-            border-radius: 32px;
-            cursor: pointer;
-            transition: 
-                background 0.17s, 
-                color 0.17s, 
-                box-shadow 0.17s;
-            box-shadow: 0 1px 7px 0 rgba(32,36,54,0.08);
-            letter-spacing: 0.01em;
-        }
-        .filter-controls .filter-btn:not(.active):hover,
-        .filter-controls .filter-btn:focus-visible {
-            background: var(--accent, #2d72e0);
-            color: #fff;
-        }
-        .filter-controls .filter-btn.active {
-            background: var(--accent, #2d72e0) !important;
-            color: #fff !important;
-            box-shadow: 0 2px 16px 0 rgba(45,114,224,0.17);
-        }
-        @media (max-width: 600px) {
-            .filter-controls {
-                gap: 0.5rem;
-            }
-            .filter-controls .filter-btn {
-                font-size: 0.98rem;
-                padding: 0.44rem 1rem;
-            }
-        }
-    </style>
 
     <!-- Projects Grid -->
     <section class="projects-showcase">
