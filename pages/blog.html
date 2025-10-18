@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
                 <a href="blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
-                    <span class="theme-icon">🌙</span>
+                    <span class="theme-icon">ðŸŒ™</span>
                 </button>
             </div>
             <div class="hamburger" id="hamburger">
@@ -42,7 +42,7 @@
     <section class="blog-header">
         <div class="container">
             <div class="blog-hero">
-                <span class="section-badge">Insights & Research</span>
+                <span class="section-badge">ðŸ“š Insights & Research</span>
                 <h1 class="section-title">Latest Articles</h1>
                 <p class="blog-description">
                     Exploring the frontiers of AI, sharing research insights, and discussing the latest trends 
@@ -104,6 +104,45 @@
                 padding: 0.44rem 1rem;
             }
         }
+        
+        /* Blog card link styling */
+        .blog-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .blog-card-link:hover {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .blog-card-link:hover .blog-preview-card {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+            border-color: var(--accent-color);
+        }
+        
+        /* Optimize grid layout for more cards per row */
+        .blog-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 1200px) {
+            .blog-preview-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.25rem;
+            }
+        }
+        
+        @media (min-width: 1400px) {
+            .blog-preview-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 1rem;
+            }
+        }
     </style>
 
     <!-- Blog Cards Grid -->
@@ -112,101 +151,110 @@
             <div class="blog-preview-grid">
 
                 <!-- Blog Card - Featured Article -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
-                        <span class="blog-date">October 12, 2025</span>
-                        <span class="blog-category">Featured • AI Research</span>
-                            </div>
-                    <h3 class="blog-preview-title">The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security</h3>
-                    <p class="blog-preview-excerpt">
-                        Groundbreaking research from Anthropic, UK AISI, and the Alan Turing Institute reveals that as few as 250 malicious documents can backdoor language models of any size. This finding fundamentally challenges our understanding of LLM security...
-                    </p>
-                    <div class="blog-preview-tags">
-                        <span class="tag">generativeAI</span>
-                        <span class="tag">AI-security</span>
-                        <span class="tag">data-poisoning</span>
-                        <span class="tag">backdoors</span>
-                            </div>
-                    <a href="articles/2025-10-12-poison-llm.html" class="read-more-link">
-                        Read Article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                    </svg>
-                    </a>
-                </article>
+                <a href="articles/2025-10-12-poison-llm.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">October 12, 2025</span>
+                            <span class="blog-category">Featured â€¢ AI Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security</h3>
+                        <p class="blog-preview-excerpt">
+                            Groundbreaking research from Anthropic, UK AISI, and the Alan Turing Institute reveals that as few as 250 malicious documents can backdoor language models of any size. This finding fundamentally challenges our understanding of LLM security...
+                        </p>
+                        <div class="blog-preview-tags">
+                            <span class="tag">generativeAI</span>
+                            <span class="tag">AI-security</span>
+                            <span class="tag">data-poisoning</span>
+                            <span class="tag">backdoors</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
+                </a>
 
                 <!-- Blog Card 1 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
-                        <span class="blog-date">September 25, 2025</span>
-                        <span class="blog-category">AI Research</span>
-                            </div>
-                    <h3 class="blog-preview-title">Personality in LLMs - A New Frontier for AI Alignment</h3>
-                    <p class="blog-preview-excerpt">
+                <a href="articles/2025-09-25-personality-in-llm.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">September 25, 2025</span>
+                            <span class="blog-category">AI Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">Personality in LLMs - A New Frontier for AI Alignment</h3>
+                        <p class="blog-preview-excerpt">
                             Recent research reveals that large language models exhibit consistent personality traits that can be measured and modified. This discovery opens new possibilities for AI alignment and human-AI interaction...
                         </p>
-                    <div class="blog-preview-tags">
-                        <span class="tag">personality</span>
-                        <span class="tag">llm</span>
-                        <span class="tag">alignment</span>
-                            </div>
-                    <a href="articles/2025-09-25-personality-in-llm.html" class="read-more-link">
-                        Read Article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                    </svg>
-                    </a>
-                </article>
+                        <div class="blog-preview-tags">
+                            <span class="tag">personality</span>
+                            <span class="tag">llm</span>
+                            <span class="tag">alignment</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
+                </a>
 
                 <!-- Blog Card 2 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
-                        <span class="blog-date">September 22, 2025</span>
-                        <span class="blog-category">AI Research</span>
-                            </div>
-                    <h3 class="blog-preview-title">The Fossilization Problem - How LLMs Get Stuck in Time</h3>
-                    <p class="blog-preview-excerpt">
+                <a href="articles/2025-09-22-llm-fossilized.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">September 22, 2025</span>
+                            <span class="blog-category">AI Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">The Fossilization Problem - How LLMs Get Stuck in Time</h3>
+                        <p class="blog-preview-excerpt">
                             Large language models capture a snapshot of human knowledge at their training cutoff, creating a "fossilization" effect that limits their ability to adapt to new information and changing contexts...
                         </p>
-                    <div class="blog-preview-tags">
-                        <span class="tag">llm</span>
-                        <span class="tag">knowledge</span>
-                        <span class="tag">adaptation</span>
-                            </div>
-                    <a href="articles/2025-09-22-llm-fossilized.html" class="read-more-link">
-                        Read Article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                    </svg>
-                    </a>
-                </article>
+                        <div class="blog-preview-tags">
+                            <span class="tag">llm</span>
+                            <span class="tag">knowledge</span>
+                            <span class="tag">adaptation</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
+                </a>
 
                 <!-- Blog Card 3 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
-                        <span class="blog-date">July 26, 2025</span>
-                        <span class="blog-category">AI Research</span>
-                            </div>
-                    <h3 class="blog-preview-title">AI Safety Part 2 - Advanced Alignment Techniques</h3>
-                    <p class="blog-preview-excerpt">
+                <a href="articles/2025-07-26-ai-safety-pt2.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
+                            <span class="blog-date">July 26, 2025</span>
+                            <span class="blog-category">AI Research</span>
+                        </div>
+                        <h3 class="blog-preview-title">AI Safety Part 2 - Advanced Alignment Techniques</h3>
+                        <p class="blog-preview-excerpt">
                             Continuing our exploration of AI safety, this article examines advanced alignment techniques including constitutional AI, debate, and interpretability methods that could help ensure AI systems remain beneficial...
                         </p>
-                    <div class="blog-preview-tags">
-                        <span class="tag">ai-safety</span>
-                        <span class="tag">alignment</span>
-                        <span class="tag">constitutional-ai</span>
-                            </div>
-                    <a href="articles/2025-07-26-ai-safety-pt2.html" class="read-more-link">
-                        Read Article
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                                    </svg>
-                    </a>
-                </article>
+                        <div class="blog-preview-tags">
+                            <span class="tag">ai-safety</span>
+                            <span class="tag">alignment</span>
+                            <span class="tag">constitutional-ai</span>
+                        </div>
+                        <div class="read-more-link">
+                            Read Article
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                            </svg>
+                        </div>
+                    </article>
+                </a>
 
-                <!-- Blog Card 4 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-25-ai-safety-pt1.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 25, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -225,11 +273,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 5 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-23-wrong-evaluation.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 23, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -248,11 +298,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 6 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-22-digital-twin.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 22, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -271,11 +323,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 7 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-21-practioners-handbook.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 21, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -294,11 +348,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 8 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-13-llms_as_evaluators.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 13, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -317,11 +373,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 9 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-10-red_teaming.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 10, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -340,11 +398,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                                     </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 10 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-09-llm_bias.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 9, 2025</span>
                         <span class="blog-category">AI Research</span>
                             </div>
@@ -363,11 +423,13 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                         </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
-                <!-- Blog Card 11 -->
-                <article class="blog-preview-card" data-category="ai-research">
-                    <div class="blog-preview-meta">
+                <!-- Blog Card -->
+                <a href="articles/2025-07-07-llm-usage.html" class="blog-card-link">
+                    <article class="blog-preview-card" data-category="ai-research">
+                        <div class="blog-preview-meta">
                         <span class="blog-date">July 7, 2025</span>
                         <span class="blog-category">AI Research</span>
                     </div>
@@ -386,7 +448,8 @@
                             <path d="M7 17L17 7M17 7H7M17 7V17"/>
                         </svg>
                     </a>
-                </article>
+                    </article>
+                </a>
 
                 <!-- Blog Card 12 -->
                 <div class="blog-card" data-category="ai-research">
@@ -402,7 +465,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -446,7 +509,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -490,7 +553,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -534,7 +597,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -578,7 +641,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -622,7 +685,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -666,7 +729,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -710,7 +773,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">
@@ -754,7 +817,7 @@
                             </div>
                         </div>
                         <div class="blog-image-placeholder">
-                            <div class="placeholder-icon">🤖</div>
+                            <div class="placeholder-icon">ðŸ¤–</div>
                         </div>
                     </div>
                     <div class="blog-content">

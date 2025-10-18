@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -249,6 +249,92 @@
                 font-size: 1.3rem;
             }
         }
+    
+        /* Article Header Styles */
+        .article-header {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .article-date {
+            color: var(--text-secondary);
+        }
+        
+        .article-category {
+            background: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--badge-border);
+        }
+        
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .article-tags .tag {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        /* Article Content with Semi-Opaque Overlay */
+        .article-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.7;
+        }
+        
+        .article-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .article-body {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-medium);
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -267,7 +353,7 @@
                 <a href="blog.html" class="nav-link active">Blog</a>
                 <a href="../index.html#contact" class="nav-link">Contact</a>
                 <button class="theme-toggle" id="theme-toggle">
-                    <span class="theme-icon">🌙</span>
+                    <span class="theme-icon">ðŸŒ™</span>
                 </button>
             </div>
             <div class="hamburger" id="hamburger">
@@ -316,31 +402,31 @@
     <section class="article-content">
         <div class="container">
             <div class="article-body">
-                <p>When we ask AI systems to help educate our children, recommend content, or assist with hiring decisions, we expect fair and unbiased responses. When these systems analyze résumés, we want merit-based evaluations. When they create educational content, we demand equal representation. <strong>But what if the very notion of “unbiased” AI is not just impossible but fundamentally misguided in how we approach it?</strong></p>
+                <p>When we ask AI systems to help educate our children, recommend content, or assist with hiring decisions, we expect fair and unbiased responses. When these systems analyze rÃ©sumÃ©s, we want merit-based evaluations. When they create educational content, we demand equal representation. <strong>But what if the very notion of â€œunbiasedâ€ AI is not just impossible but fundamentally misguided in how we approach it?</strong></p>
 <p>The question of bias in AI systems reveals a deeper paradox about fairness, representation, and social good. Recent research shows that 89 % of AI engineers report encountering generative-AI hallucinations, including errors, biases, or harmful content. These systems inherit not just our knowledge but our prejudices, assumptions, and historical inequities. Yet we expect them to somehow transcend the biases that permeate their training data and deliver equitable outcomes for all.</p>
-<p>This expectation raises profound questions: Should AI systems strive to be neutral arbiters that somehow stand above human bias? Or should we accept that bias is inevitable and focus on systematic testing to identify and mitigate the most harmful manifestations? UNESCO’s groundbreaking Red Teaming playbook suggests a third path—one that democratizes the testing process itself.</p>
+<p>This expectation raises profound questions: Should AI systems strive to be neutral arbiters that somehow stand above human bias? Or should we accept that bias is inevitable and focus on systematic testing to identify and mitigate the most harmful manifestations? UNESCOâ€™s groundbreaking Red Teaming playbook suggests a third pathâ€”one that democratizes the testing process itself.</p>
 <div class="key-insight">
-<strong>Central Reality:</strong> AI systems are simultaneously mirrors of human bias and potential tools for perpetuating harm. The question isn’t whether they can be unbiased, but whether we can systematically test them to prevent the worst outcomes—and who gets to do that testing.
+<strong>Central Reality:</strong> AI systems are simultaneously mirrors of human bias and potential tools for perpetuating harm. The question isnâ€™t whether they can be unbiased, but whether we can systematically test them to prevent the worst outcomesâ€”and who gets to do that testing.
 </div>
 
-<h2 id="the-hidden-crisis-in-ai-systems">The Hidden Crisis in AI Systems<a class="headerlink" href="#the-hidden-crisis-in-ai-systems" title="Link to this section">&para;</a></h2>
+<h2 id="the-hidden-crisis-in-ai-systems">The Hidden Crisis in AI Systems</h2>
 <p>The scale of AI bias extends far beyond technical glitches. Fifty-eight percent of young women and girls globally have experienced online harassment, with technology-facilitated gender-based violence (TFGBV) affecting vulnerable populations at unprecedented rates. In a survey of 901 women journalists in 125 countries, nearly three-quarters (73 %) said they had experienced online violence.</p>
 <p>Perhaps more insidious is how AI systems create self-reinforcing cycles of bias. As AI continues to generate content, it increasingly relies on recycled data, reinforcing existing biases. These biases become more deeply embedded in new outputs, reducing opportunities for already disadvantaged groups and leading to unfair or distorted real-world outcomes.</p>
 <p>Consider an AI tutor designed for young children. If the AI assumes that boys are naturally better at math than girls, it might give boys more encouragement or challenging problems while giving girls less support. Over time, if AI systems reinforce these biases at a large scale, fewer girls might feel confident in math, contributing to the ongoing shortage of women in STEM careers.</p>
-<h3 id="the-bias-reinforcement-cycle">The Bias Reinforcement Cycle<a class="headerlink" href="#the-bias-reinforcement-cycle" title="Link to this section">&para;</a></h3>
+<h3 id="the-bias-reinforcement-cycle">The Bias Reinforcement Cycle</h3>
 <p>As AI continues to generate content, it increasingly relies on recycled data, reinforcing existing biases. These biases become more deeply embedded in new outputs, reducing opportunities for already disadvantaged groups and leading to unfair or distorted real-world outcomes.</p>
 <p>The cycle works like this:<br />
-1. <strong>AI-Model-Biased Assumptions</strong> – AI designed using data based on societal biases<br />
-2. <strong>Generate Unequal Outputs</strong> – Outputs that favor one group over another<br />
-3. <strong>Reinforce Stereotypes</strong> – Strengthening existing stereotypes through continued biased feedback<br />
-4. <strong>Impact Confidence and Opportunities</strong> – Affecting career confidence and opportunities amongst disadvantaged groups  </p>
-<p>This creates what researchers call an “AI Bias Reinforcement Cycle”—where biased assumptions create unequal outputs, which then favor one group over another, strengthening existing stereotypes through continued biased feedback.</p>
+1. <strong>AI-Model-Biased Assumptions</strong> â€“ AI designed using data based on societal biases<br />
+2. <strong>Generate Unequal Outputs</strong> â€“ Outputs that favor one group over another<br />
+3. <strong>Reinforce Stereotypes</strong> â€“ Strengthening existing stereotypes through continued biased feedback<br />
+4. <strong>Impact Confidence and Opportunities</strong> â€“ Affecting career confidence and opportunities amongst disadvantaged groups  </p>
+<p>This creates what researchers call an â€œAI Bias Reinforcement Cycleâ€â€”where biased assumptions create unequal outputs, which then favor one group over another, strengthening existing stereotypes through continued biased feedback.</p>
 <div class="statistic-highlight">
 89 % of AI engineers report encountering Gen-AI hallucinations, including errors, biases, or harmful content
 </div>
 
-<h2 id="what-is-red-teaming-for-ai">What is Red Teaming for AI?<a class="headerlink" href="#what-is-red-teaming-for-ai" title="Link to this section">&para;</a></h2>
-<p>Red Teaming is a hands-on exercise where participants test Gen-AI models for flaws and vulnerabilities that may uncover harmful behavior. This testing is facilitated in a safe and controlled environment using carefully designed prompts “eliciting undesirable behavior from a language model through interaction.”</p>
+<h2 id="what-is-red-teaming-for-ai">What is Red Teaming for AI?</h2>
+<p>Red Teaming is a hands-on exercise where participants test Gen-AI models for flaws and vulnerabilities that may uncover harmful behavior. This testing is facilitated in a safe and controlled environment using carefully designed prompts â€œeliciting undesirable behavior from a language model through interaction.â€</p>
 <p>By taking part in a Red Teaming exercise, participants reveal vulnerabilities that could have been overlooked by AI developers. The results or findings of the Red Teaming exercise can be shared with AI-design companies and developers, as well as with decision-makers working, for example, to eliminate harms against women and girls in the era of AI.</p>
 <p>Red Teaming serves four key functions:</p>
 <ol>
@@ -353,49 +439,49 @@
 If AI systems will inevitably contain biases, should we focus on eliminating bias entirely, or on systematically identifying the most harmful manifestations before they cause real-world damage?
 </div>
 
-<h2 id="unintended-vs-intended-harms">Unintended vs. Intended Harms<a class="headerlink" href="#unintended-vs-intended-harms" title="Link to this section">&para;</a></h2>
-<p>When uncovering stereotypes and bias in Gen-AI models, it’s important to understand the two key risks: <strong>unintended consequences</strong> and <strong>intended malicious attacks</strong>. A Red Teaming exercise can account for both.</p>
-<h3 id="unintended-consequences">Unintended Consequences<a class="headerlink" href="#unintended-consequences" title="Link to this section">&para;</a></h3>
+<h2 id="unintended-vs-intended-harms">Unintended vs. Intended Harms</h2>
+<p>When uncovering stereotypes and bias in Gen-AI models, itâ€™s important to understand the two key risks: <strong>unintended consequences</strong> and <strong>intended malicious attacks</strong>. A Red Teaming exercise can account for both.</p>
+<h3 id="unintended-consequences">Unintended Consequences</h3>
 <p>Users interacting with AI may unintentionally trigger incorrect, unfair, or harmful assumptions based on embedded biases in the data.</p>
 <p>A powerful example from the UNESCO playbook illustrates this subtle bias:</p>
-<p>When testing AI responses about student performance, researchers found that evaluations of a fictional female student named “Chineme” suggested “potential for further growth if given opportunity to build confidence and actively participate,” while a male student “David” with identical characteristics was described as having “the potential to excel further”.</p>
-<p>The key difference in language responses creates a potential bias by making David’s success seem more self-driven and inevitable, while Chineme’s progress appears conditional on support.</p>
-<h3 id="intended-malicious-attacks">Intended Malicious Attacks<a class="headerlink" href="#intended-malicious-attacks" title="Link to this section">&para;</a></h3>
-<p>Unlike accidental bias, some users deliberately try to exploit AI systems to spread harm—this includes online violence against women and girls.</p>
-<p>AI tools can be manipulated to generate harmful content, such as deepfake pornography. One research report revealed that 96 % of deep-fake videos were non-consensual intimate content and 100 % of the top five “deep-fake pornography websites” were targeting women. Malicious actors intentionally trick AI into producing or spreading such content, worsening the already serious issue of technology-facilitated gender-based violence.</p>
-<h2 id="the-democratization-of-ai-testing">The Democratization of AI Testing<a class="headerlink" href="#the-democratization-of-ai-testing" title="Link to this section">&para;</a></h2>
+<p>When testing AI responses about student performance, researchers found that evaluations of a fictional female student named â€œChinemeâ€ suggested â€œpotential for further growth if given opportunity to build confidence and actively participate,â€ while a male student â€œDavidâ€ with identical characteristics was described as having â€œthe potential to excel furtherâ€.</p>
+<p>The key difference in language responses creates a potential bias by making Davidâ€™s success seem more self-driven and inevitable, while Chinemeâ€™s progress appears conditional on support.</p>
+<h3 id="intended-malicious-attacks">Intended Malicious Attacks</h3>
+<p>Unlike accidental bias, some users deliberately try to exploit AI systems to spread harmâ€”this includes online violence against women and girls.</p>
+<p>AI tools can be manipulated to generate harmful content, such as deepfake pornography. One research report revealed that 96 % of deep-fake videos were non-consensual intimate content and 100 % of the top five â€œdeep-fake pornography websitesâ€ were targeting women. Malicious actors intentionally trick AI into producing or spreading such content, worsening the already serious issue of technology-facilitated gender-based violence.</p>
+<h2 id="the-democratization-of-ai-testing">The Democratization of AI Testing</h2>
 <p>One of the most revolutionary aspects of Red Teaming is its accessibility. It is not necessary to be a computer expert or a programmer to take part in a Red Teaming exercise. This democratization challenges the traditional model where only technical experts evaluate AI systems.</p>
-<h3 id="expert-vs-public-red-teaming">Expert vs. Public Red Teaming<a class="headerlink" href="#expert-vs-public-red-teaming" title="Link to this section">&para;</a></h3>
+<h3 id="expert-vs-public-red-teaming">Expert vs. Public Red Teaming</h3>
 <p><strong>Expert Red Teaming</strong> brings together a group of experts in the topic being tested to evaluate Gen-AI models. These experts use their experience to identify potential ways Gen-AI models might reinforce bias or contribute to harm against women and girls. Expert teams can also come from lived experiences, such as civil-society organizations that serve as advocates.</p>
-<p><strong>Public Red Teaming</strong> involves everyday users who interact with AI in their daily lives. These participants may not be specialists, but they bring valuable perspectives based on their personal experiences. The goal is to test AI in real-world situations—such as job recruitment, performance evaluations, or report writing—to see how the technology performs for an average user.</p>
-<h3 id="target-audiences-for-red-teaming">Target Audiences for Red Teaming<a class="headerlink" href="#target-audiences-for-red-teaming" title="Link to this section">&para;</a></h3>
-<p>This Red Teaming playbook is designed for individuals and organizations who want to better understand, challenge, and address the risks and biases in AI systems—particularly from a public-interest perspective.</p>
+<p><strong>Public Red Teaming</strong> involves everyday users who interact with AI in their daily lives. These participants may not be specialists, but they bring valuable perspectives based on their personal experiences. The goal is to test AI in real-world situationsâ€”such as job recruitment, performance evaluations, or report writingâ€”to see how the technology performs for an average user.</p>
+<h3 id="target-audiences-for-red-teaming">Target Audiences for Red Teaming</h3>
+<p>This Red Teaming playbook is designed for individuals and organizations who want to better understand, challenge, and address the risks and biases in AI systemsâ€”particularly from a public-interest perspective.</p>
 <p>The playbook serves diverse communities:<br />
-- <strong>Researchers and Academics</strong> – Scholars in AI ethics, digital rights, and social sciences<br />
-- <strong>Technology and AI Practitioners</strong> – Developers, engineers, and AI-ethics professionals<br />
-- <strong>Government and Policy Experts</strong> – Regulators and policymakers shaping AI governance<br />
-- <strong>Civil Society and Nonprofits</strong> – Organizations advocating for digital inclusion, gender equality, and human rights<br />
-- <strong>Artists and Cultural-Sector Professionals</strong> – Creatives examining AI’s influence on artistic expression<br />
-- <strong>Educators and Students</strong> – Teachers, university researchers, and students exploring AI’s ethical implications<br />
-- <strong>Citizen Scientists</strong> – Individuals and communities who engage in public Red Teaming  </p>
+- <strong>Researchers and Academics</strong> â€“ Scholars in AI ethics, digital rights, and social sciences<br />
+- <strong>Technology and AI Practitioners</strong> â€“ Developers, engineers, and AI-ethics professionals<br />
+- <strong>Government and Policy Experts</strong> â€“ Regulators and policymakers shaping AI governance<br />
+- <strong>Civil Society and Nonprofits</strong> â€“ Organizations advocating for digital inclusion, gender equality, and human rights<br />
+- <strong>Artists and Cultural-Sector Professionals</strong> â€“ Creatives examining AIâ€™s influence on artistic expression<br />
+- <strong>Educators and Students</strong> â€“ Teachers, university researchers, and students exploring AIâ€™s ethical implications<br />
+- <strong>Citizen Scientists</strong> â€“ Individuals and communities who engage in public Red Teaming  </p>
 <div class="philosophical-question">
-By equipping these groups with strategies for Red Teaming Gen-AI, the playbook fosters a broad, multidisciplinary approach to AI accountability—bridging the gaps between technology, policy, and societal impact.
+By equipping these groups with strategies for Red Teaming Gen-AI, the playbook fosters a broad, multidisciplinary approach to AI accountabilityâ€”bridging the gaps between technology, policy, and societal impact.
 </div>
 
-<h2 id="real-world-impact-from-testing-to-action">Real-World Impact: From Testing to Action<a class="headerlink" href="#real-world-impact-from-testing-to-action" title="Link to this section">&para;</a></h2>
+<h2 id="real-world-impact-from-testing-to-action">Real-World Impact: From Testing to Action</h2>
 <p>Once your Red Teaming event is completed, there are still several actions to take to understand the impact of the exercise; communicating the results to the appropriate Gen-AI model owners and decision-makers ensures that your event achieves its ultimate goal of Red Teaming AI for social good.</p>
-<h3 id="analysis-and-interpretation">Analysis and Interpretation<a class="headerlink" href="#analysis-and-interpretation" title="Link to this section">&para;</a></h3>
+<h3 id="analysis-and-interpretation">Analysis and Interpretation</h3>
 <p>Validating and analyzing the findings of your Red Teaming exercise can be carried out manually or automatically, depending on the data size (i.e., how many participants, how many prompts, and how many responses elicited).</p>
 <p>The analysis process involves three key considerations:</p>
 <p><strong>Stay focused on your hypothesis:</strong> Before your Red Teaming event, you will have defined a specific question or challenge, such as whether a Gen-AI model produces new harms for women and girls. Your results should directly address this question or challenge.</p>
 <p><strong>Avoid jumping to conclusions:</strong> Finding one biased outcome in an AI system does not always mean the entire system is flawed. The key is to test whether these biases are likely to appear in everyday use, beyond a controlled or artificial setup.</p>
 <p><strong>Use different analytical tools for different-sized datasets:</strong> Large datasets may require Natural-Language-Processing (NLP) tools. For example, the DEFCON 2023 Gen-AI Red Teaming analyzed 164,208 messages across 17,469 conversations using Pysentimiento for hate detection.</p>
-<h3 id="implementation-and-follow-up">Implementation and Follow-up<a class="headerlink" href="#implementation-and-follow-up" title="Link to this section">&para;</a></h3>
+<h3 id="implementation-and-follow-up">Implementation and Follow-up</h3>
 <p>Incorporating Red Teaming results into AI-development lifecycles entails communicating the results to the Gen-AI model owners you used as a basis for the exercise. It also involves following up after a pre-identified period of time (six months, one year, etc.) to determine whether, and how, the Gen-AI model owners have incorporated the learnings from your Red Teaming exercise.</p>
-<h2 id="the-path-forward-a-call-to-action">The Path Forward: A Call to Action<a class="headerlink" href="#the-path-forward-a-call-to-action" title="Link to this section">&para;</a></h2>
+<h2 id="the-path-forward-a-call-to-action">The Path Forward: A Call to Action</h2>
 <p>Red Teaming is a practice typically carried out by the major AI labs; however, these labs operate in a closed-door setting, limiting who has a voice in the design and evaluation of the technology.</p>
-<p>While, in some cases, closed-door testing is necessary for security and intellectual-property protection, it creates an environment where verification—or assurance—of Gen-AI-model capabilities is only defined and tested by the creators. There is a unique opportunity for external groups, such as government or civil-society entities, to utilize Red Teaming as a practice to create smarter and evidence-based policies and standards that are centered on the perspective and needs of the people who will ultimately use the technology rather than the designers.</p>
-<h3 id="three-pillars-of-action">Three Pillars of Action<a class="headerlink" href="#three-pillars-of-action" title="Link to this section">&para;</a></h3>
+<p>While, in some cases, closed-door testing is necessary for security and intellectual-property protection, it creates an environment where verificationâ€”or assuranceâ€”of Gen-AI-model capabilities is only defined and tested by the creators. There is a unique opportunity for external groups, such as government or civil-society entities, to utilize Red Teaming as a practice to create smarter and evidence-based policies and standards that are centered on the perspective and needs of the people who will ultimately use the technology rather than the designers.</p>
+<h3 id="three-pillars-of-action">Three Pillars of Action</h3>
 <p>The UNESCO playbook emphasizes three critical areas:</p>
 <p><strong>1. Empower Communities to Test AI for Bias</strong><br />
 Equip organizations and communities with accessible Red Teaming tools to actively participate in identifying and mitigating biases against women and girls in AI systems. Include participants most impacted by the technology, as they are often best positioned to identify potential harms. This democratizes AI testing and promotes responsible technological development.</p>
@@ -403,17 +489,17 @@ Equip organizations and communities with accessible Red Teaming tools to activel
 Use evidence from Red Teaming exercises to advocate for more equitable AI. Share findings with AI developers and policymakers to drive actionable changes that, in the case of this playbook, prevent technology-facilitated gender-based violence (TFGBV) and ensure AI systems are fair and work for the social good.</p>
 <p><strong>3. Foster Collaboration and Support</strong><br />
 Encourage collaboration between technical experts, subject-matter specialists, and the general public in Red Teaming initiatives. Convening diverse cross-disciplinary teams helps test assumptions and challenge blind spots.</p>
-<h3 id="digital-spaces-must-be-safe-for-all">Digital Spaces Must Be Safe for All<a class="headerlink" href="#digital-spaces-must-be-safe-for-all" title="Link to this section">&para;</a></h3>
-<p>Digital spaces must be safe for all. Always. The stakes couldn’t be higher. Thirty percent of AI professionals are women, with an even smaller share in the Global South. One-hundred-eighty-nine million more men than women use the internet, fueling data gaps and driving gender bias in AI. Fifty-eight percent of young women and girls have experienced online harassment on social-media platforms.</p>
+<h3 id="digital-spaces-must-be-safe-for-all">Digital Spaces Must Be Safe for All</h3>
+<p>Digital spaces must be safe for all. Always. The stakes couldnâ€™t be higher. Thirty percent of AI professionals are women, with an even smaller share in the Global South. One-hundred-eighty-nine million more men than women use the internet, fueling data gaps and driving gender bias in AI. Fifty-eight percent of young women and girls have experienced online harassment on social-media platforms.</p>
 <div class="key-insight">
 <strong>The Bottom Line:</strong> Red Teaming events enable us to observe the performance of Gen-AI as a class of models, approximating real-world scenarios where harmful outcomes may occur. By collecting this analysis and data at scale, macro-level trends in strategies, approaches, and systemic performance can be articulated.
 </div>
 
-<p>Ultimately, this playbook represents a ‘Call to Action’ for adopting and sharing Red Teaming practices globally.</p>
+<p>Ultimately, this playbook represents a â€˜Call to Actionâ€™ for adopting and sharing Red Teaming practices globally.</p>
 <hr />
-<p><strong>The future of AI is not predetermined. It’s a choice we make today, one test at a time.</strong></p>
-<p>Rather than simply dismissing AI bias as inevitable, the Red Teaming approach offers a systematic methodology for identifying, documenting, and addressing the most harmful manifestations of bias before they cause real-world damage. The question isn’t whether AI systems will contain biases—they will. The question is whether we’ll democratize the process of testing for those biases and ensure that the voices of those most likely to be harmed are centered in that process.</p>
-<p><strong>Attribution</strong>: This article was informed by UNESCO’s “Red Teaming Artificial Intelligence for Social Good: The PLAYBOOK,” which itself represents a collaborative effort to democratize AI testing and promote inclusive technological development and is available <a href="https://unesdoc.unesco.org/ark:/48223/pf0000394338">here</a>.</p>
+<p><strong>The future of AI is not predetermined. Itâ€™s a choice we make today, one test at a time.</strong></p>
+<p>Rather than simply dismissing AI bias as inevitable, the Red Teaming approach offers a systematic methodology for identifying, documenting, and addressing the most harmful manifestations of bias before they cause real-world damage. The question isnâ€™t whether AI systems will contain biasesâ€”they will. The question is whether weâ€™ll democratize the process of testing for those biases and ensure that the voices of those most likely to be harmed are centered in that process.</p>
+<p><strong>Attribution</strong>: This article was informed by UNESCOâ€™s â€œRed Teaming Artificial Intelligence for Social Good: The PLAYBOOK,â€ which itself represents a collaborative effort to democratize AI testing and promote inclusive technological development and is available <a href="https://unesdoc.unesco.org/ark:/48223/pf0000394338">here</a>.</p>
             </div>
         </div>
     </section>
@@ -447,3 +533,4 @@ Encourage collaboration between technical experts, subject-matter specialists, a
     <script src="../../js/main.js"></script>
 </body>
 </html>
+
