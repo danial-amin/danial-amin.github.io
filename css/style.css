@@ -982,7 +982,7 @@ body {
 
 .timeline-line {
     position: absolute;
-    top: 260px;
+    top: 100px;
     left: 0;
     right: 0;
     height: 3px;
