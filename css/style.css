@@ -1927,17 +1927,19 @@ body {
     gap: 0.5rem;
 }
 
-.tech-logo {
+.tech-icon {
+    font-size: 18px;
     width: 20px;
     height: 20px;
-    object-fit: contain;
-    filter: brightness(0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.3s ease;
     flex-shrink: 0;
 }
 
 .tech-logo-emoji {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
     display: inline-block;
     transition: all 0.3s ease;
@@ -1951,8 +1953,7 @@ body {
     box-shadow: 0 4px 12px var(--shadow-accent);
 }
 
-.tech-stack-expanded .tech-item:hover .tech-logo {
-    filter: brightness(1.2);
+.tech-stack-expanded .tech-item:hover .tech-icon {
     transform: scale(1.1);
 }
 
