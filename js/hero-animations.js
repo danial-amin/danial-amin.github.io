@@ -10,6 +10,11 @@ class HeroAnimations {
     }
     
     init() {
+        console.log('HeroAnimations initializing...');
+        console.log('Network nodes found:', this.networkNodes.length);
+        console.log('Center node found:', !!this.centerNode);
+        console.log('Connection lines found:', this.connectionLines.length);
+        
         this.setupChangingText();
         this.setupNetworkInteractions();
         this.animateConnections();
