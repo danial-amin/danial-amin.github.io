@@ -406,7 +406,113 @@ body {
 .node-4 { bottom: 50px; left: 50%; transform: translateX(-50%); }
 .node-5 { bottom: 137px; left: 61px; }
 .node-6 { top: 137px; left: 61px; }
+/* Minimal CSS for the Experience Section to look good */
+.experience-section {
+    background: var(--bg-elevated, #16181b);
+    padding: 48px 0 32px 0;
+}
 
+.experience-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.experience-header .section-badge {
+    display: inline-block;
+    background: #4169e1;
+    color: #fff;
+    padding: 0.4em 1em;
+    border-radius: 18px;
+    font-size: 0.92em;
+    font-weight: 600;
+    margin-bottom: 0.7em;
+    letter-spacing: 0.04em;
+}
+
+.experience-header .section-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: var(--text-primary,#fff);
+}
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
+    max-width: 670px;
+    margin: 0 auto;
+    position: relative;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #3970fa 60%, #1a222c 100%);
+    opacity: 0.36;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.7rem;
+    position: relative;
+}
+
+.timeline-bullet {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    background: #4169e1;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px #21448244;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.timeline-content {
+    background: var(--bg-surface,#21232b);
+    border-radius: 16px;
+    padding: 1.2em 1.5em;
+    box-shadow: 0 2px 8px #12121718;
+    flex: 1;
+}
+
+.timeline-role {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #59a2ff;
+    margin-bottom: 0.2em;
+}
+
+.timeline-org {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary, #fff);
+}
+
+.timeline-date {
+    font-size: 0.92em;
+    color: #a5aabb;
+    margin-bottom: 0.25em;
+}
+.timeline-description {
+    margin-top: 0.2em;
+    color: var(--text-secondary,#ccc);
+    font-size: 0.98em;
+}
+@media(max-width: 700px){
+    .timeline-content { padding: 1em 1em;}
+    .timeline { padding-left: 25px;}
+    .timeline-org, .timeline-role { font-size: 1em;}
+}
 /* Changing Word Animation */
 .changing-word {
     position: relative;
