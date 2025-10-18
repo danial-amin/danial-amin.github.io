@@ -1,99 +1,99 @@
-/* Dark Theme (Default) */
+/* Cursor-Themed (Dark/Graphite Blue) Theme */
 [data-theme="dark"] {
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #111111;
-    --section-bg: #050505;
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --hover-bg: rgba(255, 255, 255, 0.1);
-    --input-bg: rgba(255, 255, 255, 0.05);
-    
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    
-    --accent-color: #3b82f6;
-    --accent-hover: #2563eb;
-    --secondary-accent: #8b5cf6;
-    --success-color: #10b981;
-    
-    --border-color: rgba(255, 255, 255, 0.1);
-    --border-hover: rgba(255, 255, 255, 0.2);
-    
-    --badge-bg: rgba(59, 130, 246, 0.1);
-    --badge-text: #60a5fa;
-    --badge-border: rgba(59, 130, 246, 0.2);
-    
-    --tech-bg: rgba(255, 255, 255, 0.05);
-    --tech-text: #e5e7eb;
-    --tech-border: rgba(255, 255, 255, 0.1);
-    
-    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.4);
-    --shadow-large: 0 20px 64px rgba(0, 0, 0, 0.5);
-    --shadow-accent: rgba(59, 130, 246, 0.2);
-    
-    --navbar-bg: rgba(10, 10, 10, 0.8);
-    
+    --bg-primary: #171b23; /* dark blue/graphite */
+    --bg-secondary: #202736;
+    --section-bg: #141923;
+    --card-bg: rgba(60, 72, 98, 0.12);
+    --hover-bg: rgba(93, 155, 255, 0.12);
+    --input-bg: rgba(60, 72, 98, 0.16);
+
+    --text-primary: #d1e2fa;
+    --text-secondary: #8eb2d9;
+
+    --accent-color: #5d9bff;
+    --accent-hover: #3486ec;
+    --secondary-accent: #33ffc2;
+    --success-color: #27c79c;
+
+    --border-color: rgba(81, 164, 253, 0.12);
+    --border-hover: rgba(81, 164, 253, 0.22);
+
+    --badge-bg: rgba(93, 155, 255, 0.13);
+    --badge-text: #aed9fb;
+    --badge-border: rgba(93, 155, 255, 0.22);
+
+    --tech-bg: rgba(123, 168, 255, 0.10);
+    --tech-text: #e6f0fa;
+    --tech-border: rgba(93, 155, 255, 0.14);
+
+    --shadow-small: 0 2px 8px rgba(36, 68, 142, 0.21);
+    --shadow-medium: 0 8px 32px rgba(36, 68, 142, 0.36);
+    --shadow-large: 0 20px 64px rgba(36, 68, 142, 0.51);
+    --shadow-accent: rgba(93,155,255, 0.18);
+
+    --navbar-bg: rgba(23, 27, 35, 0.92);
+
     /* GitHub Contributions Colors - Dark Theme */
-    --contribution-bg: #161b22;
-    --contribution-border: #30363d;
-    --contribution-hover-border: #58a6ff;
-    --contribution-level-0: #161b22;
-    --contribution-level-1: #1a1a2e;
-    --contribution-level-2: #16213e;
-    --contribution-level-3: #0f3460;
-    --contribution-level-4: #e94560;
-    --tooltip-bg: #21262d;
-    --tooltip-text: #f0f6fc;
-    --tooltip-border: #30363d;
+    --contribution-bg: #151b27;
+    --contribution-border: #34405a;
+    --contribution-hover-border: #5d9bff;
+    --contribution-level-0: #232940;
+    --contribution-level-1: #304272;
+    --contribution-level-2: #4c85d1;
+    --contribution-level-3: #5d9bff;
+    --contribution-level-4: #78c0ff;
+    --tooltip-bg: #243d5c;
+    --tooltip-text: #d1e2fa;
+    --tooltip-border: #34405a;
 }
 
-/* Light Theme */
+/* Pleasant Eye-Friendly Light Theme (Beige/Sand) */
 [data-theme="light"] {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --section-bg: #f1f5f9;
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --hover-bg: rgba(0, 0, 0, 0.05);
-    --input-bg: #ffffff;
+    --bg-primary: #f9f6f2; /* beige/sand */
+    --bg-secondary: #f4ede4;
+    --section-bg: #f3eee8;
+    --card-bg: rgba(242, 228, 202, 0.85);
+    --hover-bg: rgba(185, 163, 126, 0.11);
+    --input-bg: #f6f2e7;
+
+    --text-primary: #3f3531;
+    --text-secondary: #948367;
+
+    --accent-color: #bb9457;
+    --accent-hover: #a98456;
+    --secondary-accent: #ffc286;
+    --success-color: #6b9080;
+
+    --border-color: rgba(185, 163, 126, 0.19);
+    --border-hover: rgba(185, 163, 126, 0.27);
+
+    --badge-bg: rgba(187, 148, 87, 0.13);
+    --badge-text: #7c5e29;
+    --badge-border: rgba(187, 148, 87, 0.17);
+
+    --tech-bg: rgba(236, 222, 193, 0.15);
+    --tech-text: #7c6342;
+    --tech-border: rgba(185, 163, 126, 0.14);
     
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    
-    --accent-color: #3b82f6;
-    --accent-hover: #2563eb;
-    --secondary-accent: #8b5cf6;
-    --success-color: #10b981;
-    
-    --border-color: rgba(0, 0, 0, 0.1);
-    --border-hover: rgba(0, 0, 0, 0.2);
-    
-    --badge-bg: rgba(59, 130, 246, 0.1);
-    --badge-text: #2563eb;
-    --badge-border: rgba(59, 130, 246, 0.2);
-    
-    --tech-bg: rgba(0, 0, 0, 0.05);
-    --tech-text: #374151;
-    --tech-border: rgba(0, 0, 0, 0.1);
-    
-    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.15);
-    --shadow-large: 0 20px 64px rgba(0, 0, 0, 0.2);
-    --shadow-accent: rgba(59, 130, 246, 0.15);
-    
-    --navbar-bg: rgba(255, 255, 255, 0.8);
-    
-    /* GitHub Contributions Colors - Light Theme */
-    --contribution-bg: #f6f8fa;
-    --contribution-border: #d0d7de;
-    --contribution-hover-border: #0969da;
-    --contribution-level-0: #f6f8fa;
-    --contribution-level-1: #e1f5fe;
-    --contribution-level-2: #b3e5fc;
-    --contribution-level-3: #4fc3f7;
-    --contribution-level-4: #ff6b35;
-    --tooltip-bg: #ffffff;
-    --tooltip-text: #24292f;
-    --tooltip-border: #d0d7de;
+    --shadow-small: 0 2px 8px rgba(187, 148, 87, 0.10);
+    --shadow-medium: 0 8px 32px rgba(187, 148, 87, 0.17);
+    --shadow-large: 0 20px 64px rgba(187, 148, 87, 0.23);
+    --shadow-accent: rgba(255, 194, 134, 0.11);
+
+    --navbar-bg: rgba(245, 236, 226, 0.85);
+
+    /* GitHub Contributions Colors - Light (Beige) Theme */
+    --contribution-bg: #f5ede2;
+    --contribution-border: #e2ceb7;
+    --contribution-hover-border: #bb9457;
+    --contribution-level-0: #f6f2e7;
+    --contribution-level-1: #eadfc9;
+    --contribution-level-2: #dec9a5;
+    --contribution-level-3: #bb9457;
+    --contribution-level-4: #a98456;
+    --tooltip-bg: #fff7eb;
+    --tooltip-text: #3f3531;
+    --tooltip-border: #e2ceb7;
 }
 
 /* Theme-specific styles */
@@ -139,27 +139,27 @@ body {
 /* Light theme specific adjustments */
 [data-theme="light"] .floating-card {
     box-shadow: var(--shadow-medium);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
+    background: rgba(242, 228, 202, 0.94);
+    backdrop-filter: blur(9px);
 }
 
 [data-theme="light"] .project-card,
 [data-theme="light"] .tech-stack,
 [data-theme="light"] .form {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
+    background: rgba(242, 228, 202, 0.94);
+    backdrop-filter: blur(9px);
     box-shadow: var(--shadow-medium);
 }
 
 /* Dark theme specific adjustments */
 [data-theme="dark"] .floating-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(60, 72, 98, 0.10);
+    border: 1px solid rgba(81, 164, 253, 0.12);
 }
 
 [data-theme="dark"] .project-card,
 [data-theme="dark"] .tech-stack,
 [data-theme="dark"] .form {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(60, 72, 98, 0.10);
+    border: 1px solid rgba(81, 164, 253, 0.12);
 }
