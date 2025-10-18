@@ -963,6 +963,17 @@ body {
     position: relative;
 }
 
+.experience .container {
+    max-width: none;
+    padding: 0;
+}
+
+.experience .section-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
 .timeline-container {
     overflow: hidden;
     position: relative;
@@ -970,6 +981,8 @@ body {
     background: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     padding: 2rem 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
 }
 
 .timeline-track {
@@ -1667,6 +1680,16 @@ body {
     }
     
     /* Experience Timeline Mobile */
+    .experience .section-header {
+        padding: 0 1rem;
+    }
+    
+    .timeline-container {
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0;
+    }
+    
     .timeline-track {
         height: 350px;
         padding-top: 0;
@@ -1701,6 +1724,17 @@ body {
 }
 
 @media (max-width: 480px) {
+    .experience .section-header {
+        padding: 0 1rem;
+    }
+    
+    .timeline-container {
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0;
+        padding: 1rem 0;
+    }
+    
     .hero-title {
         font-size: 2rem;
     }
