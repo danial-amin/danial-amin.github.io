@@ -65,7 +65,7 @@ function extractArticleMetadata(filePath) {
             displayDate,
             category,
             tags,
-            filePath: filePath.replace('./pages/', '')
+            filePath: filePath.replace('./pages/', '').replace(/\\/g, '/')
         };
     } catch (error) {
         console.error(`Error reading file ${filePath}:`, error.message);
@@ -126,7 +126,9 @@ function updateBlogPage(articles) {
         
         // Find the blog preview grid section
         const gridStart = content.indexOf('<div class="blog-preview-grid">');
-        const gridEnd = content.indexOf('</div>', gridStart + 1);
+        // Find the newsletter section that comes after the blog grid
+        const newsletterStart = content.indexOf('<!-- Newsletter Subscription -->');
+        const gridEnd = content.lastIndexOf('</div>', newsletterStart);
         
         if (gridStart === -1 || gridEnd === -1) {
             console.error('Could not find blog preview grid in blog.html');
@@ -160,7 +162,9 @@ function updateIndexPage(articles) {
         
         // Find the blog preview grid section in index.html
         const gridStart = content.indexOf('<div class="blog-preview-grid">');
-        const gridEnd = content.indexOf('</div>', gridStart + 1);
+        // Find the contact section that comes after the blog grid
+        const contactStart = content.indexOf('<!-- Contact Section -->');
+        const gridEnd = content.lastIndexOf('</div>', contactStart);
         
         if (gridStart === -1 || gridEnd === -1) {
             console.error('Could not find blog preview grid in index.html');
