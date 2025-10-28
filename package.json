@@ -1,0 +1,21 @@
+{
+  "name": "danial-amin-blog-automation",
+  "version": "1.0.0",
+  "description": "Automation script for updating blog pages with new articles",
+  "main": "update-blog.js",
+  "scripts": {
+    "update-blog": "node update-blog.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "blog",
+    "automation",
+    "static-site",
+    "html"
+  ],
+  "author": "Danial Amin",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
