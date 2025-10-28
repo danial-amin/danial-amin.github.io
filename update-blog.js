@@ -128,10 +128,40 @@ function updateBlogPage(articles) {
         const gridStart = content.indexOf('<div class="blog-preview-grid">');
         // Find the newsletter section that comes after the blog grid
         const newsletterStart = content.indexOf('<!-- Newsletter Subscription -->');
-        const gridEnd = content.lastIndexOf('</div>', newsletterStart);
         
-        if (gridStart === -1 || gridEnd === -1) {
-            console.error('Could not find blog preview grid in blog.html');
+        if (gridStart === -1 || newsletterStart === -1) {
+            console.error('Could not find blog preview grid or newsletter section in blog.html');
+            return false;
+        }
+        
+        // Find the closing div for the blog-preview-grid by looking for the pattern
+        // We need to find the closing div that matches the opening div class="blog-preview-grid"
+        let gridEnd = -1;
+        let divCount = 0;
+        let searchStart = gridStart;
+        
+        while (searchStart < newsletterStart) {
+            const nextDiv = content.indexOf('</div>', searchStart);
+            if (nextDiv === -1 || nextDiv >= newsletterStart) break;
+            
+            // Count opening divs between gridStart and nextDiv
+            const sectionBetween = content.substring(gridStart, nextDiv);
+            const openingDivs = (sectionBetween.match(/<div/g) || []).length;
+            const closingDivs = (sectionBetween.match(/<\/div>/g) || []).length;
+            
+            // If we have more opening divs than closing divs, this is not our closing div
+            if (openingDivs > closingDivs) {
+                searchStart = nextDiv + 6;
+                continue;
+            }
+            
+            // This should be our closing div
+            gridEnd = nextDiv;
+            break;
+        }
+        
+        if (gridEnd === -1) {
+            console.error('Could not find proper closing div for blog preview grid');
             return false;
         }
         
@@ -164,10 +194,38 @@ function updateIndexPage(articles) {
         const gridStart = content.indexOf('<div class="blog-preview-grid">');
         // Find the contact section that comes after the blog grid
         const contactStart = content.indexOf('<!-- Contact Section -->');
-        const gridEnd = content.lastIndexOf('</div>', contactStart);
         
-        if (gridStart === -1 || gridEnd === -1) {
-            console.error('Could not find blog preview grid in index.html');
+        if (gridStart === -1 || contactStart === -1) {
+            console.error('Could not find blog preview grid or contact section in index.html');
+            return false;
+        }
+        
+        // Find the closing div for the blog-preview-grid by looking for the pattern
+        let gridEnd = -1;
+        let searchStart = gridStart;
+        
+        while (searchStart < contactStart) {
+            const nextDiv = content.indexOf('</div>', searchStart);
+            if (nextDiv === -1 || nextDiv >= contactStart) break;
+            
+            // Count opening divs between gridStart and nextDiv
+            const sectionBetween = content.substring(gridStart, nextDiv);
+            const openingDivs = (sectionBetween.match(/<div/g) || []).length;
+            const closingDivs = (sectionBetween.match(/<\/div>/g) || []).length;
+            
+            // If we have more opening divs than closing divs, this is not our closing div
+            if (openingDivs > closingDivs) {
+                searchStart = nextDiv + 6;
+                continue;
+            }
+            
+            // This should be our closing div
+            gridEnd = nextDiv;
+            break;
+        }
+        
+        if (gridEnd === -1) {
+            console.error('Could not find proper closing div for blog preview grid in index.html');
             return false;
         }
         
