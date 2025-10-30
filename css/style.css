@@ -5,6 +5,127 @@
     box-sizing: border-box;
 }
 
+/* Testimonials Section */
+.testimonials {
+    padding: 120px 0;
+}
+
+.testimonials .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.testimonials-viewport {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-track {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    will-change: transform;
+}
+
+.t-card {
+    flex: 0 0 auto;
+    width: 380px;
+    border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+    background: var(--card-bg, rgba(255,255,255,0.03));
+    border-radius: 12px;
+    padding: 20px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+}
+
+.t-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--accent-color);
+}
+
+.t-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.t-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+}
+
+.t-avatar.placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-accent));
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+}
+
+.t-id {
+    flex: 1;
+    min-width: 0;
+}
+
+.t-name {
+    color: var(--text-primary, #fff);
+    font-weight: 600;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.t-name:hover {
+    text-decoration: underline;
+    color: var(--accent-color);
+}
+
+.t-role {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #c7c7c7);
+    margin-bottom: 2px;
+}
+
+.t-company {
+    font-size: 0.85rem;
+    color: var(--text-tertiary, #a7a7a7);
+    margin-top: 2px;
+}
+
+.t-quote {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary, #c7c7c7);
+    margin: 16px 0;
+    padding: 0;
+    border: none;
+    font-style: italic;
+}
+
+.t-meta {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color, rgba(255,255,255,0.1));
+}
+
+.t-meta-line {
+    font-size: 0.8rem;
+    color: var(--text-tertiary, #a7a7a7);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.t-meta-line:last-child {
+    margin-bottom: 0;
+}
+
 html {
     scroll-behavior: smooth;
 }

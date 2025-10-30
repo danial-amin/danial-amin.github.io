@@ -1,3 +1,7 @@
+@keyframes testimonials-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
 /* Animation Keyframes */
 @keyframes fadeInUp {
     from {
