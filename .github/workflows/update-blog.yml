@@ -1,0 +1,53 @@
+name: Update Blog Automatically
+
+on:
+  push:
+    paths:
+      - 'pages/articles/**/*.html'
+    branches:
+      - main
+      - master
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  update-blog:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write # Required to push commits
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # Fetch full history for proper git operations
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Update blog pages
+        run: node update-blog.js
+      
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain pages/blog.html index.html)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Files changed, will commit"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add pages/blog.html index.html
+          git commit -m "Auto-update blog: Add new articles to blog listing [skip ci]"
+          git push
+

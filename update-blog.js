@@ -56,6 +56,16 @@ function extractArticleMetadata(filePath) {
         // Generate excerpt from description (first 200 chars)
         const excerpt = description.length > 200 ? description.substring(0, 200) + '...' : description;
         
+        // Normalize the file path - convert to forward slashes and remove ./pages/ prefix
+        let normalizedPath = filePath.replace(/\\/g, '/');
+        if (normalizedPath.startsWith('./pages/')) {
+            normalizedPath = normalizedPath.replace('./pages/', '');
+        } else if (normalizedPath.includes('pages/articles/')) {
+            normalizedPath = normalizedPath.substring(normalizedPath.indexOf('pages/articles/') + 6); // +6 to skip "pages/"
+        } else if (normalizedPath.includes('articles/')) {
+            normalizedPath = normalizedPath.substring(normalizedPath.indexOf('articles/'));
+        }
+        
         return {
             filename: path.basename(filePath),
             title,
@@ -65,7 +75,7 @@ function extractArticleMetadata(filePath) {
             displayDate,
             category,
             tags,
-            filePath: filePath.replace('./pages/', '').replace(/\\/g, '/')
+            filePath: normalizedPath
         };
     } catch (error) {
         console.error(`Error reading file ${filePath}:`, error.message);
@@ -91,12 +101,13 @@ function getAllArticles() {
 }
 
 // Generate blog card HTML
-function generateBlogCard(article, isFeatured = false) {
+function generateBlogCard(article, isFeatured = false, basePath = '') {
     const featuredClass = isFeatured ? 'Featured • ' : '';
     const categoryClass = isFeatured ? 'ai-research' : article.category.toLowerCase().replace(/\s+/g, '-');
+    const href = basePath ? `${basePath}/${article.filePath}` : article.filePath;
     
     return `                <!-- Blog Card${isFeatured ? ' - Latest Article' : ''} -->
-                <a href="${article.filePath}" class="blog-card-link">
+                <a href="${href}" class="blog-card-link">
                     <article class="blog-preview-card" data-category="${categoryClass}">
                         <div class="blog-preview-meta">
                             <span class="blog-date">${article.displayDate}</span>
@@ -107,7 +118,7 @@ function generateBlogCard(article, isFeatured = false) {
                             ${article.excerpt}
                         </p>
                         <div class="blog-preview-tags">
-                            ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('\n                            ')}
+                            <span class="tag">${article.tags.join(' ')}</span>
                         </div>
                         <div class="read-more-link">
                             Read Article
@@ -134,30 +145,35 @@ function updateBlogPage(articles) {
             return false;
         }
         
-        // Find the closing div for the blog-preview-grid by looking for the pattern
-        // We need to find the closing div that matches the opening div class="blog-preview-grid"
+        // Find the closing div for the blog-preview-grid
+        // Look for </div> followed by </section> or the newsletter section
         let gridEnd = -1;
-        let divCount = 0;
-        let searchStart = gridStart;
+        const sectionEnd = content.indexOf('</section>', gridStart);
+        const searchEnd = sectionEnd !== -1 ? sectionEnd : newsletterStart;
         
-        while (searchStart < newsletterStart) {
-            const nextDiv = content.indexOf('</div>', searchStart);
-            if (nextDiv === -1 || nextDiv >= newsletterStart) break;
-            
-            // Count opening divs between gridStart and nextDiv
-            const sectionBetween = content.substring(gridStart, nextDiv);
-            const openingDivs = (sectionBetween.match(/<div/g) || []).length;
+        // Find the last </div> before the section ends
+        let lastDiv = content.lastIndexOf('</div>', searchEnd);
+        
+        // Verify this is the closing div for blog-preview-grid by checking structure
+        // The closing div should be right before </section> or the newsletter comment
+        if (lastDiv !== -1 && lastDiv > gridStart) {
+            // Count divs between start and this closing div
+            const sectionBetween = content.substring(gridStart, lastDiv);
+            const openingDivs = (sectionBetween.match(/<div[^>]*>/g) || []).length;
             const closingDivs = (sectionBetween.match(/<\/div>/g) || []).length;
             
-            // If we have more opening divs than closing divs, this is not our closing div
-            if (openingDivs > closingDivs) {
-                searchStart = nextDiv + 6;
-                continue;
+            // If opening divs equal closing divs + 1, this is our closing div
+            if (openingDivs === closingDivs + 1) {
+                gridEnd = lastDiv;
             }
-            
-            // This should be our closing div
-            gridEnd = nextDiv;
-            break;
+        }
+        
+        if (gridEnd === -1) {
+            // Fallback: find the </div> right before </section>
+            const sectionTag = content.indexOf('</section>', gridStart);
+            if (sectionTag !== -1) {
+                gridEnd = content.lastIndexOf('</div>', sectionTag);
+            }
         }
         
         if (gridEnd === -1) {
@@ -165,9 +181,9 @@ function updateBlogPage(articles) {
             return false;
         }
         
-        // Generate all blog cards
+        // Generate all blog cards (blog.html is in pages/, so paths are relative to pages/)
         const blogCards = articles.map((article, index) => 
-            generateBlogCard(article, index === 0)
+            generateBlogCard(article, index === 0, '')
         ).join('\n\n');
         
         // Replace the grid content
@@ -200,28 +216,35 @@ function updateIndexPage(articles) {
             return false;
         }
         
-        // Find the closing div for the blog-preview-grid by looking for the pattern
+        // Find the closing div for the blog-preview-grid
+        // Look for </div> followed by </section> - the grid closing div is right before </section>
         let gridEnd = -1;
-        let searchStart = gridStart;
+        const sectionTag = content.indexOf('</section>', gridStart);
         
-        while (searchStart < contactStart) {
-            const nextDiv = content.indexOf('</div>', searchStart);
-            if (nextDiv === -1 || nextDiv >= contactStart) break;
+        if (sectionTag !== -1) {
+            // Find the </div> that's immediately before </section>
+            // We need to find the closing div for blog-preview-grid, which should be the last </div> before </section>
+            gridEnd = content.lastIndexOf('</div>', sectionTag);
             
-            // Count opening divs between gridStart and nextDiv
-            const sectionBetween = content.substring(gridStart, nextDiv);
-            const openingDivs = (sectionBetween.match(/<div/g) || []).length;
-            const closingDivs = (sectionBetween.match(/<\/div>/g) || []).length;
-            
-            // If we have more opening divs than closing divs, this is not our closing div
-            if (openingDivs > closingDivs) {
-                searchStart = nextDiv + 6;
-                continue;
+            // Verify: count divs between gridStart and gridEnd
+            if (gridEnd > gridStart) {
+                const sectionBetween = content.substring(gridStart, gridEnd);
+                const openingDivs = (sectionBetween.match(/<div[^>]*>/g) || []).length;
+                const closingDivs = (sectionBetween.match(/<\/div>/g) || []).length;
+                
+                // If opening divs don't equal closing divs + 1, try the previous </div>
+                if (openingDivs !== closingDivs + 1) {
+                    const prevDiv = content.lastIndexOf('</div>', gridEnd - 1);
+                    if (prevDiv > gridStart) {
+                        const sectionBetween2 = content.substring(gridStart, prevDiv);
+                        const openingDivs2 = (sectionBetween2.match(/<div[^>]*>/g) || []).length;
+                        const closingDivs2 = (sectionBetween2.match(/<\/div>/g) || []).length;
+                        if (openingDivs2 === closingDivs2 + 1) {
+                            gridEnd = prevDiv;
+                        }
+                    }
+                }
             }
-            
-            // This should be our closing div
-            gridEnd = nextDiv;
-            break;
         }
         
         if (gridEnd === -1) {
@@ -229,21 +252,31 @@ function updateIndexPage(articles) {
             return false;
         }
         
-        // Generate top 3 blog cards
+        // Generate top 3 blog cards (index.html is in root/, so paths need pages/ prefix)
         const topArticles = articles.slice(0, 3);
         const blogCards = topArticles.map((article, index) => 
-            generateBlogCard(article, index === 0)
+            generateBlogCard(article, index === 0, 'pages')
         ).join('\n\n');
         
-        // Replace the grid content
-        const newContent = content.substring(0, gridStart) + 
-            '<div class="blog-preview-grid">\n' + 
-            blogCards + '\n        </div>' + 
-            content.substring(gridEnd + 6);
+        // Replace the grid content using regex for more reliable matching
+        const gridRegex = /<div class="blog-preview-grid">[\s\S]*?<\/div>\s*(?=<\/section>)/;
+        const replacement = `<div class="blog-preview-grid">\n${blogCards}\n        </div>`;
         
-        fs.writeFileSync(INDEX_PAGE, newContent);
-        console.log('✅ Updated index.html with top 3 articles');
-        return true;
+        if (gridRegex.test(content)) {
+            const newContent = content.replace(gridRegex, replacement);
+            fs.writeFileSync(INDEX_PAGE, newContent);
+            console.log('✅ Updated index.html with top 3 articles');
+            return true;
+        } else {
+            // Fallback to substring method
+            const newContent = content.substring(0, gridStart) + 
+                '<div class="blog-preview-grid">\n' + 
+                blogCards + '\n        </div>' + 
+                content.substring(gridEnd + 6);
+            fs.writeFileSync(INDEX_PAGE, newContent);
+            console.log('✅ Updated index.html with top 3 articles (fallback method)');
+            return true;
+        }
     } catch (error) {
         console.error('Error updating index page:', error.message);
         return false;
