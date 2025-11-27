@@ -2,7 +2,8 @@ class ThemeSwitcher {
     constructor() {
         this.themeToggle = document.getElementById('theme-toggle');
         this.themeIcon = this.themeToggle.querySelector('.theme-icon');
-        this.currentTheme = this.getStoredTheme() || 'dark';
+        // Use stored theme if available, otherwise use time-based theme
+        this.currentTheme = this.getStoredTheme() || this.getTimeBasedTheme();
         
         this.init();
     }
@@ -92,6 +93,16 @@ class ThemeSwitcher {
             return 'dark';
         }
         return 'light';
+    }
+    
+    getTimeBasedTheme() {
+        const hour = new Date().getHours();
+        // Day time: 6 AM to 8 PM (6:00 - 20:00) = light theme
+        // Night time: 8 PM to 6 AM (20:00 - 6:00) = dark theme
+        if (hour >= 6 && hour < 20) {
+            return 'light';
+        }
+        return 'dark';
     }
 }
 

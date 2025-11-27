@@ -49,55 +49,55 @@
     --tooltip-border: #34405a;
 }
 
-/* Pleasant Eye-Friendly Light Theme (Lighter Beige/Sand) */
+/* Clean Light Theme - Beige Background with Black/Grey Foreground */
 [data-theme="light"] {
-    --bg-primary: #fcfaf7; /* slightly lighter beige/sand */
-    --bg-secondary: #f8f4ec;
-    --section-bg: #f7f2ea;
-    --card-bg: rgba(245, 233, 210, 0.88);
-    --hover-bg: rgba(211, 188, 145, 0.09);
-    --input-bg: #fbf7ee;
+    --bg-primary: #f5f1e8; /* warm beige background */
+    --bg-secondary: #f0ebe0;
+    --section-bg: #faf8f3;
+    --card-bg: rgba(255, 252, 247, 0.95);
+    --hover-bg: rgba(0, 0, 0, 0.04);
+    --input-bg: #fefcf9;
 
-    --text-primary: #59483f; /* a bit lighter than #3f3531 */
-    --text-secondary: #ac9878;
+    --text-primary: #1a1a1a; /* near black for primary text */
+    --text-secondary: #4a4a4a; /* medium grey for secondary text */
 
-    --accent-color: #e2bc88;
-    --accent-hover: #ceb271;
-    --accent-gradient-start: #59483f;
-    --accent-gradient-end: #ffe4b7;
-    --secondary-accent: #ffe4b7;
-    --success-color: #92bc9b;
+    --accent-color: #2c2c2c; /* dark grey accent */
+    --accent-hover: #1a1a1a;
+    --accent-gradient-start: #2c2c2c;
+    --accent-gradient-end: #5a5a5a;
+    --secondary-accent: #6b6b6b;
+    --success-color: #4a7c59;
 
-    --border-color: rgba(211, 188, 145, 0.16);
-    --border-hover: rgba(211, 188, 145, 0.23);
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.15);
 
-    --badge-bg: rgba(226, 188, 136, 0.09);
-    --badge-text: #a18656;
-    --badge-border: rgba(226, 188, 136, 0.12);
+    --badge-bg: rgba(0, 0, 0, 0.06);
+    --badge-text: #2c2c2c;
+    --badge-border: rgba(0, 0, 0, 0.12);
 
-    --tech-bg: rgba(246, 238, 217, 0.11);
-    --tech-text: #a18656;
-    --tech-border: rgba(211, 188, 145, 0.10);
+    --tech-bg: rgba(0, 0, 0, 0.04);
+    --tech-text: #3a3a3a;
+    --tech-border: rgba(0, 0, 0, 0.08);
     
-    --shadow-small: 0 2px 8px rgba(226, 188, 136, 0.07);
-    --shadow-medium: 0 8px 32px rgba(226, 188, 136, 0.13);
-    --shadow-large: 0 20px 64px rgba(226, 188, 136, 0.17);
-    --shadow-accent: rgba(255, 228, 183, 0.08);
+    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-large: 0 20px 64px rgba(0, 0, 0, 0.12);
+    --shadow-accent: rgba(0, 0, 0, 0.1);
 
-    --navbar-bg: rgba(252, 246, 237, 0.82);
+    --navbar-bg: rgba(245, 241, 232, 0.95);
 
     /* GitHub Contributions Colors - Light (Beige) Theme */
-    --contribution-bg: #fcf5ea;
-    --contribution-border: #efdcc4;
-    --contribution-hover-border: #e2bc88;
-    --contribution-level-0: #fbf7ee;
-    --contribution-level-1: #f4ebd6;
-    --contribution-level-2: #efdebc;
-    --contribution-level-3: #e2bc88;
-    --contribution-level-4: #ceb271;
-    --tooltip-bg: #fffaf3;
-    --tooltip-text: #59483f;
-    --tooltip-border: #efdcc4;
+    --contribution-bg: #faf8f3;
+    --contribution-border: rgba(0, 0, 0, 0.1);
+    --contribution-hover-border: #2c2c2c;
+    --contribution-level-0: #f0ebe0;
+    --contribution-level-1: #e0d5c4;
+    --contribution-level-2: #c4b5a0;
+    --contribution-level-3: #8b7d6b;
+    --contribution-level-4: #5a5a5a;
+    --tooltip-bg: #ffffff;
+    --tooltip-text: #1a1a1a;
+    --tooltip-border: rgba(0, 0, 0, 0.15);
 }
 
 /* Theme-specific styles */
@@ -143,14 +143,14 @@ body {
 /* Light theme specific adjustments */
 [data-theme="light"] .floating-card {
     box-shadow: var(--shadow-medium);
-    background: rgba(242, 228, 202, 0.94);
+    background: rgba(255, 252, 247, 0.95);
     backdrop-filter: blur(9px);
 }
 
 [data-theme="light"] .project-card,
 [data-theme="light"] .tech-stack,
 [data-theme="light"] .form {
-    background: rgba(242, 228, 202, 0.94);
+    background: rgba(255, 252, 247, 0.95);
     backdrop-filter: blur(9px);
     box-shadow: var(--shadow-medium);
 }
