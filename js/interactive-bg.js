@@ -22,9 +22,9 @@ class InteractiveBackground {
 
     getThemeColors() {
         const root = getComputedStyle(document.documentElement);
-        // Use text-primary color for both themes
-        const textPrimary = root.getPropertyValue('--text-primary').trim();
-        return textPrimary ? [textPrimary] : ['#3b82f6']; // fallback blue
+        // Use neutral background object color
+        const bgObjectColor = root.getPropertyValue('--bg-object-color').trim();
+        return bgObjectColor ? [bgObjectColor] : ['#9ca3af']; // fallback neutral grey
     }
 
     randomThemeColor(opacity = 1) {

@@ -35,6 +35,9 @@
 
     --navbar-bg: rgba(23, 27, 35, 0.92);
 
+    /* Neutral color for background objects */
+    --bg-object-color: #6b7280; /* neutral grey */
+
     /* GitHub Contributions Colors - Dark Theme */
     --contribution-bg: #151b27;
     --contribution-border: #34405a;
@@ -85,6 +88,9 @@
     --shadow-accent: rgba(0, 0, 0, 0.1);
 
     --navbar-bg: rgba(250, 249, 245, 0.95);
+
+    /* Neutral color for background objects */
+    --bg-object-color: #9ca3af; /* neutral grey */
 
     /* GitHub Contributions Colors - Light (Beige) Theme */
     --contribution-bg: #fcfbf8;
