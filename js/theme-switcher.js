@@ -106,6 +106,35 @@ class ThemeSwitcher {
     }
 }
 
+// Set initial theme immediately (before DOMContentLoaded) to avoid flash
+(function() {
+    const storedTheme = (() => {
+        try {
+            return localStorage.getItem('theme');
+        } catch (e) {
+            return null;
+        }
+    })();
+    
+    const getTimeBasedTheme = () => {
+        const hour = new Date().getHours();
+        if (hour >= 6 && hour < 20) {
+            return 'light';
+        }
+        return 'dark';
+    };
+    
+    const initialTheme = storedTheme || getTimeBasedTheme();
+    if (document.body) {
+        document.body.setAttribute('data-theme', initialTheme);
+    } else {
+        // If body doesn't exist yet, set it when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.setAttribute('data-theme', initialTheme);
+        });
+    }
+})();
+
 // Initialize theme switcher when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new ThemeSwitcher();

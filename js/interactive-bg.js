@@ -89,6 +89,14 @@ class InteractiveBackground {
             this.mouse.x = e.clientX;
             this.mouse.y = e.clientY;
         });
+
+        // Listen for theme changes and recreate objects with new colors
+        window.addEventListener('themeChange', () => {
+            this.createArtifacts();
+            this.createNetworks();
+            this.createTopographicalLines();
+            this.createMeshes();
+        });
     }
 
     createArtifacts() {

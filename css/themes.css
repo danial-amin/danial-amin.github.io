@@ -51,9 +51,9 @@
 
 /* Clean Light Theme - Beige Background with Black/Grey Foreground */
 [data-theme="light"] {
-    --bg-primary: #f5f1e8; /* warm beige background */
-    --bg-secondary: #f0ebe0;
-    --section-bg: #faf8f3;
+    --bg-primary: #faf9f5; /* lighter beige background */
+    --bg-secondary: #f7f5f0;
+    --section-bg: #fcfbf8;
     --card-bg: rgba(255, 252, 247, 0.95);
     --hover-bg: rgba(0, 0, 0, 0.04);
     --input-bg: #fefcf9;
@@ -84,13 +84,13 @@
     --shadow-large: 0 20px 64px rgba(0, 0, 0, 0.12);
     --shadow-accent: rgba(0, 0, 0, 0.1);
 
-    --navbar-bg: rgba(245, 241, 232, 0.95);
+    --navbar-bg: rgba(250, 249, 245, 0.95);
 
     /* GitHub Contributions Colors - Light (Beige) Theme */
-    --contribution-bg: #faf8f3;
+    --contribution-bg: #fcfbf8;
     --contribution-border: rgba(0, 0, 0, 0.1);
     --contribution-hover-border: #2c2c2c;
-    --contribution-level-0: #f0ebe0;
+    --contribution-level-0: #f7f5f0;
     --contribution-level-1: #e0d5c4;
     --contribution-level-2: #c4b5a0;
     --contribution-level-3: #8b7d6b;
