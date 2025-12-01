@@ -26,7 +26,7 @@
     "role": "Computational Designer",
     "company": "Samsung Design Innovation Center, France",
     "quote": "I’ve had the pleasure of working closely with Danial, and he is truly exceptional. He has a rare ability to understand complex problems quickly, break them down into clear steps, and define the right steps forward in a calm and structured way. Combined with his excellent AI/ML expertise, this often means we reach solid solutions much faster than expected!\nHe also collaborates seamlessly across teams and aligns people effortlessly, thanks to his diverse technical background and his kind and empathetic personality. Working with Danial is efficient, structured, and genuinely enjoyable, and I'm very happy to highly recommend him.",
-    "linkedin_url": "https://www.linkedin.com/in/yasaman-tahouni-phd/",
+    "linkedin_url": "https://www.linkedin.com/in/yasaman-tahouni/",
     "avatar": "",
     "worked_with_at": "Samsung Design Innovation Center (Samsung Electronics France)",
     "worked_with_period": "Nov 2024 – Present",
@@ -52,6 +52,28 @@
     "avatar": "",
     "worked_with_at": "Samsung Design Innovation Center (Samsung Electronics France)",
     "worked_with_period": "Nov 2024 – Present",
+    "relationship": "Worked on the same team"
+  },
+  {
+    "name": "Peng Xu",
+    "role": "Chief Technology Officer",
+    "company": "i13 Ventures Studio",
+    "quote": "It is my great honor to recommend Danial Amin, with whom I had the pleasure of working at I13 Ventures. During our time together, we collaborated on several highly challenging and innovative projects, and I was consistently impressed by Danial’s professionalism, creativity, and leadership. As an AI specialist and Data Scientist, Danial demonstrated exceptional technical expertise and a deep understanding of complex machine learning systems. He's not only contributed innovative solutions but also effectively guided our team toward achieving outstanding project outcomes. His ability to translate ambitious ideas into practical, high-performing systems was key to the success of several critical initiatives at I13 Ventures. Beyond his technical strengths, Danial is a collaborative and inspiring professional. He brings both strategic thinking and hands-on execution to every project, and his enthusiasm for innovation motivates everyone around him. I have no doubt that Danial will continue to excel and make significant contributions wherever he goes. I strongly and wholeheartedly recommend him for any future endeavors.",
+    "linkedin_url":  "https://www.linkedin.com/in/peng-xu-55a51318/",
+    "avatar": "",
+    "worked_with_at": "i13 Ventures Studio",
+    "worked_with_period": "Sep 2023 – Nov 2024",
+    "relationship": "Managed Danial directly"
+  },
+  {
+    "name": "Ricardo Lamego",
+    "role": "Product Design Lead",
+    "company": "i13 Ventures Studio",
+    "quote": "I worked with Danial for nearly a year at a venture studio where we operated as a lean three-person core team, taking ideas from discovery through to deployed products in 8-week cycles. When our developer left mid-stream, Danial didn't just fill the gap—he picked up the entire development function while continuing to lead our AI capabilities. Across four or five projects spanning AgTech, vendor risk management, RegTech, and accelerator/incubator platforms, Danial became the technical backbone of everything we built. What distinguished Danial wasn't just technical capability (though that was exceptional)—it was the combination of speed, creativity, and cross-functional thinking. He could read a paper published by leading AI researchers just days earlier and have working code implementing those techniques within the same week. This wasn't academic exercise; these implementations became the competitive advantage of our products. His work with generative models and RAG gave us capabilities that simply didn't exist in the market for the problems we were solving. Danial's real strength was turning abstract ideas into working systems fast. I'd sketch out workflows that pushed what AI could enable—sometimes in heavily regulated spaces where you must keep humans in the loop—and he'd come back with prototypes that not only worked but were thoughtful about constraints. In fintech contexts, he understood that compliance isn't just about rules on paper; regulators need to understand what's happening. Danial helped us build systems that were both technically sound and approachable for non-technical stakeholders. Communication with him was always clear and reliable, even working remotely across thousands of kilometers. Here's what mattered most in a fast-moving venture studio environment: I could throw anything at Danial and trust he'd deliver. Not perfection—we always made smart trade-offs between what we could ship now versus what could be refined later—but he consistently delivered 80-90% solutions fast enough to keep us moving. There were many points where it felt like just Danial and I were holding the fort together, and I never once found myself blocked because he was behind schedule. Danial made complex AI accessible to the rest of the team, he supported everyone's goals rather than optimizing only for his own function, and he remained professional while still making the intensive work enjoyable. After almost a year of working together on high-pressure projects, I'd work with him again without hesitation. He's exactly the kind of technical partner you want when you're building something ambitious under tight constraints.",
+    "linkedin_url":  "https://www.linkedin.com/in/rlamego/",
+    "avatar": "",
+    "worked_with_at": "i13 Ventures Studio",
+    "worked_with_period": "Sep 2023 – Nov 2024",
     "relationship": "Worked on the same team"
   },
   {
