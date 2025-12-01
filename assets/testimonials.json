@@ -87,27 +87,27 @@
     "worked_with_period": "Feb 2023 – Sep 2023",
     "relationship": "Managed Danial directly"
   }
-  // ,
-  // {
-  //   "name": "Arsalan Khawaja",
-  //   "role": "Ph.D. Candidate (NTNU)",
-  //   "company": "Norwegian University of Science and Technology",
-  //   "quote": "I have good experience working with Mr. Danial Amin. He has good knowledge and understanding of engineering subjects. I have always appreciated his role in the team as a colleague and also as a leader & manager. His dedication and problem-solving attitude make any workplace a nice place to work at.",
-  //   "linkedin_url": "https://www.linkedin.com/in/arsalan-khawaja/",
-  //   "avatar": "assets/testimonials/arsalan-khawaja.jpg",
-  //   "worked_with_at": "Institute of Space Technology, Pakistan",
-  //   "worked_with_period": "Aug 2014 – Aug 2017",
-  //   "relationship": "Reported directly to Danial"
-  // },
-  // {
-  //   "name": "Faaiz Jeelani",
-  //   "role": "Senior Analyst",
-  //   "company": "Aerospace Industry",
-  //   "quote": "Mr. Amin is an excellent engineering problem solver, through critical insights and dedicated working potential.",
-  //   "linkedin_url": "https://www.linkedin.com/in/faaiz-jeelani/",
-  //   "avatar": "assets/testimonials/faaiz-jeelani.jpg",
-  //   "worked_with_at": "Government of Pakistan (Aerospace Analytics)",
-  //   "worked_with_period": "Aug 2015 – Nov 2022",
-  //   "relationship": "Worked on the same team"
-  // }
+  ,
+  {
+    "name": "Arsalan Khawaja",
+    "role": "Ph.D. Candidate (NTNU)",
+    "company": "Norwegian University of Science and Technology",
+    "quote": "I have good experience working with Mr. Danial Amin. He has good knowledge and understanding of engineering subjects. I have always appreciated his role in the team as a colleague and also as a leader & manager. His dedication and problem-solving attitude make any workplace a nice place to work at.",
+    "linkedin_url": "https://www.linkedin.com/in/arsalan-khawaja/",
+    "avatar": "",
+    "worked_with_at": "Institute of Space Technology, Pakistan",
+    "worked_with_period": "Aug 2014 – Aug 2017",
+    "relationship": "Reported directly to Danial"
+  },
+  {
+    "name": "Faaiz Jeelani",
+    "role": "Senior Analyst",
+    "company": "Aerospace Industry",
+    "quote": "Mr. Amin is an excellent engineering problem solver, through critical insights and dedicated working potential.",
+    "linkedin_url": "https://www.linkedin.com/in/faaiz-jeelani/",
+    "avatar": "",
+    "worked_with_at": "Government of Pakistan (Aerospace Analytics)",
+    "worked_with_period": "Aug 2015 – Nov 2022",
+    "relationship": "Worked on the same team"
+  }
 ]
