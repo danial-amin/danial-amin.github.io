@@ -7,18 +7,24 @@
     <meta name="description" content="From aerospace engineering to AI research—why the shift toward fully agentic systems makes human-computer interaction more essential, not less.">
     <meta name="keywords" content="HCI human-AI-interaction agentic-AI research career">
     <meta name="author" content="Danial Amin">
+
     <meta property="og:title" content="Why Human-AI Interaction Will Always Need Humans">
     <meta property="og:description" content="From aerospace engineering to AI research—why the shift toward fully agentic systems makes human-computer interaction more essential, not less.">
     <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2025-12-01-why-hci.html">
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Why Human-AI Interaction Will Always Need Humans">
     <meta name="twitter:description" content="From aerospace engineering to AI research—why the shift toward fully agentic systems makes human-computer interaction more essential, not less.">
+
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="../../css/themes.css">
     <link rel="stylesheet" href="../../css/animations.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Optional: keep these inline styles unless you've moved them into your CSS -->
     <style>
         .insight-box {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -40,54 +46,70 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
-            <a href="../../index.html" class="logo">Danial Amin</a>
-            <div class="nav-links">
-                <a href="../../index.html">Home</a>
-                <a href="../index.html">Articles</a>
-                <a href="../../projects/index.html">Projects</a>
-                <a href="../../about.html">About</a>
-                <button class="theme-toggle" aria-label="Toggle dark mode">
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
                 </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
     <!-- Article Header -->
-    <header class="article-header">
+    <section class="article-header">
         <div class="container">
-            <div class="article-meta">
-                <span class="category">Opinion</span>
-                <span class="date">December 1, 2025</span>
-                <span class="read-time">4 min read</span>
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">Opinion</span>
+                    <span class="article-date">2025-12-01</span>
+                    <span class="article-read-time">4 min read</span>
+                </div>
+                <h1 class="article-title">Why Human-AI Interaction Will Always Need Humans</h1>
+                <p class="article-excerpt">
+                    From aerospace engineering to AI research—why the shift toward fully agentic systems makes human-computer interaction more essential, not less.
+                </p>
+                <div class="article-tags">
+                    <span class="tag">Human-AI Interaction</span>
+                    <span class="tag">Agentic AI</span>
+                    <span class="tag">Career</span>
+                </div>
             </div>
-            <h1>Why Human-AI Interaction Will Always Need Humans</h1>
-            <p class="article-subtitle">From aerospace engineering to AI research—why the shift toward fully agentic systems makes human-computer interaction more essential, not less.</p>
         </div>
-    </header>
+    </section>
 
     <!-- Table of Contents -->
-    <nav class="toc">
-        <div class="container">
-            <h3>Contents</h3>
-            <ul>
-                <li><a href="#journey">The Journey</a></li>
-                <li><a href="#trap">The Pattern Recognition Trap</a></li>
-                <li><a href="#where">Where This Leaves Us</a></li>
-                <li><a href="#research">The Research Ahead</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#journey">The Journey</a></li>
+            <li><a href="#trap">The Pattern Recognition Trap</a></li>
+            <li><a href="#where">Where This Leaves Us</a></li>
+            <li><a href="#research">The Research Ahead</a></li>
+        </ul>
+    </div>
 
     <!-- Article Content -->
     <section class="article-content">
         <div class="container">
-            <div class="content-wrapper">
+            <div class="article-body">
                 <p>I started in aerospace engineering. Structural analysis, thermal systems, the kind of work where physics doesn't negotiate. But after some time, I realized something: engineering is fundamentally pattern recognition and problem-solving. The domain is almost incidental.</p>
 
                 <p>That insight led me to AI and analytics. If the core skill is recognizing patterns and solving problems, why not apply it where the problems are most interesting and the patterns most complex? AI seemed domain-agnostic in a way aerospace never could be.</p>
@@ -152,7 +174,9 @@
     <!-- Author Bio -->
     <div class="author-bio">
         <h4>About the Author</h4>
-        <p><strong>Danial Amin</strong> is currently researching in Human Computer Interaction with the University of Vaasa, Finland. You can connect with him on <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p>
+        <p><strong>Danial Amin</strong> is currently researching in Human Computer Interaction with the University of Vaasa, Finland. You can connect with him on
+            <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.
+        </p>
     </div>
 
     <!-- Footer -->
