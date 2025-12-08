@@ -78,6 +78,7 @@
             overflow: hidden;
         }
         
+        /* Base animated gradient layer */
         .slide::before {
             content: '';
             position: absolute;
@@ -85,32 +86,600 @@
             left: 0;
             right: 0;
             bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Secondary animated layer */
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Slide 1: Rotating radial gradient */
+        .slide-1::before {
+            background: radial-gradient(circle at 30% 50%, 
+                var(--accent-color) 0%, 
+                transparent 50%);
+            opacity: 0.15;
+            animation: rotateRadial 20s linear infinite;
+        }
+        
+        .slide-1::after {
+            background: radial-gradient(circle at 70% 50%, 
+                var(--secondary-accent) 0%, 
+                transparent 50%);
+            opacity: 0.1;
+            animation: rotateRadial 25s linear infinite reverse;
+        }
+        
+        @keyframes rotateRadial {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        /* Slide 2: Wave animation */
+        .slide-2::before {
             background: linear-gradient(135deg, 
                 var(--accent-color) 0%, 
                 var(--secondary-accent) 50%,
                 var(--accent-color) 100%);
-            opacity: 0.08;
-            animation: gradientShift 8s ease infinite;
-            z-index: 0;
+            opacity: 0.1;
+            animation: waveMove 8s ease-in-out infinite;
         }
         
-        @keyframes gradientShift {
+        .slide-2::after {
+            background: linear-gradient(225deg, 
+                var(--secondary-accent) 0%, 
+                var(--accent-color) 50%,
+                var(--secondary-accent) 100%);
+            opacity: 0.08;
+            animation: waveMove 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes waveMove {
             0%, 100% { 
-                opacity: 0.08;
-                transform: scale(1);
+                transform: translateX(0) translateY(0) scale(1);
+                opacity: 0.1;
             }
             50% { 
-                opacity: 0.12;
-                transform: scale(1.05);
+                transform: translateX(50px) translateY(-30px) scale(1.1);
+                opacity: 0.15;
             }
         }
         
-        .slide:nth-child(even)::before {
-            animation-duration: 10s;
-            background: linear-gradient(225deg, 
+        /* Slide 3: Orbiting gradients */
+        .slide-3::before {
+            background: radial-gradient(circle at 20% 30%, 
                 var(--accent-color) 0%, 
+                transparent 40%);
+            opacity: 0.12;
+            animation: orbit1 15s ease-in-out infinite;
+        }
+        
+        .slide-3::after {
+            background: radial-gradient(circle at 80% 70%, 
+                var(--secondary-accent) 0%, 
+                transparent 40%);
+            opacity: 0.1;
+            animation: orbit2 18s ease-in-out infinite;
+        }
+        
+        @keyframes orbit1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -50px) scale(1.2); }
+            50% { transform: translate(50px, -100px) scale(1); }
+            75% { transform: translate(-50px, -50px) scale(1.1); }
+        }
+        
+        @keyframes orbit2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-80px, 60px) scale(1.1); }
+            50% { transform: translate(-40px, 100px) scale(1.2); }
+            75% { transform: translate(60px, 40px) scale(1); }
+        }
+        
+        /* Slide 4: Pulsing mesh */
+        .slide-4::before {
+            background: 
+                radial-gradient(circle at 25% 25%, var(--accent-color) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, var(--secondary-accent) 0%, transparent 25%);
+            opacity: 0.1;
+            animation: pulseMesh 6s ease-in-out infinite;
+        }
+        
+        .slide-4::after {
+            background: 
+                radial-gradient(circle at 75% 25%, var(--secondary-accent) 0%, transparent 30%),
+                radial-gradient(circle at 25% 75%, var(--accent-color) 0%, transparent 30%);
+            opacity: 0.08;
+            animation: pulseMesh 8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes pulseMesh {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: scale(1.3);
+                opacity: 0.15;
+            }
+        }
+        
+        /* Slide 5: Flowing gradient */
+        .slide-5::before {
+            background: linear-gradient(45deg, 
+                var(--accent-color) 0%, 
+                transparent 30%,
+                var(--secondary-accent) 60%,
+                transparent 100%);
+            opacity: 0.12;
+            animation: flowGradient 12s linear infinite;
+        }
+        
+        .slide-5::after {
+            background: linear-gradient(225deg, 
+                var(--secondary-accent) 0%, 
+                transparent 40%,
+                var(--accent-color) 70%,
+                transparent 100%);
+            opacity: 0.1;
+            animation: flowGradient 15s linear infinite reverse;
+        }
+        
+        @keyframes flowGradient {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+        
+        /* Slide 6: Spiral gradient */
+        .slide-6::before {
+            background: conic-gradient(from 0deg at 50% 50%, 
+                var(--accent-color) 0deg, 
+                transparent 60deg,
+                var(--secondary-accent) 120deg,
+                transparent 180deg,
+                var(--accent-color) 240deg,
+                transparent 300deg,
+                var(--secondary-accent) 360deg);
+            opacity: 0.1;
+            animation: spinSpiral 20s linear infinite;
+        }
+        
+        .slide-6::after {
+            background: conic-gradient(from 180deg at 50% 50%, 
+                var(--secondary-accent) 0deg, 
+                transparent 90deg,
+                var(--accent-color) 180deg,
+                transparent 270deg,
+                var(--secondary-accent) 360deg);
+            opacity: 0.08;
+            animation: spinSpiral 25s linear infinite reverse;
+        }
+        
+        @keyframes spinSpiral {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(360deg) scale(1.1); }
+        }
+        
+        /* Slide 7: Expanding circles */
+        .slide-7::before {
+            background: radial-gradient(circle, 
+                var(--accent-color) 0%, 
+                transparent 30%);
+            opacity: 0.12;
+            animation: expandCircle 10s ease-in-out infinite;
+        }
+        
+        .slide-7::after {
+            background: radial-gradient(circle, 
+                var(--secondary-accent) 0%, 
+                transparent 35%);
+            opacity: 0.1;
+            animation: expandCircle 12s ease-in-out infinite reverse;
+        }
+        
+        @keyframes expandCircle {
+            0%, 100% { 
+                transform: scale(0.8);
+                opacity: 0.12;
+            }
+            50% { 
+                transform: scale(1.5);
+                opacity: 0.08;
+            }
+        }
+        
+        /* Slide 8: Diagonal sweep */
+        .slide-8::before {
+            background: linear-gradient(135deg, 
+                transparent 0%,
+                var(--accent-color) 30%,
                 var(--secondary-accent) 50%,
-                var(--accent-color) 100%);
+                var(--accent-color) 70%,
+                transparent 100%);
+            opacity: 0.1;
+            animation: diagonalSweep 9s ease-in-out infinite;
+        }
+        
+        .slide-8::after {
+            background: linear-gradient(315deg, 
+                transparent 0%,
+                var(--secondary-accent) 25%,
+                var(--accent-color) 55%,
+                var(--secondary-accent) 75%,
+                transparent 100%);
+            opacity: 0.08;
+            animation: diagonalSweep 11s ease-in-out infinite reverse;
+        }
+        
+        @keyframes diagonalSweep {
+            0%, 100% { 
+                transform: translateX(-50%) translateY(-50%) rotate(0deg);
+            }
+            50% { 
+                transform: translateX(50%) translateY(50%) rotate(180deg);
+            }
+        }
+        
+        /* Slide 9: Ripple effect */
+        .slide-9::before {
+            background: radial-gradient(circle at 50% 50%, 
+                var(--accent-color) 0%, 
+                transparent 40%);
+            opacity: 0.1;
+            animation: ripple 8s ease-out infinite;
+        }
+        
+        .slide-9::after {
+            background: radial-gradient(circle at 50% 50%, 
+                var(--secondary-accent) 0%, 
+                transparent 45%);
+            opacity: 0.08;
+            animation: ripple 10s ease-out infinite 2s;
+        }
+        
+        @keyframes ripple {
+            0% { 
+                transform: scale(0.5);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 0.15;
+            }
+            100% { 
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        /* Slide 10: Zigzag pattern */
+        .slide-10::before {
+            background: 
+                repeating-linear-gradient(45deg, 
+                    var(--accent-color) 0px,
+                    transparent 20px,
+                    var(--secondary-accent) 40px,
+                    transparent 60px);
+            opacity: 0.08;
+            animation: zigzag 12s linear infinite;
+        }
+        
+        .slide-10::after {
+            background: 
+                repeating-linear-gradient(-45deg, 
+                    var(--secondary-accent) 0px,
+                    transparent 25px,
+                    var(--accent-color) 50px,
+                    transparent 75px);
+            opacity: 0.06;
+            animation: zigzag 15s linear infinite reverse;
+        }
+        
+        @keyframes zigzag {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(200px) translateY(200px); }
+        }
+        
+        /* Slide 11: Concentric circles */
+        .slide-11::before {
+            background: 
+                radial-gradient(circle, var(--accent-color) 0%, transparent 20%),
+                radial-gradient(circle, transparent 25%, var(--secondary-accent) 30%, transparent 40%);
+            opacity: 0.1;
+            animation: concentric 14s ease-in-out infinite;
+        }
+        
+        .slide-11::after {
+            background: 
+                radial-gradient(circle, var(--secondary-accent) 0%, transparent 22%),
+                radial-gradient(circle, transparent 28%, var(--accent-color) 35%, transparent 45%);
+            opacity: 0.08;
+            animation: concentric 16s ease-in-out infinite reverse;
+        }
+        
+        @keyframes concentric {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+        }
+        
+        /* Slide 12: Shimmer effect */
+        .slide-12::before {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                var(--accent-color) 25%,
+                var(--secondary-accent) 50%,
+                var(--accent-color) 75%,
+                transparent 100%);
+            opacity: 0.1;
+            animation: shimmer 7s linear infinite;
+        }
+        
+        .slide-12::after {
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                var(--secondary-accent) 30%,
+                var(--accent-color) 60%,
+                var(--secondary-accent) 80%,
+                transparent 100%);
+            opacity: 0.08;
+            animation: shimmer 9s linear infinite reverse;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) skewX(-20deg); }
+            100% { transform: translateX(200%) skewX(-20deg); }
+        }
+        
+        /* Slide 13: Bubble effect */
+        .slide-13::before {
+            background: 
+                radial-gradient(circle at 20% 20%, var(--accent-color) 0%, transparent 25%),
+                radial-gradient(circle at 80% 80%, var(--secondary-accent) 0%, transparent 30%);
+            opacity: 0.1;
+            animation: bubbleFloat 11s ease-in-out infinite;
+        }
+        
+        .slide-13::after {
+            background: 
+                radial-gradient(circle at 60% 30%, var(--secondary-accent) 0%, transparent 28%),
+                radial-gradient(circle at 40% 70%, var(--accent-color) 0%, transparent 32%);
+            opacity: 0.08;
+            animation: bubbleFloat 13s ease-in-out infinite reverse;
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            33% { transform: translateY(-30px) scale(1.1); }
+            66% { transform: translateY(20px) scale(0.9); }
+        }
+        
+        /* Slide 14: Grid pulse */
+        .slide-14::before {
+            background: 
+                linear-gradient(var(--accent-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--accent-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.08;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+        
+        .slide-14::after {
+            background: 
+                linear-gradient(var(--secondary-accent) 1px, transparent 1px),
+                linear-gradient(90deg, var(--secondary-accent) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.06;
+            animation: gridPulse 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes gridPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.08;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 0.12;
+            }
+        }
+        
+        /* Slide 15: Starfield */
+        .slide-15::before {
+            background: 
+                radial-gradient(2px 2px at 20% 30%, var(--accent-color), transparent),
+                radial-gradient(2px 2px at 60% 70%, var(--secondary-accent), transparent),
+                radial-gradient(1px 1px at 50% 50%, var(--accent-color), transparent);
+            background-size: 200px 200px;
+            opacity: 0.1;
+            animation: starfield 20s linear infinite;
+        }
+        
+        .slide-15::after {
+            background: 
+                radial-gradient(2px 2px at 80% 20%, var(--secondary-accent), transparent),
+                radial-gradient(2px 2px at 40% 80%, var(--accent-color), transparent),
+                radial-gradient(1px 1px at 30% 60%, var(--secondary-accent), transparent);
+            background-size: 250px 250px;
+            opacity: 0.08;
+            animation: starfield 25s linear infinite reverse;
+        }
+        
+        @keyframes starfield {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(100px, 100px) rotate(360deg); }
+        }
+        
+        /* Slide 16: Morphing blob */
+        .slide-16::before {
+            background: radial-gradient(ellipse at 30% 50%, 
+                var(--accent-color) 0%, 
+                transparent 50%);
+            opacity: 0.12;
+            animation: morphBlob 12s ease-in-out infinite;
+        }
+        
+        .slide-16::after {
+            background: radial-gradient(ellipse at 70% 50%, 
+                var(--secondary-accent) 0%, 
+                transparent 55%);
+            opacity: 0.1;
+            animation: morphBlob 14s ease-in-out infinite reverse;
+        }
+        
+        @keyframes morphBlob {
+            0%, 100% { 
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: scale(1) rotate(0deg);
+            }
+            50% { 
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+        
+        /* Slide 17: Kaleidoscope */
+        .slide-17::before {
+            background: conic-gradient(from 0deg, 
+                var(--accent-color) 0deg 60deg,
+                var(--secondary-accent) 60deg 120deg,
+                var(--accent-color) 120deg 180deg,
+                var(--secondary-accent) 180deg 240deg,
+                var(--accent-color) 240deg 300deg,
+                var(--secondary-accent) 300deg 360deg);
+            opacity: 0.1;
+            animation: kaleidoscope 16s linear infinite;
+        }
+        
+        .slide-17::after {
+            background: conic-gradient(from 180deg, 
+                var(--secondary-accent) 0deg 45deg,
+                var(--accent-color) 45deg 90deg,
+                var(--secondary-accent) 90deg 135deg,
+                var(--accent-color) 135deg 180deg,
+                var(--secondary-accent) 180deg 225deg,
+                var(--accent-color) 225deg 270deg,
+                var(--secondary-accent) 270deg 315deg,
+                var(--accent-color) 315deg 360deg);
+            opacity: 0.08;
+            animation: kaleidoscope 18s linear infinite reverse;
+        }
+        
+        @keyframes kaleidoscope {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(360deg) scale(1.1); }
+        }
+        
+        /* Slide 18: Liquid motion */
+        .slide-18::before {
+            background: 
+                radial-gradient(ellipse 800px 400px at 30% 50%, var(--accent-color), transparent),
+                radial-gradient(ellipse 600px 500px at 70% 50%, var(--secondary-accent), transparent);
+            opacity: 0.1;
+            animation: liquidMotion 10s ease-in-out infinite;
+        }
+        
+        .slide-18::after {
+            background: 
+                radial-gradient(ellipse 700px 450px at 50% 30%, var(--secondary-accent), transparent),
+                radial-gradient(ellipse 500px 600px at 50% 70%, var(--accent-color), transparent);
+            opacity: 0.08;
+            animation: liquidMotion 12s ease-in-out infinite reverse;
+        }
+        
+        @keyframes liquidMotion {
+            0%, 100% { 
+                transform: translateX(0) translateY(0) scale(1);
+            }
+            33% { 
+                transform: translateX(50px) translateY(-30px) scale(1.1);
+            }
+            66% { 
+                transform: translateX(-30px) translateY(40px) scale(0.9);
+            }
+        }
+        
+        /* Slide 19: Aurora effect */
+        .slide-19::before {
+            background: 
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    var(--accent-color) 20%,
+                    var(--secondary-accent) 40%,
+                    var(--accent-color) 60%,
+                    transparent 100%);
+            opacity: 0.12;
+            animation: aurora 9s ease-in-out infinite;
+        }
+        
+        .slide-19::after {
+            background: 
+                linear-gradient(180deg, 
+                    transparent 0%,
+                    var(--secondary-accent) 25%,
+                    var(--accent-color) 45%,
+                    var(--secondary-accent) 65%,
+                    transparent 100%);
+            opacity: 0.1;
+            animation: aurora 11s ease-in-out infinite reverse;
+        }
+        
+        @keyframes aurora {
+            0%, 100% { 
+                transform: translateY(0) scaleY(1);
+                opacity: 0.12;
+            }
+            50% { 
+                transform: translateY(-20px) scaleY(1.2);
+                opacity: 0.15;
+            }
+        }
+        
+        /* Slide 20: Final celebration */
+        .slide-20::before {
+            background: 
+                radial-gradient(circle at 25% 25%, var(--accent-color) 0%, transparent 30%),
+                radial-gradient(circle at 75% 75%, var(--secondary-accent) 0%, transparent 35%),
+                radial-gradient(circle at 50% 50%, var(--accent-color) 0%, transparent 40%);
+            opacity: 0.12;
+            animation: celebration 8s ease-in-out infinite;
+        }
+        
+        .slide-20::after {
+            background: 
+                radial-gradient(circle at 75% 25%, var(--secondary-accent) 0%, transparent 32%),
+                radial-gradient(circle at 25% 75%, var(--accent-color) 0%, transparent 38%),
+                radial-gradient(circle at 50% 50%, var(--secondary-accent) 0%, transparent 42%);
+            opacity: 0.1;
+            animation: celebration 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes celebration {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg);
+                opacity: 0.12;
+            }
+            25% { 
+                transform: scale(1.1) rotate(90deg);
+                opacity: 0.15;
+            }
+            50% { 
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.12;
+            }
+            75% { 
+                transform: scale(1.1) rotate(270deg);
+                opacity: 0.15;
+            }
         }
 
         .slide-title {
@@ -352,6 +921,84 @@
             width: 0%;
             transition: width 0.1s ease-out;
             box-shadow: 0 0 10px var(--shadow-accent);
+        }
+
+        /* Floating animated particles */
+        .slide-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+        
+        .particle-1 {
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            box-shadow: 0 0 6px var(--accent-color);
+            animation: float1 15s ease-in-out infinite;
+        }
+        
+        .particle-2 {
+            width: 6px;
+            height: 6px;
+            background: var(--secondary-accent);
+            box-shadow: 0 0 8px var(--secondary-accent);
+            animation: float2 18s ease-in-out infinite;
+        }
+        
+        .particle-3 {
+            width: 3px;
+            height: 3px;
+            background: var(--accent-color);
+            box-shadow: 0 0 4px var(--accent-color);
+            animation: float3 12s ease-in-out infinite;
+        }
+        
+        @keyframes float1 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0.4;
+            }
+            25% { 
+                transform: translate(100px, -80px) scale(1.2);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translate(200px, -50px) scale(0.8);
+                opacity: 0.3;
+            }
+            75% { 
+                transform: translate(100px, 50px) scale(1.1);
+                opacity: 0.5;
+            }
+        }
+        
+        @keyframes float2 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0.3;
+            }
+            33% { 
+                transform: translate(-120px, 100px) scale(1.3);
+                opacity: 0.5;
+            }
+            66% { 
+                transform: translate(-200px, 30px) scale(0.7);
+                opacity: 0.2;
+            }
+        }
+        
+        @keyframes float3 {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+            50% { 
+                transform: translate(150px, 120px) scale(1.4);
+                opacity: 0.7;
+            }
         }
 
 
@@ -1033,6 +1680,37 @@
 
         // Initial scroll progress update
         updateScrollProgress();
+        
+        // Create floating particles for each slide
+        function createSlideParticles() {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, slideIndex) => {
+                // Create 8-12 particles per slide
+                const particleCount = 8 + Math.floor(Math.random() * 5);
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    const particleType = Math.floor(Math.random() * 3) + 1;
+                    particle.className = `slide-particle particle-${particleType}`;
+                    
+                    // Random starting position
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    
+                    // Random delay for staggered animation
+                    particle.style.animationDelay = Math.random() * 5 + 's';
+                    particle.style.animationDuration = (12 + Math.random() * 8) + 's';
+                    
+                    slide.appendChild(particle);
+                }
+            });
+        }
+        
+        // Initialize particles when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createSlideParticles);
+        } else {
+            createSlideParticles();
+        }
     </script>
     <script src="../../js/interactive-bg.js"></script>
     <script src="../../js/theme-switcher.js"></script>
