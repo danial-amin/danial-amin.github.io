@@ -681,6 +681,137 @@
                 opacity: 0.15;
             }
         }
+        
+        /* References Section */
+        .references-section {
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 2rem 4rem;
+            min-height: 100vh;
+        }
+        
+        .references-section::before {
+            background: linear-gradient(135deg, 
+                var(--accent-color) 0%, 
+                var(--secondary-accent) 50%,
+                var(--accent-color) 100%);
+            opacity: 0.05;
+            animation: gradientShift 12s ease infinite;
+        }
+        
+        .references-content {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .references-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 3rem;
+            text-align: center;
+            text-shadow: 0 2px 10px var(--shadow-accent);
+        }
+        
+        .references-category {
+            margin-bottom: 3rem;
+        }
+        
+        .category-title {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .reference-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-small);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reference-item:hover {
+            transform: translateX(5px);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .reference-source {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .reference-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            word-break: break-all;
+            display: block;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .reference-link:hover {
+            color: var(--secondary-accent);
+            text-decoration: underline;
+        }
+        
+        .reference-details {
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            line-height: 1.6;
+            margin-top: 0.75rem;
+        }
+        
+        .reference-key-data {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            font-style: italic;
+        }
+        
+        .reference-note {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .reference-note-title {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .reference-note-text {
+            color: var(--text-secondary);
+            font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+            line-height: 1.7;
+        }
 
         .slide-title {
             font-size: clamp(2rem, 6vw, 4.5rem);
@@ -1605,6 +1736,290 @@
                 <p class="slide-description" style="margin-top: 3rem; font-size: 1rem; font-weight: 600;">My small take: it's not clear that the industry will converge on a single model or architecture. The most likely outcome is a continued diversity of models and architectures, each with its own strengths and weaknesses. This is a good thing, as it will allow for more experimentation and innovation. However, it will also make it more difficult to compare models and architectures, and to understand the trade-offs between them. This is why we need more benchmarks and more standardized evaluation frameworks.</p>
             </div>
         </div>
+        
+        <!-- References Section -->
+        <section class="references-section">
+            <div class="references-content">
+                <h1 class="references-title">References</h1>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Survey Data & Market Research</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">IBM and Morning Consult Developer Survey</div>
+                        <div class="reference-details">
+                            IBM. (2025). "AI Agents in 2025: Expectations vs. Reality." IBM Think Insights.
+                        </div>
+                        <a href="https://www.ibm.com/think/insights/ai-agents-2025-expectations-vs-reality" target="_blank" rel="noopener" class="reference-link">https://www.ibm.com/think/insights/ai-agents-2025-expectations-vs-reality</a>
+                        <div class="reference-key-data">Key data: 99% of enterprise developers exploring AI agents, agent adoption patterns</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">McKinsey Global Survey on AI</div>
+                        <div class="reference-details">
+                            McKinsey & Company. (2025). "The state of AI in 2025: Agents, innovation, and transformation."
+                        </div>
+                        <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener" class="reference-link">https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai</a>
+                        <div class="reference-key-data">Survey period: June 25 - July 29, 2025 | Sample: 1,993 participants across 105 nations | Key data: 88% AI adoption, 62% experimenting with agents, 23% scaling agents, 39% reporting EBIT impact</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Menlo Ventures LLM Market Update</div>
+                        <div class="reference-details">
+                            Menlo Ventures. (2025). "2025 Mid-Year LLM Market Update: Foundation Model Landscape + Economics."
+                        </div>
+                        <a href="https://menlovc.com/perspective/2025-mid-year-llm-market-update/" target="_blank" rel="noopener" class="reference-link">https://menlovc.com/perspective/2025-mid-year-llm-market-update/</a>
+                        <div class="reference-key-data">Survey: 150 technical decision-makers at enterprises and startups (June 30 - July 10, 2025) | Key data: Claude 42% code generation market share, OpenAI 21%, $1.9B coding ecosystem, 13% open-source workload share</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Gartner Research</div>
+                        <div class="reference-details">
+                            Gartner, Inc. (2025). "Gartner Hype Cycle for Artificial Intelligence, 2025."
+                        </div>
+                        <a href="https://www.gartner.com/en/newsroom/press-releases/2025-08-05-gartner-hype-cycle-identifies-top-ai-innovations-in-2025" target="_blank" rel="noopener" class="reference-link">https://www.gartner.com/en/newsroom/press-releases/2025-08-05-gartner-hype-cycle-identifies-top-ai-innovations-in-2025</a>
+                        <div class="reference-key-data">Key insight: AI agents and AI-ready data at "Peak of Inflated Expectations"</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">MarketsandMarkets Projection</div>
+                        <div class="reference-details">
+                            Cited in: Alvarez & Marsal. (2025). "Demystifying AI Agents in 2025: Separating Hype From Reality and Navigating Market Outlook."
+                        </div>
+                        <a href="https://www.alvarezandmarsal.com/thought-leadership/demystifying-ai-agents-in-2025-separating-hype-from-reality-and-navigating-market-outlook" target="_blank" rel="noopener" class="reference-link">https://www.alvarezandmarsal.com/thought-leadership/demystifying-ai-agents-in-2025-separating-hype-from-reality-and-navigating-market-outlook</a>
+                        <div class="reference-key-data">Projection: AI agent market from $5.1B (2024) to $47.1B (2030), 44.8% CAGR</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Capgemini Research</div>
+                        <div class="reference-details">
+                            Cited in: Collabnix. (2025). "Agentic AI Trends 2025: The Complete Guide to Autonomous Intelligence Revolution."
+                        </div>
+                        <a href="https://collabnix.com/agentic-ai-trends-2025-the-complete-guide-to-autonomous-intelligence-revolution/" target="_blank" rel="noopener" class="reference-link">https://collabnix.com/agentic-ai-trends-2025-the-complete-guide-to-autonomous-intelligence-revolution/</a>
+                        <div class="reference-key-data">Key data: 82% of organizations plan AI agent integration by 2026</div>
+                    </div>
+                </div>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Model Releases & Technical Documentation</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Anthropic - Claude Models</div>
+                        <div class="reference-details">
+                            Anthropic. (2024-2025). Claude 3.5 Sonnet, Claude 3.7 Sonnet, Claude 4 family releases. Source: Menlo Ventures report references February 2025 Claude 3.7 Sonnet release.
+                        </div>
+                        <div class="reference-key-data">Key features: Extended thinking, MCP integration, agent-first design</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">OpenAI - GPT-5 Series</div>
+                        <div class="reference-details">
+                            Multiple sources reference August 2025 GPT-5 release. InfoQ. (2025). "InfoQ AI, ML and Data Engineering Trends Report - 2025."
+                        </div>
+                        <a href="https://www.infoq.com/articles/ai-ml-data-engineering-trends-2025/" target="_blank" rel="noopener" class="reference-link">https://www.infoq.com/articles/ai-ml-data-engineering-trends-2025/</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Google - Gemini Models</div>
+                        <div class="reference-details">
+                            TechTarget. (2025). "30 of the best large language models in 2026." Splunk. (2025). "Top LLMs To Use in 2026: Our Best Picks."
+                        </div>
+                        <a href="https://www.splunk.com/en_us/blog/learn/llms-best-to-use.html" target="_blank" rel="noopener" class="reference-link">https://www.splunk.com/en_us/blog/learn/llms-best-to-use.html</a>
+                        <div class="reference-key-data">Key data: Gemini 2.5 Pro (March 2025) with Deep Think mode, 1M token context; Gemini 3 Pro (November 2025)</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Meta - Llama 4</div>
+                        <div class="reference-details">
+                            Shakudo. (2025). "Top 9 Large Language Models as of December 2025."
+                        </div>
+                        <a href="https://www.shakudo.io/blog/top-9-large-language-models" target="_blank" rel="noopener" class="reference-link">https://www.shakudo.io/blog/top-9-large-language-models</a>
+                        <div class="reference-key-data">Key features: Llama 4 Scout with 10M token context window, multimodal capabilities</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">DeepSeek Models</div>
+                        <div class="reference-details">
+                            Multiple sources document DeepSeek V3 and V3.1. Splunk report: DeepSeek-V3-0324 launched March 24, 2025.
+                        </div>
+                        <div class="reference-key-data">Key data: 685B parameters (37B active), $5.5M training cost, 2.788M GPU hours on H800s. DeepSeek V3.1 (August 2025) with hybrid thinking/non-thinking modes</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">xAI - Grok 4</div>
+                        <div class="reference-details">
+                            Medium (2025) report: Grok 4 launched July 2025.
+                        </div>
+                        <div class="reference-key-data">Performance: Comparable SWE-bench to GPT-5 and Claude Opus 4.1</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Mistral AI</div>
+                        <div class="reference-details">
+                            Shakudo report documents Mixtral 8x22B with Mixture-of-Experts architecture.
+                        </div>
+                        <div class="reference-key-data">Apache 2.0 license, open-source availability</div>
+                    </div>
+                </div>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Multimodal & Video Generation</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Google Lens Data</div>
+                        <div class="reference-details">
+                            Lumar. (2025). "Multimodal Search in 2025: Image, Video, & Voice Search."
+                        </div>
+                        <a href="https://www.lumar.io/blog/industry-news/multimodal-search-video-image-and-voice-search/" target="_blank" rel="noopener" class="reference-link">https://www.lumar.io/blog/industry-news/multimodal-search-video-image-and-voice-search/</a>
+                        <div class="reference-key-data">Key data: 20 billion visual searches monthly, 20% shopping-related, fastest growing among 18-24 age group</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Kling O1 Video Model</div>
+                        <div class="reference-details">
+                            Morningstar. (2025). "Kling O1 Launches as the World's First Unified Multimodal Video Model." Announcement: December 1, 2025.
+                        </div>
+                        <div class="reference-key-data">Features: Unified multimodal creation tool, character consistency</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Runway Gen-2</div>
+                        <div class="reference-details">
+                            Runway Research. "Gen-2: Generate novel videos with text, images or video clips."
+                        </div>
+                        <a href="https://runwayml.com/research/gen-2" target="_blank" rel="noopener" class="reference-link">https://runwayml.com/research/gen-2</a>
+                        <div class="reference-key-data">Capabilities: Text-to-video, image-to-video generation</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Microsoft Research - MMCTAgent</div>
+                        <div class="reference-details">
+                            Microsoft Research. (2025). "MMCTAgent: Enabling multimodal reasoning over large video and image collections." Published: November 12, 2025.
+                        </div>
+                        <a href="https://www.microsoft.com/en-us/research/blog/mmctagent-enabling-multimodal-reasoning-over-large-video-and-image-collections/" target="_blank" rel="noopener" class="reference-link">https://www.microsoft.com/en-us/research/blog/mmctagent-enabling-multimodal-reasoning-over-large-video-and-image-collections/</a>
+                        <div class="reference-key-data">Architecture: Multi-modal Critical Thinking Agent for long-form video reasoning</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">General Multimodal AI Overview</div>
+                        <div class="reference-details">
+                            Medium. (2025). "Multimodal AI in 2025: Integrating Text, Image, Audio, and Video for Smarter AI." Aya Data. (2025). "Multimodal AI: Breaking Down Barriers Between Text, Image, Audio and Video."
+                        </div>
+                        <a href="https://www.ayadata.ai/multimodal-ai-breaking-down-barriers-between-text-image-audio-and-video/" target="_blank" rel="noopener" class="reference-link">https://www.ayadata.ai/multimodal-ai-breaking-down-barriers-between-text-image-audio-and-video/</a>
+                    </div>
+                </div>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Industry Analysis & Trends</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Microsoft AI Trends</div>
+                        <div class="reference-details">
+                            Microsoft. (2025). "6 AI trends you'll see more of in 2025." Published: May 1, 2025.
+                        </div>
+                        <a href="https://news.microsoft.com/source/features/ai/6-ai-trends-youll-see-more-of-in-2025/" target="_blank" rel="noopener" class="reference-link">https://news.microsoft.com/source/features/ai/6-ai-trends-youll-see-more-of-in-2025/</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">MIT Technology Review</div>
+                        <div class="reference-details">
+                            MIT Technology Review. (2025). "What's next for AI in 2025." Published: January 24, 2025.
+                        </div>
+                        <a href="https://www.technologyreview.com/2025/01/08/1109188/whats-next-for-ai-in-2025/" target="_blank" rel="noopener" class="reference-link">https://www.technologyreview.com/2025/01/08/1109188/whats-next-for-ai-in-2025/</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Morgan Stanley Technology Analysis</div>
+                        <div class="reference-details">
+                            Morgan Stanley. (2025). "5 AI Trends Shaping Innovation and ROI in 2025."
+                        </div>
+                        <a href="https://www.morganstanley.com/insights/articles/ai-trends-reasoning-frontier-models-2025-tmt" target="_blank" rel="noopener" class="reference-link">https://www.morganstanley.com/insights/articles/ai-trends-reasoning-frontier-models-2025-tmt</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">InfoQ Trends Report</div>
+                        <div class="reference-details">
+                            InfoQ. (2025). "InfoQ AI, ML and Data Engineering Trends Report - 2025." Published: September 24, 2025.
+                        </div>
+                        <a href="https://www.infoq.com/articles/ai-ml-data-engineering-trends-2025/" target="_blank" rel="noopener" class="reference-link">https://www.infoq.com/articles/ai-ml-data-engineering-trends-2025/</a>
+                        <div class="reference-key-data">Topics: Reasoning models, AI DevOps, Physical AI, Model Context Protocol</div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">MarkTechPost Analysis</div>
+                        <div class="reference-details">
+                            MarkTechPost. (2025). "AI Agent Trends of 2025: A Transformative Landscape." Published: August 10, 2025.
+                        </div>
+                        <a href="https://www.marktechpost.com/2025/08/10/ai-agent-trends-of-2025-a-transformative-landscape/" target="_blank" rel="noopener" class="reference-link">https://www.marktechpost.com/2025/08/10/ai-agent-trends-of-2025-a-transformative-landscape/</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">AIwire LLM Roundup</div>
+                        <div class="reference-details">
+                            AIwire. (2025). "LLM Roundup: A Wave of New Releases Winds Down the Year." Published: November 25, 2025.
+                        </div>
+                        <a href="https://www.hpcwire.com/aiwire/2025/11/25/llm-roundup-a-wave-of-new-releases-winds-down-the-year/" target="_blank" rel="noopener" class="reference-link">https://www.hpcwire.com/aiwire/2025/11/25/llm-roundup-a-wave-of-new-releases-winds-down-the-year/</a>
+                    </div>
+                </div>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Open Source & Local Models</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Instaclustr Open Source Guide</div>
+                        <div class="reference-details">
+                            Instaclustr. (2025). "Top 10 open source LLMs for 2025." Published: October 29, 2025.
+                        </div>
+                        <a href="https://www.instaclustr.com/education/open-source-ai/top-10-open-source-llms-for-2025/" target="_blank" rel="noopener" class="reference-link">https://www.instaclustr.com/education/open-source-ai/top-10-open-source-llms-for-2025/</a>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Pinggy Local LLM Tools</div>
+                        <div class="reference-details">
+                            Pinggy. (2025). "Top 5 Local LLM Tools and Models in 2025." Published: June 4, 2025.
+                        </div>
+                        <a href="https://pinggy.io/blog/top_5_local_llm_tools_and_models_2025/" target="_blank" rel="noopener" class="reference-link">https://pinggy.io/blog/top_5_local_llm_tools_and_models_2025/</a>
+                        <div class="reference-key-data">Coverage: OpenAI GPT-OSS, DeepSeek V3.2-Exp, Qwen models, Llama 4, Gemma 3</div>
+                    </div>
+                </div>
+                
+                <div class="references-category">
+                    <h2 class="category-title">Additional Technical Resources</h2>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Global Market Insights</div>
+                        <div class="reference-details">
+                            Cited in Aya Data article. Multimodal AI market valuation: $1.6B (2024), projected 32.7% CAGR through 2034.
+                        </div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">AWS Agent Investment</div>
+                        <div class="reference-details">
+                            Cited in Alvarez & Marsal article. Reuters reporting on AWS doubling down on AI agents with new business unit.
+                        </div>
+                    </div>
+                    
+                    <div class="reference-item">
+                        <div class="reference-source">Simon Willison - LLM Tool Development</div>
+                        <div class="reference-details">
+                            Willison, S. (2025). Various LLM tool release notes.
+                        </div>
+                        <a href="https://simonwillison.net/series/llm-releases/" target="_blank" rel="noopener" class="reference-link">https://simonwillison.net/series/llm-releases/</a>
+                        <div class="reference-key-data">Coverage of GPT-5, tool usage, structured outputs</div>
+                    </div>
+                </div>
+                
+                <div class="reference-note">
+                    <div class="reference-note-title">Notes on Data Currency</div>
+                    <div class="reference-note-text">
+                        All data reflects information available through early December 2025. Survey data collection periods are noted where available. Market projections represent industry analyst forecasts and should be interpreted as forward-looking estimates rather than guaranteed outcomes.
+                        <br><br>
+                        The "December 2025" timeframe for this analysis means some Q4 2025 developments may still be emerging, and complete year-end data may not yet be available for all metrics cited.
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="../../js/interactive-bg.js"></script>
@@ -1682,9 +2097,9 @@
         // Initial scroll progress update
         updateScrollProgress();
         
-        // Create floating particles for each slide
+        // Create floating particles for each slide and references section
         function createSlideParticles() {
-            const slides = document.querySelectorAll('.slide');
+            const slides = document.querySelectorAll('.slide, .references-section');
             slides.forEach((slide, slideIndex) => {
                 // Create 8-12 particles per slide
                 const particleCount = 8 + Math.floor(Math.random() * 5);
