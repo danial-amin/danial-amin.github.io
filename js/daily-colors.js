@@ -5,11 +5,15 @@
  */
 
 // Make class globally accessible for testing
-window.DailyColorRotation = class DailyColorRotation {
+// Define the class first, then assign to window
+class DailyColorRotation {
     constructor() {
-        // 15 carefully curated pastel color palettes
-        // Each palette contains colors that work well together with good contrast
-        this.colorPalettes = [
+        // ============================================
+        // DARK MODE PALETTES (15 palettes)
+        // ============================================
+        // Add your custom dark mode palettes here
+        // Each palette should have: name, accent, secondary, gradientStart, gradientEnd, hover, success, shadow
+        this.colorPalettesDark = [
             // Palette 1: Soft Lavender & Mint
             {
                 name: 'Lavender Mint',
@@ -43,16 +47,16 @@ window.DailyColorRotation = class DailyColorRotation {
                 success: '#87CEEB',
                 shadow: 'rgba(255, 204, 203, 0.25)'
             },
-            // Palette 4: Butter & Periwinkle
+            // Palette 4: Periwinkle & Teal
             {
-                name: 'Butter Periwinkle',
-                accent: '#FFF9C4',     // Butter yellow
-                secondary: '#C5C5EA',   // Periwinkle
-                gradientStart: '#FFF9C4',
-                gradientEnd: '#C5C5EA',
-                hover: '#FFF59D',
-                success: '#A5A5D6',
-                shadow: 'rgba(255, 249, 196, 0.25)'
+                name: 'Periwinkle Teal',
+                accent: '#A5B4FC',     // Periwinkle blue
+                secondary: '#81E6D9',   // Teal
+                gradientStart: '#A5B4FC',
+                gradientEnd: '#81E6D9',
+                hover: '#8FA3FB',
+                success: '#5DD4C4',
+                shadow: 'rgba(165, 180, 252, 0.25)'
             },
             // Palette 5: Coral & Aqua
             {
@@ -76,16 +80,16 @@ window.DailyColorRotation = class DailyColorRotation {
                 success: '#A8C088',
                 shadow: 'rgba(216, 191, 216, 0.25)'
             },
-            // Palette 7: Apricot & Cornflower
+            // Palette 7: Cornflower & Cyan
             {
-                name: 'Apricot Cornflower',
-                accent: '#FDD5B1',     // Apricot
-                secondary: '#9EC5E8',   // Cornflower blue
-                gradientStart: '#FDD5B1',
-                gradientEnd: '#9EC5E8',
-                hover: '#FCC08D',
-                success: '#7BA8D4',
-                shadow: 'rgba(253, 213, 177, 0.25)'
+                name: 'Cornflower Cyan',
+                accent: '#93C5FD',     // Cornflower blue
+                secondary: '#67E8F9',   // Cyan
+                gradientStart: '#93C5FD',
+                gradientEnd: '#67E8F9',
+                hover: '#7AB3FC',
+                success: '#3DD5E8',
+                shadow: 'rgba(147, 197, 253, 0.25)'
             },
             // Palette 8: Blush & Seafoam
             {
@@ -98,49 +102,49 @@ window.DailyColorRotation = class DailyColorRotation {
                 success: '#7FD4C4',
                 shadow: 'rgba(255, 209, 220, 0.25)'
             },
-            // Palette 9: Honey & Lavender
+            // Palette 9: Lavender & Indigo
             {
-                name: 'Honey Lavender',
-                accent: '#F5DEB3',      // Wheat/honey
-                secondary: '#E6E6FA',   // Lavender
-                gradientStart: '#F5DEB3',
-                gradientEnd: '#E6E6FA',
-                hover: '#F0C97A',
-                success: '#C9C9E8',
-                shadow: 'rgba(245, 222, 179, 0.25)'
+                name: 'Lavender Indigo',
+                accent: '#C4B5FD',      // Lavender
+                secondary: '#818CF8',   // Indigo
+                gradientStart: '#C4B5FD',
+                gradientEnd: '#818CF8',
+                hover: '#B5A3FC',
+                success: '#6366F1',
+                shadow: 'rgba(196, 181, 253, 0.25)'
             },
-            // Palette 10: Salmon & Turquoise
+            // Palette 10: Pink & Turquoise
             {
-                name: 'Salmon Turquoise',
-                accent: '#FFA07A',      // Light salmon
-                secondary: '#AFE4DE',   // Turquoise
-                gradientStart: '#FFA07A',
-                gradientEnd: '#AFE4DE',
-                hover: '#FF8C5A',
-                success: '#7FCDC4',
-                shadow: 'rgba(255, 160, 122, 0.25)'
+                name: 'Pink Turquoise',
+                accent: '#F9A8D4',      // Pink
+                secondary: '#5EEAD4',   // Turquoise
+                gradientStart: '#F9A8D4',
+                gradientEnd: '#5EEAD4',
+                hover: '#F893C4',
+                success: '#2DD4BF',
+                shadow: 'rgba(249, 168, 212, 0.25)'
             },
-            // Palette 11: Cream & Wisteria
+            // Palette 11: Wisteria & Violet
             {
-                name: 'Cream Wisteria',
-                accent: '#FFFDD0',      // Cream
-                secondary: '#C9A0DC',   // Wisteria
-                gradientStart: '#FFFDD0',
-                gradientEnd: '#C9A0DC',
-                hover: '#FFF9A3',
-                success: '#B088C8',
-                shadow: 'rgba(255, 253, 208, 0.25)'
+                name: 'Wisteria Violet',
+                accent: '#C084FC',      // Wisteria purple
+                secondary: '#A78BFA',   // Violet
+                gradientStart: '#C084FC',
+                gradientEnd: '#A78BFA',
+                hover: '#B573FB',
+                success: '#8B5CF6',
+                shadow: 'rgba(192, 132, 252, 0.25)'
             },
-            // Palette 12: Melon & Sky
+            // Palette 12: Sky & Azure
             {
-                name: 'Melon Sky',
-                accent: '#FFDAB9',      // Peach puff
-                secondary: '#87CEEB',   // Sky blue
-                gradientStart: '#FFDAB9',
-                gradientEnd: '#87CEEB',
-                hover: '#FFC88A',
-                success: '#5FB3D9',
-                shadow: 'rgba(255, 218, 185, 0.25)'
+                name: 'Sky Azure',
+                accent: '#7DD3FC',      // Sky blue
+                secondary: '#38BDF8',   // Azure
+                gradientStart: '#7DD3FC',
+                gradientEnd: '#38BDF8',
+                hover: '#6BC3FB',
+                success: '#0EA5E9',
+                shadow: 'rgba(125, 211, 252, 0.25)'
             },
             // Palette 13: Mauve & Mint
             {
@@ -153,16 +157,16 @@ window.DailyColorRotation = class DailyColorRotation {
                 success: '#8FE08F',
                 shadow: 'rgba(224, 176, 255, 0.25)'
             },
-            // Palette 14: Peach & Azure
+            // Palette 14: Azure & Blue
             {
-                name: 'Peach Azure',
-                accent: '#FFCBA4',      // Peach
-                secondary: '#B0E0FF',   // Azure
-                gradientStart: '#FFCBA4',
-                gradientEnd: '#B0E0FF',
-                hover: '#FFB87A',
-                success: '#7FC4E6',
-                shadow: 'rgba(255, 203, 164, 0.25)'
+                name: 'Azure Blue',
+                accent: '#60A5FA',      // Azure blue
+                secondary: '#3B82F6',   // Blue
+                gradientStart: '#60A5FA',
+                gradientEnd: '#3B82F6',
+                hover: '#4A95F9',
+                success: '#2563EB',
+                shadow: 'rgba(96, 165, 250, 0.25)'
             },
             // Palette 15: Rose Quartz & Aquamarine
             {
@@ -174,6 +178,179 @@ window.DailyColorRotation = class DailyColorRotation {
                 hover: '#F4B5B4',
                 success: '#6FC4B8',
                 shadow: 'rgba(247, 202, 201, 0.25)'
+            }
+        ];
+
+        // ============================================
+        // LIGHT MODE PALETTES (15 palettes)
+        // ============================================
+        // Add your custom light mode palettes here
+        // These should be optimized for light backgrounds (more vibrant/saturated for visibility)
+        this.colorPalettesLight = [
+            // Palette 1: Soft Lavender & Mint (Light) - More vibrant
+            {
+                name: 'Lavender Mint',
+                accent: '#9B7DB8',      // More vibrant lavender
+                secondary: '#6BB89A',   // More vibrant mint
+                gradientStart: '#9B7DB8',
+                gradientEnd: '#6BB89A',
+                hover: '#8A6CA7',
+                success: '#5AA089',
+                shadow: 'rgba(155, 125, 184, 0.3)'
+            },
+            // Palette 2: Peach & Sky Blue (Light) - More vibrant
+            {
+                name: 'Peach Sky',
+                accent: '#FF7A8A',      // More vibrant peach
+                secondary: '#5BB5FF',   // More vibrant sky blue
+                gradientStart: '#FF7A8A',
+                gradientEnd: '#5BB5FF',
+                hover: '#FF5A6A',
+                success: '#3B95D4',
+                shadow: 'rgba(255, 122, 138, 0.3)'
+            },
+            // Palette 3: Rose & Powder Blue (Light) - More vibrant
+            {
+                name: 'Rose Powder',
+                accent: '#FF7F90',      // More vibrant rose
+                secondary: '#5BB0C4',   // More vibrant powder blue
+                gradientStart: '#FF7F90',
+                gradientEnd: '#5BB0C4',
+                hover: '#FF5F70',
+                success: '#3B90B4',
+                shadow: 'rgba(255, 127, 144, 0.3)'
+            },
+            // Palette 4: Butter & Periwinkle (Light) - More vibrant
+            {
+                name: 'Butter Periwinkle',
+                accent: '#FFC952',     // More vibrant butter/yellow
+                secondary: '#8A8AC4',   // More vibrant periwinkle
+                gradientStart: '#FFC952',
+                gradientEnd: '#8A8AC4',
+                hover: '#FFB822',
+                success: '#6A6AA8',
+                shadow: 'rgba(255, 201, 82, 0.3)'
+            },
+            // Palette 5: Coral & Aqua (Light) - More vibrant
+            {
+                name: 'Coral Aqua',
+                accent: '#FF6B85',      // More vibrant coral
+                secondary: '#5BB5B5',   // More vibrant aqua
+                gradientStart: '#FF6B85',
+                gradientEnd: '#5BB5B5',
+                hover: '#FF4B65',
+                success: '#3B9595',
+                shadow: 'rgba(255, 107, 133, 0.3)'
+            },
+            // Palette 6: Lilac & Sage (Light) - More vibrant
+            {
+                name: 'Lilac Sage',
+                accent: '#A87AA8',      // More vibrant lilac
+                secondary: '#7BA87A',   // More vibrant sage
+                gradientStart: '#A87AA8',
+                gradientEnd: '#7BA87A',
+                hover: '#976A97',
+                success: '#5B985B',
+                shadow: 'rgba(168, 122, 168, 0.3)'
+            },
+            // Palette 7: Cornflower & Cyan (Light) - More vibrant
+            {
+                name: 'Cornflower Cyan',
+                accent: '#5B95E8',     // Vibrant cornflower
+                secondary: '#22D3EE',   // Vibrant cyan
+                gradientStart: '#5B95E8',
+                gradientEnd: '#22D3EE',
+                hover: '#4B85D8',
+                success: '#06B6D4',
+                shadow: 'rgba(91, 149, 232, 0.3)'
+            },
+            // Palette 8: Blush & Seafoam (Light) - More vibrant
+            {
+                name: 'Blush Seafoam',
+                accent: '#FF7FA8',      // More vibrant blush
+                secondary: '#5BB5A0',   // More vibrant seafoam
+                gradientStart: '#FF7FA8',
+                gradientEnd: '#5BB5A0',
+                hover: '#FF5F88',
+                success: '#3B9580',
+                shadow: 'rgba(255, 127, 168, 0.3)'
+            },
+            // Palette 9: Lavender & Indigo (Light) - More vibrant
+            {
+                name: 'Lavender Indigo',
+                accent: '#A78BFA',      // Vibrant lavender
+                secondary: '#6366F1',   // Vibrant indigo
+                gradientStart: '#A78BFA',
+                gradientEnd: '#6366F1',
+                hover: '#977BEA',
+                success: '#4F46E5',
+                shadow: 'rgba(167, 139, 250, 0.3)'
+            },
+            // Palette 10: Pink & Turquoise (Light) - More vibrant
+            {
+                name: 'Pink Turquoise',
+                accent: '#EC4899',      // Vibrant pink
+                secondary: '#14B8A6',   // Vibrant turquoise
+                gradientStart: '#EC4899',
+                gradientEnd: '#14B8A6',
+                hover: '#DB2777',
+                success: '#0D9488',
+                shadow: 'rgba(236, 72, 153, 0.3)'
+            },
+            // Palette 11: Wisteria & Violet (Light) - More vibrant
+            {
+                name: 'Wisteria Violet',
+                accent: '#A855F7',      // Vibrant wisteria
+                secondary: '#8B5CF6',   // Vibrant violet
+                gradientStart: '#A855F7',
+                gradientEnd: '#8B5CF6',
+                hover: '#9333EA',
+                success: '#7C3AED',
+                shadow: 'rgba(168, 85, 247, 0.3)'
+            },
+            // Palette 12: Sky & Azure (Light) - More vibrant
+            {
+                name: 'Sky Azure',
+                accent: '#0EA5E9',      // Vibrant sky blue
+                secondary: '#0284C7',   // Vibrant azure
+                gradientStart: '#0EA5E9',
+                gradientEnd: '#0284C7',
+                hover: '#0284C7',
+                success: '#0369A1',
+                shadow: 'rgba(14, 165, 233, 0.3)'
+            },
+            // Palette 13: Mauve & Mint (Light) - More vibrant
+            {
+                name: 'Mauve Mint',
+                accent: '#A85AFF',      // More vibrant mauve
+                secondary: '#5BB56A',   // More vibrant mint
+                gradientStart: '#A85AFF',
+                gradientEnd: '#5BB56A',
+                hover: '#973AFF',
+                success: '#3B954A',
+                shadow: 'rgba(168, 90, 255, 0.3)'
+            },
+            // Palette 14: Azure & Blue (Light) - More vibrant
+            {
+                name: 'Azure Blue',
+                accent: '#3B82F6',      // Vibrant azure
+                secondary: '#2563EB',   // Vibrant blue
+                gradientStart: '#3B82F6',
+                gradientEnd: '#2563EB',
+                hover: '#2563EB',
+                success: '#1D4ED8',
+                shadow: 'rgba(59, 130, 246, 0.3)'
+            },
+            // Palette 15: Rose Aquamarine (Light) - More vibrant
+            {
+                name: 'Rose Aquamarine',
+                accent: '#FF6A7A',      // More vibrant rose
+                secondary: '#4BA590',   // More vibrant aquamarine
+                gradientStart: '#FF6A7A',
+                gradientEnd: '#4BA590',
+                hover: '#FF4A5A',
+                success: '#2B8570',
+                shadow: 'rgba(255, 106, 122, 0.3)'
             }
         ];
     }
@@ -195,15 +372,18 @@ window.DailyColorRotation = class DailyColorRotation {
      */
     getTodayPaletteIndex() {
         const dayOfYear = this.getDayOfYear();
-        return dayOfYear % this.colorPalettes.length;
+        // Use the same index for both light and dark to keep them in sync
+        return dayOfYear % 15;
     }
 
     /**
-     * Get today's color palette
+     * Get today's color palette based on current theme
      */
     getTodayPalette() {
         const index = this.getTodayPaletteIndex();
-        return this.colorPalettes[index];
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        const palettes = isDark ? this.colorPalettesDark : this.colorPalettesLight;
+        return palettes[index];
     }
 
     /**
@@ -213,70 +393,94 @@ window.DailyColorRotation = class DailyColorRotation {
     applyDailyColors() {
         const palette = this.getTodayPalette();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
-        const root = document.documentElement;
+        // Set variables on body element since that's where [data-theme] selector targets
+        const targetElement = document.body;
+        
+        console.log('Applying daily colors:', palette.name, 'Theme:', isDark ? 'dark' : 'light');
+        console.log('Target element:', targetElement);
 
         if (isDark) {
             // Dark theme with pastel accents
-            root.style.setProperty('--accent-color', palette.accent);
-            root.style.setProperty('--accent-gradient-start', palette.gradientStart);
-            root.style.setProperty('--accent-hover', palette.hover);
-            root.style.setProperty('--secondary-accent', palette.secondary);
-            root.style.setProperty('--accent-gradient-end', palette.gradientEnd);
-            root.style.setProperty('--success-color', palette.success);
-            root.style.setProperty('--shadow-accent', palette.shadow);
+            // Slightly darken accent for better button contrast
+            const darkerAccent = this.darken(palette.accent, 0.1);
+            targetElement.style.setProperty('--accent-color', darkerAccent);
+            targetElement.style.setProperty('--accent-gradient-start', darkerAccent);
+            targetElement.style.setProperty('--accent-hover', this.darken(palette.accent, 0.15));
+            targetElement.style.setProperty('--secondary-accent', palette.secondary);
+            targetElement.style.setProperty('--accent-gradient-end', palette.gradientEnd);
+            targetElement.style.setProperty('--success-color', palette.success);
+            targetElement.style.setProperty('--shadow-accent', palette.shadow);
             
             // Update border colors with pastel tint
-            root.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.15));
-            root.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.15));
+            targetElement.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.25));
             
             // Update badge colors
-            root.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
-            root.style.setProperty('--badge-text', this.lighten(palette.accent, 0.3));
-            root.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
+            targetElement.style.setProperty('--badge-text', this.lighten(palette.accent, 0.3));
+            targetElement.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
             
             // Update tech stack colors
-            root.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.12));
-            root.style.setProperty('--tech-text', this.lighten(palette.accent, 0.4));
-            root.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.18));
+            targetElement.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.12));
+            targetElement.style.setProperty('--tech-text', this.lighten(palette.accent, 0.4));
+            targetElement.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.18));
             
             // Update hover background
-            root.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.12));
+            targetElement.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.12));
+            
+            // Update GitHub contribution colors (dark theme)
+            targetElement.style.setProperty('--contribution-hover-border', palette.accent);
+            targetElement.style.setProperty('--contribution-level-0', this.adjustOpacity(palette.accent, 0.08));
+            targetElement.style.setProperty('--contribution-level-1', this.adjustOpacity(palette.accent, 0.15));
+            targetElement.style.setProperty('--contribution-level-2', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--contribution-level-3', palette.accent);
+            targetElement.style.setProperty('--contribution-level-4', this.lighten(palette.accent, 0.15));
+            
+            // Button text color - ensure good contrast for dark theme
+            // For pastel colors on dark theme, use white text for better visibility
+            const btnTextColor = this.getContrastTextColor(palette.accent);
+            // If the calculated color is too light (meaning accent is dark), force white for dark theme
+            targetElement.style.setProperty('--btn-text-color', '#ffffff');
         } else {
             // Light theme with pastel accents
-            root.style.setProperty('--accent-color', palette.accent);
-            root.style.setProperty('--accent-gradient-start', palette.gradientStart);
-            root.style.setProperty('--accent-hover', this.darken(palette.accent, 0.15));
-            root.style.setProperty('--secondary-accent', palette.secondary);
-            root.style.setProperty('--accent-gradient-end', palette.gradientEnd);
-            root.style.setProperty('--success-color', palette.success);
-            root.style.setProperty('--shadow-accent', this.adjustOpacity(palette.accent, 0.2));
+            targetElement.style.setProperty('--accent-color', palette.accent);
+            targetElement.style.setProperty('--accent-gradient-start', palette.gradientStart);
+            targetElement.style.setProperty('--accent-hover', this.darken(palette.accent, 0.15));
+            targetElement.style.setProperty('--secondary-accent', palette.secondary);
+            targetElement.style.setProperty('--accent-gradient-end', palette.gradientEnd);
+            targetElement.style.setProperty('--success-color', palette.success);
+            targetElement.style.setProperty('--shadow-accent', this.adjustOpacity(palette.accent, 0.2));
             
             // Update border colors with pastel tint
-            root.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.2));
-            root.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.3));
+            targetElement.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.2));
+            targetElement.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.3));
             
             // Update badge colors
-            root.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
-            root.style.setProperty('--badge-text', this.darken(palette.accent, 0.2));
-            root.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
+            targetElement.style.setProperty('--badge-text', this.darken(palette.accent, 0.2));
+            targetElement.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
             
             // Update tech stack colors
-            root.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.1));
-            root.style.setProperty('--tech-text', this.darken(palette.accent, 0.1));
-            root.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.2));
+            targetElement.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.1));
+            targetElement.style.setProperty('--tech-text', this.darken(palette.accent, 0.1));
+            targetElement.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.2));
             
             // Update hover background
-            root.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.08));
+            targetElement.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.08));
+            
+            // Update GitHub contribution colors (light theme)
+            targetElement.style.setProperty('--contribution-hover-border', palette.accent);
+            targetElement.style.setProperty('--contribution-level-0', this.adjustOpacity(palette.accent, 0.1));
+            targetElement.style.setProperty('--contribution-level-1', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--contribution-level-2', this.adjustOpacity(palette.accent, 0.4));
+            targetElement.style.setProperty('--contribution-level-3', palette.accent);
+            targetElement.style.setProperty('--contribution-level-4', this.darken(palette.accent, 0.15));
+            
+            // Button text color - calculate based on background brightness
+            targetElement.style.setProperty('--btn-text-color', this.getContrastTextColor(palette.accent));
         }
-
-        // Update contribution colors for dark theme
-        if (isDark) {
-            root.style.setProperty('--contribution-hover-border', palette.accent);
-            root.style.setProperty('--contribution-level-3', palette.accent);
-            root.style.setProperty('--contribution-level-4', this.lighten(palette.accent, 0.2));
-        } else {
-            root.style.setProperty('--contribution-hover-border', palette.accent);
-        }
+        
+        console.log('Colors applied! Accent color:', getComputedStyle(targetElement).getPropertyValue('--accent-color'));
     }
 
     /**
@@ -309,6 +513,23 @@ window.DailyColorRotation = class DailyColorRotation {
         const g = Math.max(0, ((num >> 8) & 0x00FF) - Math.round(255 * percent));
         const b = Math.max(0, (num & 0x0000FF) - Math.round(255 * percent));
         return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+    }
+
+    /**
+     * Calculate if text should be white or dark based on background brightness
+     * Returns 'white' or a dark color based on contrast
+     */
+    getContrastTextColor(backgroundColor) {
+        const hex = backgroundColor.replace('#', '');
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        
+        // Calculate relative luminance
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        
+        // If background is light (luminance > 0.5), use dark text, otherwise white
+        return luminance > 0.5 ? '#1a1a1a' : '#ffffff';
     }
 
     /**
@@ -349,36 +570,78 @@ window.DailyColorRotation = class DailyColorRotation {
     }
 }
 
+// Expose class to window for global access (for testing and external use)
+if (typeof window !== 'undefined') {
+    window.DailyColorRotation = DailyColorRotation;
+    
+    // Also expose a helper function to manually apply colors (for debugging)
+    window.applyDailyColorsNow = function() {
+        if (window.dailyColorsInstance) {
+            window.dailyColorsInstance.applyDailyColors();
+        } else {
+            const instance = new DailyColorRotation();
+            instance.applyDailyColors();
+            window.dailyColorsInstance = instance;
+        }
+    };
+}
+
 // Initialize daily color rotation
 (function() {
     let dailyColorsInstance = null;
     
     function initDailyColors() {
         if (!dailyColorsInstance) {
-            dailyColorsInstance = new DailyColorRotation();
-            dailyColorsInstance.init();
+            // Use DailyColorRotation directly (it's in scope) or fallback to window
+            const DailyColorRotationClass = typeof DailyColorRotation !== 'undefined' 
+                ? DailyColorRotation 
+                : (typeof window !== 'undefined' ? window.DailyColorRotation : null);
+            
+            if (!DailyColorRotationClass) {
+                console.error('DailyColorRotation class not found');
+                return;
+            }
+            try {
+                dailyColorsInstance = new DailyColorRotationClass();
+                // Store globally for debugging
+                if (typeof window !== 'undefined') {
+                    window.dailyColorsInstance = dailyColorsInstance;
+                }
+                console.log('DailyColorRotation initialized, applying colors...');
+                dailyColorsInstance.init();
+                console.log('Daily colors applied successfully!');
+                console.log('Today\'s palette:', dailyColorsInstance.getTodayPalette().name);
+            } catch (error) {
+                console.error('Error initializing DailyColorRotation:', error);
+            }
         }
     }
     
     // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            // Wait a bit for theme switcher to initialize
-            setTimeout(initDailyColors, 150);
-        });
-    } else {
-        // DOM already loaded
-        setTimeout(initDailyColors, 150);
-    }
-    
-    // Also listen for theme changes in case theme is set before this script loads
-    window.addEventListener('themeChange', () => {
-        if (dailyColorsInstance) {
-            dailyColorsInstance.applyDailyColors();
+    if (typeof document !== 'undefined') {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                // Wait a bit for theme switcher to initialize
+                console.log('DOMContentLoaded - initializing daily colors...');
+                setTimeout(initDailyColors, 200);
+            });
         } else {
-            // If not initialized yet, initialize now
-            setTimeout(initDailyColors, 50);
+            // DOM already loaded
+            console.log('DOM already loaded - initializing daily colors...');
+            setTimeout(initDailyColors, 200);
         }
-    });
+        
+        // Also listen for theme changes in case theme is set before this script loads
+        if (typeof window !== 'undefined') {
+            window.addEventListener('themeChange', () => {
+                if (dailyColorsInstance) {
+                    dailyColorsInstance.applyDailyColors();
+                } else {
+                    // If not initialized yet, initialize now
+                    setTimeout(initDailyColors, 50);
+                }
+            });
+        }
+    }
 })();
 

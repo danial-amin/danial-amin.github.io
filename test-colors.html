@@ -225,15 +225,20 @@
 
         // Initialize when script loads
         let retryCount = 0;
-        const maxRetries = 20; // 2 seconds max wait
+        const maxRetries = 30; // 3 seconds max wait
         
         function initialize() {
             console.log('Initializing... (attempt ' + (retryCount + 1) + ')');
             console.log('window.DailyColorRotation available?', typeof window.DailyColorRotation);
+            console.log('window object:', typeof window);
             
-            if (window.DailyColorRotation && typeof window.DailyColorRotation === 'function') {
+            // Check multiple ways the class might be available
+            const DailyColorRotationClass = window.DailyColorRotation || 
+                                           (typeof DailyColorRotation !== 'undefined' ? DailyColorRotation : null);
+            
+            if (DailyColorRotationClass && typeof DailyColorRotationClass === 'function') {
                 try {
-                    colorRotation = new window.DailyColorRotation();
+                    colorRotation = new DailyColorRotationClass();
                     console.log('Color rotation instance created:', colorRotation);
                     resetToToday();
                 } catch (error) {
@@ -248,7 +253,9 @@
                     setTimeout(initialize, 100);
                 } else {
                     console.error('DailyColorRotation class not found after ' + maxRetries + ' attempts');
-                    document.getElementById('paletteName').textContent = 'Error: Class not loaded. Check: 1) Script path is correct 2) Script has no syntax errors 3) Open browser console for details';
+                    console.error('window.DailyColorRotation:', window.DailyColorRotation);
+                    console.error('Script loaded?', document.querySelector('script[src="js/daily-colors.js"]'));
+                    document.getElementById('paletteName').textContent = 'Error: Class not loaded after ' + maxRetries + ' attempts. Open browser console (F12) for details.';
                 }
             }
         }

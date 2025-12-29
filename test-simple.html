@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Color Test</title>
+</head>
+<body>
+    <h1>Simple Color Rotation Test</h1>
+    <div id="status">Loading...</div>
+    <div id="output"></div>
+    
+    <script>
+        // Test if script loads
+        console.log('Before loading script...');
+        
+        // Create script element
+        const script = document.createElement('script');
+        script.src = 'js/daily-colors.js';
+        script.onload = function() {
+            console.log('Script loaded!');
+            console.log('window.DailyColorRotation:', typeof window.DailyColorRotation);
+            
+            setTimeout(() => {
+                if (window.DailyColorRotation) {
+                    try {
+                        const instance = new window.DailyColorRotation();
+                        const palette = instance.getTodayPalette();
+                        document.getElementById('status').textContent = 'SUCCESS!';
+                        document.getElementById('output').innerHTML = `
+                            <h2>Today's Palette:</h2>
+                            <p><strong>Name:</strong> ${palette.name}</p>
+                            <p><strong>Day of Year:</strong> ${instance.getDayOfYear()}</p>
+                            <p><strong>Palette Index:</strong> ${instance.getTodayPaletteIndex()}</p>
+                            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                                <div style="width: 100px; height: 100px; background: ${palette.accent}; border: 2px solid #000;"></div>
+                                <div style="width: 100px; height: 100px; background: ${palette.secondary}; border: 2px solid #000;"></div>
+                            </div>
+                        `;
+                    } catch (e) {
+                        document.getElementById('status').textContent = 'Error: ' + e.message;
+                        console.error(e);
+                    }
+                } else {
+                    document.getElementById('status').textContent = 'Class not found on window object';
+                }
+            }, 100);
+        };
+        script.onerror = function() {
+            console.error('Script failed to load!');
+            document.getElementById('status').textContent = 'ERROR: Script failed to load. Check file path.';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
+

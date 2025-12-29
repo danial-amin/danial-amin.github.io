@@ -349,7 +349,7 @@ body {
 
 .btn-primary {
     background: var(--accent-color);
-    color: white;
+    color: var(--btn-text-color, white);
 }
 
 .btn-primary:hover {
