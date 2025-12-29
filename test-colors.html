@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Rotation Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .palette-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .palette-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .color-swatch {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+        .swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            flex-shrink: 0;
+        }
+        .color-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .test-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        button:hover {
+            background: #1976D2;
+        }
+        input[type="number"] {
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            width: 100px;
+            margin: 0 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Daily Color Rotation Tester</h1>
+    
+    <div class="info">
+        <h2>Current Status</h2>
+        <p><strong>Today's Day of Year:</strong> <span id="dayOfYear">-</span></p>
+        <p><strong>Selected Palette Index:</strong> <span id="paletteIndex">-</span></p>
+        <p><strong>Palette Name:</strong> <span id="paletteName">-</span></p>
+    </div>
+
+    <div class="test-controls">
+        <h2>Test Controls</h2>
+        <p>Test different days to see different color palettes:</p>
+        <label>
+            Day of Year (1-365):
+            <input type="number" id="testDay" min="1" max="365" value="1">
+        </label>
+        <button onclick="testDay()">Test This Day</button>
+        <button onclick="testRandom()">Test Random Day</button>
+        <button onclick="testAll()">Show All Palettes</button>
+        <button onclick="resetToToday()">Reset to Today</button>
+    </div>
+
+    <div id="paletteDisplay" class="palette-grid"></div>
+
+    <script src="js/daily-colors.js"></script>
+    <script>
+        let colorRotation;
+        
+        function displayPalette(palette, index = null) {
+            const card = document.createElement('div');
+            card.className = 'palette-card';
+            
+            const name = document.createElement('div');
+            name.className = 'palette-name';
+            name.textContent = `${index !== null ? `#${index + 1}: ` : ''}${palette.name}`;
+            card.appendChild(name);
+            
+            const colors = [
+                { label: 'Accent', color: palette.accent },
+                { label: 'Secondary', color: palette.secondary },
+                { label: 'Gradient Start', color: palette.gradientStart },
+                { label: 'Gradient End', color: palette.gradientEnd },
+                { label: 'Hover', color: palette.hover },
+                { label: 'Success', color: palette.success }
+            ];
+            
+            colors.forEach(({ label, color }) => {
+                const swatchContainer = document.createElement('div');
+                swatchContainer.className = 'color-swatch';
+                
+                const swatch = document.createElement('div');
+                swatch.className = 'swatch';
+                swatch.style.backgroundColor = color;
+                swatch.title = `${label}: ${color}`;
+                
+                const labelDiv = document.createElement('div');
+                labelDiv.className = 'color-label';
+                labelDiv.textContent = `${label}: ${color}`;
+                
+                swatchContainer.appendChild(swatch);
+                swatchContainer.appendChild(labelDiv);
+                card.appendChild(swatchContainer);
+            });
+            
+            return card;
+        }
+
+        function updateInfo() {
+            if (!colorRotation) return;
+            
+            const dayOfYear = colorRotation.getDayOfYear();
+            const paletteIndex = colorRotation.getTodayPaletteIndex();
+            const palette = colorRotation.getTodayPalette();
+            
+            document.getElementById('dayOfYear').textContent = dayOfYear;
+            document.getElementById('paletteIndex').textContent = paletteIndex;
+            document.getElementById('paletteName').textContent = palette.name;
+        }
+
+        function testDay() {
+            if (!colorRotation) return;
+            
+            const day = parseInt(document.getElementById('testDay').value);
+            if (day < 1 || day > 365) {
+                alert('Please enter a day between 1 and 365');
+                return;
+            }
+            
+            const paletteIndex = day % colorRotation.colorPalettes.length;
+            const palette = colorRotation.colorPalettes[paletteIndex];
+            
+            document.getElementById('paletteIndex').textContent = paletteIndex;
+            document.getElementById('paletteName').textContent = palette.name;
+            document.getElementById('dayOfYear').textContent = day;
+            
+            // Display the palette
+            const display = document.getElementById('paletteDisplay');
+            display.innerHTML = '';
+            display.appendChild(displayPalette(palette, paletteIndex));
+        }
+
+        function testRandom() {
+            const randomDay = Math.floor(Math.random() * 365) + 1;
+            document.getElementById('testDay').value = randomDay;
+            testDay();
+        }
+
+        function testAll() {
+            if (!colorRotation) return;
+            
+            const display = document.getElementById('paletteDisplay');
+            display.innerHTML = '';
+            
+            colorRotation.colorPalettes.forEach((palette, index) => {
+                display.appendChild(displayPalette(palette, index));
+            });
+            
+            updateInfo();
+        }
+
+        function resetToToday() {
+            if (!colorRotation) return;
+            
+            document.getElementById('testDay').value = colorRotation.getDayOfYear();
+            updateInfo();
+            
+            const palette = colorRotation.getTodayPalette();
+            const paletteIndex = colorRotation.getTodayPaletteIndex();
+            
+            const display = document.getElementById('paletteDisplay');
+            display.innerHTML = '';
+            display.appendChild(displayPalette(palette, paletteIndex));
+        }
+
+        // Initialize when script loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.DailyColorRotation) {
+                    colorRotation = new window.DailyColorRotation();
+                    resetToToday();
+                } else {
+                    console.error('DailyColorRotation class not found');
+                    document.getElementById('paletteName').textContent = 'Error: Class not loaded';
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

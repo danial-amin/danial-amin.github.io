@@ -4,7 +4,8 @@
  * Each palette is carefully designed for good contrast and visual harmony
  */
 
-class DailyColorRotation {
+// Make class globally accessible for testing
+window.DailyColorRotation = class DailyColorRotation {
     constructor() {
         // 15 carefully curated pastel color palettes
         // Each palette contains colors that work well together with good contrast
