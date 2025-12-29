@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Rotation Tester</title>
+    <title>Color Rotation Tester (Standalone)</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,7 +80,7 @@
     </style>
 </head>
 <body>
-    <h1>🎨 Daily Color Rotation Tester</h1>
+    <h1>🎨 Daily Color Rotation Tester (Standalone)</h1>
     
     <div class="info">
         <h2>Current Status</h2>
@@ -104,18 +104,49 @@
 
     <div id="paletteDisplay" class="palette-grid"></div>
 
-    <script src="js/daily-colors.js" onerror="handleScriptError()"></script>
     <script>
-        let colorRotation;
-        
-        function handleScriptError() {
-            console.error('Failed to load daily-colors.js');
-            document.getElementById('paletteName').textContent = 'Error: Script failed to load. Check console and file path.';
+        // Embedded DailyColorRotation class for testing
+        class DailyColorRotation {
+            constructor() {
+                this.colorPalettes = [
+                    { name: 'Lavender Mint', accent: '#B19CD9', secondary: '#A8E6CF', gradientStart: '#B19CD9', gradientEnd: '#A8E6CF', hover: '#9B8BC4', success: '#7FB3A8', shadow: 'rgba(177, 156, 217, 0.25)' },
+                    { name: 'Peach Sky', accent: '#FFB3BA', secondary: '#BAE1FF', gradientStart: '#FFB3BA', gradientEnd: '#BAE1FF', hover: '#FF9FA8', success: '#8FC4D9', shadow: 'rgba(255, 179, 186, 0.25)' },
+                    { name: 'Rose Powder', accent: '#FFCCCB', secondary: '#B0E0E6', gradientStart: '#FFCCCB', gradientEnd: '#B0E0E6', hover: '#FFB8B6', success: '#87CEEB', shadow: 'rgba(255, 204, 203, 0.25)' },
+                    { name: 'Butter Periwinkle', accent: '#FFF9C4', secondary: '#C5C5EA', gradientStart: '#FFF9C4', gradientEnd: '#C5C5EA', hover: '#FFF59D', success: '#A5A5D6', shadow: 'rgba(255, 249, 196, 0.25)' },
+                    { name: 'Coral Aqua', accent: '#FFB6C1', secondary: '#AFEEEE', gradientStart: '#FFB6C1', gradientEnd: '#AFEEEE', hover: '#FF9BB0', success: '#7FCDCD', shadow: 'rgba(255, 182, 193, 0.25)' },
+                    { name: 'Lilac Sage', accent: '#D8BFD8', secondary: '#C9D9B0', gradientStart: '#D8BFD8', gradientEnd: '#C9D9B0', hover: '#C8A8C8', success: '#A8C088', shadow: 'rgba(216, 191, 216, 0.25)' },
+                    { name: 'Apricot Cornflower', accent: '#FDD5B1', secondary: '#9EC5E8', gradientStart: '#FDD5B1', gradientEnd: '#9EC5E8', hover: '#FCC08D', success: '#7BA8D4', shadow: 'rgba(253, 213, 177, 0.25)' },
+                    { name: 'Blush Seafoam', accent: '#FFD1DC', secondary: '#B2F5EA', gradientStart: '#FFD1DC', gradientEnd: '#B2F5EA', hover: '#FFB8C8', success: '#7FD4C4', shadow: 'rgba(255, 209, 220, 0.25)' },
+                    { name: 'Honey Lavender', accent: '#F5DEB3', secondary: '#E6E6FA', gradientStart: '#F5DEB3', gradientEnd: '#E6E6FA', hover: '#F0C97A', success: '#C9C9E8', shadow: 'rgba(245, 222, 179, 0.25)' },
+                    { name: 'Salmon Turquoise', accent: '#FFA07A', secondary: '#AFE4DE', gradientStart: '#FFA07A', gradientEnd: '#AFE4DE', hover: '#FF8C5A', success: '#7FCDC4', shadow: 'rgba(255, 160, 122, 0.25)' },
+                    { name: 'Cream Wisteria', accent: '#FFFDD0', secondary: '#C9A0DC', gradientStart: '#FFFDD0', gradientEnd: '#C9A0DC', hover: '#FFF9A3', success: '#B088C8', shadow: 'rgba(255, 253, 208, 0.25)' },
+                    { name: 'Melon Sky', accent: '#FFDAB9', secondary: '#87CEEB', gradientStart: '#FFDAB9', gradientEnd: '#87CEEB', hover: '#FFC88A', success: '#5FB3D9', shadow: 'rgba(255, 218, 185, 0.25)' },
+                    { name: 'Mauve Mint', accent: '#E0B0FF', secondary: '#BDF5BD', gradientStart: '#E0B0FF', gradientEnd: '#BDF5BD', hover: '#D19AFF', success: '#8FE08F', shadow: 'rgba(224, 176, 255, 0.25)' },
+                    { name: 'Peach Azure', accent: '#FFCBA4', secondary: '#B0E0FF', gradientStart: '#FFCBA4', gradientEnd: '#B0E0FF', hover: '#FFB87A', success: '#7FC4E6', shadow: 'rgba(255, 203, 164, 0.25)' },
+                    { name: 'Rose Aquamarine', accent: '#F7CAC9', secondary: '#95E1D3', gradientStart: '#F7CAC9', gradientEnd: '#95E1D3', hover: '#F4B5B4', success: '#6FC4B8', shadow: 'rgba(247, 202, 201, 0.25)' }
+                ];
+            }
+            
+            getDayOfYear() {
+                const now = new Date();
+                const start = new Date(now.getFullYear(), 0, 0);
+                const diff = now - start;
+                const oneDay = 1000 * 60 * 60 * 24;
+                return Math.floor(diff / oneDay);
+            }
+            
+            getTodayPaletteIndex() {
+                const dayOfYear = this.getDayOfYear();
+                return dayOfYear % this.colorPalettes.length;
+            }
+            
+            getTodayPalette() {
+                const index = this.getTodayPaletteIndex();
+                return this.colorPalettes[index];
+            }
         }
         
-        // Debug: Check if class is available
-        console.log('Checking for DailyColorRotation class...');
-        console.log('window.DailyColorRotation:', window.DailyColorRotation);
+        let colorRotation = new DailyColorRotation();
         
         function displayPalette(palette, index = null) {
             const card = document.createElement('div');
@@ -157,8 +188,6 @@
         }
 
         function updateInfo() {
-            if (!colorRotation) return;
-            
             const dayOfYear = colorRotation.getDayOfYear();
             const paletteIndex = colorRotation.getTodayPaletteIndex();
             const palette = colorRotation.getTodayPalette();
@@ -169,8 +198,6 @@
         }
 
         function testDay() {
-            if (!colorRotation) return;
-            
             const day = parseInt(document.getElementById('testDay').value);
             if (day < 1 || day > 365) {
                 alert('Please enter a day between 1 and 365');
@@ -184,7 +211,6 @@
             document.getElementById('paletteName').textContent = palette.name;
             document.getElementById('dayOfYear').textContent = day;
             
-            // Display the palette
             const display = document.getElementById('paletteDisplay');
             display.innerHTML = '';
             display.appendChild(displayPalette(palette, paletteIndex));
@@ -197,8 +223,6 @@
         }
 
         function testAll() {
-            if (!colorRotation) return;
-            
             const display = document.getElementById('paletteDisplay');
             display.innerHTML = '';
             
@@ -210,8 +234,6 @@
         }
 
         function resetToToday() {
-            if (!colorRotation) return;
-            
             document.getElementById('testDay').value = colorRotation.getDayOfYear();
             updateInfo();
             
@@ -223,55 +245,11 @@
             display.appendChild(displayPalette(palette, paletteIndex));
         }
 
-        // Initialize when script loads
-        let retryCount = 0;
-        const maxRetries = 20; // 2 seconds max wait
-        
-        function initialize() {
-            console.log('Initializing... (attempt ' + (retryCount + 1) + ')');
-            console.log('window.DailyColorRotation available?', typeof window.DailyColorRotation);
-            
-            if (window.DailyColorRotation && typeof window.DailyColorRotation === 'function') {
-                try {
-                    colorRotation = new window.DailyColorRotation();
-                    console.log('Color rotation instance created:', colorRotation);
-                    resetToToday();
-                } catch (error) {
-                    console.error('Error creating DailyColorRotation instance:', error);
-                    document.getElementById('paletteName').textContent = 'Error: ' + error.message;
-                }
-            } else {
-                retryCount++;
-                if (retryCount < maxRetries) {
-                    console.log('DailyColorRotation class not found. Retrying... (' + retryCount + '/' + maxRetries + ')');
-                    document.getElementById('paletteName').textContent = 'Loading class... (retrying ' + retryCount + '/' + maxRetries + ')';
-                    setTimeout(initialize, 100);
-                } else {
-                    console.error('DailyColorRotation class not found after ' + maxRetries + ' attempts');
-                    document.getElementById('paletteName').textContent = 'Error: Class not loaded. Check: 1) Script path is correct 2) Script has no syntax errors 3) Open browser console for details';
-                }
-            }
-        }
-        
-        // Try multiple ways to ensure script is loaded
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('DOMContentLoaded fired');
-                setTimeout(initialize, 100);
-            });
-        } else {
-            // DOM already loaded, try immediately
-            console.log('DOM already loaded, initializing...');
-            setTimeout(initialize, 100);
-        }
-        
-        // Also try on window load as backup
+        // Initialize on load
         window.addEventListener('load', () => {
-            console.log('Window load fired');
-            if (!colorRotation) {
-                setTimeout(initialize, 50);
-            }
+            resetToToday();
         });
     </script>
 </body>
 </html>
+
