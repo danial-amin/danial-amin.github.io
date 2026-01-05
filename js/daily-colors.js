@@ -1,356 +1,354 @@
 /**
- * Daily Color Rotation System
- * Automatically rotates through 15 pastel color palettes daily
- * Each palette is carefully designed for good contrast and visual harmony
+ * Daily Color Rotation System - MODERNIZED
+ * Automatically rotates through 15 sophisticated color palettes daily
+ * Updated with contemporary, bold, and visually striking combinations
  */
 
-// Make class globally accessible for testing
-// Define the class first, then assign to window
 class DailyColorRotation {
     constructor() {
         // ============================================
         // DARK MODE PALETTES (15 palettes)
         // ============================================
-        // Carefully curated pastel palettes optimized for dark backgrounds
-        // Each palette has excellent contrast and visual harmony
+        // Modern, sophisticated palettes optimized for dark backgrounds
+        // Inspired by contemporary design systems and color theory
         this.colorPalettesDark = [
-            // Palette 1: Soft Lavender & Mint
+            // Palette 1: Moonlight Violet - Deep purple with electric blue
             {
-                name: 'Lavender Mint',
-                accent: '#B19CD9',      // Soft lavender
-                secondary: '#A8E6CF',    // Mint green
-                gradientStart: '#B19CD9',
-                gradientEnd: '#A8E6CF',
-                hover: '#9B8BC4',
-                success: '#7FB3A8',
-                shadow: 'rgba(177, 156, 217, 0.25)'
+                name: 'Moonlight Violet',
+                accent: '#A78BFA',      // Vibrant violet
+                secondary: '#60A5FA',    // Electric blue
+                gradientStart: '#A78BFA',
+                gradientEnd: '#60A5FA',
+                hover: '#8B5CF6',
+                success: '#3B82F6',
+                shadow: 'rgba(167, 139, 250, 0.3)'
             },
-            // Palette 2: Rose & Sky Blue
+            // Palette 2: Sunset Coral - Warm coral with golden amber
             {
-                name: 'Rose Sky',
-                accent: '#FFB3D1',      // Soft rose pink
-                secondary: '#A8D8EA',   // Sky blue
-                gradientStart: '#FFB3D1',
-                gradientEnd: '#A8D8EA',
-                hover: '#FF9FC4',
-                success: '#7FC4D9',
-                shadow: 'rgba(255, 179, 209, 0.25)'
+                name: 'Sunset Coral',
+                accent: '#FB7185',      // Modern coral
+                secondary: '#FBBF24',   // Warm amber
+                gradientStart: '#FB7185',
+                gradientEnd: '#FBBF24',
+                hover: '#F43F5E',
+                success: '#F59E0B',
+                shadow: 'rgba(251, 113, 133, 0.3)'
             },
-            // Palette 3: Periwinkle & Teal
+            // Palette 3: Arctic Breeze - Cool cyan with mint
             {
-                name: 'Periwinkle Teal',
-                accent: '#A5B4FC',      // Periwinkle blue
-                secondary: '#81E6D9',    // Teal
-                gradientStart: '#A5B4FC',
-                gradientEnd: '#81E6D9',
-                hover: '#8FA3FB',
-                success: '#5DD4C4',
-                shadow: 'rgba(165, 180, 252, 0.25)'
+                name: 'Arctic Breeze',
+                accent: '#22D3EE',      // Vivid cyan
+                secondary: '#6EE7B7',    // Fresh mint
+                gradientStart: '#22D3EE',
+                gradientEnd: '#6EE7B7',
+                hover: '#06B6D4',
+                success: '#10B981',
+                shadow: 'rgba(34, 211, 238, 0.3)'
             },
-            // Palette 4: Coral & Aqua
+            // Palette 4: Neon Dream - Hot pink with electric purple
             {
-                name: 'Coral Aqua',
-                accent: '#FFB6C1',      // Coral pink
-                secondary: '#AFEEEE',   // Aqua
-                gradientStart: '#FFB6C1',
-                gradientEnd: '#AFEEEE',
-                hover: '#FF9BB0',
-                success: '#7FCDCD',
-                shadow: 'rgba(255, 182, 193, 0.25)'
+                name: 'Neon Dream',
+                accent: '#EC4899',      // Hot pink
+                secondary: '#A855F7',   // Electric purple
+                gradientStart: '#EC4899',
+                gradientEnd: '#A855F7',
+                hover: '#DB2777',
+                success: '#9333EA',
+                shadow: 'rgba(236, 72, 153, 0.3)'
             },
-            // Palette 5: Lilac & Sage
+            // Palette 5: Forest Dusk - Deep emerald with teal
             {
-                name: 'Lilac Sage',
-                accent: '#D8BFD8',      // Lilac
-                secondary: '#C9D9B0',   // Sage green
-                gradientStart: '#D8BFD8',
-                gradientEnd: '#C9D9B0',
-                hover: '#C8A8C8',
-                success: '#A8C088',
-                shadow: 'rgba(216, 191, 216, 0.25)'
+                name: 'Forest Dusk',
+                accent: '#34D399',      // Vibrant emerald
+                secondary: '#14B8A6',   // Rich teal
+                gradientStart: '#34D399',
+                gradientEnd: '#14B8A6',
+                hover: '#10B981',
+                success: '#0D9488',
+                shadow: 'rgba(52, 211, 153, 0.3)'
             },
-            // Palette 6: Cornflower & Cyan
+            // Palette 6: Ocean Depths - Deep blue with aqua
             {
-                name: 'Cornflower Cyan',
-                accent: '#93C5FD',     // Cornflower blue
-                secondary: '#67E8F9',   // Cyan
-                gradientStart: '#93C5FD',
-                gradientEnd: '#67E8F9',
-                hover: '#7AB3FC',
-                success: '#3DD5E8',
-                shadow: 'rgba(147, 197, 253, 0.25)'
+                name: 'Ocean Depths',
+                accent: '#3B82F6',      // Rich blue
+                secondary: '#06B6D4',   // Bright cyan
+                gradientStart: '#3B82F6',
+                gradientEnd: '#06B6D4',
+                hover: '#2563EB',
+                success: '#0891B2',
+                shadow: 'rgba(59, 130, 246, 0.3)'
             },
-            // Palette 7: Blush & Seafoam
+            // Palette 7: Cherry Blossom - Soft pink with peach
             {
-                name: 'Blush Seafoam',
-                accent: '#FFD1DC',      // Blush pink
-                secondary: '#B2F5EA',   // Seafoam green
-                gradientStart: '#FFD1DC',
-                gradientEnd: '#B2F5EA',
-                hover: '#FFB8C8',
-                success: '#7FD4C4',
-                shadow: 'rgba(255, 209, 220, 0.25)'
+                name: 'Cherry Blossom',
+                accent: '#F472B6',      // Vibrant pink
+                secondary: '#FCA5A5',   // Warm peach-pink
+                gradientStart: '#F472B6',
+                gradientEnd: '#FCA5A5',
+                hover: '#EC4899',
+                success: '#FB7185',
+                shadow: 'rgba(244, 114, 182, 0.3)'
             },
-            // Palette 8: Lavender & Indigo
+            // Palette 8: Royal Indigo - Rich indigo with periwinkle
             {
-                name: 'Lavender Indigo',
-                accent: '#C4B5FD',      // Lavender
-                secondary: '#818CF8',   // Indigo
-                gradientStart: '#C4B5FD',
+                name: 'Royal Indigo',
+                accent: '#6366F1',      // Deep indigo
+                secondary: '#818CF8',   // Light periwinkle
+                gradientStart: '#6366F1',
                 gradientEnd: '#818CF8',
-                hover: '#B5A3FC',
-                success: '#6366F1',
-                shadow: 'rgba(196, 181, 253, 0.25)'
+                hover: '#4F46E5',
+                success: '#A5B4FC',
+                shadow: 'rgba(99, 102, 241, 0.3)'
             },
-            // Palette 9: Pink & Turquoise
+            // Palette 9: Tropical Sunset - Magenta with turquoise
             {
-                name: 'Pink Turquoise',
-                accent: '#F9A8D4',      // Pink
-                secondary: '#5EEAD4',   // Turquoise
-                gradientStart: '#F9A8D4',
-                gradientEnd: '#5EEAD4',
-                hover: '#F893C4',
-                success: '#2DD4BF',
-                shadow: 'rgba(249, 168, 212, 0.25)'
+                name: 'Tropical Sunset',
+                accent: '#D946EF',      // Bright fuchsia
+                secondary: '#2DD4BF',   // Vivid turquoise
+                gradientStart: '#D946EF',
+                gradientEnd: '#2DD4BF',
+                hover: '#C026D3',
+                success: '#14B8A6',
+                shadow: 'rgba(217, 70, 239, 0.3)'
             },
-            // Palette 10: Wisteria & Violet
+            // Palette 10: Cosmic Purple - Deep purple with lavender
             {
-                name: 'Wisteria Violet',
-                accent: '#C084FC',      // Wisteria purple
-                secondary: '#A78BFA',   // Violet
-                gradientStart: '#C084FC',
-                gradientEnd: '#A78BFA',
-                hover: '#B573FB',
-                success: '#8B5CF6',
-                shadow: 'rgba(192, 132, 252, 0.25)'
+                name: 'Cosmic Purple',
+                accent: '#9333EA',      // Rich purple
+                secondary: '#C4B5FD',   // Soft lavender
+                gradientStart: '#9333EA',
+                gradientEnd: '#C4B5FD',
+                hover: '#7E22CE',
+                success: '#A78BFA',
+                shadow: 'rgba(147, 51, 234, 0.3)'
             },
-            // Palette 11: Sky & Azure
+            // Palette 11: Golden Hour - Amber with rose gold
             {
-                name: 'Sky Azure',
-                accent: '#7DD3FC',      // Sky blue
-                secondary: '#38BDF8',   // Azure
-                gradientStart: '#7DD3FC',
-                gradientEnd: '#38BDF8',
-                hover: '#6BC3FB',
-                success: '#0EA5E9',
-                shadow: 'rgba(125, 211, 252, 0.25)'
+                name: 'Golden Hour',
+                accent: '#F59E0B',      // Rich amber
+                secondary: '#FB923C',   // Warm orange
+                gradientStart: '#F59E0B',
+                gradientEnd: '#FB923C',
+                hover: '#D97706',
+                success: '#F97316',
+                shadow: 'rgba(245, 158, 11, 0.3)'
             },
-            // Palette 12: Mauve & Mint
+            // Palette 12: Spring Meadow - Lime with mint
             {
-                name: 'Mauve Mint',
-                accent: '#E0B0FF',      // Mauve
-                secondary: '#BDF5BD',   // Mint
-                gradientStart: '#E0B0FF',
-                gradientEnd: '#BDF5BD',
-                hover: '#D19AFF',
-                success: '#8FE08F',
-                shadow: 'rgba(224, 176, 255, 0.25)'
+                name: 'Spring Meadow',
+                accent: '#84CC16',      // Fresh lime
+                secondary: '#4ADE80',   // Bright green
+                gradientStart: '#84CC16',
+                gradientEnd: '#4ADE80',
+                hover: '#65A30D',
+                success: '#22C55E',
+                shadow: 'rgba(132, 204, 22, 0.3)'
             },
-            // Palette 13: Azure & Blue
+            // Palette 13: Nordic Sky - Steel blue with ice blue
             {
-                name: 'Azure Blue',
-                accent: '#60A5FA',      // Azure blue
-                secondary: '#3B82F6',   // Blue
-                gradientStart: '#60A5FA',
-                gradientEnd: '#3B82F6',
-                hover: '#4A95F9',
-                success: '#2563EB',
-                shadow: 'rgba(96, 165, 250, 0.25)'
+                name: 'Nordic Sky',
+                accent: '#0EA5E9',      // Bright sky blue
+                secondary: '#7DD3FC',   // Light ice blue
+                gradientStart: '#0EA5E9',
+                gradientEnd: '#7DD3FC',
+                hover: '#0284C7',
+                success: '#38BDF8',
+                shadow: 'rgba(14, 165, 233, 0.3)'
             },
-            // Palette 14: Rose Quartz & Aquamarine
+            // Palette 14: Flamingo Blush - Coral with salmon
             {
-                name: 'Rose Aquamarine',
-                accent: '#F7CAC9',      // Rose quartz
-                secondary: '#95E1D3',   // Aquamarine
-                gradientStart: '#F7CAC9',
-                gradientEnd: '#95E1D3',
-                hover: '#F4B5B4',
-                success: '#6FC4B8',
-                shadow: 'rgba(247, 202, 201, 0.25)'
+                name: 'Flamingo Blush',
+                accent: '#FF6B9D',      // Vibrant coral-pink
+                secondary: '#FCD34D',   // Soft yellow
+                gradientStart: '#FF6B9D',
+                gradientEnd: '#FCD34D',
+                hover: '#F43F5E',
+                success: '#FDE047',
+                shadow: 'rgba(255, 107, 157, 0.3)'
             },
-            // Palette 15: Orchid & Emerald
+            // Palette 15: Aurora Borealis - Teal with violet
             {
-                name: 'Orchid Emerald',
-                accent: '#DA70D6',      // Orchid
-                secondary: '#50C878',   // Emerald
-                gradientStart: '#DA70D6',
-                gradientEnd: '#50C878',
-                hover: '#C85BC1',
-                success: '#3BAF68',
-                shadow: 'rgba(218, 112, 214, 0.25)'
+                name: 'Aurora Borealis',
+                accent: '#14B8A6',      // Deep teal
+                secondary: '#8B5CF6',   // Rich violet
+                gradientStart: '#14B8A6',
+                gradientEnd: '#8B5CF6',
+                hover: '#0D9488',
+                success: '#7C3AED',
+                shadow: 'rgba(20, 184, 166, 0.3)'
             }
         ];
 
         // ============================================
         // LIGHT MODE PALETTES (15 palettes)
         // ============================================
-        // Add your custom light mode palettes here
-        // These should be optimized for light backgrounds (more vibrant/saturated for visibility)
+        // Bold, vibrant palettes optimized for light backgrounds
+        // Higher saturation for better visibility and modern appeal
         this.colorPalettesLight = [
-            // Palette 1: Soft Lavender & Mint (Light) - More vibrant
+            // Palette 1: Moonlight Violet (Light) - Deeper tones for contrast
             {
-                name: 'Lavender Mint',
-                accent: '#9B7DB8',      // More vibrant lavender
-                secondary: '#6BB89A',   // More vibrant mint
-                gradientStart: '#9B7DB8',
-                gradientEnd: '#6BB89A',
-                hover: '#8A6CA7',
-                success: '#5AA089',
-                shadow: 'rgba(155, 125, 184, 0.3)'
+                name: 'Moonlight Violet',
+                accent: '#7C3AED',      // Deep violet
+                secondary: '#2563EB',   // Strong blue
+                gradientStart: '#7C3AED',
+                gradientEnd: '#2563EB',
+                hover: '#6D28D9',
+                success: '#1D4ED8',
+                shadow: 'rgba(124, 58, 237, 0.25)'
             },
-            // Palette 2: Rose & Sky Blue (Light)
+            // Palette 2: Sunset Coral (Light)
             {
-                name: 'Rose Sky',
-                accent: '#E91E63',      // Rich rose pink
-                secondary: '#2196F3',   // Rich sky blue
-                gradientStart: '#E91E63',
-                gradientEnd: '#2196F3',
-                hover: '#C2185B',
-                success: '#1976D2',
-                shadow: 'rgba(233, 30, 99, 0.3)'
+                name: 'Sunset Coral',
+                accent: '#DC2626',      // Bold red
+                secondary: '#EA580C',   // Vibrant orange
+                gradientStart: '#DC2626',
+                gradientEnd: '#EA580C',
+                hover: '#B91C1C',
+                success: '#C2410C',
+                shadow: 'rgba(220, 38, 38, 0.25)'
             },
-            // Palette 3: Periwinkle & Teal (Light)
+            // Palette 3: Arctic Breeze (Light)
             {
-                name: 'Periwinkle Teal',
-                accent: '#7C4DFF',      // Rich periwinkle
-                secondary: '#26A69A',   // Rich teal
-                gradientStart: '#7C4DFF',
-                gradientEnd: '#26A69A',
-                hover: '#651FFF',
-                success: '#00897B',
-                shadow: 'rgba(124, 77, 255, 0.3)'
+                name: 'Arctic Breeze',
+                accent: '#0891B2',      // Deep cyan
+                secondary: '#059669',   // Forest green
+                gradientStart: '#0891B2',
+                gradientEnd: '#059669',
+                hover: '#0E7490',
+                success: '#047857',
+                shadow: 'rgba(8, 145, 178, 0.25)'
             },
-            // Palette 4: Coral & Aqua (Light)
+            // Palette 4: Neon Dream (Light)
             {
-                name: 'Coral Aqua',
-                accent: '#FF6B9D',     // Rich coral
-                secondary: '#00BCD4',   // Rich aqua
-                gradientStart: '#FF6B9D',
-                gradientEnd: '#00BCD4',
-                hover: '#FF4081',
-                success: '#0097A7',
-                shadow: 'rgba(255, 107, 157, 0.3)'
+                name: 'Neon Dream',
+                accent: '#BE185D',      // Deep magenta
+                secondary: '#7E22CE',   // Rich purple
+                gradientStart: '#BE185D',
+                gradientEnd: '#7E22CE',
+                hover: '#9F1239',
+                success: '#6B21A8',
+                shadow: 'rgba(190, 24, 93, 0.25)'
             },
-            // Palette 5: Lilac & Sage (Light)
+            // Palette 5: Forest Dusk (Light)
             {
-                name: 'Lilac Sage',
-                accent: '#9C27B0',      // Rich lilac
-                secondary: '#66BB6A',   // Rich sage
-                gradientStart: '#9C27B0',
-                gradientEnd: '#66BB6A',
-                hover: '#7B1FA2',
-                success: '#4CAF50',
-                shadow: 'rgba(156, 39, 176, 0.3)'
+                name: 'Forest Dusk',
+                accent: '#059669',      // Deep emerald
+                secondary: '#0D9488',   // Deep teal
+                gradientStart: '#059669',
+                gradientEnd: '#0D9488',
+                hover: '#047857',
+                success: '#0F766E',
+                shadow: 'rgba(5, 150, 105, 0.25)'
             },
-            // Palette 6: Cornflower & Cyan (Light)
+            // Palette 6: Ocean Depths (Light)
             {
-                name: 'Cornflower Cyan',
-                accent: '#448AFF',     // Rich cornflower
-                secondary: '#00E5FF',   // Rich cyan
-                gradientStart: '#448AFF',
-                gradientEnd: '#00E5FF',
-                hover: '#2979FF',
-                success: '#00BCD4',
-                shadow: 'rgba(68, 138, 255, 0.3)'
+                name: 'Ocean Depths',
+                accent: '#1D4ED8',      // Strong blue
+                secondary: '#0284C7',   // Vivid sky blue
+                gradientStart: '#1D4ED8',
+                gradientEnd: '#0284C7',
+                hover: '#1E40AF',
+                success: '#0369A1',
+                shadow: 'rgba(29, 78, 216, 0.25)'
             },
-            // Palette 7: Blush & Seafoam (Light)
+            // Palette 7: Cherry Blossom (Light)
             {
-                name: 'Blush Seafoam',
-                accent: '#F06292',      // Rich blush
-                secondary: '#4DB6AC',   // Rich seafoam
-                gradientStart: '#F06292',
-                gradientEnd: '#4DB6AC',
-                hover: '#EC407A',
-                success: '#26A69A',
-                shadow: 'rgba(240, 98, 146, 0.3)'
+                name: 'Cherry Blossom',
+                accent: '#DB2777',      // Vibrant pink
+                secondary: '#DC2626',   // Rose red
+                gradientStart: '#DB2777',
+                gradientEnd: '#DC2626',
+                hover: '#BE185D',
+                success: '#B91C1C',
+                shadow: 'rgba(219, 39, 119, 0.25)'
             },
-            // Palette 8: Lavender & Indigo (Light)
+            // Palette 8: Royal Indigo (Light)
             {
-                name: 'Lavender Indigo',
-                accent: '#9575CD',      // Rich lavender
-                secondary: '#5C6BC0',   // Rich indigo
-                gradientStart: '#9575CD',
-                gradientEnd: '#5C6BC0',
-                hover: '#7E57C2',
-                success: '#3F51B5',
-                shadow: 'rgba(149, 117, 205, 0.3)'
+                name: 'Royal Indigo',
+                accent: '#4F46E5',      // Rich indigo
+                secondary: '#6366F1',   // Bright indigo
+                gradientStart: '#4F46E5',
+                gradientEnd: '#6366F1',
+                hover: '#4338CA',
+                success: '#818CF8',
+                shadow: 'rgba(79, 70, 229, 0.25)'
             },
-            // Palette 9: Pink & Turquoise (Light)
+            // Palette 9: Tropical Sunset (Light)
             {
-                name: 'Pink Turquoise',
-                accent: '#EC407A',      // Rich pink
-                secondary: '#1DE9B6',   // Rich turquoise
-                gradientStart: '#EC407A',
-                gradientEnd: '#1DE9B6',
-                hover: '#E91E63',
-                success: '#00BFA5',
-                shadow: 'rgba(236, 64, 122, 0.3)'
+                name: 'Tropical Sunset',
+                accent: '#A21CAF',      // Deep fuchsia
+                secondary: '#0D9488',   // Deep turquoise
+                gradientStart: '#A21CAF',
+                gradientEnd: '#0D9488',
+                hover: '#86198F',
+                success: '#0F766E',
+                shadow: 'rgba(162, 28, 175, 0.25)'
             },
-            // Palette 10: Wisteria & Violet (Light)
+            // Palette 10: Cosmic Purple (Light)
             {
-                name: 'Wisteria Violet',
-                accent: '#BA68C8',      // Rich wisteria
-                secondary: '#8E24AA',   // Rich violet
-                gradientStart: '#BA68C8',
-                gradientEnd: '#8E24AA',
-                hover: '#AB47BC',
-                success: '#7B1FA2',
-                shadow: 'rgba(186, 104, 200, 0.3)'
+                name: 'Cosmic Purple',
+                accent: '#7E22CE',      // Deep purple
+                secondary: '#9333EA',   // Vivid purple
+                gradientStart: '#7E22CE',
+                gradientEnd: '#9333EA',
+                hover: '#6B21A8',
+                success: '#A855F7',
+                shadow: 'rgba(126, 34, 206, 0.25)'
             },
-            // Palette 11: Sky & Azure (Light)
+            // Palette 11: Golden Hour (Light)
             {
-                name: 'Sky Azure',
-                accent: '#42A5F5',      // Rich sky blue
-                secondary: '#1E88E5',   // Rich azure
-                gradientStart: '#42A5F5',
-                gradientEnd: '#1E88E5',
-                hover: '#2196F3',
-                success: '#1565C0',
-                shadow: 'rgba(66, 165, 245, 0.3)'
+                name: 'Golden Hour',
+                accent: '#CA8A04',      // Deep amber
+                secondary: '#EA580C',   // Bright orange
+                gradientStart: '#CA8A04',
+                gradientEnd: '#EA580C',
+                hover: '#A16207',
+                success: '#C2410C',
+                shadow: 'rgba(202, 138, 4, 0.25)'
             },
-            // Palette 12: Mauve & Mint (Light)
+            // Palette 12: Spring Meadow (Light)
             {
-                name: 'Mauve Mint',
-                accent: '#CE93D8',      // Rich mauve
-                secondary: '#4CAF50',   // Rich mint
-                gradientStart: '#CE93D8',
-                gradientEnd: '#4CAF50',
-                hover: '#BA68C8',
-                success: '#388E3C',
-                shadow: 'rgba(206, 147, 216, 0.3)'
+                name: 'Spring Meadow',
+                accent: '#65A30D',      // Fresh lime
+                secondary: '#16A34A',   // Vibrant green
+                gradientStart: '#65A30D',
+                gradientEnd: '#16A34A',
+                hover: '#4D7C0F',
+                success: '#15803D',
+                shadow: 'rgba(101, 163, 13, 0.25)'
             },
-            // Palette 13: Azure & Blue (Light)
+            // Palette 13: Nordic Sky (Light)
             {
-                name: 'Azure Blue',
-                accent: '#64B5F6',      // Rich azure
-                secondary: '#1976D2',   // Rich blue
-                gradientStart: '#64B5F6',
-                gradientEnd: '#1976D2',
-                hover: '#42A5F5',
-                success: '#1565C0',
-                shadow: 'rgba(100, 181, 246, 0.3)'
+                name: 'Nordic Sky',
+                accent: '#0369A1',      // Deep sky
+                secondary: '#0891B2',   // Bright cyan
+                gradientStart: '#0369A1',
+                gradientEnd: '#0891B2',
+                hover: '#075985',
+                success: '#0E7490',
+                shadow: 'rgba(3, 105, 161, 0.25)'
             },
-            // Palette 14: Rose Quartz & Aquamarine (Light)
+            // Palette 14: Flamingo Blush (Light)
             {
-                name: 'Rose Aquamarine',
-                accent: '#F48FB1',      // Rich rose
-                secondary: '#26A69A',   // Rich aquamarine
-                gradientStart: '#F48FB1',
-                gradientEnd: '#26A69A',
-                hover: '#F06292',
-                success: '#00897B',
-                shadow: 'rgba(244, 143, 177, 0.3)'
+                name: 'Flamingo Blush',
+                accent: '#E11D48',      // Vibrant rose
+                secondary: '#CA8A04',   // Rich gold
+                gradientStart: '#E11D48',
+                gradientEnd: '#CA8A04',
+                hover: '#BE123C',
+                success: '#A16207',
+                shadow: 'rgba(225, 29, 72, 0.25)'
             },
-            // Palette 15: Orchid & Emerald (Light)
+            // Palette 15: Aurora Borealis (Light)
             {
-                name: 'Orchid Emerald',
-                accent: '#AB47BC',      // Rich orchid
-                secondary: '#43A047',   // Rich emerald
-                gradientStart: '#AB47BC',
-                gradientEnd: '#43A047',
-                hover: '#9C27B0',
-                success: '#388E3C',
-                shadow: 'rgba(171, 71, 188, 0.3)'
+                name: 'Aurora Borealis',
+                accent: '#0D9488',      // Deep teal
+                secondary: '#7C3AED',   // Rich violet
+                gradientStart: '#0D9488',
+                gradientEnd: '#7C3AED',
+                hover: '#0F766E',
+                success: '#6D28D9',
+                shadow: 'rgba(13, 148, 136, 0.25)'
             }
         ];
     }
@@ -361,14 +359,11 @@ class DailyColorRotation {
      */
     getDayOfYear() {
         const now = new Date();
-        // Use January 1st as the start (day 0), so Jan 1 = day 1
         const startOfYear = new Date(now.getFullYear(), 0, 1);
         const diff = now - startOfYear;
         const oneDay = 1000 * 60 * 60 * 24;
-        // Add 1 because Jan 1 should be day 1, not day 0
         const dayOfYear = Math.floor(diff / oneDay) + 1;
         
-        // Debug only in development (remove in production if needed)
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Day of year calculation:', {
                 date: now.toISOString().split('T')[0],
@@ -383,17 +378,11 @@ class DailyColorRotation {
 
     /**
      * Get the palette index for today (0-14)
-     * Uses day of year to ensure same palette for entire day
-     * Always calculates fresh - never caches
      */
     getTodayPaletteIndex() {
-        // Always get fresh day of year (never cache)
         const dayOfYear = this.getDayOfYear();
-        // Use the same index for both light and dark to keep them in sync
-        // Subtract 1 because dayOfYear is 1-365, but we want index 0-14
         const index = (dayOfYear - 1) % 15;
         
-        // Debug only in development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Palette index:', index, 'from day of year:', dayOfYear);
         }
@@ -402,16 +391,13 @@ class DailyColorRotation {
 
     /**
      * Get today's color palette based on current theme
-     * Always calculates fresh - never caches
      */
     getTodayPalette() {
-        // Always recalculate index (never cache)
         const index = this.getTodayPaletteIndex();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         const palettes = isDark ? this.colorPalettesDark : this.colorPalettesLight;
         const palette = palettes[index];
         
-        // Debug only in development
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Selected palette:', palette.name, 'Index:', index, 'Theme:', isDark ? 'dark' : 'light');
         }
@@ -419,14 +405,11 @@ class DailyColorRotation {
     }
 
     /**
-     * Apply pastel colors to the current theme
-     * Works with both dark and light themes
+     * Apply colors to the current theme
      */
     applyDailyColors() {
-        // Always get fresh palette (recalculate day of year each time)
         const palette = this.getTodayPalette();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
-        // Set variables on body element since that's where [data-theme] selector targets
         const targetElement = document.body;
         
         const dayOfYear = this.getDayOfYear();
@@ -434,35 +417,28 @@ class DailyColorRotation {
         console.log('Applying daily colors:', palette.name, 'Theme:', isDark ? 'dark' : 'light', 'Day:', dayOfYear, 'Index:', paletteIndex);
 
         if (isDark) {
-            // Dark theme with pastel accents
-            // Slightly darken accent for better button contrast
-            const darkerAccent = this.darken(palette.accent, 0.1);
-            targetElement.style.setProperty('--accent-color', darkerAccent);
-            targetElement.style.setProperty('--accent-gradient-start', darkerAccent);
-            targetElement.style.setProperty('--accent-hover', this.darken(palette.accent, 0.15));
+            // Dark theme - colors already optimized
+            targetElement.style.setProperty('--accent-color', palette.accent);
+            targetElement.style.setProperty('--accent-gradient-start', palette.gradientStart);
+            targetElement.style.setProperty('--accent-hover', palette.hover);
             targetElement.style.setProperty('--secondary-accent', palette.secondary);
             targetElement.style.setProperty('--accent-gradient-end', palette.gradientEnd);
             targetElement.style.setProperty('--success-color', palette.success);
             targetElement.style.setProperty('--shadow-accent', palette.shadow);
             
-            // Update border colors with pastel tint
-            targetElement.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.15));
-            targetElement.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.25));
+            targetElement.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.2));
+            targetElement.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.3));
             
-            // Update badge colors
             targetElement.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
-            targetElement.style.setProperty('--badge-text', this.lighten(palette.accent, 0.3));
+            targetElement.style.setProperty('--badge-text', this.lighten(palette.accent, 0.2));
             targetElement.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
             
-            // Update tech stack colors
             targetElement.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.12));
-            targetElement.style.setProperty('--tech-text', this.lighten(palette.accent, 0.4));
+            targetElement.style.setProperty('--tech-text', this.lighten(palette.accent, 0.3));
             targetElement.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.18));
             
-            // Update hover background
             targetElement.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.12));
             
-            // Update GitHub contribution colors (dark theme)
             targetElement.style.setProperty('--contribution-hover-border', palette.accent);
             targetElement.style.setProperty('--contribution-level-0', this.adjustOpacity(palette.accent, 0.08));
             targetElement.style.setProperty('--contribution-level-1', this.adjustOpacity(palette.accent, 0.15));
@@ -470,39 +446,30 @@ class DailyColorRotation {
             targetElement.style.setProperty('--contribution-level-3', palette.accent);
             targetElement.style.setProperty('--contribution-level-4', this.lighten(palette.accent, 0.15));
             
-            // Button text color - ensure good contrast for dark theme
-            // For pastel colors on dark theme, use white text for better visibility
-            const btnTextColor = this.getContrastTextColor(palette.accent);
-            // If the calculated color is too light (meaning accent is dark), force white for dark theme
             targetElement.style.setProperty('--btn-text-color', '#ffffff');
         } else {
-            // Light theme with pastel accents
+            // Light theme
             targetElement.style.setProperty('--accent-color', palette.accent);
             targetElement.style.setProperty('--accent-gradient-start', palette.gradientStart);
-            targetElement.style.setProperty('--accent-hover', this.darken(palette.accent, 0.15));
+            targetElement.style.setProperty('--accent-hover', palette.hover);
             targetElement.style.setProperty('--secondary-accent', palette.secondary);
             targetElement.style.setProperty('--accent-gradient-end', palette.gradientEnd);
             targetElement.style.setProperty('--success-color', palette.success);
             targetElement.style.setProperty('--shadow-accent', this.adjustOpacity(palette.accent, 0.2));
             
-            // Update border colors with pastel tint
             targetElement.style.setProperty('--border-color', this.adjustOpacity(palette.accent, 0.2));
             targetElement.style.setProperty('--border-hover', this.adjustOpacity(palette.accent, 0.3));
             
-            // Update badge colors
-            targetElement.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.15));
-            targetElement.style.setProperty('--badge-text', this.darken(palette.accent, 0.2));
+            targetElement.style.setProperty('--badge-bg', this.adjustOpacity(palette.accent, 0.12));
+            targetElement.style.setProperty('--badge-text', palette.accent);
             targetElement.style.setProperty('--badge-border', this.adjustOpacity(palette.accent, 0.25));
             
-            // Update tech stack colors
-            targetElement.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.1));
-            targetElement.style.setProperty('--tech-text', this.darken(palette.accent, 0.1));
+            targetElement.style.setProperty('--tech-bg', this.adjustOpacity(palette.accent, 0.08));
+            targetElement.style.setProperty('--tech-text', palette.accent);
             targetElement.style.setProperty('--tech-border', this.adjustOpacity(palette.accent, 0.2));
             
-            // Update hover background
-            targetElement.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.08));
+            targetElement.style.setProperty('--hover-bg', this.adjustOpacity(palette.accent, 0.06));
             
-            // Update GitHub contribution colors (light theme)
             targetElement.style.setProperty('--contribution-hover-border', palette.accent);
             targetElement.style.setProperty('--contribution-level-0', this.adjustOpacity(palette.accent, 0.1));
             targetElement.style.setProperty('--contribution-level-1', this.adjustOpacity(palette.accent, 0.25));
@@ -510,16 +477,12 @@ class DailyColorRotation {
             targetElement.style.setProperty('--contribution-level-3', palette.accent);
             targetElement.style.setProperty('--contribution-level-4', this.darken(palette.accent, 0.15));
             
-            // Button text color - calculate based on background brightness
             targetElement.style.setProperty('--btn-text-color', this.getContrastTextColor(palette.accent));
         }
         
         console.log('Colors applied! Accent color:', getComputedStyle(targetElement).getPropertyValue('--accent-color'));
     }
 
-    /**
-     * Convert hex color to rgba with opacity
-     */
     adjustOpacity(hex, opacity) {
         const r = parseInt(hex.slice(1, 3), 16);
         const g = parseInt(hex.slice(3, 5), 16);
@@ -527,9 +490,6 @@ class DailyColorRotation {
         return `rgba(${r}, ${g}, ${b}, ${opacity})`;
     }
 
-    /**
-     * Lighten a hex color by a percentage
-     */
     lighten(hex, percent) {
         const num = parseInt(hex.replace('#', ''), 16);
         const r = Math.min(255, (num >> 16) + Math.round(255 * percent));
@@ -538,9 +498,6 @@ class DailyColorRotation {
         return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
     }
 
-    /**
-     * Darken a hex color by a percentage
-     */
     darken(hex, percent) {
         const num = parseInt(hex.replace('#', ''), 16);
         const r = Math.max(0, (num >> 16) - Math.round(255 * percent));
@@ -549,46 +506,28 @@ class DailyColorRotation {
         return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
     }
 
-    /**
-     * Calculate if text should be white or dark based on background brightness
-     * Returns 'white' or a dark color based on contrast
-     */
     getContrastTextColor(backgroundColor) {
         const hex = backgroundColor.replace('#', '');
         const r = parseInt(hex.substring(0, 2), 16);
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
         
-        // Calculate relative luminance
         const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        
-        // If background is light (luminance > 0.5), use dark text, otherwise white
         return luminance > 0.5 ? '#1a1a1a' : '#ffffff';
     }
 
-    /**
-     * Initialize the daily color rotation
-     */
     init() {
-        // Always recalculate palette on init (don't cache)
         console.log('Initializing daily colors - recalculating palette...');
-        // Apply colors immediately
         this.applyDailyColors();
 
-        // Listen for theme changes to reapply colors
         window.addEventListener('themeChange', () => {
             console.log('Theme changed, reapplying colors...');
             this.applyDailyColors();
         });
 
-        // Check if we need to update colors (e.g., if day changed while page is open)
-        // This ensures colors update at midnight
         this.scheduleMidnightUpdate();
     }
 
-    /**
-     * Schedule color update at midnight
-     */
     scheduleMidnightUpdate() {
         const now = new Date();
         const tomorrow = new Date(now);
@@ -602,14 +541,12 @@ class DailyColorRotation {
         setTimeout(() => {
             console.log('Midnight reached - updating colors for new day...');
             this.applyDailyColors();
-            // Schedule next midnight update (24 hours)
             setInterval(() => {
                 console.log('Daily color update triggered');
                 this.applyDailyColors();
             }, 24 * 60 * 60 * 1000);
         }, msUntilMidnight);
         
-        // Also check every hour if day has changed (in case user's clock is off or page was open for days)
         setInterval(() => {
             const currentDay = this.getDayOfYear();
             const storedDay = this._lastDayOfYear || currentDay;
@@ -618,17 +555,16 @@ class DailyColorRotation {
                 this._lastDayOfYear = currentDay;
                 this.applyDailyColors();
             }
-        }, 60 * 60 * 1000); // Check every hour
+        }, 60 * 60 * 1000);
         
         this._lastDayOfYear = this.getDayOfYear();
     }
 }
 
-// Expose class to window for global access (for testing and external use)
+// Global initialization
 if (typeof window !== 'undefined') {
     window.DailyColorRotation = DailyColorRotation;
     
-    // Also expose a helper function to manually apply colors (for debugging)
     window.applyDailyColorsNow = function() {
         if (window.dailyColorsInstance) {
             window.dailyColorsInstance.applyDailyColors();
@@ -639,7 +575,6 @@ if (typeof window !== 'undefined') {
         }
     };
     
-    // Debug function to check current day and palette
     window.checkDailyColors = function() {
         if (!window.dailyColorsInstance) {
             console.log('No dailyColorsInstance found. Creating one...');
@@ -659,13 +594,12 @@ if (typeof window !== 'undefined') {
     };
 }
 
-// Initialize daily color rotation
+// Auto-initialize
 (function() {
     let dailyColorsInstance = null;
     
     function initDailyColors() {
         if (!dailyColorsInstance) {
-            // Use DailyColorRotation directly (it's in scope) or fallback to window
             const DailyColorRotationClass = typeof DailyColorRotation !== 'undefined' 
                 ? DailyColorRotation 
                 : (typeof window !== 'undefined' ? window.DailyColorRotation : null);
@@ -676,7 +610,6 @@ if (typeof window !== 'undefined') {
             }
             try {
                 dailyColorsInstance = new DailyColorRotationClass();
-                // Store globally for debugging
                 if (typeof window !== 'undefined') {
                     window.dailyColorsInstance = dailyColorsInstance;
                 }
@@ -690,31 +623,25 @@ if (typeof window !== 'undefined') {
         }
     }
     
-    // Initialize when DOM is ready
     if (typeof document !== 'undefined') {
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
-                // Wait a bit for theme switcher to initialize
                 console.log('DOMContentLoaded - initializing daily colors...');
                 setTimeout(initDailyColors, 200);
             });
         } else {
-            // DOM already loaded
             console.log('DOM already loaded - initializing daily colors...');
             setTimeout(initDailyColors, 200);
         }
         
-        // Also listen for theme changes in case theme is set before this script loads
         if (typeof window !== 'undefined') {
             window.addEventListener('themeChange', () => {
                 if (dailyColorsInstance) {
                     dailyColorsInstance.applyDailyColors();
                 } else {
-                    // If not initialized yet, initialize now
                     setTimeout(initDailyColors, 50);
                 }
             });
         }
     }
 })();
-
