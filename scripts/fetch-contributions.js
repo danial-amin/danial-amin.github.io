@@ -88,14 +88,17 @@ async function fetchYearContributions(year) {
     const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
     
     // Create a map of all dates in the year (including empty days)
+    // For current year, show ALL days (Jan 1 to Dec 31), with future days unfilled
     const dateMap = new Map();
     const startDate = new Date(`${year}-01-01`);
-    const endDate = isCurrentYear ? today : new Date(`${year}-12-31`);
+    const endDate = new Date(`${year}-12-31`); // Always show full year
     
     // Initialize all dates with 0 contributions
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         const dateStr = d.toISOString().split('T')[0];
-        dateMap.set(dateStr, { date: dateStr, count: 0, level: 0 });
+        // For current year, mark future days explicitly
+        const isFuture = isCurrentYear && new Date(dateStr) > today;
+        dateMap.set(dateStr, { date: dateStr, count: 0, level: 0, isFuture });
     }
     
     // Fill in actual contributions
@@ -120,10 +123,171 @@ async function fetchYearContributions(year) {
     });
     
     // Convert map to array and sort by date
-    const yearContributions = Array.from(dateMap.values())
+    let yearContributions = Array.from(dateMap.values())
         .sort((a, b) => new Date(a.date) - new Date(b.date));
     
+    // Apply inflation for past years with low contributions
+    if (!isCurrentYear) {
+        yearContributions = applyInflation(yearContributions, year);
+    }
+    
     return yearContributions;
+}
+
+/**
+ * Apply inflation to years with very low contributions
+ * This matches the client-side inflation logic
+ */
+function applyInflation(contributions, year) {
+    const inflationEnabled = true;
+    const inflationTargetMin = 400;
+    const inflationTargetMax = 600;
+    const inflationThreshold = 300;
+    const minContributionsPerDay = 1;
+    const maxActiveDaysRatio = 0.75;
+    
+    const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0);
+    
+    // Only inflate if total is below threshold
+    if (!inflationEnabled || totalContributions >= inflationThreshold || totalContributions === 0) {
+        return contributions;
+    }
+    
+    // Calculate target total (deterministic based on year)
+    const yearNum = parseInt(year, 10);
+    const hash = ((yearNum * 2654435761) >>> 0);
+    const range = inflationTargetMax - inflationTargetMin + 1;
+    const targetTotal = inflationTargetMin + (hash % range);
+    
+    console.log(`[Inflation] Year ${year}: Inflating from ${totalContributions} to target ${targetTotal}`);
+    
+    // Get active days
+    const activeDays = contributions.filter(day => day.count > 0);
+    const totalDays = contributions.length;
+    const maxActiveDays = Math.floor(totalDays * maxActiveDaysRatio);
+    const targetActiveDays = Math.min(maxActiveDays, Math.max(activeDays.length, Math.floor(totalDays * 0.65)));
+    
+    // Distribute contributions
+    const contributionsPerDay = Math.floor(targetTotal / targetActiveDays);
+    const remainder = targetTotal % targetActiveDays;
+    
+    // Clear all contributions
+    contributions.forEach(day => {
+        day.count = 0;
+        day.level = 0;
+    });
+    
+    // Create deterministic RNG
+    const createRng = (seedValue) => {
+        let s = seedValue;
+        return () => {
+            s = (s * 1664525 + 1013904223) >>> 0;
+            return s / 4294967296;
+        };
+    };
+    const rng = createRng(hash * 1000 + 12345);
+    
+    // Sort all days chronologically
+    const allDaysSorted = [...contributions].sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    // Divide year into 12 months and ensure we get days from each month
+    const daysByMonth = {};
+    allDaysSorted.forEach(day => {
+        const month = new Date(day.date).getMonth();
+        if (!daysByMonth[month]) {
+            daysByMonth[month] = [];
+        }
+        daysByMonth[month].push(day);
+    });
+    
+    // Select days randomly from each month to ensure full year coverage
+    const daysToActivate = [];
+    const daysPerMonth = Math.floor(targetActiveDays / 12);
+    const remainderDays = targetActiveDays % 12;
+    
+    Object.keys(daysByMonth).forEach((month, monthIdx) => {
+        const monthDays = daysByMonth[month];
+        const daysToTake = daysPerMonth + (monthIdx < remainderDays ? 1 : 0);
+        
+        // Shuffle month days deterministically
+        const shuffled = [...monthDays].sort((a, b) => {
+            const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash + parseInt(month)) % 10000;
+            const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash + parseInt(month)) % 10000;
+            return hashA - hashB;
+        });
+        
+        // Take random days from this month
+        for (let i = 0; i < Math.min(daysToTake, shuffled.length) && daysToActivate.length < targetActiveDays; i++) {
+            const randomIndex = Math.floor(rng() * shuffled.length);
+            const selectedDay = shuffled[randomIndex];
+            if (!daysToActivate.includes(selectedDay)) {
+                daysToActivate.push(selectedDay);
+            }
+        }
+    });
+    
+    // Fill remaining slots with random days from anywhere in the year
+    if (daysToActivate.length < targetActiveDays) {
+        const remainingDays = allDaysSorted.filter(day => !daysToActivate.includes(day));
+        const needed = targetActiveDays - daysToActivate.length;
+        
+        const shuffled = [...remainingDays].sort((a, b) => {
+            const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash) % 10000;
+            const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash) % 10000;
+            return hashA - hashB;
+        });
+        
+        for (let i = 0; i < Math.min(needed, shuffled.length); i++) {
+            const randomIndex = Math.floor(rng() * shuffled.length);
+            const selectedDay = shuffled[randomIndex];
+            if (!daysToActivate.includes(selectedDay)) {
+                daysToActivate.push(selectedDay);
+            }
+        }
+    }
+    
+    // Final shuffle
+    daysToActivate.sort((a, b) => {
+        const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash * 7) % 10000;
+        const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + hash * 7) % 10000;
+        return hashA - hashB;
+    });
+    
+    // Assign contributions
+    let contributionCount = 0;
+    daysToActivate.forEach((day, index) => {
+        if (contributionCount < targetTotal) {
+            let dayCount = contributionsPerDay;
+            if (index < remainder) {
+                dayCount += 1;
+            }
+            
+            // Add deterministic variation
+            const dateHash = day.date.split('-').join('');
+            const variation = (parseInt(dateHash) + hash) % 3 - 1;
+            dayCount = Math.max(minContributionsPerDay, dayCount + variation);
+            
+            if (contributionCount + dayCount > targetTotal) {
+                dayCount = targetTotal - contributionCount;
+            }
+            
+            day.count = dayCount;
+            contributionCount += dayCount;
+            
+            // Calculate level
+            if (dayCount > 0) {
+                if (dayCount === 1) day.level = 2;
+                else if (dayCount <= 3) day.level = 3;
+                else if (dayCount <= 7) day.level = 4;
+                else day.level = 4;
+            }
+        }
+    });
+    
+    const finalTotal = contributions.reduce((sum, day) => sum + day.count, 0);
+    console.log(`[Inflation] Year ${year}: Final total = ${finalTotal}, Target was = ${targetTotal}`);
+    
+    return contributions;
 }
 
 /**
