@@ -1,0 +1,57 @@
+name: Update GitHub Contributions
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC to update contributions
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual triggering
+  push:
+    paths:
+      - '.github/workflows/update-contributions.yml'
+      - 'scripts/fetch-contributions.js'
+
+jobs:
+  update-contributions:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write # Required to push commits
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Fetch GitHub Contributions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/fetch-contributions.js
+      
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain data/github-contributions.json)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Contributions data updated"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          fi
+      
+      - name: Commit and push changes
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/github-contributions.json
+          git commit -m "Auto-update: Refresh GitHub contributions data [skip ci]"
+          git push
+
