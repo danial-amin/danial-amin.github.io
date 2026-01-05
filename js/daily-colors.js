@@ -11,8 +11,8 @@ class DailyColorRotation {
         // ============================================
         // DARK MODE PALETTES (15 palettes)
         // ============================================
-        // Add your custom dark mode palettes here
-        // Each palette should have: name, accent, secondary, gradientStart, gradientEnd, hover, success, shadow
+        // Carefully curated pastel palettes optimized for dark backgrounds
+        // Each palette has excellent contrast and visual harmony
         this.colorPalettesDark = [
             // Palette 1: Soft Lavender & Mint
             {
@@ -25,43 +25,32 @@ class DailyColorRotation {
                 success: '#7FB3A8',
                 shadow: 'rgba(177, 156, 217, 0.25)'
             },
-            // Palette 2: Peach & Sky Blue
+            // Palette 2: Rose & Sky Blue
             {
-                name: 'Peach Sky',
-                accent: '#FFB3BA',      // Soft peach
-                secondary: '#BAE1FF',   // Sky blue
-                gradientStart: '#FFB3BA',
-                gradientEnd: '#BAE1FF',
-                hover: '#FF9FA8',
-                success: '#8FC4D9',
-                shadow: 'rgba(255, 179, 186, 0.25)'
+                name: 'Rose Sky',
+                accent: '#FFB3D1',      // Soft rose pink
+                secondary: '#A8D8EA',   // Sky blue
+                gradientStart: '#FFB3D1',
+                gradientEnd: '#A8D8EA',
+                hover: '#FF9FC4',
+                success: '#7FC4D9',
+                shadow: 'rgba(255, 179, 209, 0.25)'
             },
-            // Palette 3: Rose & Powder Blue
-            {
-                name: 'Rose Powder',
-                accent: '#FFCCCB',      // Rose
-                secondary: '#B0E0E6',    // Powder blue
-                gradientStart: '#FFCCCB',
-                gradientEnd: '#B0E0E6',
-                hover: '#FFB8B6',
-                success: '#87CEEB',
-                shadow: 'rgba(255, 204, 203, 0.25)'
-            },
-            // Palette 4: Periwinkle & Teal
+            // Palette 3: Periwinkle & Teal
             {
                 name: 'Periwinkle Teal',
-                accent: '#A5B4FC',     // Periwinkle blue
-                secondary: '#81E6D9',   // Teal
+                accent: '#A5B4FC',      // Periwinkle blue
+                secondary: '#81E6D9',    // Teal
                 gradientStart: '#A5B4FC',
                 gradientEnd: '#81E6D9',
                 hover: '#8FA3FB',
                 success: '#5DD4C4',
                 shadow: 'rgba(165, 180, 252, 0.25)'
             },
-            // Palette 5: Coral & Aqua
+            // Palette 4: Coral & Aqua
             {
                 name: 'Coral Aqua',
-                accent: '#FFB6C1',      // Light pink/coral
+                accent: '#FFB6C1',      // Coral pink
                 secondary: '#AFEEEE',   // Aqua
                 gradientStart: '#FFB6C1',
                 gradientEnd: '#AFEEEE',
@@ -69,10 +58,10 @@ class DailyColorRotation {
                 success: '#7FCDCD',
                 shadow: 'rgba(255, 182, 193, 0.25)'
             },
-            // Palette 6: Lilac & Sage
+            // Palette 5: Lilac & Sage
             {
                 name: 'Lilac Sage',
-                accent: '#D8BFD8',      // Thistle/lilac
+                accent: '#D8BFD8',      // Lilac
                 secondary: '#C9D9B0',   // Sage green
                 gradientStart: '#D8BFD8',
                 gradientEnd: '#C9D9B0',
@@ -80,7 +69,7 @@ class DailyColorRotation {
                 success: '#A8C088',
                 shadow: 'rgba(216, 191, 216, 0.25)'
             },
-            // Palette 7: Cornflower & Cyan
+            // Palette 6: Cornflower & Cyan
             {
                 name: 'Cornflower Cyan',
                 accent: '#93C5FD',     // Cornflower blue
@@ -91,7 +80,7 @@ class DailyColorRotation {
                 success: '#3DD5E8',
                 shadow: 'rgba(147, 197, 253, 0.25)'
             },
-            // Palette 8: Blush & Seafoam
+            // Palette 7: Blush & Seafoam
             {
                 name: 'Blush Seafoam',
                 accent: '#FFD1DC',      // Blush pink
@@ -102,7 +91,7 @@ class DailyColorRotation {
                 success: '#7FD4C4',
                 shadow: 'rgba(255, 209, 220, 0.25)'
             },
-            // Palette 9: Lavender & Indigo
+            // Palette 8: Lavender & Indigo
             {
                 name: 'Lavender Indigo',
                 accent: '#C4B5FD',      // Lavender
@@ -113,7 +102,7 @@ class DailyColorRotation {
                 success: '#6366F1',
                 shadow: 'rgba(196, 181, 253, 0.25)'
             },
-            // Palette 10: Pink & Turquoise
+            // Palette 9: Pink & Turquoise
             {
                 name: 'Pink Turquoise',
                 accent: '#F9A8D4',      // Pink
@@ -124,7 +113,7 @@ class DailyColorRotation {
                 success: '#2DD4BF',
                 shadow: 'rgba(249, 168, 212, 0.25)'
             },
-            // Palette 11: Wisteria & Violet
+            // Palette 10: Wisteria & Violet
             {
                 name: 'Wisteria Violet',
                 accent: '#C084FC',      // Wisteria purple
@@ -135,7 +124,7 @@ class DailyColorRotation {
                 success: '#8B5CF6',
                 shadow: 'rgba(192, 132, 252, 0.25)'
             },
-            // Palette 12: Sky & Azure
+            // Palette 11: Sky & Azure
             {
                 name: 'Sky Azure',
                 accent: '#7DD3FC',      // Sky blue
@@ -146,7 +135,7 @@ class DailyColorRotation {
                 success: '#0EA5E9',
                 shadow: 'rgba(125, 211, 252, 0.25)'
             },
-            // Palette 13: Mauve & Mint
+            // Palette 12: Mauve & Mint
             {
                 name: 'Mauve Mint',
                 accent: '#E0B0FF',      // Mauve
@@ -157,7 +146,7 @@ class DailyColorRotation {
                 success: '#8FE08F',
                 shadow: 'rgba(224, 176, 255, 0.25)'
             },
-            // Palette 14: Azure & Blue
+            // Palette 13: Azure & Blue
             {
                 name: 'Azure Blue',
                 accent: '#60A5FA',      // Azure blue
@@ -168,7 +157,7 @@ class DailyColorRotation {
                 success: '#2563EB',
                 shadow: 'rgba(96, 165, 250, 0.25)'
             },
-            // Palette 15: Rose Quartz & Aquamarine
+            // Palette 14: Rose Quartz & Aquamarine
             {
                 name: 'Rose Aquamarine',
                 accent: '#F7CAC9',      // Rose quartz
@@ -178,6 +167,17 @@ class DailyColorRotation {
                 hover: '#F4B5B4',
                 success: '#6FC4B8',
                 shadow: 'rgba(247, 202, 201, 0.25)'
+            },
+            // Palette 15: Orchid & Emerald
+            {
+                name: 'Orchid Emerald',
+                accent: '#DA70D6',      // Orchid
+                secondary: '#50C878',   // Emerald
+                gradientStart: '#DA70D6',
+                gradientEnd: '#50C878',
+                hover: '#C85BC1',
+                success: '#3BAF68',
+                shadow: 'rgba(218, 112, 214, 0.25)'
             }
         ];
 
@@ -198,159 +198,159 @@ class DailyColorRotation {
                 success: '#5AA089',
                 shadow: 'rgba(155, 125, 184, 0.3)'
             },
-            // Palette 2: Peach & Sky Blue (Light) - More vibrant
+            // Palette 2: Rose & Sky Blue (Light)
             {
-                name: 'Peach Sky',
-                accent: '#FF7A8A',      // More vibrant peach
-                secondary: '#5BB5FF',   // More vibrant sky blue
-                gradientStart: '#FF7A8A',
-                gradientEnd: '#5BB5FF',
-                hover: '#FF5A6A',
-                success: '#3B95D4',
-                shadow: 'rgba(255, 122, 138, 0.3)'
+                name: 'Rose Sky',
+                accent: '#E91E63',      // Rich rose pink
+                secondary: '#2196F3',   // Rich sky blue
+                gradientStart: '#E91E63',
+                gradientEnd: '#2196F3',
+                hover: '#C2185B',
+                success: '#1976D2',
+                shadow: 'rgba(233, 30, 99, 0.3)'
             },
-            // Palette 3: Rose & Powder Blue (Light) - More vibrant
+            // Palette 3: Periwinkle & Teal (Light)
             {
-                name: 'Rose Powder',
-                accent: '#FF7F90',      // More vibrant rose
-                secondary: '#5BB0C4',   // More vibrant powder blue
-                gradientStart: '#FF7F90',
-                gradientEnd: '#5BB0C4',
-                hover: '#FF5F70',
-                success: '#3B90B4',
-                shadow: 'rgba(255, 127, 144, 0.3)'
+                name: 'Periwinkle Teal',
+                accent: '#7C4DFF',      // Rich periwinkle
+                secondary: '#26A69A',   // Rich teal
+                gradientStart: '#7C4DFF',
+                gradientEnd: '#26A69A',
+                hover: '#651FFF',
+                success: '#00897B',
+                shadow: 'rgba(124, 77, 255, 0.3)'
             },
-            // Palette 4: Butter & Periwinkle (Light) - More vibrant
-            {
-                name: 'Butter Periwinkle',
-                accent: '#FFC952',     // More vibrant butter/yellow
-                secondary: '#8A8AC4',   // More vibrant periwinkle
-                gradientStart: '#FFC952',
-                gradientEnd: '#8A8AC4',
-                hover: '#FFB822',
-                success: '#6A6AA8',
-                shadow: 'rgba(255, 201, 82, 0.3)'
-            },
-            // Palette 5: Coral & Aqua (Light) - More vibrant
+            // Palette 4: Coral & Aqua (Light)
             {
                 name: 'Coral Aqua',
-                accent: '#FF6B85',      // More vibrant coral
-                secondary: '#5BB5B5',   // More vibrant aqua
-                gradientStart: '#FF6B85',
-                gradientEnd: '#5BB5B5',
-                hover: '#FF4B65',
-                success: '#3B9595',
-                shadow: 'rgba(255, 107, 133, 0.3)'
+                accent: '#FF6B9D',     // Rich coral
+                secondary: '#00BCD4',   // Rich aqua
+                gradientStart: '#FF6B9D',
+                gradientEnd: '#00BCD4',
+                hover: '#FF4081',
+                success: '#0097A7',
+                shadow: 'rgba(255, 107, 157, 0.3)'
             },
-            // Palette 6: Lilac & Sage (Light) - More vibrant
+            // Palette 5: Lilac & Sage (Light)
             {
                 name: 'Lilac Sage',
-                accent: '#A87AA8',      // More vibrant lilac
-                secondary: '#7BA87A',   // More vibrant sage
-                gradientStart: '#A87AA8',
-                gradientEnd: '#7BA87A',
-                hover: '#976A97',
-                success: '#5B985B',
-                shadow: 'rgba(168, 122, 168, 0.3)'
+                accent: '#9C27B0',      // Rich lilac
+                secondary: '#66BB6A',   // Rich sage
+                gradientStart: '#9C27B0',
+                gradientEnd: '#66BB6A',
+                hover: '#7B1FA2',
+                success: '#4CAF50',
+                shadow: 'rgba(156, 39, 176, 0.3)'
             },
-            // Palette 7: Cornflower & Cyan (Light) - More vibrant
+            // Palette 6: Cornflower & Cyan (Light)
             {
                 name: 'Cornflower Cyan',
-                accent: '#5B95E8',     // Vibrant cornflower
-                secondary: '#22D3EE',   // Vibrant cyan
-                gradientStart: '#5B95E8',
-                gradientEnd: '#22D3EE',
-                hover: '#4B85D8',
-                success: '#06B6D4',
-                shadow: 'rgba(91, 149, 232, 0.3)'
+                accent: '#448AFF',     // Rich cornflower
+                secondary: '#00E5FF',   // Rich cyan
+                gradientStart: '#448AFF',
+                gradientEnd: '#00E5FF',
+                hover: '#2979FF',
+                success: '#00BCD4',
+                shadow: 'rgba(68, 138, 255, 0.3)'
             },
-            // Palette 8: Blush & Seafoam (Light) - More vibrant
+            // Palette 7: Blush & Seafoam (Light)
             {
                 name: 'Blush Seafoam',
-                accent: '#FF7FA8',      // More vibrant blush
-                secondary: '#5BB5A0',   // More vibrant seafoam
-                gradientStart: '#FF7FA8',
-                gradientEnd: '#5BB5A0',
-                hover: '#FF5F88',
-                success: '#3B9580',
-                shadow: 'rgba(255, 127, 168, 0.3)'
+                accent: '#F06292',      // Rich blush
+                secondary: '#4DB6AC',   // Rich seafoam
+                gradientStart: '#F06292',
+                gradientEnd: '#4DB6AC',
+                hover: '#EC407A',
+                success: '#26A69A',
+                shadow: 'rgba(240, 98, 146, 0.3)'
             },
-            // Palette 9: Lavender & Indigo (Light) - More vibrant
+            // Palette 8: Lavender & Indigo (Light)
             {
                 name: 'Lavender Indigo',
-                accent: '#A78BFA',      // Vibrant lavender
-                secondary: '#6366F1',   // Vibrant indigo
-                gradientStart: '#A78BFA',
-                gradientEnd: '#6366F1',
-                hover: '#977BEA',
-                success: '#4F46E5',
-                shadow: 'rgba(167, 139, 250, 0.3)'
+                accent: '#9575CD',      // Rich lavender
+                secondary: '#5C6BC0',   // Rich indigo
+                gradientStart: '#9575CD',
+                gradientEnd: '#5C6BC0',
+                hover: '#7E57C2',
+                success: '#3F51B5',
+                shadow: 'rgba(149, 117, 205, 0.3)'
             },
-            // Palette 10: Pink & Turquoise (Light) - More vibrant
+            // Palette 9: Pink & Turquoise (Light)
             {
                 name: 'Pink Turquoise',
-                accent: '#EC4899',      // Vibrant pink
-                secondary: '#14B8A6',   // Vibrant turquoise
-                gradientStart: '#EC4899',
-                gradientEnd: '#14B8A6',
-                hover: '#DB2777',
-                success: '#0D9488',
-                shadow: 'rgba(236, 72, 153, 0.3)'
+                accent: '#EC407A',      // Rich pink
+                secondary: '#1DE9B6',   // Rich turquoise
+                gradientStart: '#EC407A',
+                gradientEnd: '#1DE9B6',
+                hover: '#E91E63',
+                success: '#00BFA5',
+                shadow: 'rgba(236, 64, 122, 0.3)'
             },
-            // Palette 11: Wisteria & Violet (Light) - More vibrant
+            // Palette 10: Wisteria & Violet (Light)
             {
                 name: 'Wisteria Violet',
-                accent: '#A855F7',      // Vibrant wisteria
-                secondary: '#8B5CF6',   // Vibrant violet
-                gradientStart: '#A855F7',
-                gradientEnd: '#8B5CF6',
-                hover: '#9333EA',
-                success: '#7C3AED',
-                shadow: 'rgba(168, 85, 247, 0.3)'
+                accent: '#BA68C8',      // Rich wisteria
+                secondary: '#8E24AA',   // Rich violet
+                gradientStart: '#BA68C8',
+                gradientEnd: '#8E24AA',
+                hover: '#AB47BC',
+                success: '#7B1FA2',
+                shadow: 'rgba(186, 104, 200, 0.3)'
             },
-            // Palette 12: Sky & Azure (Light) - More vibrant
+            // Palette 11: Sky & Azure (Light)
             {
                 name: 'Sky Azure',
-                accent: '#0EA5E9',      // Vibrant sky blue
-                secondary: '#0284C7',   // Vibrant azure
-                gradientStart: '#0EA5E9',
-                gradientEnd: '#0284C7',
-                hover: '#0284C7',
-                success: '#0369A1',
-                shadow: 'rgba(14, 165, 233, 0.3)'
+                accent: '#42A5F5',      // Rich sky blue
+                secondary: '#1E88E5',   // Rich azure
+                gradientStart: '#42A5F5',
+                gradientEnd: '#1E88E5',
+                hover: '#2196F3',
+                success: '#1565C0',
+                shadow: 'rgba(66, 165, 245, 0.3)'
             },
-            // Palette 13: Mauve & Mint (Light) - More vibrant
+            // Palette 12: Mauve & Mint (Light)
             {
                 name: 'Mauve Mint',
-                accent: '#A85AFF',      // More vibrant mauve
-                secondary: '#5BB56A',   // More vibrant mint
-                gradientStart: '#A85AFF',
-                gradientEnd: '#5BB56A',
-                hover: '#973AFF',
-                success: '#3B954A',
-                shadow: 'rgba(168, 90, 255, 0.3)'
+                accent: '#CE93D8',      // Rich mauve
+                secondary: '#4CAF50',   // Rich mint
+                gradientStart: '#CE93D8',
+                gradientEnd: '#4CAF50',
+                hover: '#BA68C8',
+                success: '#388E3C',
+                shadow: 'rgba(206, 147, 216, 0.3)'
             },
-            // Palette 14: Azure & Blue (Light) - More vibrant
+            // Palette 13: Azure & Blue (Light)
             {
                 name: 'Azure Blue',
-                accent: '#3B82F6',      // Vibrant azure
-                secondary: '#2563EB',   // Vibrant blue
-                gradientStart: '#3B82F6',
-                gradientEnd: '#2563EB',
-                hover: '#2563EB',
-                success: '#1D4ED8',
-                shadow: 'rgba(59, 130, 246, 0.3)'
+                accent: '#64B5F6',      // Rich azure
+                secondary: '#1976D2',   // Rich blue
+                gradientStart: '#64B5F6',
+                gradientEnd: '#1976D2',
+                hover: '#42A5F5',
+                success: '#1565C0',
+                shadow: 'rgba(100, 181, 246, 0.3)'
             },
-            // Palette 15: Rose Aquamarine (Light) - More vibrant
+            // Palette 14: Rose Quartz & Aquamarine (Light)
             {
                 name: 'Rose Aquamarine',
-                accent: '#FF6A7A',      // More vibrant rose
-                secondary: '#4BA590',   // More vibrant aquamarine
-                gradientStart: '#FF6A7A',
-                gradientEnd: '#4BA590',
-                hover: '#FF4A5A',
-                success: '#2B8570',
-                shadow: 'rgba(255, 106, 122, 0.3)'
+                accent: '#F48FB1',      // Rich rose
+                secondary: '#26A69A',   // Rich aquamarine
+                gradientStart: '#F48FB1',
+                gradientEnd: '#26A69A',
+                hover: '#F06292',
+                success: '#00897B',
+                shadow: 'rgba(244, 143, 177, 0.3)'
+            },
+            // Palette 15: Orchid & Emerald (Light)
+            {
+                name: 'Orchid Emerald',
+                accent: '#AB47BC',      // Rich orchid
+                secondary: '#43A047',   // Rich emerald
+                gradientStart: '#AB47BC',
+                gradientEnd: '#43A047',
+                hover: '#9C27B0',
+                success: '#388E3C',
+                shadow: 'rgba(171, 71, 188, 0.3)'
             }
         ];
     }
