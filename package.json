@@ -17,5 +17,8 @@
   "license": "MIT",
   "engines": {
     "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "github-calendar": "^2.3.4"
   }
 }

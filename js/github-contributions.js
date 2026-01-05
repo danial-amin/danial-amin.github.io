@@ -1,23 +1,52 @@
 /**
- * GitHub Contributions Static Component
- * - Year navigation
- * - Deterministic "realistic" fake data
- * - Current year increases over days but not per refresh
+ * GitHub Contributions Component
+ * - Fetches real GitHub contributions using GraphQL API (if token provided)
+ * - Falls back to github-calendar library if GraphQL fails
+ * - Falls back to generated data if both APIs fail
+ * - Year navigation support
  * - Shows only up to current day for current year
+ * 
+ * SECURITY NOTE: If using a GitHub token, be aware that client-side tokens are visible.
+ * For production, consider using a serverless function as a proxy to hide the token.
+ * For public repos, you can use a token with minimal scopes or no token (rate-limited).
  */
 
 class GitHubContributions {
     constructor() {
+        this.githubUsername = 'danial-amin';
+        
+        // GitHub token - set this if you want to use real GitHub GraphQL API
+        // You can create a token at: https://github.com/settings/tokens
+        // For public data, you can use a token with minimal scopes (or no scope)
+        // 
+        // SECURITY WARNING: Tokens in client-side code are visible to anyone!
+        // For production, use a serverless function (Vercel, Netlify, etc.) as a proxy
+        // 
+        // To set your token, either:
+        // 1. Set it here: this.githubToken = 'your_token_here';
+        // 2. Or set it via window.GITHUB_TOKEN before this script loads
+        // 3. Or leave empty to use fallback methods
+        this.githubToken = window.GITHUB_TOKEN || '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';
+        
         const currentYear = new Date().getFullYear();
         this.currentYear = currentYear;
         this.years = [currentYear.toString(), '2025', '2024', '2023', '2022', '2021', '2020'];
 
-        // Cache so we don't recompute in the same session
-        this.yearData = {};
+        // Cache for loaded calendars - stores contribution arrays, not HTML
+        this.loadedCalendars = {};
+        this.allContributionsLoaded = false; // Track if we've loaded all years
+        
+        // Inflation settings for years with very low contributions
+        this.inflationEnabled = true; // Enable contribution inflation
+        this.inflationTargetMin = 500; // Target minimum total contributions after inflation
+        this.inflationTargetMax = 700; // Target maximum total contributions after inflation
+        this.inflationThreshold = 300; // Years with less than 300 total contributions will be inflated
+        this.minContributionsPerDay = 1; // Minimum contributions per active day
+        this.maxActiveDaysRatio = 0.85; // Use up to 85% of days as active (more distribution)
 
-        // Full-year target totals (approximate)
+        // Full-year target totals (for fallback generation)
         this.targetContributions = {
-            '2026': 750,  // interpreted as full-year target, scaled by date
+            '2026': 750,
             '2025': 729,
             '2024': 686,
             '2023': 450,
@@ -35,12 +64,24 @@ class GitHubContributions {
         this.totalContributions = document.querySelector('.total-contributions');
         this.longestStreak = document.querySelector('.longest-streak');
         
+        // Initialize immediately - will try API first, fallback to generated data
         this.init();
     }
 
-    init() {
+    async init() {
         this.setupEventListeners();
-        this.loadCurrentYearData();
+        
+        // Try to load all years' data at once if using GraphQL
+        if (this.githubToken) {
+            try {
+                await this.loadAllYearsData();
+            } catch (error) {
+                console.warn('Failed to load all years at once, loading current year only:', error);
+                await this.loadCurrentYearData();
+            }
+        } else {
+            await this.loadCurrentYearData();
+        }
     }
 
     setupEventListeners() {
@@ -104,23 +145,507 @@ class GitHubContributions {
         await this.loadYearData(this.currentYear.toString());
     }
 
+    /**
+     * Load all years' data in parallel using GraphQL API
+     * GitHub API limits queries to 1 year, so we fetch each year separately but in parallel
+     */
+    async loadAllYearsData() {
+        if (!this.githubToken || this.allContributionsLoaded) {
+            return;
+        }
+
+        try {
+            const today = new Date();
+            
+            // Fetch all years in parallel (GitHub API requires max 1 year per query)
+            const yearPromises = this.years.map(async (year) => {
+                try {
+                    const contributions = await this.fetchGitHubContributionsGraphQL(year);
+                    if (contributions && contributions.length > 0) {
+                        this.loadedCalendars[year] = contributions;
+                        return { year, success: true };
+                    }
+                    return { year, success: false };
+                } catch (error) {
+                    console.warn(`Failed to load year ${year}:`, error);
+                    return { year, success: false };
+                }
+            });
+
+            // Wait for all years to load (or fail)
+            await Promise.all(yearPromises);
+
+            // Mark as loaded if we got at least some data
+            const loadedCount = Object.keys(this.loadedCalendars).length;
+            if (loadedCount > 0) {
+                this.allContributionsLoaded = true;
+                console.log(`Loaded ${loadedCount} years of contribution data`);
+            }
+            
+            // Display current year (data is already cached, so it will show immediately)
+            if (this.loadedCalendars[this.currentYear.toString()]) {
+                this.showCalendarForYear(this.currentYear.toString());
+            } else {
+                // If current year failed, try to load it individually
+                await this.loadCurrentYearData();
+            }
+            
+        } catch (error) {
+            console.error('Failed to load all years data:', error);
+            throw error;
+        }
+    }
+
     async loadYearData(year) {
         try {
-            // Use cache if available in this session
-            if (!this.yearData[year]) {
-                this.yearData[year] = this.generateContributionsWithTarget(year);
+            // Check if we've already loaded this year - show immediately if cached
+            if (this.loadedCalendars[year]) {
+                // Calendar already loaded, just show it (no loading state)
+                this.showCalendarForYear(year);
+                return;
             }
-            const contributions = this.yearData[year];
+
+            // Show loading only if we need to fetch
+            this.contributionGrid.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);">Loading contributions...</div>';
+
+            // Try GitHub GraphQL API first (if token is available)
+            if (this.githubToken) {
+                try {
+                    const contributions = await this.fetchGitHubContributionsGraphQL(year);
+                    if (contributions && contributions.length > 0) {
+                        this.loadedCalendars[year] = contributions;
             this.updateContributions(contributions);
             this.updateStats(contributions);
-        } catch (error) {
-            console.error(`Error loading data for ${year}:`, error);
-            // Fallback: re-generate if something went wrong
+                        return; // Success!
+                    }
+                } catch (apiError) {
+                    console.warn('GitHub GraphQL API failed, trying fallback:', apiError);
+                    // Fall through to other methods
+                }
+            }
+
+            // Try GitHubCalendar library as second option
+            if (typeof GitHubCalendar !== 'undefined') {
+                try {
+                    // Create a temporary container for the calendar
+                    const tempContainer = document.createElement('div');
+                    tempContainer.style.display = 'none';
+                    tempContainer.className = 'github-calendar-temp';
+                    document.body.appendChild(tempContainer);
+
+                    // Set a timeout to avoid hanging
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Calendar load timeout')), 10000)
+                    );
+
+                    const calendarPromise = GitHubCalendar(tempContainer, this.githubUsername, {
+                        responsive: true,
+                        tooltips: true,
+                        global_stats: false,
+                        summary_text: ''
+                    });
+
+                    await Promise.race([calendarPromise, timeoutPromise]);
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                    const calendarSvg = tempContainer.querySelector('.js-calendar-graph-svg') || 
+                                       tempContainer.querySelector('svg');
+                    
+                    if (calendarSvg) {
+                        this.loadedCalendars[year] = tempContainer.innerHTML;
+                        if (tempContainer.parentNode) {
+                            document.body.removeChild(tempContainer);
+                        }
+                        this.showCalendarForYear(year);
+                        this.updateStatsFromCalendar(year);
+                        return; // Success!
+                    } else {
+                        if (tempContainer.parentNode) {
+                            document.body.removeChild(tempContainer);
+                        }
+                        throw new Error('Calendar SVG not found');
+                    }
+                } catch (apiError) {
+                    console.warn('GitHubCalendar library failed, using generated data:', apiError);
+                    // Fall through to fallback
+                }
+            }
+
+            // Fallback: Use deterministic generation
+            console.log(`Using generated data for ${year} (API unavailable or failed)`);
             const contributions = this.generateContributionsWithTarget(year);
-            this.yearData[year] = contributions;
             this.updateContributions(contributions);
             this.updateStats(contributions);
+
+        } catch (error) {
+            console.error(`Error loading GitHub contributions for ${year}:`, error);
+            // Final fallback: generate data
+            try {
+                const contributions = this.generateContributionsWithTarget(year);
+                this.updateContributions(contributions);
+                this.updateStats(contributions);
+            } catch (fallbackError) {
+                console.error('Fallback also failed:', fallbackError);
+                this.showErrorState();
+            }
         }
+    }
+
+    /**
+     * Fetch GitHub contributions using GraphQL API
+     * Requires a GitHub token for authentication
+     */
+    async fetchGitHubContributionsGraphQL(year) {
+        if (!this.githubToken) {
+            throw new Error('GitHub token not configured');
+        }
+
+        const today = new Date();
+        const isCurrentYear = parseInt(year, 10) === today.getFullYear();
+        
+        // Calculate date range - for current year, only up to today
+        const fromDate = `${year}-01-01T00:00:00Z`;
+        const toDate = isCurrentYear
+            ? today.toISOString()
+            : `${year}-12-31T23:59:59Z`;
+
+        const query = `
+            query($userName: String!, $from: DateTime!, $to: DateTime!) {
+                user(login: $userName) {
+                    contributionsCollection(from: $from, to: $to) {
+                        contributionCalendar {
+                            totalContributions
+                            weeks {
+                                contributionDays {
+                                    contributionCount
+                                    date
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        `;
+
+        const variables = {
+            userName: this.githubUsername,
+            from: fromDate,
+            to: toDate
+        };
+
+        const response = await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                'Authorization': `bearer ${this.githubToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query, variables })
+        });
+
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.errors) {
+            throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
+        }
+
+        if (!data.data || !data.data.user || !data.data.user.contributionsCollection) {
+            throw new Error('Invalid response from GitHub API');
+        }
+
+        const contributionCalendar = data.data.user.contributionsCollection.contributionCalendar;
+        
+        // Create a map of date -> contribution count from the API response
+        const contributionMap = new Map();
+        contributionCalendar.weeks.forEach(week => {
+            week.contributionDays.forEach(day => {
+                const date = new Date(day.date);
+                // Only include dates within the year range
+                if (!isCurrentYear || date <= today) {
+                    contributionMap.set(day.date, day.contributionCount);
+                }
+            });
+        });
+
+        // For current year, create entries for ALL days in the year (including future days as empty)
+        // For past years, create entries for ALL days in the year
+        const contributions = [];
+        const startDate = new Date(`${year}-01-01T00:00:00Z`);
+        const endDate = new Date(`${year}-12-31T23:59:59Z`);
+        
+        // Calculate total days in the year (handle leap years)
+        const isLeapYear = (parseInt(year, 10) % 4 === 0 && parseInt(year, 10) % 100 !== 0) || 
+                          (parseInt(year, 10) % 400 === 0);
+        const daysInYear = isLeapYear ? 366 : 365;
+
+        for (let i = 0; i < daysInYear; i++) {
+            const date = new Date(startDate);
+            date.setDate(date.getDate() + i);
+            
+            const dateStr = date.toISOString().split('T')[0];
+            
+            // For future dates in current year, show as empty (no contributions)
+            let count = 0;
+            if (isCurrentYear && date > today) {
+                count = 0; // Future days are empty
+            } else {
+                count = contributionMap.get(dateStr) || 0;
+            }
+            
+            let level = 0;
+            
+            // Adjusted color levels - lower counts show higher colors
+            if (count > 0) {
+                if (count === 1) level = 2;      // 1 contribution -> level 2
+                else if (count <= 3) level = 3;  // 2-3 contributions -> level 3
+                else if (count <= 7) level = 4;  // 4-7 contributions -> level 4
+                else level = 4;                   // 8+ contributions -> level 4
+            }
+            // Future days will have count = 0 and level = 0 (empty/unfilled)
+
+            contributions.push({
+                date: dateStr,
+                count: count,
+                level: level
+            });
+        }
+
+        // Apply inflation only if this year has very low total contributions
+        if (!isCurrentYear && this.inflationEnabled) {
+            const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0);
+            
+            if (totalContributions < this.inflationThreshold && totalContributions > 0) {
+                // Calculate target total (deterministic based on year, but with better variation)
+                // Use a better hash function to ensure different years get different targets
+                const yearNum = parseInt(year, 10);
+                // Use a prime multiplier for better distribution across the range
+                const hash = ((yearNum * 2654435761) >>> 0);
+                const range = this.inflationTargetMax - this.inflationTargetMin + 1;
+                const targetTotal = this.inflationTargetMin + (hash % range);
+                const seed = hash; // Use same hash for seed in distribution logic
+                
+                console.log(`[Inflation] Year ${year}: Target total = ${targetTotal} (range: ${this.inflationTargetMin}-${this.inflationTargetMax}, hash: ${hash})`);
+                
+                // Get current active days (days with contributions > 0)
+                const activeDays = contributions.filter(day => day.count > 0);
+                const totalDays = contributions.length;
+                
+                // Calculate how many days should be active (up to 85% of year)
+                const maxActiveDays = Math.floor(totalDays * this.maxActiveDaysRatio);
+                const targetActiveDays = Math.min(maxActiveDays, Math.max(activeDays.length, Math.floor(totalDays * 0.65)));
+                
+                // Distribute contributions across more days
+                const contributionsPerDay = Math.floor(targetTotal / targetActiveDays);
+                const remainder = targetTotal % targetActiveDays;
+                
+                // First, clear all contributions
+                contributions.forEach(day => {
+                    day.count = 0;
+                    day.level = 0;
+                });
+                
+                // Distribute contributions randomly across the ENTIRE year
+                let contributionCount = 0;
+                let activeDayCount = 0;
+                
+                // Sort all days by date to ensure we work with chronological order
+                const allDaysSorted = [...contributions].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                // Create a deterministic but random-looking RNG based on year
+                const createRng = (seedValue) => {
+                    let s = seedValue;
+                    return () => {
+                        s = (s * 1664525 + 1013904223) >>> 0;
+                        return s / 4294967296;
+                    };
+                };
+                const rng = createRng(seed * 1000 + 12345);
+                
+                // Divide year into 12 months and ensure we get days from each month
+                const daysByMonth = {};
+                allDaysSorted.forEach(day => {
+                    const month = new Date(day.date).getMonth();
+                    if (!daysByMonth[month]) {
+                        daysByMonth[month] = [];
+                    }
+                    daysByMonth[month].push(day);
+                });
+                
+                // Select days randomly from each month to ensure full year coverage
+                const daysToActivate = [];
+                const daysPerMonth = Math.floor(targetActiveDays / 12);
+                const remainderDays = targetActiveDays % 12;
+                
+                // Get days from each month
+                Object.keys(daysByMonth).forEach((month, monthIdx) => {
+                    const monthDays = daysByMonth[month];
+                    const daysToTake = daysPerMonth + (monthIdx < remainderDays ? 1 : 0);
+                    
+                    // Shuffle month days deterministically
+                    const shuffled = [...monthDays].sort((a, b) => {
+                        const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed + parseInt(month)) % 10000;
+                        const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed + parseInt(month)) % 10000;
+                        return hashA - hashB;
+                    });
+                    
+                    // Take random days from this month
+                    for (let i = 0; i < Math.min(daysToTake, shuffled.length) && daysToActivate.length < targetActiveDays; i++) {
+                        const randomIndex = Math.floor(rng() * shuffled.length);
+                        const selectedDay = shuffled[randomIndex];
+                        if (!daysToActivate.includes(selectedDay)) {
+                            daysToActivate.push(selectedDay);
+                        }
+                    }
+                });
+                
+                // Fill remaining slots with random days from anywhere in the year
+                if (daysToActivate.length < targetActiveDays) {
+                    const remainingDays = allDaysSorted.filter(day => !daysToActivate.includes(day));
+                    const needed = targetActiveDays - daysToActivate.length;
+                    
+                    // Shuffle remaining days deterministically
+                    const shuffled = [...remainingDays].sort((a, b) => {
+                        const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed) % 10000;
+                        const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed) % 10000;
+                        return hashA - hashB;
+                    });
+                    
+                    for (let i = 0; i < Math.min(needed, shuffled.length); i++) {
+                        const randomIndex = Math.floor(rng() * shuffled.length);
+                        const selectedDay = shuffled[randomIndex];
+                        if (!daysToActivate.includes(selectedDay)) {
+                            daysToActivate.push(selectedDay);
+                        }
+                    }
+                }
+                
+                // Final shuffle to randomize the order (but still deterministic)
+                daysToActivate.sort((a, b) => {
+                    const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed * 7) % 10000;
+                    const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed * 7) % 10000;
+                    return hashA - hashB;
+                });
+                
+                // Assign contributions
+                daysToActivate.forEach((day, index) => {
+                    if (contributionCount < targetTotal && activeDayCount < targetActiveDays) {
+                        let dayCount = contributionsPerDay;
+                        if (index < remainder) {
+                            dayCount += 1;
+                        }
+                        
+                        // Add some deterministic variation (based on date and year)
+                        const dateHash = day.date.split('-').join('');
+                        const variation = (parseInt(dateHash) + seed) % 3 - 1; // -1, 0, or 1
+                        dayCount = Math.max(this.minContributionsPerDay, dayCount + variation);
+                        
+                        // Ensure we don't exceed target
+                        if (contributionCount + dayCount > targetTotal) {
+                            dayCount = targetTotal - contributionCount;
+                        }
+                        
+                        day.count = dayCount;
+                        contributionCount += dayCount;
+                        activeDayCount++;
+                        
+                        // Calculate level
+                        if (dayCount > 0) {
+                            if (dayCount === 1) day.level = 2;
+                            else if (dayCount <= 3) day.level = 3;
+                            else if (dayCount <= 7) day.level = 4;
+                            else day.level = 4;
+                        }
+                    }
+                });
+                
+                // Verify final total
+                const finalTotal = contributions.reduce((sum, day) => sum + day.count, 0);
+                console.log(`[Inflation] Year ${year}: Final total = ${finalTotal}, Target was = ${targetTotal}`);
+            }
+        }
+
+        return contributions;
+    }
+
+    showCalendarForYear(year) {
+        const cached = this.loadedCalendars[year];
+        if (!cached) return;
+        
+        // Check if it's HTML string (from library) or array (from GraphQL)
+        if (typeof cached === 'string') {
+            // HTML string from github-calendar library
+            this.contributionGrid.innerHTML = cached;
+            
+            // Filter out future dates for current year
+            const today = new Date();
+            const isCurrentYear = parseInt(year, 10) === today.getFullYear();
+            if (isCurrentYear) {
+                const rects = this.contributionGrid.querySelectorAll('rect[data-date]');
+                rects.forEach(rect => {
+                    const dateStr = rect.getAttribute('data-date');
+                    const date = new Date(dateStr + 'T00:00:00Z');
+                    if (date > today) {
+                        rect.style.opacity = '0';
+                        rect.style.pointerEvents = 'none';
+                    }
+                });
+            }
+            
+            // Re-apply tooltips
+            this.addTooltips();
+        } else if (Array.isArray(cached)) {
+            // Array of contribution objects from GraphQL
+            this.updateContributions(cached);
+            this.updateStats(cached);
+        }
+    }
+
+    updateStatsFromCalendar(year) {
+        const rects = this.contributionGrid.querySelectorAll('rect[data-date]');
+        let totalCount = 0;
+        let currentStreak = 0;
+        let maxStreak = 0;
+        const today = new Date();
+        const isCurrentYear = parseInt(year, 10) === today.getFullYear();
+
+        rects.forEach(rect => {
+            const dateStr = rect.getAttribute('data-date');
+            const date = new Date(dateStr + 'T00:00:00Z');
+            
+            // Skip future dates for current year
+            if (isCurrentYear && date > today) {
+                return;
+            }
+            
+            const count = parseInt(rect.getAttribute('data-count') || '0', 10);
+            totalCount += count;
+            
+            if (count > 0) {
+                currentStreak++;
+                maxStreak = Math.max(maxStreak, currentStreak);
+            } else {
+                currentStreak = 0;
+            }
+        });
+
+        // Update stats display
+        this.totalContributions.textContent = `${totalCount} contributions`;
+        this.longestStreak.textContent = `${maxStreak} day streak`;
+    }
+
+    addTooltips() {
+        // The github-calendar library should handle tooltips, but we can enhance them
+        const rects = this.contributionGrid.querySelectorAll('rect[data-date]');
+        rects.forEach(rect => {
+            rect.addEventListener('mouseenter', (e) => {
+                const count = parseInt(e.target.getAttribute('data-count') || '0', 10);
+                const date = e.target.getAttribute('data-date');
+                // Tooltip is handled by the library's CSS
+            });
+        });
     }
 
 
@@ -163,14 +688,13 @@ class GitHubContributions {
         const startDate = new Date(`${year}-01-01T00:00:00`);
         const todayStr = this.getTodayDateStr();
 
-        const endDate = isCurrentYear
-            ? new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
-            : new Date(`${year}-12-31T23:59:59`);
+        // For current year, show all days in the year (including future days as empty)
+        // For past years, show all days in the year
+        const endDate = new Date(`${year}-12-31T23:59:59`);
 
-        // Number of days from start to end (inclusive)
-        const daysInRange = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-
+        // Calculate total days in the year (handle leap years)
         const totalDaysYear = this.isLeapYear(year) ? 366 : 365;
+        const daysInRange = totalDaysYear; // Always show all days in the year
 
         const targetFullYear = this.targetContributions[year] || 0;
 
@@ -204,6 +728,16 @@ class GitHubContributions {
             const date = new Date(startDate);
             date.setDate(date.getDate() + i);
 
+            // For future dates in current year, show as empty (no contributions)
+            if (isCurrentYear && date > today) {
+                contributions.push({
+                    date: date.toISOString().split('T')[0],
+                    count: 0,
+                    level: 0
+                });
+                continue; // Skip to next day
+            }
+
             const dayOfWeek = date.getDay();
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
@@ -235,12 +769,12 @@ class GitHubContributions {
                     dayContributions = targetTotal - contributionCount;
                 }
 
-                // Determine level
+                // Determine level - adjusted to show higher colors for lower counts
                 if (dayContributions > 0) {
-                    if (dayContributions <= 2) level = 1;
-                    else if (dayContributions <= 5) level = 2;
-                    else if (dayContributions <= 10) level = 3;
-                    else level = 4;
+                    if (dayContributions === 1) level = 2;      // 1 contribution -> level 2 (was 1)
+                    else if (dayContributions <= 3) level = 3;  // 2-3 contributions -> level 3 (was 1-2)
+                    else if (dayContributions <= 7) level = 4;  // 4-7 contributions -> level 4 (was 3-5)
+                    else level = 4;                             // 8+ contributions -> level 4 (was 4)
                 }
 
                 contributionCount += dayContributions;
@@ -252,6 +786,160 @@ class GitHubContributions {
                 count: dayContributions,
                 level: level
             });
+        }
+
+        // Apply inflation only if this year has very low total contributions
+        if (!isCurrentYear && this.inflationEnabled) {
+            const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0);
+            
+            if (totalContributions < this.inflationThreshold && totalContributions > 0) {
+                // Calculate target total (deterministic based on year, but with better variation)
+                // Use a better hash function to ensure different years get different targets
+                const yearNum = parseInt(year, 10);
+                // Use a prime multiplier for better distribution across the range
+                const hash = ((yearNum * 2654435761) >>> 0);
+                const range = this.inflationTargetMax - this.inflationTargetMin + 1;
+                const targetTotal = this.inflationTargetMin + (hash % range);
+                const seed = hash; // Use same hash for seed in distribution logic
+                
+                console.log(`[Inflation] Year ${year}: Target total = ${targetTotal} (range: ${this.inflationTargetMin}-${this.inflationTargetMax}, hash: ${hash})`);
+                
+                // Get current active days (days with contributions > 0)
+                const activeDays = contributions.filter(day => day.count > 0);
+                const totalDays = contributions.length;
+                
+                // Calculate how many days should be active (up to 85% of year)
+                const maxActiveDays = Math.floor(totalDays * this.maxActiveDaysRatio);
+                const targetActiveDays = Math.min(maxActiveDays, Math.max(activeDays.length, Math.floor(totalDays * 0.65)));
+                
+                // Distribute contributions across more days
+                const contributionsPerDay = Math.floor(targetTotal / targetActiveDays);
+                const remainder = targetTotal % targetActiveDays;
+                
+                // First, clear all contributions
+                contributions.forEach(day => {
+                    day.count = 0;
+                    day.level = 0;
+                });
+                
+                // Distribute contributions randomly across the ENTIRE year
+                let contributionCount = 0;
+                let activeDayCount = 0;
+                
+                // Sort all days by date to ensure we work with chronological order
+                const allDaysSorted = [...contributions].sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                // Create a deterministic but random-looking RNG based on year
+                const createRng = (seedValue) => {
+                    let s = seedValue;
+                    return () => {
+                        s = (s * 1664525 + 1013904223) >>> 0;
+                        return s / 4294967296;
+                    };
+                };
+                const rng = createRng(seed * 1000 + 12345);
+                
+                // Divide year into 12 months and ensure we get days from each month
+                const daysByMonth = {};
+                allDaysSorted.forEach(day => {
+                    const month = new Date(day.date).getMonth();
+                    if (!daysByMonth[month]) {
+                        daysByMonth[month] = [];
+                    }
+                    daysByMonth[month].push(day);
+                });
+                
+                // Select days randomly from each month to ensure full year coverage
+                const daysToActivate = [];
+                const daysPerMonth = Math.floor(targetActiveDays / 12);
+                const remainderDays = targetActiveDays % 12;
+                
+                // Get days from each month
+                Object.keys(daysByMonth).forEach((month, monthIdx) => {
+                    const monthDays = daysByMonth[month];
+                    const daysToTake = daysPerMonth + (monthIdx < remainderDays ? 1 : 0);
+                    
+                    // Shuffle month days deterministically
+                    const shuffled = [...monthDays].sort((a, b) => {
+                        const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed + parseInt(month)) % 10000;
+                        const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed + parseInt(month)) % 10000;
+                        return hashA - hashB;
+                    });
+                    
+                    // Take random days from this month
+                    for (let i = 0; i < Math.min(daysToTake, shuffled.length) && daysToActivate.length < targetActiveDays; i++) {
+                        const randomIndex = Math.floor(rng() * shuffled.length);
+                        const selectedDay = shuffled[randomIndex];
+                        if (!daysToActivate.includes(selectedDay)) {
+                            daysToActivate.push(selectedDay);
+                        }
+                    }
+                });
+                
+                // Fill remaining slots with random days from anywhere in the year
+                if (daysToActivate.length < targetActiveDays) {
+                    const remainingDays = allDaysSorted.filter(day => !daysToActivate.includes(day));
+                    const needed = targetActiveDays - daysToActivate.length;
+                    
+                    // Shuffle remaining days deterministically
+                    const shuffled = [...remainingDays].sort((a, b) => {
+                        const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed) % 10000;
+                        const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed) % 10000;
+                        return hashA - hashB;
+                    });
+                    
+                    for (let i = 0; i < Math.min(needed, shuffled.length); i++) {
+                        const randomIndex = Math.floor(rng() * shuffled.length);
+                        const selectedDay = shuffled[randomIndex];
+                        if (!daysToActivate.includes(selectedDay)) {
+                            daysToActivate.push(selectedDay);
+                        }
+                    }
+                }
+                
+                // Final shuffle to randomize the order (but still deterministic)
+                daysToActivate.sort((a, b) => {
+                    const hashA = (a.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed * 7) % 10000;
+                    const hashB = (b.date.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) + seed * 7) % 10000;
+                    return hashA - hashB;
+                });
+                
+                // Assign contributions
+                daysToActivate.forEach((day, index) => {
+                    if (contributionCount < targetTotal && activeDayCount < targetActiveDays) {
+                        let dayCount = contributionsPerDay;
+                        if (index < remainder) {
+                            dayCount += 1;
+                        }
+                        
+                        // Add some deterministic variation (based on date and year)
+                        const dateHash = day.date.split('-').join('');
+                        const variation = (parseInt(dateHash) + seed) % 3 - 1; // -1, 0, or 1
+                        dayCount = Math.max(this.minContributionsPerDay, dayCount + variation);
+                        
+                        // Ensure we don't exceed target
+                        if (contributionCount + dayCount > targetTotal) {
+                            dayCount = targetTotal - contributionCount;
+                        }
+                        
+                        day.count = dayCount;
+                        contributionCount += dayCount;
+                        activeDayCount++;
+                        
+                        // Calculate level
+                        if (dayCount > 0) {
+                            if (dayCount === 1) day.level = 2;
+                            else if (dayCount <= 3) day.level = 3;
+                            else if (dayCount <= 7) day.level = 4;
+                            else day.level = 4;
+                        }
+                    }
+                });
+                
+                // Verify final total
+                const finalTotal = contributions.reduce((sum, day) => sum + day.count, 0);
+                console.log(`[Inflation] Year ${year}: Final total = ${finalTotal}, Target was = ${targetTotal}`);
+            }
         }
 
         return contributions;
@@ -275,45 +963,10 @@ class GitHubContributions {
     }
 
     updateContributions(contributions) {
-        const existingDays = this.contributionGrid.querySelectorAll('.contribution-day');
-        
-        // If grid is empty, render it first
-        if (existingDays.length === 0) {
+        // Always re-render completely to ensure no old data remains
+        // This ensures that when switching years, we don't keep old days
+        // and future days in current year are properly shown as empty
             this.renderContributions(contributions);
-            return;
-        }
-        
-        // Update existing elements with smooth transitions
-        contributions.forEach((day, index) => {
-            if (index < existingDays.length) {
-                const dayElement = existingDays[index];
-                
-                // Update data attributes
-                dayElement.setAttribute('data-date', day.date);
-                dayElement.setAttribute('data-count', day.count);
-                
-                // Transition
-                dayElement.classList.add('transitioning');
-                
-                setTimeout(() => {
-                    dayElement.classList.remove('level-0', 'level-1', 'level-2', 'level-3', 'level-4');
-                    dayElement.classList.add(`level-${day.level}`);
-                    
-                    setTimeout(() => {
-                        dayElement.classList.remove('transitioning');
-                    }, 300);
-                }, 50);
-            } else {
-                // If for some reason new days need to be appended
-                const dayElement = document.createElement('div');
-                dayElement.className = `contribution-day level-${day.level}`;
-                dayElement.setAttribute('data-date', day.date);
-                dayElement.setAttribute('data-count', day.count);
-                dayElement.addEventListener('mouseenter', (e) => this.showTooltip(e, day));
-                dayElement.addEventListener('mouseleave', () => this.hideTooltip());
-                this.contributionGrid.appendChild(dayElement);
-            }
-        });
     }
 
     updateStats(contributions) {
