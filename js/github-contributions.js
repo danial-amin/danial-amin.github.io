@@ -1,21 +1,24 @@
 /**
- * GitHub Contributions Static Component
+ * GitHub Contributions Component
  * - Year navigation
- * - Deterministic "realistic" fake data
- * - Current year increases over days but not per refresh
+ * - Fetches real GitHub contributions data
+ * - Shows only up to current day for current year
  */
 
 class GitHubContributions {
     constructor() {
-        this.currentYear = 2025;
-        this.years = ['2025', '2024', '2023', '2022', '2021', '2020'];
+        this.githubUsername = 'danial-amin';
+        const currentYear = new Date().getFullYear();
+        this.currentYear = currentYear;
+        this.years = [currentYear.toString(), '2025', '2024', '2023', '2022', '2021', '2020'];
 
         // Cache so we don't recompute in the same session
         this.yearData = {};
 
-        // Full-year target totals (approximate)
+        // Full-year target totals (approximate) - fallback for past years if API fails
         this.targetContributions = {
-            '2025': 729,  // interpreted as full-year target, scaled by date
+            '2026': 0,  // Will be fetched from API
+            '2025': 729,
             '2024': 686,
             '2023': 450,
             '2022': 980,
@@ -45,9 +48,14 @@ class GitHubContributions {
         this.prevBtn.addEventListener('click', () => this.previousYear());
         this.nextBtn.addEventListener('click', () => this.nextYear());
 
-        // Indicators
-        this.indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => this.goToYear(this.years[index]));
+        // Indicators - re-query to ensure we have all indicators including 2026
+        this.indicators = document.querySelectorAll('.indicator');
+        this.indicators.forEach((indicator) => {
+            // Remove existing listeners and add new ones
+            const year = indicator.dataset.year;
+            if (year && this.years.includes(year)) {
+                indicator.addEventListener('click', () => this.goToYear(year));
+            }
         });
 
         // Keyboard navigation
@@ -105,7 +113,14 @@ class GitHubContributions {
         try {
             // Use cache if available in this session
             if (!this.yearData[year]) {
-                this.yearData[year] = this.generateContributionsWithTarget(year);
+                // Try to fetch real data first, fallback to generated data
+                const realData = await this.fetchGitHubContributions(year);
+                if (realData && realData.length > 0) {
+                    this.yearData[year] = realData;
+                } else {
+                    // Fallback to generated data
+                    this.yearData[year] = this.generateContributionsWithTarget(year);
+                }
             }
             const contributions = this.yearData[year];
             this.updateContributions(contributions);
@@ -119,6 +134,120 @@ class GitHubContributions {
             this.updateStats(contributions);
         }
     }
+
+    /**
+     * Fetch real GitHub contributions from GitHub
+     * Uses GitHub's contribution graph and parses the SVG
+     */
+    async fetchGitHubContributions(year) {
+        try {
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const isCurrentYear = parseInt(year, 10) === currentYear;
+            
+            // Calculate date range - for current year, only up to today
+            const startDate = new Date(`${year}-01-01T00:00:00Z`);
+            const endDate = isCurrentYear 
+                ? new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
+                : new Date(`${year}-12-31T23:59:59Z`);
+            
+            // GitHub contribution graph URL with date range
+            const fromDate = startDate.toISOString().split('T')[0];
+            const toDate = endDate.toISOString().split('T')[0];
+            const url = `https://github.com/users/${this.githubUsername}/contributions?from=${fromDate}&to=${toDate}`;
+            
+            // Use CORS proxy to fetch the data
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+            
+            this.showLoadingState();
+            
+            const response = await fetch(proxyUrl, {
+                headers: {
+                    'Accept': 'text/html'
+                }
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const html = await response.text();
+            
+            // Parse the HTML to extract contribution data from SVG
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Find the contribution graph SVG
+            const svg = doc.querySelector('svg.js-calendar-graph-svg') || 
+                       doc.querySelector('svg[class*="calendar"]') ||
+                       doc.querySelector('svg');
+            
+            if (!svg) {
+                console.warn('Could not find contribution SVG, falling back to generated data');
+                return null;
+            }
+            
+            // Extract data from SVG rects (contribution squares)
+            const rects = svg.querySelectorAll('rect[data-date]');
+            const contributionMap = new Map();
+            
+            rects.forEach(rect => {
+                const dataDate = rect.getAttribute('data-date');
+                const dataCount = parseInt(rect.getAttribute('data-count') || '0', 10);
+                
+                if (dataDate) {
+                    const date = new Date(dataDate + 'T00:00:00Z');
+                    // Only include dates within the year range
+                    if (date >= startDate && date <= endDate) {
+                        // For current year, only show up to today
+                        if (isCurrentYear && date > today) {
+                            return;
+                        }
+                        contributionMap.set(dataDate, dataCount);
+                    }
+                }
+            });
+            
+            // Generate array for all days in the year (up to today for current year)
+            const contributions = [];
+            const daysInRange = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+            
+            for (let i = 0; i < daysInRange; i++) {
+                const date = new Date(startDate);
+                date.setDate(date.getDate() + i);
+                
+                // Skip future dates for current year
+                if (isCurrentYear && date > today) {
+                    break;
+                }
+                
+                const dateStr = date.toISOString().split('T')[0];
+                const count = contributionMap.get(dateStr) || 0;
+                
+                // Determine level based on contribution count
+                let level = 0;
+                if (count > 0) {
+                    if (count <= 2) level = 1;
+                    else if (count <= 5) level = 2;
+                    else if (count <= 10) level = 3;
+                    else level = 4;
+                }
+                
+                contributions.push({
+                    date: dateStr,
+                    count: count,
+                    level: level
+                });
+            }
+            
+            return contributions.length > 0 ? contributions : null;
+            
+        } catch (error) {
+            console.error('Error fetching GitHub contributions:', error);
+            return null;
+        }
+    }
+
 
     /**
      * Deterministic pseudo-random generator based on a seed string
@@ -160,8 +289,8 @@ class GitHubContributions {
         const todayStr = this.getTodayDateStr();
 
         const endDate = isCurrentYear
-            ? new Date(today.getFullYear(), today.getMonth(), today.getDate())
-            : new Date(`${year}-12-31T00:00:00`);
+            ? new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
+            : new Date(`${year}-12-31T23:59:59`);
 
         // Number of days from start to end (inclusive)
         const daysInRange = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
