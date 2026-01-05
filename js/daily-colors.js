@@ -357,42 +357,64 @@ class DailyColorRotation {
 
     /**
      * Get the day of year (1-365/366) for deterministic selection
+     * Always calculates fresh - never caches
      */
     getDayOfYear() {
         const now = new Date();
-        const start = new Date(now.getFullYear(), 0, 0);
-        const diff = now - start;
+        // Use January 1st as the start (day 0), so Jan 1 = day 1
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const diff = now - startOfYear;
         const oneDay = 1000 * 60 * 60 * 24;
-        const dayOfYear = Math.floor(diff / oneDay);
-        console.log('Day of year calculation:', {
-            date: now.toISOString().split('T')[0],
-            dayOfYear: dayOfYear,
-            year: now.getFullYear()
-        });
+        // Add 1 because Jan 1 should be day 1, not day 0
+        const dayOfYear = Math.floor(diff / oneDay) + 1;
+        
+        // Debug only in development (remove in production if needed)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Day of year calculation:', {
+                date: now.toISOString().split('T')[0],
+                dayOfYear: dayOfYear,
+                year: now.getFullYear(),
+                month: now.getMonth() + 1,
+                day: now.getDate()
+            });
+        }
         return dayOfYear;
     }
 
     /**
      * Get the palette index for today (0-14)
      * Uses day of year to ensure same palette for entire day
+     * Always calculates fresh - never caches
      */
     getTodayPaletteIndex() {
+        // Always get fresh day of year (never cache)
         const dayOfYear = this.getDayOfYear();
         // Use the same index for both light and dark to keep them in sync
-        const index = dayOfYear % 15;
-        console.log('Palette index:', index, 'from day of year:', dayOfYear);
+        // Subtract 1 because dayOfYear is 1-365, but we want index 0-14
+        const index = (dayOfYear - 1) % 15;
+        
+        // Debug only in development
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Palette index:', index, 'from day of year:', dayOfYear);
+        }
         return index;
     }
 
     /**
      * Get today's color palette based on current theme
+     * Always calculates fresh - never caches
      */
     getTodayPalette() {
+        // Always recalculate index (never cache)
         const index = this.getTodayPaletteIndex();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         const palettes = isDark ? this.colorPalettesDark : this.colorPalettesLight;
         const palette = palettes[index];
-        console.log('Selected palette:', palette.name, 'Index:', index, 'Theme:', isDark ? 'dark' : 'light');
+        
+        // Debug only in development
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Selected palette:', palette.name, 'Index:', index, 'Theme:', isDark ? 'dark' : 'light');
+        }
         return palette;
     }
 
@@ -401,13 +423,15 @@ class DailyColorRotation {
      * Works with both dark and light themes
      */
     applyDailyColors() {
+        // Always get fresh palette (recalculate day of year each time)
         const palette = this.getTodayPalette();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         // Set variables on body element since that's where [data-theme] selector targets
         const targetElement = document.body;
         
-        console.log('Applying daily colors:', palette.name, 'Theme:', isDark ? 'dark' : 'light');
-        console.log('Target element:', targetElement);
+        const dayOfYear = this.getDayOfYear();
+        const paletteIndex = this.getTodayPaletteIndex();
+        console.log('Applying daily colors:', palette.name, 'Theme:', isDark ? 'dark' : 'light', 'Day:', dayOfYear, 'Index:', paletteIndex);
 
         if (isDark) {
             // Dark theme with pastel accents
