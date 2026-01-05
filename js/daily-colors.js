@@ -363,7 +363,13 @@ class DailyColorRotation {
         const start = new Date(now.getFullYear(), 0, 0);
         const diff = now - start;
         const oneDay = 1000 * 60 * 60 * 24;
-        return Math.floor(diff / oneDay);
+        const dayOfYear = Math.floor(diff / oneDay);
+        console.log('Day of year calculation:', {
+            date: now.toISOString().split('T')[0],
+            dayOfYear: dayOfYear,
+            year: now.getFullYear()
+        });
+        return dayOfYear;
     }
 
     /**
@@ -373,7 +379,9 @@ class DailyColorRotation {
     getTodayPaletteIndex() {
         const dayOfYear = this.getDayOfYear();
         // Use the same index for both light and dark to keep them in sync
-        return dayOfYear % 15;
+        const index = dayOfYear % 15;
+        console.log('Palette index:', index, 'from day of year:', dayOfYear);
+        return index;
     }
 
     /**
@@ -383,7 +391,9 @@ class DailyColorRotation {
         const index = this.getTodayPaletteIndex();
         const isDark = document.body.getAttribute('data-theme') === 'dark';
         const palettes = isDark ? this.colorPalettesDark : this.colorPalettesLight;
-        return palettes[index];
+        const palette = palettes[index];
+        console.log('Selected palette:', palette.name, 'Index:', index, 'Theme:', isDark ? 'dark' : 'light');
+        return palette;
     }
 
     /**
@@ -536,11 +546,14 @@ class DailyColorRotation {
      * Initialize the daily color rotation
      */
     init() {
+        // Always recalculate palette on init (don't cache)
+        console.log('Initializing daily colors - recalculating palette...');
         // Apply colors immediately
         this.applyDailyColors();
 
         // Listen for theme changes to reapply colors
         window.addEventListener('themeChange', () => {
+            console.log('Theme changed, reapplying colors...');
             this.applyDailyColors();
         });
 
@@ -560,13 +573,30 @@ class DailyColorRotation {
         
         const msUntilMidnight = tomorrow - now;
         
+        console.log('Scheduled color update at midnight in', Math.round(msUntilMidnight / 1000 / 60), 'minutes');
+        
         setTimeout(() => {
+            console.log('Midnight reached - updating colors for new day...');
             this.applyDailyColors();
             // Schedule next midnight update (24 hours)
             setInterval(() => {
+                console.log('Daily color update triggered');
                 this.applyDailyColors();
             }, 24 * 60 * 60 * 1000);
         }, msUntilMidnight);
+        
+        // Also check every hour if day has changed (in case user's clock is off or page was open for days)
+        setInterval(() => {
+            const currentDay = this.getDayOfYear();
+            const storedDay = this._lastDayOfYear || currentDay;
+            if (currentDay !== storedDay) {
+                console.log('Day changed detected! Updating colors...', { old: storedDay, new: currentDay });
+                this._lastDayOfYear = currentDay;
+                this.applyDailyColors();
+            }
+        }, 60 * 60 * 1000); // Check every hour
+        
+        this._lastDayOfYear = this.getDayOfYear();
     }
 }
 
@@ -583,6 +613,25 @@ if (typeof window !== 'undefined') {
             instance.applyDailyColors();
             window.dailyColorsInstance = instance;
         }
+    };
+    
+    // Debug function to check current day and palette
+    window.checkDailyColors = function() {
+        if (!window.dailyColorsInstance) {
+            console.log('No dailyColorsInstance found. Creating one...');
+            window.dailyColorsInstance = new DailyColorRotation();
+        }
+        const instance = window.dailyColorsInstance;
+        const dayOfYear = instance.getDayOfYear();
+        const index = instance.getTodayPaletteIndex();
+        const palette = instance.getTodayPalette();
+        console.log('=== Daily Colors Debug ===');
+        console.log('Day of Year:', dayOfYear);
+        console.log('Palette Index:', index);
+        console.log('Palette Name:', palette.name);
+        console.log('Palette Accent:', palette.accent);
+        console.log('Theme:', document.body.getAttribute('data-theme'));
+        return { dayOfYear, index, palette };
     };
 }
 
