@@ -7,17 +7,209 @@ class InteractiveBackground {
         this.topographicalLines = [];
         this.meshes = [];
         this.mouse = { x: 0, y: 0 };
-        this.maxArtifacts = Math.floor(Math.random() * 30) + 22; // More items, now 22-51
-        this.maxNetworks = Math.floor(Math.random() * 4) + 2; // 2-5 networks, also a bit more random
-        this.maxTopographicalLines = Math.floor(Math.random() * 8) + 5; // 5-12 topographical lines
-        this.maxMeshes = Math.floor(Math.random() * 6) + 3; // 3-8 meshes
         this.animationId = null;
+
+        // Get daily animation preset
+        this.dailyPreset = this.getDailyAnimationPreset();
+        
+        // Use preset values instead of random
+        this.maxArtifacts = this.dailyPreset.maxArtifacts;
+        this.maxNetworks = this.dailyPreset.maxNetworks;
+        this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
+        this.maxMeshes = this.dailyPreset.maxMeshes;
+        this.allowedShapes = this.dailyPreset.allowedShapes;
+        this.animationStyle = this.dailyPreset.animationStyle;
 
         // Theme colors are now handled dynamically using --text-primary
 
         this.init();
         this.setupEventListeners();
         this.animate();
+    }
+
+    /**
+     * Get day of year (1-365/366) for deterministic selection
+     */
+    getDayOfYear() {
+        const now = new Date();
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const diff = now - startOfYear;
+        const oneDay = 1000 * 60 * 60 * 24;
+        return Math.floor(diff / oneDay) + 1;
+    }
+
+    /**
+     * Get today's animation preset index (0-14)
+     */
+    getTodayPresetIndex() {
+        const dayOfYear = this.getDayOfYear();
+        return (dayOfYear - 1) % 15;
+    }
+
+    /**
+     * Get daily animation preset based on day of year
+     * Each preset defines which shapes to show, counts, and animation styles
+     */
+    getDailyAnimationPreset() {
+        const index = this.getTodayPresetIndex();
+        const presets = [
+            // Preset 0: Geometric Focus - Circles and squares with networks
+            {
+                name: 'Geometric Focus',
+                maxArtifacts: 28,
+                maxNetworks: 4,
+                maxTopographicalLines: 6,
+                maxMeshes: 4,
+                allowedShapes: ['circle', 'square'],
+                animationStyle: 'smooth'
+            },
+            // Preset 1: Organic Flow - Triangles and hexagons with topographical lines
+            {
+                name: 'Organic Flow',
+                maxArtifacts: 35,
+                maxNetworks: 2,
+                maxTopographicalLines: 10,
+                maxMeshes: 3,
+                allowedShapes: ['triangle', 'hexagon'],
+                animationStyle: 'flowing'
+            },
+            // Preset 2: Minimal Network - Few artifacts, more networks
+            {
+                name: 'Minimal Network',
+                maxArtifacts: 18,
+                maxNetworks: 6,
+                maxTopographicalLines: 4,
+                maxMeshes: 5,
+                allowedShapes: ['circle', 'pentagon'],
+                animationStyle: 'network'
+            },
+            // Preset 3: Complex Mesh - Many meshes and artifacts
+            {
+                name: 'Complex Mesh',
+                maxArtifacts: 32,
+                maxNetworks: 3,
+                maxTopographicalLines: 7,
+                maxMeshes: 8,
+                allowedShapes: ['square', 'hexagon', 'triangle'],
+                animationStyle: 'mesh'
+            },
+            // Preset 4: Topographic Landscape - Heavy on topographical lines
+            {
+                name: 'Topographic Landscape',
+                maxArtifacts: 25,
+                maxNetworks: 2,
+                maxTopographicalLines: 12,
+                maxMeshes: 2,
+                allowedShapes: ['circle', 'triangle'],
+                animationStyle: 'topographic'
+            },
+            // Preset 5: Balanced Mix - All shapes, balanced elements
+            {
+                name: 'Balanced Mix',
+                maxArtifacts: 30,
+                maxNetworks: 4,
+                maxTopographicalLines: 8,
+                maxMeshes: 5,
+                allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'],
+                animationStyle: 'balanced'
+            },
+            // Preset 6: Sparse Elegance - Fewer elements, more space
+            {
+                name: 'Sparse Elegance',
+                maxArtifacts: 20,
+                maxNetworks: 2,
+                maxTopographicalLines: 5,
+                maxMeshes: 3,
+                allowedShapes: ['circle', 'pentagon'],
+                animationStyle: 'elegant'
+            },
+            // Preset 7: Dense Patterns - Many elements, rich patterns
+            {
+                name: 'Dense Patterns',
+                maxArtifacts: 40,
+                maxNetworks: 5,
+                maxTopographicalLines: 9,
+                maxMeshes: 6,
+                allowedShapes: ['square', 'hexagon', 'triangle'],
+                animationStyle: 'dense'
+            },
+            // Preset 8: Circular Harmony - Only circles
+            {
+                name: 'Circular Harmony',
+                maxArtifacts: 35,
+                maxNetworks: 3,
+                maxTopographicalLines: 6,
+                maxMeshes: 4,
+                allowedShapes: ['circle'],
+                animationStyle: 'circular'
+            },
+            // Preset 9: Angular Dynamics - Triangles, squares, pentagons
+            {
+                name: 'Angular Dynamics',
+                maxArtifacts: 32,
+                maxNetworks: 4,
+                maxTopographicalLines: 7,
+                maxMeshes: 5,
+                allowedShapes: ['triangle', 'square', 'pentagon'],
+                animationStyle: 'angular'
+            },
+            // Preset 10: Hexagonal Grid - Hexagons and meshes
+            {
+                name: 'Hexagonal Grid',
+                maxArtifacts: 28,
+                maxNetworks: 3,
+                maxTopographicalLines: 5,
+                maxMeshes: 7,
+                allowedShapes: ['hexagon'],
+                animationStyle: 'grid'
+            },
+            // Preset 11: Network Central - Networks dominate
+            {
+                name: 'Network Central',
+                maxArtifacts: 22,
+                maxNetworks: 7,
+                maxTopographicalLines: 4,
+                maxMeshes: 3,
+                allowedShapes: ['circle', 'square', 'triangle'],
+                animationStyle: 'network'
+            },
+            // Preset 12: Organic Topography - Topographical lines with organic shapes
+            {
+                name: 'Organic Topography',
+                maxArtifacts: 30,
+                maxNetworks: 2,
+                maxTopographicalLines: 11,
+                maxMeshes: 2,
+                allowedShapes: ['circle', 'triangle', 'hexagon'],
+                animationStyle: 'organic'
+            },
+            // Preset 13: Minimalist - Very few elements
+            {
+                name: 'Minimalist',
+                maxArtifacts: 15,
+                maxNetworks: 1,
+                maxTopographicalLines: 3,
+                maxMeshes: 2,
+                allowedShapes: ['circle', 'square'],
+                animationStyle: 'minimal'
+            },
+            // Preset 14: Maximum Complexity - All elements, high counts
+            {
+                name: 'Maximum Complexity',
+                maxArtifacts: 45,
+                maxNetworks: 6,
+                maxTopographicalLines: 10,
+                maxMeshes: 7,
+                allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'],
+                animationStyle: 'complex'
+            }
+        ];
+
+        const preset = presets[index];
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            console.log('Daily animation preset:', preset.name, 'Index:', index, 'Day of year:', this.getDayOfYear());
+        }
+        return preset;
     }
 
     getThemeColors() {
@@ -79,6 +271,14 @@ class InteractiveBackground {
     setupEventListeners() {
         window.addEventListener('resize', () => {
             this.resizeCanvas();
+            // Re-get daily preset on resize (in case day changed)
+            this.dailyPreset = this.getDailyAnimationPreset();
+            this.maxArtifacts = this.dailyPreset.maxArtifacts;
+            this.maxNetworks = this.dailyPreset.maxNetworks;
+            this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
+            this.maxMeshes = this.dailyPreset.maxMeshes;
+            this.allowedShapes = this.dailyPreset.allowedShapes;
+            this.animationStyle = this.dailyPreset.animationStyle;
             this.createArtifacts();
             this.createNetworks();
             this.createTopographicalLines();
@@ -97,20 +297,136 @@ class InteractiveBackground {
             this.createTopographicalLines();
             this.createMeshes();
         });
+
+        // Check for day changes (similar to daily colors)
+        this.checkDayChange();
+    }
+
+    /**
+     * Check if day has changed and update animation preset
+     */
+    checkDayChange() {
+        this._lastDayOfYear = this.getDayOfYear();
+        
+        setInterval(() => {
+            const currentDay = this.getDayOfYear();
+            if (currentDay !== this._lastDayOfYear) {
+                console.log('Day changed! Updating animation preset...', { 
+                    old: this._lastDayOfYear, 
+                    new: currentDay 
+                });
+                this._lastDayOfYear = currentDay;
+                
+                // Update preset
+                this.dailyPreset = this.getDailyAnimationPreset();
+                this.maxArtifacts = this.dailyPreset.maxArtifacts;
+                this.maxNetworks = this.dailyPreset.maxNetworks;
+                this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
+                this.maxMeshes = this.dailyPreset.maxMeshes;
+                this.allowedShapes = this.dailyPreset.allowedShapes;
+                this.animationStyle = this.dailyPreset.animationStyle;
+                
+                // Recreate all elements with new preset
+                this.createArtifacts();
+                this.createNetworks();
+                this.createTopographicalLines();
+                this.createMeshes();
+            }
+        }, 60 * 60 * 1000); // Check every hour
     }
 
     createArtifacts() {
         this.artifacts = [];
-        const shapes = ["circle", "square", "triangle", "pentagon", "hexagon"];
+        // Use allowed shapes from daily preset, fallback to all if not set
+        const shapes = this.allowedShapes || ["circle", "square", "triangle", "pentagon", "hexagon"];
         const minSize = 10, maxSize = 46;
         const width = this.canvas.width, height = this.canvas.height;
 
         for (let i = 0; i < this.maxArtifacts; i++) {
+            // Select from allowed shapes only
             const type = shapes[Math.floor(Math.random() * shapes.length)];
             // Truly random placement across entire background
             const x = Math.random() * width;
             const y = Math.random() * height;
-            // artifact properties with more randomness
+            // Adjust animation properties based on daily preset style
+            let rotationSpeedMultiplier = 1;
+            let speedMultiplier = 1;
+            let wobbleMultiplier = 1;
+            
+            switch(this.animationStyle) {
+                case 'smooth':
+                    rotationSpeedMultiplier = 0.8;
+                    speedMultiplier = 0.7;
+                    wobbleMultiplier = 0.9;
+                    break;
+                case 'flowing':
+                    rotationSpeedMultiplier = 1.2;
+                    speedMultiplier = 1.3;
+                    wobbleMultiplier = 1.2;
+                    break;
+                case 'network':
+                    rotationSpeedMultiplier = 0.6;
+                    speedMultiplier = 0.5;
+                    wobbleMultiplier = 0.7;
+                    break;
+                case 'mesh':
+                    rotationSpeedMultiplier = 1.0;
+                    speedMultiplier = 1.0;
+                    wobbleMultiplier = 1.0;
+                    break;
+                case 'topographic':
+                    rotationSpeedMultiplier = 0.9;
+                    speedMultiplier = 0.8;
+                    wobbleMultiplier = 1.1;
+                    break;
+                case 'balanced':
+                    rotationSpeedMultiplier = 1.0;
+                    speedMultiplier = 1.0;
+                    wobbleMultiplier = 1.0;
+                    break;
+                case 'elegant':
+                    rotationSpeedMultiplier = 0.5;
+                    speedMultiplier = 0.4;
+                    wobbleMultiplier = 0.6;
+                    break;
+                case 'dense':
+                    rotationSpeedMultiplier = 1.3;
+                    speedMultiplier = 1.4;
+                    wobbleMultiplier = 1.3;
+                    break;
+                case 'circular':
+                    rotationSpeedMultiplier = 1.1;
+                    speedMultiplier = 1.0;
+                    wobbleMultiplier = 1.0;
+                    break;
+                case 'angular':
+                    rotationSpeedMultiplier = 1.2;
+                    speedMultiplier = 1.1;
+                    wobbleMultiplier = 1.1;
+                    break;
+                case 'grid':
+                    rotationSpeedMultiplier = 0.7;
+                    speedMultiplier = 0.6;
+                    wobbleMultiplier = 0.8;
+                    break;
+                case 'organic':
+                    rotationSpeedMultiplier = 1.1;
+                    speedMultiplier = 1.2;
+                    wobbleMultiplier = 1.2;
+                    break;
+                case 'minimal':
+                    rotationSpeedMultiplier = 0.4;
+                    speedMultiplier = 0.3;
+                    wobbleMultiplier = 0.5;
+                    break;
+                case 'complex':
+                    rotationSpeedMultiplier = 1.4;
+                    speedMultiplier = 1.5;
+                    wobbleMultiplier = 1.4;
+                    break;
+            }
+            
+            // artifact properties with daily preset adjustments
             this.artifacts.push({
                 x: x,
                 y: y,
@@ -119,10 +435,10 @@ class InteractiveBackground {
                 size: Math.random() * (maxSize - minSize) + minSize,
                 type: type,
                 rotation: Math.random() * Math.PI * 2,
-                rotationSpeed: (Math.random() - 0.5) * 0.022,
+                rotationSpeed: (Math.random() - 0.5) * 0.022 * rotationSpeedMultiplier,
                 opacity: Math.random() * 0.5 + 0.08,
-                wobbleAmount: Math.random() * 54 + 18,
-                speed: Math.random() * 0.6 + 0.06,
+                wobbleAmount: (Math.random() * 54 + 18) * wobbleMultiplier,
+                speed: (Math.random() * 0.6 + 0.06) * speedMultiplier,
                 colorOpacity: Math.random() * 0.7 + 0.2,
                 color: this.randomThemeColor(Math.random() * 0.6 + 0.35)
             });

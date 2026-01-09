@@ -183,6 +183,11 @@ class Portfolio {
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         
+        if (!tabButtons.length || !tabContents.length) {
+            console.warn('Contact tabs not found');
+            return;
+        }
+        
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const targetTab = button.getAttribute('data-tab');
@@ -196,6 +201,25 @@ class Portfolio {
                 const targetContent = document.getElementById(`${targetTab}-tab`);
                 if (targetContent) {
                     targetContent.classList.add('active');
+                    
+                    // Initialize Calendly widget when schedule tab is shown
+                    if (targetTab === 'schedule') {
+                        // Wait for Calendly script to load if needed
+                        const initCalendly = () => {
+                            if (typeof Calendly !== 'undefined') {
+                                const widget = targetContent.querySelector('.calendly-inline-widget');
+                                if (widget) {
+                                    // Calendly auto-initializes inline widgets, but we ensure it's ready
+                                    // The widget should already be initialized by Calendly's script
+                                    // Just ensure it's visible and properly loaded
+                                }
+                            } else {
+                                // Retry after a short delay if Calendly hasn't loaded yet
+                                setTimeout(initCalendly, 200);
+                            }
+                        };
+                        initCalendly();
+                    }
                 }
             });
         });
@@ -395,7 +419,12 @@ class Portfolio {
 
 // Initialize portfolio functionality
 document.addEventListener('DOMContentLoaded', () => {
-    new Portfolio();
+    try {
+        new Portfolio();
+    } catch (error) {
+        console.error('Error initializing Portfolio:', error);
+        // Ensure page still functions even if Portfolio fails
+    }
     
     // Add ripple effect to buttons
     document.querySelectorAll('.btn').forEach(btn => {
