@@ -12,7 +12,8 @@ class InteractiveBackground {
         // Get daily animation preset
         this.dailyPreset = this.getDailyAnimationPreset();
         
-        // Use preset values instead of random
+        // Use preset values - only create objects that are in objectTypes
+        this.objectTypes = this.dailyPreset.objectTypes;
         this.maxArtifacts = this.dailyPreset.maxArtifacts;
         this.maxNetworks = this.dailyPreset.maxNetworks;
         this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
@@ -48,159 +49,174 @@ class InteractiveBackground {
 
     /**
      * Get daily animation preset based on day of year
-     * Each preset defines which shapes to show, counts, and animation styles
+     * Each preset defines which OBJECT TYPES to show (completely different visual elements)
      */
     getDailyAnimationPreset() {
         const index = this.getTodayPresetIndex();
         const presets = [
-            // Preset 0: Geometric Focus - Circles and squares with networks
+            // Preset 0: Geometric Shapes - Traditional shapes (artifacts + networks)
             {
-                name: 'Geometric Focus',
-                maxArtifacts: 28,
+                name: 'Geometric Shapes',
+                objectTypes: ['artifacts', 'networks'],
+                maxArtifacts: 30,
                 maxNetworks: 4,
-                maxTopographicalLines: 6,
-                maxMeshes: 4,
-                allowedShapes: ['circle', 'square'],
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
+                allowedShapes: ['circle', 'square', 'triangle'],
                 animationStyle: 'smooth'
             },
-            // Preset 1: Organic Flow - Triangles and hexagons with topographical lines
+            // Preset 1: Topographical Lines - Only flowing contour lines
             {
-                name: 'Organic Flow',
-                maxArtifacts: 35,
-                maxNetworks: 2,
-                maxTopographicalLines: 10,
-                maxMeshes: 3,
-                allowedShapes: ['triangle', 'hexagon'],
+                name: 'Topographical Lines',
+                objectTypes: ['topographicalLines'],
+                maxArtifacts: 0,
+                maxNetworks: 0,
+                maxTopographicalLines: 12,
+                maxMeshes: 0,
+                allowedShapes: [],
                 animationStyle: 'flowing'
             },
-            // Preset 2: Minimal Network - Few artifacts, more networks
+            // Preset 2: Network Connections - Only network nodes and connections
             {
-                name: 'Minimal Network',
-                maxArtifacts: 18,
-                maxNetworks: 6,
-                maxTopographicalLines: 4,
-                maxMeshes: 5,
-                allowedShapes: ['circle', 'pentagon'],
+                name: 'Network Connections',
+                objectTypes: ['networks'],
+                maxArtifacts: 0,
+                maxNetworks: 8,
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
+                allowedShapes: [],
                 animationStyle: 'network'
             },
-            // Preset 3: Complex Mesh - Many meshes and artifacts
+            // Preset 3: Mesh Grids - Only mesh grids
             {
-                name: 'Complex Mesh',
-                maxArtifacts: 32,
-                maxNetworks: 3,
-                maxTopographicalLines: 7,
+                name: 'Mesh Grids',
+                objectTypes: ['meshes'],
+                maxArtifacts: 0,
+                maxNetworks: 0,
+                maxTopographicalLines: 0,
                 maxMeshes: 8,
-                allowedShapes: ['square', 'hexagon', 'triangle'],
+                allowedShapes: [],
                 animationStyle: 'mesh'
             },
-            // Preset 4: Topographic Landscape - Heavy on topographical lines
+            // Preset 4: Shapes + Topography - Geometric shapes with topographical lines
             {
-                name: 'Topographic Landscape',
+                name: 'Shapes + Topography',
+                objectTypes: ['artifacts', 'topographicalLines'],
                 maxArtifacts: 25,
-                maxNetworks: 2,
-                maxTopographicalLines: 12,
-                maxMeshes: 2,
-                allowedShapes: ['circle', 'triangle'],
-                animationStyle: 'topographic'
-            },
-            // Preset 5: Balanced Mix - All shapes, balanced elements
-            {
-                name: 'Balanced Mix',
-                maxArtifacts: 30,
-                maxNetworks: 4,
+                maxNetworks: 0,
                 maxTopographicalLines: 8,
-                maxMeshes: 5,
-                allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'],
-                animationStyle: 'balanced'
-            },
-            // Preset 6: Sparse Elegance - Fewer elements, more space
-            {
-                name: 'Sparse Elegance',
-                maxArtifacts: 20,
-                maxNetworks: 2,
-                maxTopographicalLines: 5,
-                maxMeshes: 3,
-                allowedShapes: ['circle', 'pentagon'],
-                animationStyle: 'elegant'
-            },
-            // Preset 7: Dense Patterns - Many elements, rich patterns
-            {
-                name: 'Dense Patterns',
-                maxArtifacts: 40,
-                maxNetworks: 5,
-                maxTopographicalLines: 9,
-                maxMeshes: 6,
-                allowedShapes: ['square', 'hexagon', 'triangle'],
-                animationStyle: 'dense'
-            },
-            // Preset 8: Circular Harmony - Only circles
-            {
-                name: 'Circular Harmony',
-                maxArtifacts: 35,
-                maxNetworks: 3,
-                maxTopographicalLines: 6,
-                maxMeshes: 4,
-                allowedShapes: ['circle'],
-                animationStyle: 'circular'
-            },
-            // Preset 9: Angular Dynamics - Triangles, squares, pentagons
-            {
-                name: 'Angular Dynamics',
-                maxArtifacts: 32,
-                maxNetworks: 4,
-                maxTopographicalLines: 7,
-                maxMeshes: 5,
-                allowedShapes: ['triangle', 'square', 'pentagon'],
-                animationStyle: 'angular'
-            },
-            // Preset 10: Hexagonal Grid - Hexagons and meshes
-            {
-                name: 'Hexagonal Grid',
-                maxArtifacts: 28,
-                maxNetworks: 3,
-                maxTopographicalLines: 5,
-                maxMeshes: 7,
-                allowedShapes: ['hexagon'],
-                animationStyle: 'grid'
-            },
-            // Preset 11: Network Central - Networks dominate
-            {
-                name: 'Network Central',
-                maxArtifacts: 22,
-                maxNetworks: 7,
-                maxTopographicalLines: 4,
-                maxMeshes: 3,
-                allowedShapes: ['circle', 'square', 'triangle'],
-                animationStyle: 'network'
-            },
-            // Preset 12: Organic Topography - Topographical lines with organic shapes
-            {
-                name: 'Organic Topography',
-                maxArtifacts: 30,
-                maxNetworks: 2,
-                maxTopographicalLines: 11,
-                maxMeshes: 2,
+                maxMeshes: 0,
                 allowedShapes: ['circle', 'triangle', 'hexagon'],
                 animationStyle: 'organic'
             },
-            // Preset 13: Minimalist - Very few elements
+            // Preset 5: Networks + Meshes - Network connections with mesh grids
             {
-                name: 'Minimalist',
+                name: 'Networks + Meshes',
+                objectTypes: ['networks', 'meshes'],
+                maxArtifacts: 0,
+                maxNetworks: 5,
+                maxTopographicalLines: 0,
+                maxMeshes: 6,
+                allowedShapes: [],
+                animationStyle: 'grid'
+            },
+            // Preset 6: Complex Polygons - Only complex shapes (pentagons, hexagons)
+            {
+                name: 'Complex Polygons',
+                objectTypes: ['artifacts'],
+                maxArtifacts: 35,
+                maxNetworks: 0,
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
+                allowedShapes: ['pentagon', 'hexagon'],
+                animationStyle: 'angular'
+            },
+            // Preset 7: Flowing Topography - Many topographical lines with some shapes
+            {
+                name: 'Flowing Topography',
+                objectTypes: ['topographicalLines', 'artifacts'],
+                maxArtifacts: 20,
+                maxNetworks: 0,
+                maxTopographicalLines: 15,
+                maxMeshes: 0,
+                allowedShapes: ['circle'],
+                animationStyle: 'flowing'
+            },
+            // Preset 8: Dense Networks - Many network connections
+            {
+                name: 'Dense Networks',
+                objectTypes: ['networks', 'artifacts'],
                 maxArtifacts: 15,
-                maxNetworks: 1,
-                maxTopographicalLines: 3,
-                maxMeshes: 2,
+                maxNetworks: 10,
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
                 allowedShapes: ['circle', 'square'],
+                animationStyle: 'network'
+            },
+            // Preset 9: Mesh Patterns - Multiple mesh grids
+            {
+                name: 'Mesh Patterns',
+                objectTypes: ['meshes', 'artifacts'],
+                maxArtifacts: 18,
+                maxNetworks: 0,
+                maxTopographicalLines: 0,
+                maxMeshes: 10,
+                allowedShapes: ['square'],
+                animationStyle: 'mesh'
+            },
+            // Preset 10: Simple Circles - Only circular shapes
+            {
+                name: 'Simple Circles',
+                objectTypes: ['artifacts'],
+                maxArtifacts: 40,
+                maxNetworks: 0,
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
+                allowedShapes: ['circle'],
+                animationStyle: 'circular'
+            },
+            // Preset 11: Angular Shapes - Triangles, squares, pentagons
+            {
+                name: 'Angular Shapes',
+                objectTypes: ['artifacts', 'networks'],
+                maxArtifacts: 32,
+                maxNetworks: 3,
+                maxTopographicalLines: 0,
+                maxMeshes: 0,
+                allowedShapes: ['triangle', 'square', 'pentagon'],
+                animationStyle: 'angular'
+            },
+            // Preset 12: All Elements - Everything combined
+            {
+                name: 'All Elements',
+                objectTypes: ['artifacts', 'networks', 'topographicalLines', 'meshes'],
+                maxArtifacts: 25,
+                maxNetworks: 4,
+                maxTopographicalLines: 6,
+                maxMeshes: 4,
+                allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'],
+                animationStyle: 'balanced'
+            },
+            // Preset 13: Minimal Lines - Just a few topographical lines
+            {
+                name: 'Minimal Lines',
+                objectTypes: ['topographicalLines'],
+                maxArtifacts: 0,
+                maxNetworks: 0,
+                maxTopographicalLines: 5,
+                maxMeshes: 0,
+                allowedShapes: [],
                 animationStyle: 'minimal'
             },
-            // Preset 14: Maximum Complexity - All elements, high counts
+            // Preset 14: Geometric Networks - Shapes with network connections
             {
-                name: 'Maximum Complexity',
-                maxArtifacts: 45,
+                name: 'Geometric Networks',
+                objectTypes: ['artifacts', 'networks', 'meshes'],
+                maxArtifacts: 28,
                 maxNetworks: 6,
-                maxTopographicalLines: 10,
-                maxMeshes: 7,
-                allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'],
+                maxTopographicalLines: 0,
+                maxMeshes: 5,
+                allowedShapes: ['circle', 'hexagon'],
                 animationStyle: 'complex'
             }
         ];
@@ -208,6 +224,7 @@ class InteractiveBackground {
         const preset = presets[index];
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             console.log('Daily animation preset:', preset.name, 'Index:', index, 'Day of year:', this.getDayOfYear());
+            console.log('Object types today:', preset.objectTypes.join(', '));
         }
         return preset;
     }
@@ -257,10 +274,19 @@ class InteractiveBackground {
 
     init() {
         this.resizeCanvas();
-        this.createArtifacts();
-        this.createNetworks();
-        this.createTopographicalLines();
-        this.createMeshes();
+        // Only create objects that are in today's objectTypes
+        if (this.objectTypes.includes('artifacts')) {
+            this.createArtifacts();
+        }
+        if (this.objectTypes.includes('networks')) {
+            this.createNetworks();
+        }
+        if (this.objectTypes.includes('topographicalLines')) {
+            this.createTopographicalLines();
+        }
+        if (this.objectTypes.includes('meshes')) {
+            this.createMeshes();
+        }
     }
 
     resizeCanvas() {
@@ -273,16 +299,33 @@ class InteractiveBackground {
             this.resizeCanvas();
             // Re-get daily preset on resize (in case day changed)
             this.dailyPreset = this.getDailyAnimationPreset();
+            this.objectTypes = this.dailyPreset.objectTypes;
             this.maxArtifacts = this.dailyPreset.maxArtifacts;
             this.maxNetworks = this.dailyPreset.maxNetworks;
             this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
             this.maxMeshes = this.dailyPreset.maxMeshes;
             this.allowedShapes = this.dailyPreset.allowedShapes;
             this.animationStyle = this.dailyPreset.animationStyle;
-            this.createArtifacts();
-            this.createNetworks();
-            this.createTopographicalLines();
-            this.createMeshes();
+            
+            // Clear existing objects
+            this.artifacts = [];
+            this.networks = [];
+            this.topographicalLines = [];
+            this.meshes = [];
+            
+            // Only create objects that are in today's objectTypes
+            if (this.objectTypes.includes('artifacts')) {
+                this.createArtifacts();
+            }
+            if (this.objectTypes.includes('networks')) {
+                this.createNetworks();
+            }
+            if (this.objectTypes.includes('topographicalLines')) {
+                this.createTopographicalLines();
+            }
+            if (this.objectTypes.includes('meshes')) {
+                this.createMeshes();
+            }
         });
 
         window.addEventListener('mousemove', (e) => {
@@ -292,10 +335,18 @@ class InteractiveBackground {
 
         // Listen for theme changes and recreate objects with new colors
         window.addEventListener('themeChange', () => {
-            this.createArtifacts();
-            this.createNetworks();
-            this.createTopographicalLines();
-            this.createMeshes();
+            if (this.objectTypes.includes('artifacts')) {
+                this.createArtifacts();
+            }
+            if (this.objectTypes.includes('networks')) {
+                this.createNetworks();
+            }
+            if (this.objectTypes.includes('topographicalLines')) {
+                this.createTopographicalLines();
+            }
+            if (this.objectTypes.includes('meshes')) {
+                this.createMeshes();
+            }
         });
 
         // Check for day changes (similar to daily colors)
@@ -319,6 +370,7 @@ class InteractiveBackground {
                 
                 // Update preset
                 this.dailyPreset = this.getDailyAnimationPreset();
+                this.objectTypes = this.dailyPreset.objectTypes;
                 this.maxArtifacts = this.dailyPreset.maxArtifacts;
                 this.maxNetworks = this.dailyPreset.maxNetworks;
                 this.maxTopographicalLines = this.dailyPreset.maxTopographicalLines;
@@ -326,11 +378,25 @@ class InteractiveBackground {
                 this.allowedShapes = this.dailyPreset.allowedShapes;
                 this.animationStyle = this.dailyPreset.animationStyle;
                 
-                // Recreate all elements with new preset
-                this.createArtifacts();
-                this.createNetworks();
-                this.createTopographicalLines();
-                this.createMeshes();
+                // Clear existing objects
+                this.artifacts = [];
+                this.networks = [];
+                this.topographicalLines = [];
+                this.meshes = [];
+                
+                // Only create objects that are in today's objectTypes
+                if (this.objectTypes.includes('artifacts')) {
+                    this.createArtifacts();
+                }
+                if (this.objectTypes.includes('networks')) {
+                    this.createNetworks();
+                }
+                if (this.objectTypes.includes('topographicalLines')) {
+                    this.createTopographicalLines();
+                }
+                if (this.objectTypes.includes('meshes')) {
+                    this.createMeshes();
+                }
             }
         }, 60 * 60 * 1000); // Check every hour
     }
@@ -907,16 +973,34 @@ class InteractiveBackground {
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.updateArtifacts();
-        this.updateNetworks();
-        this.updateTopographicalLines();
-        this.updateMeshes();
+        // Only update and draw objects that exist today
+        if (this.objectTypes.includes('artifacts')) {
+            this.updateArtifacts();
+        }
+        if (this.objectTypes.includes('networks')) {
+            this.updateNetworks();
+        }
+        if (this.objectTypes.includes('topographicalLines')) {
+            this.updateTopographicalLines();
+        }
+        if (this.objectTypes.includes('meshes')) {
+            this.updateMeshes();
+        }
 
-        this.drawTopographicalLines();
-        this.drawMeshes();
-        this.drawConnections();
-        this.drawArtifacts();
-        this.drawNetworks();
+        // Draw in specific order for layering
+        if (this.objectTypes.includes('topographicalLines')) {
+            this.drawTopographicalLines();
+        }
+        if (this.objectTypes.includes('meshes')) {
+            this.drawMeshes();
+        }
+        if (this.objectTypes.includes('artifacts')) {
+            this.drawConnections();
+            this.drawArtifacts();
+        }
+        if (this.objectTypes.includes('networks')) {
+            this.drawNetworks();
+        }
 
         // Continue animation
         this.animationId = requestAnimationFrame(() => this.animate());
@@ -964,11 +1048,12 @@ if (typeof window !== 'undefined') {
         console.log('🔢 Preset Index:', presetIndex, '(0-14)');
         console.log('🎨 Preset Name:', preset.name);
         console.log('📊 Configuration:');
+        console.log('  - Object Types:', preset.objectTypes.join(', '));
         console.log('  - Max Artifacts:', preset.maxArtifacts);
         console.log('  - Max Networks:', preset.maxNetworks);
         console.log('  - Max Topographical Lines:', preset.maxTopographicalLines);
         console.log('  - Max Meshes:', preset.maxMeshes);
-        console.log('  - Allowed Shapes:', preset.allowedShapes.join(', '));
+        console.log('  - Allowed Shapes:', preset.allowedShapes.length > 0 ? preset.allowedShapes.join(', ') : 'N/A (no artifacts)');
         console.log('  - Animation Style:', preset.animationStyle);
         console.log('📈 Current Counts:');
         console.log('  - Artifacts:', bg.artifacts.length);
@@ -1045,27 +1130,29 @@ if (typeof window !== 'undefined') {
      */
     window.listPresets = function() {
         const presets = [
-            '0: Geometric Focus - Circles and squares with networks',
-            '1: Organic Flow - Triangles and hexagons with topographical lines',
-            '2: Minimal Network - Few artifacts, more networks',
-            '3: Complex Mesh - Many meshes and artifacts',
-            '4: Topographic Landscape - Heavy on topographical lines',
-            '5: Balanced Mix - All shapes, balanced elements',
-            '6: Sparse Elegance - Fewer elements, more space',
-            '7: Dense Patterns - Many elements, rich patterns',
-            '8: Circular Harmony - Only circles',
-            '9: Angular Dynamics - Triangles, squares, pentagons',
-            '10: Hexagonal Grid - Hexagons and meshes',
-            '11: Network Central - Networks dominate',
-            '12: Organic Topography - Topographical lines with organic shapes',
-            '13: Minimalist - Very few elements',
-            '14: Maximum Complexity - All elements, high counts'
+            '0: Geometric Shapes - Traditional shapes (artifacts + networks)',
+            '1: Topographical Lines - Only flowing contour lines',
+            '2: Network Connections - Only network nodes and connections',
+            '3: Mesh Grids - Only mesh grids',
+            '4: Shapes + Topography - Geometric shapes with topographical lines',
+            '5: Networks + Meshes - Network connections with mesh grids',
+            '6: Complex Polygons - Only complex shapes (pentagons, hexagons)',
+            '7: Flowing Topography - Many topographical lines with some shapes',
+            '8: Dense Networks - Many network connections',
+            '9: Mesh Patterns - Multiple mesh grids',
+            '10: Simple Circles - Only circular shapes',
+            '11: Angular Shapes - Triangles, squares, pentagons',
+            '12: All Elements - Everything combined',
+            '13: Minimal Lines - Just a few topographical lines',
+            '14: Geometric Networks - Shapes with network connections'
         ];
         
         console.log('=== Available Animation Presets ===');
+        console.log('Each preset shows DIFFERENT TYPES of objects each day!');
         presets.forEach(preset => console.log(preset));
         console.log('\n💡 Use testPreset(index) to test a specific preset.');
-        console.log('   Example: testPreset(13) - tests Minimalist preset');
+        console.log('   Example: testPreset(1) - shows only topographical lines');
+        console.log('   Example: testPreset(2) - shows only network connections');
     };
 
     /**
