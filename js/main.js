@@ -156,17 +156,54 @@ class Portfolio {
     }
     
     setupFormHandling() {
-        const form = document.querySelector('.form');
+        // Initialize EmailJS
+        // To set up EmailJS:
+        // 1. Sign up at https://www.emailjs.com/
+        // 2. Create an email service (Gmail, Outlook, etc.)
+        // 3. Create an email template
+        // 4. Get your Public Key, Service ID, and Template ID
+        // 5. Replace the placeholders below with your actual values
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init('DIh2VNKuBFAmL3ZDB'); // Replace with your EmailJS public key from dashboard
+        }
+        
+        const form = document.getElementById('contact-form');
         if (form) {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 this.handleFormSubmission(form);
             });
         }
+        
+        // Setup tab switching
+        this.setupContactTabs();
+    }
+    
+    setupContactTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                const targetContent = document.getElementById(`${targetTab}-tab`);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
     }
     
     handleFormSubmission(form) {
         const submitBtn = form.querySelector('button[type="submit"]');
+        const messageDiv = document.getElementById('form-message');
         const originalText = submitBtn.innerHTML;
         
         // Show loading state
@@ -175,26 +212,99 @@ class Portfolio {
             <div class="loading-spinner">⟳</div>
         `;
         submitBtn.disabled = true;
+        if (messageDiv) {
+            messageDiv.textContent = '';
+            messageDiv.className = 'form-message';
+        }
         
-        // Simulate form submission (replace with actual form handling)
+        // Get form data
+        const formData = {
+            name: form.querySelector('#name').value,
+            email: form.querySelector('#email').value,
+            subject: form.querySelector('#subject').value,
+            message: form.querySelector('#message').value
+        };
+        
+        // Try to send via EmailJS if available
+        if (typeof emailjs !== 'undefined') {
+            // Replace these with your EmailJS service ID and template ID from your dashboard
+            const serviceId = 'service_p29x5hq'; // e.g., 'service_xxxxx'
+            const templateId = 'template_htom6ke'; // e.g., 'template_xxxxx'
+            
+            emailjs.send(serviceId, templateId, {
+                from_name: formData.name,
+                from_email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+                to_email: 'writetodanialamin@gmail.com'
+            })
+            .then(() => {
+                this.showFormSuccess(submitBtn, form, originalText, messageDiv);
+            })
+            .catch((error) => {
+                console.error('EmailJS error:', error);
+                // Fallback to mailto if EmailJS fails
+                this.fallbackToMailto(formData, submitBtn, originalText, messageDiv);
+            });
+        } else {
+            // Fallback to mailto if EmailJS is not configured
+            this.fallbackToMailto(formData, submitBtn, originalText, messageDiv);
+        }
+    }
+    
+    showFormSuccess(submitBtn, form, originalText, messageDiv) {
+        submitBtn.innerHTML = `
+            <span>Message Sent!</span>
+            <span>✓</span>
+        `;
+        submitBtn.classList.add('success');
+        
+        if (messageDiv) {
+            messageDiv.textContent = 'Thank you! Your message has been sent successfully.';
+            messageDiv.className = 'form-message success';
+        }
+        
+        // Reset form
+        form.reset();
+        
+        // Reset button after delay
         setTimeout(() => {
-            // Show success state
-            submitBtn.innerHTML = `
-                <span>Message Sent!</span>
-                <span>✓</span>
-            `;
-            submitBtn.classList.add('success');
-            
-            // Reset form
-            form.reset();
-            
-            // Reset button after delay
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('success');
-            }, 3000);
-        }, 2000);
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('success');
+            if (messageDiv) {
+                messageDiv.textContent = '';
+                messageDiv.className = 'form-message';
+            }
+        }, 5000);
+    }
+    
+    fallbackToMailto(formData, submitBtn, originalText, messageDiv) {
+        // Create mailto link as fallback
+        const subject = encodeURIComponent(formData.subject);
+        const body = encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+        );
+        const mailtoLink = `mailto:writetodanialamin@gmail.com?subject=${subject}&body=${body}`;
+        
+        // Open mailto link
+        window.location.href = mailtoLink;
+        
+        // Show info message
+        if (messageDiv) {
+            messageDiv.textContent = 'Opening your email client... If it doesn\'t open, please email writetodanialamin@gmail.com directly.';
+            messageDiv.className = 'form-message info';
+        }
+        
+        // Reset button
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            if (messageDiv) {
+                messageDiv.textContent = '';
+                messageDiv.className = 'form-message';
+            }
+        }, 3000);
     }
     
     addScrollEffects() {

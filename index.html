@@ -1096,31 +1096,50 @@
                     </div>
                 </div>
             </div>
-            <div class="contact-form">
-                <form class="form">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+            <div class="contact-form-container">
+                <div class="contact-tabs">
+                    <button class="tab-btn active" data-tab="message">Send Message</button>
+                    <button class="tab-btn" data-tab="schedule">Schedule a Call</button>
+                </div>
+                
+                <div class="tab-content active" id="message-tab">
+                    <form class="form" id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Send Message</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/>
+                            </svg>
+                        </button>
+                        <div id="form-message" class="form-message"></div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="schedule-tab">
+                    <div class="calendly-container">
+                        <p class="calendly-description">Book a time that works for you. I'll send you a calendar invite and we can discuss your project.</p>
+                        <!-- Calendly inline widget begin -->
+                        <!-- TODO: Replace 'danialamin' with your actual Calendly username -->
+                        <div class="calendly-inline-widget" data-url="https://calendly.com/writetodanialamin" style="min-width:320px;height:700px;"></div>
+                        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                        <!-- Calendly inline widget end -->
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" name="subject" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <span>Send Message</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/>
-                        </svg>
-                    </button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -1151,6 +1170,8 @@
 <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css">
 <script src="js/github-contributions.js"></script>
 <script src="js/testimonials.js"></script>
+<!-- EmailJS for contact form -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
