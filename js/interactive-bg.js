@@ -932,6 +932,223 @@ class InteractiveBackground {
 }
 
 // Initialize when DOM is loaded
+let interactiveBgInstance = null;
+
 document.addEventListener('DOMContentLoaded', () => {
-    new InteractiveBackground();
+    interactiveBgInstance = new InteractiveBackground();
+    
+    // Expose instance globally for console testing
+    if (typeof window !== 'undefined') {
+        window.interactiveBg = interactiveBgInstance;
+    }
 });
+
+// Console testing utilities
+if (typeof window !== 'undefined') {
+    /**
+     * Console command: Check current animation preset
+     * Usage: checkAnimationPreset()
+     */
+    window.checkAnimationPreset = function() {
+        if (!window.interactiveBg) {
+            console.log('❌ InteractiveBackground not initialized yet. Wait for page to load.');
+            return null;
+        }
+        const bg = window.interactiveBg;
+        const dayOfYear = bg.getDayOfYear();
+        const presetIndex = bg.getTodayPresetIndex();
+        const preset = bg.dailyPreset;
+        
+        console.log('=== Daily Animation Preset Info ===');
+        console.log('📅 Day of Year:', dayOfYear);
+        console.log('🔢 Preset Index:', presetIndex, '(0-14)');
+        console.log('🎨 Preset Name:', preset.name);
+        console.log('📊 Configuration:');
+        console.log('  - Max Artifacts:', preset.maxArtifacts);
+        console.log('  - Max Networks:', preset.maxNetworks);
+        console.log('  - Max Topographical Lines:', preset.maxTopographicalLines);
+        console.log('  - Max Meshes:', preset.maxMeshes);
+        console.log('  - Allowed Shapes:', preset.allowedShapes.join(', '));
+        console.log('  - Animation Style:', preset.animationStyle);
+        console.log('📈 Current Counts:');
+        console.log('  - Artifacts:', bg.artifacts.length);
+        console.log('  - Networks:', bg.networks.length);
+        console.log('  - Topographical Lines:', bg.topographicalLines.length);
+        console.log('  - Meshes:', bg.meshes.length);
+        
+        return { dayOfYear, presetIndex, preset, counts: {
+            artifacts: bg.artifacts.length,
+            networks: bg.networks.length,
+            topographicalLines: bg.topographicalLines.length,
+            meshes: bg.meshes.length
+        }};
+    };
+
+    /**
+     * Console command: Test a specific preset by index
+     * Usage: testPreset(5) - tests preset index 5
+     */
+    window.testPreset = function(index) {
+        if (!window.interactiveBg) {
+            console.log('❌ InteractiveBackground not initialized yet.');
+            return;
+        }
+        if (index < 0 || index > 14) {
+            console.log('❌ Invalid preset index. Must be between 0 and 14.');
+            return;
+        }
+        
+        const bg = window.interactiveBg;
+        const presets = [
+            { name: 'Geometric Focus', maxArtifacts: 28, maxNetworks: 4, maxTopographicalLines: 6, maxMeshes: 4, allowedShapes: ['circle', 'square'], animationStyle: 'smooth' },
+            { name: 'Organic Flow', maxArtifacts: 35, maxNetworks: 2, maxTopographicalLines: 10, maxMeshes: 3, allowedShapes: ['triangle', 'hexagon'], animationStyle: 'flowing' },
+            { name: 'Minimal Network', maxArtifacts: 18, maxNetworks: 6, maxTopographicalLines: 4, maxMeshes: 5, allowedShapes: ['circle', 'pentagon'], animationStyle: 'network' },
+            { name: 'Complex Mesh', maxArtifacts: 32, maxNetworks: 3, maxTopographicalLines: 7, maxMeshes: 8, allowedShapes: ['square', 'hexagon', 'triangle'], animationStyle: 'mesh' },
+            { name: 'Topographic Landscape', maxArtifacts: 25, maxNetworks: 2, maxTopographicalLines: 12, maxMeshes: 2, allowedShapes: ['circle', 'triangle'], animationStyle: 'topographic' },
+            { name: 'Balanced Mix', maxArtifacts: 30, maxNetworks: 4, maxTopographicalLines: 8, maxMeshes: 5, allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'], animationStyle: 'balanced' },
+            { name: 'Sparse Elegance', maxArtifacts: 20, maxNetworks: 2, maxTopographicalLines: 5, maxMeshes: 3, allowedShapes: ['circle', 'pentagon'], animationStyle: 'elegant' },
+            { name: 'Dense Patterns', maxArtifacts: 40, maxNetworks: 5, maxTopographicalLines: 9, maxMeshes: 6, allowedShapes: ['square', 'hexagon', 'triangle'], animationStyle: 'dense' },
+            { name: 'Circular Harmony', maxArtifacts: 35, maxNetworks: 3, maxTopographicalLines: 6, maxMeshes: 4, allowedShapes: ['circle'], animationStyle: 'circular' },
+            { name: 'Angular Dynamics', maxArtifacts: 32, maxNetworks: 4, maxTopographicalLines: 7, maxMeshes: 5, allowedShapes: ['triangle', 'square', 'pentagon'], animationStyle: 'angular' },
+            { name: 'Hexagonal Grid', maxArtifacts: 28, maxNetworks: 3, maxTopographicalLines: 5, maxMeshes: 7, allowedShapes: ['hexagon'], animationStyle: 'grid' },
+            { name: 'Network Central', maxArtifacts: 22, maxNetworks: 7, maxTopographicalLines: 4, maxMeshes: 3, allowedShapes: ['circle', 'square', 'triangle'], animationStyle: 'network' },
+            { name: 'Organic Topography', maxArtifacts: 30, maxNetworks: 2, maxTopographicalLines: 11, maxMeshes: 2, allowedShapes: ['circle', 'triangle', 'hexagon'], animationStyle: 'organic' },
+            { name: 'Minimalist', maxArtifacts: 15, maxNetworks: 1, maxTopographicalLines: 3, maxMeshes: 2, allowedShapes: ['circle', 'square'], animationStyle: 'minimal' },
+            { name: 'Maximum Complexity', maxArtifacts: 45, maxNetworks: 6, maxTopographicalLines: 10, maxMeshes: 7, allowedShapes: ['circle', 'square', 'triangle', 'pentagon', 'hexagon'], animationStyle: 'complex' }
+        ];
+        
+        const preset = presets[index];
+        console.log(`🔄 Testing Preset ${index}: ${preset.name}`);
+        
+        // Temporarily override the preset
+        bg.dailyPreset = preset;
+        bg.maxArtifacts = preset.maxArtifacts;
+        bg.maxNetworks = preset.maxNetworks;
+        bg.maxTopographicalLines = preset.maxTopographicalLines;
+        bg.maxMeshes = preset.maxMeshes;
+        bg.allowedShapes = preset.allowedShapes;
+        bg.animationStyle = preset.animationStyle;
+        
+        // Recreate all elements
+        bg.createArtifacts();
+        bg.createNetworks();
+        bg.createTopographicalLines();
+        bg.createMeshes();
+        
+        console.log('✅ Preset applied! Check the background animation.');
+        console.log('💡 Use checkAnimationPreset() to see current state.');
+    };
+
+    /**
+     * Console command: List all available presets
+     * Usage: listPresets()
+     */
+    window.listPresets = function() {
+        const presets = [
+            '0: Geometric Focus - Circles and squares with networks',
+            '1: Organic Flow - Triangles and hexagons with topographical lines',
+            '2: Minimal Network - Few artifacts, more networks',
+            '3: Complex Mesh - Many meshes and artifacts',
+            '4: Topographic Landscape - Heavy on topographical lines',
+            '5: Balanced Mix - All shapes, balanced elements',
+            '6: Sparse Elegance - Fewer elements, more space',
+            '7: Dense Patterns - Many elements, rich patterns',
+            '8: Circular Harmony - Only circles',
+            '9: Angular Dynamics - Triangles, squares, pentagons',
+            '10: Hexagonal Grid - Hexagons and meshes',
+            '11: Network Central - Networks dominate',
+            '12: Organic Topography - Topographical lines with organic shapes',
+            '13: Minimalist - Very few elements',
+            '14: Maximum Complexity - All elements, high counts'
+        ];
+        
+        console.log('=== Available Animation Presets ===');
+        presets.forEach(preset => console.log(preset));
+        console.log('\n💡 Use testPreset(index) to test a specific preset.');
+        console.log('   Example: testPreset(13) - tests Minimalist preset');
+    };
+
+    /**
+     * Console command: Simulate day change (for testing)
+     * Usage: simulateDayChange(offset) - offset is days to add/subtract
+     */
+    window.simulateDayChange = function(offset = 1) {
+        if (!window.interactiveBg) {
+            console.log('❌ InteractiveBackground not initialized yet.');
+            return;
+        }
+        
+        const bg = window.interactiveBg;
+        const originalDay = bg.getDayOfYear();
+        
+        // Temporarily override getDayOfYear to simulate different day
+        const originalGetDayOfYear = bg.getDayOfYear.bind(bg);
+        bg.getDayOfYear = function() {
+            const now = new Date();
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+            const diff = now - startOfYear;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay) + 1;
+            return dayOfYear + offset;
+        };
+        
+        // Get new preset
+        bg.dailyPreset = bg.getDailyAnimationPreset();
+        bg.maxArtifacts = bg.dailyPreset.maxArtifacts;
+        bg.maxNetworks = bg.dailyPreset.maxNetworks;
+        bg.maxTopographicalLines = bg.dailyPreset.maxTopographicalLines;
+        bg.maxMeshes = bg.dailyPreset.maxMeshes;
+        bg.allowedShapes = bg.dailyPreset.allowedShapes;
+        bg.animationStyle = bg.dailyPreset.animationStyle;
+        
+        // Recreate all elements
+        bg.createArtifacts();
+        bg.createNetworks();
+        bg.createTopographicalLines();
+        bg.createMeshes();
+        
+        const newDay = bg.getDayOfYear();
+        console.log(`🔄 Simulated day change: ${originalDay} → ${newDay} (offset: ${offset})`);
+        console.log(`🎨 New preset: ${bg.dailyPreset.name}`);
+        
+        // Restore original function
+        bg.getDayOfYear = originalGetDayOfYear;
+        
+        console.log('✅ Day change simulated! Check the background animation.');
+    };
+
+    /**
+     * Console command: Reset to today's actual preset
+     * Usage: resetToToday()
+     */
+    window.resetToToday = function() {
+        if (!window.interactiveBg) {
+            console.log('❌ InteractiveBackground not initialized yet.');
+            return;
+        }
+        
+        const bg = window.interactiveBg;
+        
+        // Restore original getDayOfYear if it was overridden
+        if (bg._originalGetDayOfYear) {
+            bg.getDayOfYear = bg._originalGetDayOfYear;
+        }
+        
+        // Get today's preset
+        bg.dailyPreset = bg.getDailyAnimationPreset();
+        bg.maxArtifacts = bg.dailyPreset.maxArtifacts;
+        bg.maxNetworks = bg.dailyPreset.maxNetworks;
+        bg.maxTopographicalLines = bg.dailyPreset.maxTopographicalLines;
+        bg.maxMeshes = bg.dailyPreset.maxMeshes;
+        bg.allowedShapes = bg.dailyPreset.allowedShapes;
+        bg.animationStyle = bg.dailyPreset.animationStyle;
+        
+        // Recreate all elements
+        bg.createArtifacts();
+        bg.createNetworks();
+        bg.createTopographicalLines();
+        bg.createMeshes();
+        
+        console.log('✅ Reset to today\'s preset:', bg.dailyPreset.name);
+    };
+}
