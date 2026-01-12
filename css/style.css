@@ -2010,47 +2010,96 @@ body {
         padding: 1rem;
     }
     
-    /* Experience Timeline Mobile */
+    /* Experience Timeline Mobile - Vertical Layout */
+    .experience {
+        padding: 80px 0;
+    }
+    
     .experience .section-header {
         padding: 0 1rem;
     }
     
     .timeline-container {
-        margin-left: calc(-50vw + 50%);
-        width: 100vw;
+        margin-left: 0;
+        width: 100%;
         border-radius: 0;
+        padding: 2rem 1rem;
+        background: transparent;
     }
     
     .timeline-track {
-        height: 280px; /* Reduced height for mobile */
+        height: auto;
         padding-top: 0;
+        position: relative;
     }
     
+    /* Hide horizontal line on mobile */
     .timeline-line {
-        top: 20px; /* Moved up significantly */
-        transform: none; /* Remove transform to position at top */
+        display: none;
+    }
+    
+    /* Vertical line for mobile */
+    .timeline-track::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 20px;
+        width: 3px;
+        background: linear-gradient(180deg, var(--accent-color, #3b82f6), var(--secondary-accent, #8b5cf6));
+        z-index: 1;
+    }
+    
+    /* Stop animation on mobile */
+    .timeline-items {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        animation: none;
+        width: 100%;
+        align-items: stretch;
     }
     
     .timeline-item {
-        width: 280px;
+        width: 100%;
+        flex-direction: row;
+        align-items: flex-start;
+        padding-top: 0;
+        padding-left: 3rem;
+        position: relative;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: 11px;
+        top: 0;
+        margin-bottom: 0;
+        z-index: 2;
     }
     
     .timeline-card {
         padding: 1.5rem;
-        max-width: 260px;
-        min-height: 350px; /* Reduced height for mobile */
+        max-width: 100%;
+        min-height: auto;
+        width: 100%;
+        margin-left: 0;
     }
     
     .timeline-role {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     
     .timeline-company {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
     
     .timeline-description {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Hide duplicate items on mobile (items 7-9 are duplicates for seamless scroll) */
+    .timeline-item:nth-child(n+7) {
+        display: none;
     }
     
     /* Page Headers Mobile */
@@ -2077,10 +2126,10 @@ body {
     }
     
     .timeline-container {
-        margin-left: calc(-50vw + 50%);
-        width: 100vw;
+        margin-left: 0;
+        width: 100%;
         border-radius: 0;
-        padding: 1rem 0;
+        padding: 1.5rem 0.75rem;
     }
     
     /* Page Headers Small Mobile */
@@ -2119,36 +2168,39 @@ body {
     }
     
     /* Experience Timeline Small Mobile */
-    .timeline-track {
-        height: 300px;
-        padding-top: 0;
-    }
-    
-    .timeline-line {
-        top: 50%;
-        transform: translateY(-50%);
+    .timeline-container {
+        padding: 1.5rem 0.75rem;
     }
     
     .timeline-item {
-        width: 250px;
+        padding-left: 2.5rem;
+    }
+    
+    .timeline-dot {
+        left: 8px;
+        width: 16px;
+        height: 16px;
+    }
+    
+    .timeline-track::before {
+        left: 15px;
+        width: 2px;
     }
     
     .timeline-card {
         padding: 1.25rem;
-        max-width: 220px;
-        height: 250px;
     }
     
     .timeline-role {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
     
     .timeline-company {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
     }
     
     .timeline-description {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
 }
 
