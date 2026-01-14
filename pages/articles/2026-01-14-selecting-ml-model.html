@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing the Right Machine Learning Model: Principles Over Processes</title>
+    <meta name="description" content="Model selection isn't about following a flowchart. It's about understanding tradeoffs, constraints, and what actually matters for your specific problem. Here's what the textbooks won't tell you about picking the right ML model.">
+    <meta name="keywords" content="machine learning, model selection, production ML, engineering judgment, practical ML">
+    <meta name="author" content="Danial Amin">
+
+    <meta property="og:title" content="Choosing the Right Machine Learning Model: Principles Over Processes">
+    <meta property="og:description" content="Model selection isn't about following a flowchart. It's about understanding tradeoffs, constraints, and what actually matters for your specific problem. Here's what the textbooks won't tell you about picking the right ML model.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-01-14-selecting-ml-model.html">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Choosing the Right Machine Learning Model: Principles Over Processes">
+    <meta name="twitter:description" content="Model selection isn't about following a flowchart. It's about understanding tradeoffs, constraints, and what actually matters for your specific problem. Here's what the textbooks won't tell you about picking the right ML model.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .reality-check {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        .reality-check strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .component-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .failure-pattern {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+        .practical-box {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0.25rem;
+        }
+        
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">Machine Learning</span>
+                    <span class="article-date">2026-01-14</span>
+                    <span class="article-read-time">8 min read</span>
+                </div>
+                <h1 class="article-title">Choosing the Right Machine Learning Model: Principles Over Processes</h1>
+                <p class="article-excerpt">
+                    Model selection isn't about following a flowchart. It's about understanding tradeoffs, constraints, and what actually matters for your specific problem. Here's what the textbooks won't tell you about picking the right ML model.
+                </p>
+                <div class="article-tags">
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">Model Selection</span>
+                    <span class="tag">Production ML</span>
+                    <span class="tag">Engineering Judgment</span>
+                    <span class="tag">Practical ML</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#selection-problem">The Selection Problem Nobody Talks About</a></li>
+            <li><a href="#constraints">Start with Constraints, Not Capabilities</a></li>
+            <li><a href="#interpretability">The Interpretability Question</a></li>
+            <li><a href="#data-reality">Data Reality Check</a></li>
+            <li><a href="#baseline">The Baseline Principle</a></li>
+            <li><a href="#metrics">Performance Metrics That Actually Matter</a></li>
+            <li><a href="#deployment">Deployment is Part of Selection</a></li>
+            <li><a href="#stop-optimizing">When to Stop Optimizing</a></li>
+        </ul>
+    </div>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Every machine learning tutorial starts the same way: understand your problem, explore your data, try different algorithms, pick the best one. Clean. Linear. Useless.</p>
+
+                <p>Real model selection is messy. You're choosing between a model that works 94% of the time but crashes your production servers, and one that works 89% of the time but runs in 50 milliseconds. Your stakeholders want explanations. Your data has unlabeled gaps. Your deployment environment is a Raspberry Pi.</p>
+
+                <p>The standard advice about "trying different models and comparing metrics" assumes you have infinite time and no constraints. You don't.</p>
+
+                <h2 id="selection-problem">The Selection Problem Nobody Talks About</h2>
+
+                <p>Model selection frameworks treat it as an optimization problem: maximize accuracy subject to some vague constraints. But in practice, you're making a high-stakes decision with incomplete information under pressure.</p>
+
+                <p>The real question isn't "which model is best?" It's "which model can I actually build, deploy, maintain, and explain given everything I know about this problem?"</p>
+
+                <div class="constraint-insight">
+                    <strong>The Core Principle:</strong> Model selection is about understanding and navigating tradeoffs within your specific constraints. Every choice sacrifices something.
+                </div>
+
+                <p>Here's what actually matters when choosing a model:</p>
+
+                <p><strong>Your deployment environment</strong>: A transformer might achieve 98% accuracy in your notebook, but if it takes 5 seconds to run a prediction and you need real-time responses, it's the wrong model. The "best" model is the one that actually runs where you need it to run.</p>
+
+                <p><strong>Your data pipeline</strong>: Gradient boosting might outperform linear models on your test set, but if it requires perfectly clean data and your production pipeline has missing values 30% of the time, you're building failure into your system.</p>
+
+                <p><strong>Your team's expertise</strong>: A complex ensemble might squeeze out another 2% accuracy, but if nobody on your team understands how it works and you can't debug it when it fails, you've created technical debt, not value.</p>
+
+                <p><strong>Your stakeholder requirements</strong>: Regulators want explanations. Product managers want fast iteration. Engineers want reliability. These requirements eliminate entire categories of models before you ever look at a confusion matrix.</p>
+
+                <h2 id="constraints">Start with Constraints, Not Capabilities</h2>
+
+                <p>The textbook approach starts by listing model capabilities: neural networks can model complex patterns, decision trees are interpretable, SVMs work well in high dimensions. This is backwards.</p>
+
+                <p>Start by listing your constraints. Everything else follows from there.</p>
+
+                <div class="article-image">
+                    <img src="images/constraints-model-selection.png" alt="Constraint-first model selection approach">
+                </div>
+
+                <div class="practical-box">
+                    <strong>Constraint-First Selection:</strong> Write down your hard limits before you write any code. These boundaries define your solution space more accurately than any algorithm comparison.
+                </div>
+
+                <p><strong>Latency requirements</strong>: If you need predictions in under 100ms, you've immediately ruled out most deep learning approaches unless you have serious infrastructure. Simple models like logistic regression or shallow decision trees suddenly look very attractive, regardless of their theoretical limitations.</p>
+
+                <p><strong>Compute budget</strong>: Training a large neural network might cost thousands in cloud compute. A random forest trains in minutes on your laptop. If your budget is limited and you need to iterate quickly, the "worse" model that you can actually afford to train 50 times might outperform the "better" model you can only train once.</p>
+
+                <p><strong>Data availability</strong>: Transformers need massive datasets. If you have 5,000 labeled examples, you're not using a transformer no matter how well it performs on benchmarks. Your constraint is your data, and that constraint determines your model class.</p>
+
+                <p><strong>Explainability requirements</strong>: In healthcare, finance, or legal applications, you often need to explain individual predictions. This rules out black-box models entirely. The question isn't whether a neural network is more accurate—it's whether you're allowed to use it at all.</p>
+
+                <p><strong>Production environment</strong>: Are you deploying to mobile devices? Edge servers? Cloud? Each environment has different constraints on model size, memory, and inference time. A model that works in one environment might be impossible in another.</p>
+
+                <h2 id="interpretability">The Interpretability Question</h2>
+
+                <p>"Interpretability" appears in every model selection guide, usually as a checkbox. In reality, it's a spectrum with serious implications.</p>
+
+                <p>Different stakeholders mean different things by interpretability:</p>
+
+                <p><strong>Regulators want accountability</strong>: They need to verify your model isn't discriminating based on protected attributes. This often requires coefficient-level transparency, which limits you to linear models or decision trees.</p>
+
+                <p><strong>Domain experts want validation</strong>: They need to check if the model's logic aligns with domain knowledge. Feature importance or SHAP values might be enough here—you don't need full transparency, just enough to sanity-check.</p>
+
+                <p><strong>End users want trust</strong>: They need to understand why a decision was made. A simple rule-based explanation might suffice, even if the underlying model is complex.</p>
+
+                <p><strong>Engineers want debuggability</strong>: When the model fails, they need to understand why. This requires different interpretability than what regulators need.</p>
+
+                <div class="reality-check">
+                    <strong>The Interpretability Trap:</strong> Don't sacrifice 20% accuracy for interpretability you don't actually need. But also don't build a black box when you'll be asked to explain it in court.
+                </div>
+
+                <p>If nobody will ever ask you to explain a prediction, don't optimize for interpretability. If you'll need to defend every decision, don't use a neural network just because it's trendy.</p>
+
+                <h2 id="data-reality">Data Reality Check</h2>
+
+                <p>Your data determines your model more than any algorithm preference.</p>
+
+                <p><strong>Small datasets</strong> (hundreds to low thousands of examples): Linear models, regularized regression, or small decision trees. Neural networks will overfit catastrophically. The extra complexity buys you nothing.</p>
+
+                <p><strong>Medium datasets</strong> (thousands to tens of thousands): Random forests, gradient boosting, or shallow neural networks. Enough data to learn complex patterns but not enough to justify very deep architectures.</p>
+
+                <p><strong>Large datasets</strong> (hundreds of thousands+): Deep learning becomes viable. But "viable" doesn't mean "optimal"—a well-tuned gradient boosted tree might still outperform a neural network on tabular data.</p>
+
+                <p><strong>Imbalanced data</strong>: Some models handle class imbalance better than others. Tree-based models are often more robust than linear models. You might need to choose based on this single characteristic.</p>
+
+                <p><strong>High-dimensional data</strong>: When you have more features than samples, you need regularization or dimensionality reduction. Regularized linear models (Ridge, Lasso) or random forests that naturally do feature selection.</p>
+
+                <p><strong>Temporal data</strong>: Time series have special structure. Standard cross-validation breaks. You need models that respect temporal ordering or can handle sequences. This eliminates many standard approaches.</p>
+
+                <p><strong>Missing data</strong>: Some models (tree-based) handle missing values naturally. Others (neural networks, SVMs) require imputation, which introduces its own problems.</p>
+
+                <p>Don't fight your data's characteristics. Choose models that work with what you have, not models that require what you wish you had.</p>
+
+                <h2 id="baseline">The Baseline Principle</h2>
+
+                <p>Before comparing complex models, establish a baseline. Not a strawman baseline—a genuine attempt to solve the problem simply.</p>
+
+                <div class="article-image">
+                    <img src="images/baseline-principle.png" alt="The baseline principle in model selection">
+                </div>
+
+                <div class="practical-box">
+                    <strong>Meaningful Baselines:</strong> Your baseline should be the simplest thing that could reasonably work. If you can't beat it significantly, you probably don't need a complex model.
+                </div>
+
+                <p><strong>For classification</strong>: Logistic regression with well-engineered features. It's fast, interpretable, and often competitive. If it works, you're done. If it doesn't, you know exactly what limitations you're trying to overcome.</p>
+
+                <p><strong>For regression</strong>: Linear regression or a simple decision tree. Same reasoning—if these work, why introduce complexity?</p>
+
+                <p><strong>For time series</strong>: Seasonal decomposition or ARIMA. Neural networks for time series are powerful but hard to tune and debug. Start simple.</p>
+
+                <p><strong>For ranking/recommendation</strong>: Collaborative filtering or item-based similarity. Deep learning recommenders are popular but might not outperform simpler approaches until you have massive scale.</p>
+
+                <p>If your fancy neural network beats logistic regression by 2%, that 2% needs to be worth the added complexity, computational cost, and maintenance burden. Sometimes it is. Often it isn't.</p>
+
+                <h2 id="metrics">Performance Metrics That Actually Matter</h2>
+
+                <p>Accuracy is rarely what matters. What actually matters depends entirely on your use case.</p>
+
+                <p><strong>Classification isn't just accuracy</strong>: A 95% accurate model sounds good until you realize the class you care about has 5% prevalence. Your model could just predict the majority class every time. Precision, recall, F1, or AUC-ROC tell you much more.</p>
+
+                <p><strong>Regression isn't just MSE</strong>: Mean squared error heavily penalizes outliers. If outliers aren't important in your application, MSE optimizes for the wrong thing. Maybe you care about median error (MAE) or worst-case performance (max error).</p>
+
+                <p><strong>Real-world impact</strong>: Sometimes the metric that matters is downstream. In fraud detection, false positives cost customer support time. False negatives cost money. The "best" model minimizes cost, not error rate.</p>
+
+                <p><strong>Distribution of errors</strong>: A model that's usually right but occasionally catastrophically wrong might be worse than a model that's consistently mediocre. Average metrics don't capture this.</p>
+
+                <div class="reality-check">
+                    <strong>Optimization Reality:</strong> You're not optimizing model performance. You're optimizing business outcomes. These are related but not identical.
+                </div>
+
+                <p>Choose metrics that align with what you actually care about, not what's easiest to optimize or most common in papers.</p>
+
+                <h2 id="deployment">Deployment is Part of Selection</h2>
+
+                <div class="article-image">
+                    <img src="images/deployment-pipeline.png" alt="ML deployment and iteration pipeline">
+                </div>
+
+                <p>A model that works in a notebook but can't be deployed isn't a model. It's an experiment.</p>
+
+                <p><strong>Inference speed matters</strong>: Real-time applications need models that run in milliseconds. Batch applications might tolerate seconds or minutes. This constraint eliminates entire model families before you consider accuracy.</p>
+
+                <p><strong>Model size matters</strong>: Mobile deployment requires models under specific size limits. Edge devices have memory constraints. Your 2GB model might be the most accurate, but if it can't fit on the device, it's wrong.</p>
+
+                <p><strong>Update frequency matters</strong>: Some models retrain quickly. Others take days. If you need to retrain weekly, you can't use a model that takes a week to train.</p>
+
+                <p><strong>Monitoring requirements matter</strong>: Complex models are harder to monitor. If you can't detect when your model is degrading, you can't maintain it. Simpler models with interpretable outputs are easier to monitor.</p>
+
+                <p><strong>Dependency management matters</strong>: Some models require specific library versions or hardware. If your production environment can't support these dependencies, the model is unusable regardless of performance.</p>
+
+                <p>Think about deployment while selecting the model, not after. The model you can actually ship is better than the model that's theoretically optimal.</p>
+
+                <h2 id="stop-optimizing">When to Stop Optimizing</h2>
+
+                <p>You can always squeeze out another percentage point. The question is whether you should.</p>
+
+                <div class="constraint-insight">
+                    <strong>The Good Enough Principle:</strong> Model selection is complete when you have a model that meets your constraints and requirements, not when you've found the theoretical optimum.
+                </div>
+
+                <p><strong>Diminishing returns are real</strong>: Going from 70% to 85% accuracy might transform your product. Going from 94% to 96% might be invisible to users but cost weeks of engineering time.</p>
+
+                <p><strong>Perfect is the enemy of shipped</strong>: A 90% accurate model in production is infinitely better than a 95% accurate model still in development. Launch and iterate.</p>
+
+                <p><strong>Context determines "good enough"</strong>: For a movie recommendation system, 85% might be plenty. For medical diagnosis, 85% might be criminally insufficient. The threshold depends on stakes, not arbitrary numbers.</p>
+
+                <p><strong>Maintainability matters more over time</strong>: The 3% accuracy gain from a complex ensemble matters less than whether your team can maintain it for two years.</p>
+
+                <p>Know when you've found a solution that works. Continued optimization often yields diminishing returns while accumulating technical debt.</p>
+
+                <h2>Model Selection in Practice</h2>
+
+                <p>The process looks less like a flowchart and more like this:</p>
+
+                <ol>
+                    <li><strong>List your hard constraints</strong>: latency, compute budget, interpretability requirements, deployment environment, data limitations. These immediately eliminate most models.</li>
+                    
+                    <li><strong>Build a simple baseline</strong>: Start with the simplest thing that could work. Establish a performance floor.</li>
+                    
+                    <li><strong>Try 2-3 candidates</strong>: Based on your constraints, pick a few models that might work better. Don't try everything—try things that address specific weaknesses in your baseline.</li>
+                    
+                    <li><strong>Evaluate honestly</strong>: Use metrics that matter for your use case. Include inference time, robustness, and ease of debugging, not just accuracy.</li>
+                    
+                    <li><strong>Deploy and monitor</strong>: The real test is production. Deploy your best candidate and watch how it performs with real data, real latency requirements, and real failure modes.</li>
+                    
+                    <li><strong>Iterate based on reality</strong>: Your production data will reveal problems you didn't see in cross-validation. Iterate based on what actually breaks, not theoretical improvements.</li>
+                </ol>
+
+                <p>This isn't elegant. It's pragmatic. Model selection is an engineering decision, not an optimization problem. Treat it like one.</p>
+
+                <p>The best model is the one that works within your constraints, meets your requirements, and can be maintained by your team. Everything else is academic.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is a Generative AI researcher and practitioner working at the intersection of AI and HCI. He regularly writes about Generative AI and AI Engineering. You can connect with him on
+            <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2026 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
