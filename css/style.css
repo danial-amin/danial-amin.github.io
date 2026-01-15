@@ -3182,6 +3182,29 @@ body {
     color: var(--text-secondary);
 }
 
+/* Article Images */
+.article-image {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.article-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+    transition: opacity 0.3s ease;
+}
+
+.article-image img[data-theme-aware] {
+    transition: opacity 0.3s ease;
+}
+
+/* Smooth fade transition when theme changes */
+.article-image img.theme-switching {
+    opacity: 0.7;
+}
+
 /* Table of Contents */
 .toc {
     background: var(--card-bg);

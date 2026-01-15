@@ -131,7 +131,9 @@
                 <p>Every machine learning tutorial starts the same way: understand your problem, explore your data, try different algorithms, pick the best one. Clean. Linear. Useless.</p>
 
                 <p>Real model selection is messy. You're choosing between a model that works 94% of the time but crashes your production servers, and one that works 89% of the time but runs in 50 milliseconds. Your stakeholders want explanations. Your data has unlabeled gaps. Your deployment environment is a Raspberry Pi.</p>
-
+                <div class="article-image">
+                    <img src="../../assets/images_blogs/image_01.png" alt="Constraint-first model selection approach" data-theme-aware>
+                </div>
                 <p>The standard advice about "trying different models and comparing metrics" assumes you have infinite time and no constraints. You don't.</p>
 
                 <h2 id="selection-problem">The Selection Problem Nobody Talks About</h2>
@@ -160,9 +162,7 @@
 
                 <p>Start by listing your constraints. Everything else follows from there.</p>
 
-                <div class="article-image">
-                    <img src="images/constraints-model-selection.png" alt="Constraint-first model selection approach">
-                </div>
+                
 
                 <div class="practical-box">
                     <strong>Constraint-First Selection:</strong> Write down your hard limits before you write any code. These boundaries define your solution space more accurately than any algorithm comparison.
@@ -223,7 +223,7 @@
                 <p>Before comparing complex models, establish a baseline. Not a strawman baseline—a genuine attempt to solve the problem simply.</p>
 
                 <div class="article-image">
-                    <img src="images/baseline-principle.png" alt="The baseline principle in model selection">
+                    <img src="../../assets/images_blogs/image_02.png" alt="The baseline principle in model selection" data-theme-aware>
                 </div>
 
                 <div class="practical-box">
@@ -261,7 +261,7 @@
                 <h2 id="deployment">Deployment is Part of Selection</h2>
 
                 <div class="article-image">
-                    <img src="images/deployment-pipeline.png" alt="ML deployment and iteration pipeline">
+                    <img src="../../assets/images_blogs/image_03.png" alt="ML deployment and iteration pipeline" data-theme-aware>
                 </div>
 
                 <p>A model that works in a notebook but can't be deployed isn't a model. It's an experiment.</p>
@@ -347,6 +347,7 @@
     <script src="../../js/interactive-bg.js"></script>
     <script src="../../js/theme-switcher.js"></script>
     <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/theme-images.js"></script>
     <script src="../../js/main.js"></script>
 </body>
 </html>
