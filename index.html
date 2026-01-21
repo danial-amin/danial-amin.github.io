@@ -1132,7 +1132,7 @@
                 
                 <div class="tab-content" id="schedule-tab">
                     <div class="calendly-container">
-                        <div class="calendly-popup-content">
+                        <div class="calendly-button-content">
                             <div class="calendly-icon">📅</div>
                             <h3>Schedule a Call</h3>
                             <p class="calendly-description">Book a time that works for you. I'll send you a calendar invite and we can discuss your project.</p>
@@ -1176,8 +1176,17 @@
 <link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css">
 <!-- EmailJS for contact form -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<!-- Calendly widget script -->
-<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+<!-- Calendly widget script - ensure it only loads once -->
+<script type="text/javascript">
+    if (!window.calendlyScriptLoaded) {
+        window.calendlyScriptLoaded = true;
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://assets.calendly.com/assets/external/widget.js';
+        script.async = true;
+        document.head.appendChild(script);
+    }
+</script>
 <!-- Main scripts -->
 <script src="js/github-contributions.js"></script>
 <script src="js/testimonials.js"></script>

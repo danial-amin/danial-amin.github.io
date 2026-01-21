@@ -5,7 +5,9 @@
   "main": "update-blog.js",
   "scripts": {
     "update-blog": "node update-blog.js",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "echo \"No tests specified\" && exit 0",
+    "serve": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000"
   },
   "keywords": [
     "blog",
