@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tell Your AI the Future Plans Upfront - Danial Amin</title>
+    <meta name="description" content="When you start a coding project with an AI agent, tell it the scaling plans immediately. Don't hold back the moonshot vision. This isn't human management.">
+    <meta name="keywords" content="ai-coding llm-development software-architecture ai-agents">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="Tell Your AI the Future Plans Upfront">
+    <meta property="og:description" content="When you start a coding project with an AI agent, tell it the scaling plans immediately. Don't hold back the moonshot vision.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-01-20-tell-ai-plans.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tell Your AI the Future Plans Upfront">
+    <meta name="twitter:description" content="When you start a coding project with an AI agent, tell it the scaling plans immediately.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Development</span>
+                    <span class="article-date">2026-01-18</span>
+                    <span class="article-read-time">5 min read</span>
+                </div>
+                <h1 class="article-title">Tell Your AI the Future Plans Upfront</h1>
+                <p class="article-excerpt">When you start a coding project with an AI agent, tell it the scaling plans immediately. Don't hold back the moonshot vision. This isn't human management where you motivate people with incremental goals.</p>
+                <div class="article-tags">
+                    <span class="tag">ai-coding</span>
+                    <span class="tag">llm-development</span>
+                    <span class="tag">software-architecture</span>
+                    <span class="tag">ai-agents</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#the-rewrite-tax">The Rewrite Tax</a></li>
+            <li><a href="#why-ai-needs-the-full-picture">Why AI Needs The Full Picture</a></li>
+            <li><a href="#the-short-term-focus-trap">The Short-Term Focus Trap</a></li>
+            <li><a href="#what-to-actually-tell-it">What To Actually Tell It</a></li>
+            <li><a href="#the-moonshot-problem">The Moonshot Problem</a></li>
+            <li><a href="#when-to-hold-back">When To Hold Back</a></li>
+        </ul>
+    </div>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>When you start a coding project with an AI agent, tell it the scaling plans immediately. Don't hold back the moonshot vision. Don't drip-feed context. This isn't human management where you motivate people with incremental goals.</p>
+
+                <p>The common instinct is wrong. People think: "Let me get the MVP working first, then I'll tell it about the enterprise scaling requirements." This produces code that works today and breaks tomorrow.</p>
+
+                <p>AI agents don't get overwhelmed by big pictures. They don't lose motivation when faced with complex requirements. They don't need incremental confidence building. These are human problems that don't apply to statistical pattern matchers.</p>
+
+                <h2 id="the-rewrite-tax">The Rewrite Tax</h2>
+                
+                <p>Here's what actually happens when you hide scaling plans. The AI builds exactly what you asked for. It works. You're happy. Then you mention "by the way, this needs to handle 10,000 concurrent users and we're adding microservices architecture next quarter."</p>
+
+                <p>The AI looks at the code it just wrote. Nothing in that codebase was structured for scale. The database calls are synchronous. The architecture is monolithic. The error handling assumes single-user context. You just paid for code you're about to throw away.</p>
+
+                <p>This isn't a minor refactor. This is starting over with different fundamental assumptions. You wasted a week building a prototype that taught you nothing about the actual system you need to build.</p>
+
+                <div class="reality-check">
+                    <strong>The Rewrite Tax:</strong> Not just time but the assumptions that got baked into your early decisions. You made API choices based on simple use cases. You picked frameworks optimized for small scale. You designed data models around current requirements. All of it wrong for what you actually need.
+                </div>
+
+                <h2 id="why-ai-needs-the-full-picture">Why AI Needs The Full Picture</h2>
+                
+                <p>LLMs make architectural decisions based on the context you provide. Give it a small problem, it produces small-problem solutions. Give it a scaling problem, it produces different code from the start.</p>
+
+                <p>Tell it you need to handle millions of requests, it considers caching strategies from the first function. Tell it you're building microservices eventually, it structures modules with clear boundaries from day one. Tell it you need multi-region deployment, it thinks about data consistency and latency from the beginning.</p>
+
+                <p>These aren't things you bolt on later. They're fundamental architectural assumptions that shape every line of code. The earlier the AI knows them, the less you rebuild.</p>
+
+                <div class="code-principle">
+                    <strong>Architectural Economics:</strong> The cost of making something scale later is always higher than building with scale in mind from the start. Not because you over-engineer, but because you make different fundamental choices about how components interact.
+                </div>
+
+                <h2 id="the-short-term-focus-trap">The Short-Term Focus Trap</h2>
+                
+                <p>"But I just need something working right now." Fine. That's a valid requirement. Tell the AI that too. Say: "Build this to eventually handle enterprise scale, but optimize for getting a working demo up today."</p>
+
+                <p>The AI can do both. It can write code that works immediately but won't require complete rewrites later. It can make architectural choices that support both current simplicity and future complexity. It can document which parts need to scale and which don't.</p>
+
+                <p>What it can't do is read your mind. If you don't tell it about future requirements, it optimizes for what you did tell it. Then you blame the AI when the code doesn't scale, but you never asked for scalable code.</p>
+
+                <p><strong>The trap is thinking short-term focus means hiding long-term plans.</strong> Short-term focus means "deliver value now." Long-term awareness means "don't make choices now that will cost us later." These aren't contradictory. They're both requirements you should specify.</p>
+
+                <h2 id="what-to-actually-tell-it">What To Actually Tell It</h2>
+                
+                <p>Be specific about scale expectations. Not vague "this might get big someday" statements. Actual numbers. Expected user counts, data volumes, request rates, geographic distribution.</p>
+
+                <p>Tell it about architecture plans. Not just "we might do microservices" but "we're splitting user auth, payment processing, and content delivery into separate services within six months."</p>
+
+                <p>Explain deployment requirements. Cloud providers, regions, compliance needs, availability targets. These affect code structure from the beginning.</p>
+
+                <p>Describe data access patterns. Read-heavy or write-heavy, real-time or batch, relational or document-based. These determine architectural choices that are hard to change later.</p>
+
+                <p><strong>The AI doesn't need motivation or confidence building.</strong> It needs technical requirements. All of them. Upfront. So it can make informed architectural decisions instead of guessing what you might need later.</p>
+
+                <h2 id="the-moonshot-problem">The Moonshot Problem</h2>
+                
+                <p>"But what if the moonshot never happens? Won't I have over-engineered code?"</p>
+
+                <p>This question misunderstands the issue. Telling the AI about scale requirements doesn't mean building for scale immediately. It means making architectural choices compatible with scale.</p>
+
+                <p>You don't need to implement caching for millions of users on day one. But you should structure your code so adding caching doesn't require rewriting the entire data layer. You don't need microservices immediately. But you should organize code with clear service boundaries so splitting them later is straightforward.</p>
+
+                <div class="code-principle">
+                    <strong>Building for Scale:</strong> Making cheap choices now that keep expensive choices available later. It doesn't mean implementing everything upfront. It means not accidentally closing doors you might need to walk through.
+                </div>
+
+                <h2 id="when-to-hold-back">When To Hold Back</h2>
+                
+                <p>There's one exception. If you genuinely don't know what you're building yet, tell the AI that. "We're experimenting with this concept. The requirements will change dramatically. Optimize for changeability over everything else."</p>
+
+                <p>That's a valid technical requirement. The AI can optimize for flexibility instead of scale or performance. It makes different tradeoffs when it knows requirements are fluid versus when it thinks you want production code.</p>
+
+                <p>But if you know you're building something real that needs to scale eventually, tell it immediately. The default should be full context, not incremental disclosure.</p>
+
+                <hr>
+
+                <p>The pattern that works: dump all your requirements, constraints, and future plans in the first conversation. Let the AI see the full problem space. Then work iteratively on implementation while the AI makes decisions aligned with where you're actually going.</p>
+
+                <p>The pattern that fails: treat the AI like a junior developer who needs careful motivation management. Hide complexity to avoid overwhelming it. Reveal requirements incrementally. Then wonder why you're constantly rewriting code.</p>
+
+                <p>AI agents don't have impostor syndrome. Give them the full picture.</p>
+
+                <hr>
+
+                <p><em><strong>AI Attribution:</strong> This article was written with assistance from Claude, an AI assistant created by Anthropic.</em></p>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

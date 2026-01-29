@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Agent Per Business Unit or One Agent For All - Danial Amin</title>
+    <meta name="description" content="You're building customer service agents. The question is whether you build one agent that handles all business units or separate agents for each unit.">
+    <meta name="keywords" content="ai-agents agent-architecture business-units agent-design">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="One Agent Per Business Unit or One Agent For All">
+    <meta property="og:description" content="The answer depends on how isolated your business units actually are.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-01-19-agents-per-unit.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="One Agent Per Business Unit or One Agent For All">
+    <meta name="twitter:description" content="The answer depends on how isolated your business units actually are.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Architecture</span>
+                    <span class="article-date">2026-01-19</span>
+                    <span class="article-read-time">5 min read</span>
+                </div>
+                <h1 class="article-title">One Agent Per Business Unit or One Agent For All</h1>
+                <p class="article-excerpt">You're building customer service agents. The question is whether you build one agent that handles all business units or separate agents for each unit. The answer depends on how isolated your business units actually are.</p>
+                <div class="article-tags">
+                    <span class="tag">ai-agents</span>
+                    <span class="tag">agent-architecture</span>
+                    <span class="tag">business-units</span>
+                    <span class="tag">agent-design</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>You're building customer service agents. The question is whether you build one agent that handles all business units or separate agents for each unit. The answer depends on how isolated your business units actually are.</p>
+
+                <p>If your business units share nothing—different products, different processes, different customer bases—build separate agents. If they share most things and only diverge on minor details, build one agent with unit-specific context.</p>
+
+                <p>Most organizations lie somewhere in between and get this decision wrong by defaulting to either extreme without examining their actual structure.</p>
+
+                <h2>When Business Units Are Actually Different</h2>
+                
+                <p>Your company has a B2B enterprise software division and a consumer mobile app division. These aren't variations of the same business. They're different businesses that happen to share a parent company.</p>
+
+                <p>Enterprise customers ask about contract terms, implementation timelines, and integration requirements. Consumer customers ask about subscription cancellations, feature requests, and password resets. The vocabulary is different. The escalation paths are different. The knowledge required is different.</p>
+
+                <p>Building one agent for both creates a context problem. Every enterprise query loads consumer knowledge. Every consumer query loads enterprise knowledge. The agent becomes mediocre at both because it's spending capacity on irrelevant information.</p>
+
+                <p><strong>Build separate agents.</strong> The enterprise agent knows contracts and implementations. The consumer agent knows subscriptions and features. Each performs better because each focuses on its actual domain.</p>
+
+                <h2>When Business Units Are Actually Similar</h2>
+                
+                <p>Your company has regional sales teams. North America, Europe, Asia-Pacific. They sell the same products using the same processes to similar customer types. The only real differences are time zones, minor pricing variations, and local compliance requirements.</p>
+
+                <p>Building separate agents duplicates 95% of the knowledge across three systems. Bug fixes need to be deployed three times. Training improvements need to be replicated. The agents diverge over time as each gets updated independently.</p>
+
+                <p><strong>Build one agent with regional context.</strong> The core knowledge is shared. Regional differences get handled through context variables. Updates propagate to all regions simultaneously. The agent stays consistent because it's actually one system with configuration parameters.</p>
+
+                <h2>The Shared Knowledge Test</h2>
+                
+                <p>Here's how to decide. List everything a customer service agent needs to know. Product features, pricing, policies, escalation procedures, troubleshooting steps, common issues.</p>
+
+                <p>Now mark what's identical across units versus what's different. If 70%+ is identical, you want one agent with unit-specific context. If 70%+ is different, you want separate agents.</p>
+
+                <p>Most organizations discover they're more similar than they thought. Regional teams using the same products are probably 90% identical. Product lines targeting different markets are probably 60% different. Business units serving fundamentally different customer types are probably 80% different.</p>
+
+                <p><strong>The threshold matters.</strong> Below 50% shared knowledge, separate agents win. Above 70% shared knowledge, one agent wins. Between 50-70% is judgment based on operational complexity versus performance needs.</p>
+
+                <h2>The Maintenance Reality</h2>
+                
+                <p>Separate agents mean separate maintenance. You fix a bug in the North America agent, you need to fix it in Europe and APAC too. You improve the troubleshooting logic, you deploy three times. You update product knowledge, you train three systems.</p>
+
+                <p>This duplication has real costs. Not just engineering time but consistency problems. The agents drift apart. North America gets a feature Europe doesn't. APAC has a bug the other regions fixed. Customers notice when agents behave differently across units.</p>
+
+                <p>One agent means one maintenance cycle. Bug fixes propagate everywhere. Training improvements benefit all units. Consistency is automatic because there's only one system to keep consistent.</p>
+
+                <p><strong>The operational tradeoff is real.</strong> Separate agents perform better in their specific contexts but cost more to maintain and create consistency problems. One agent maintains consistency and reduces costs but performs worse if the units are genuinely different.</p>
+
+                <h2>The Context Window Economics</h2>
+                
+                <p>If you're building separate agents, you can use smaller, cheaper models. Each agent only needs knowledge for its specific unit. A specialized agent might work fine with a medium-sized model because its scope is constrained.</p>
+
+                <p>If you're building one agent for all units, you need a larger model to handle all the knowledge. Every query loads context for all units even though you only need one. This costs more per query and may require more powerful models.</p>
+
+                <p><strong>Run the numbers.</strong> Three specialized agents on smaller models versus one generalist agent on a larger model. Factor in inference costs, maintenance overhead, and consistency requirements. The answer isn't always obvious.</p>
+
+                <h2>The User Experience Question</h2>
+                
+                <p>From the customer's perspective, do they know which business unit they're in? If your routing is clear—they're on the enterprise portal or the consumer app—separate agents work fine. They never see the other agents.</p>
+
+                <p>If customers move between units or aren't sure which they're in, one agent works better. The customer doesn't need to understand your org structure. They ask questions and get answers regardless of which internal team handles their account.</p>
+
+                <p><strong>The interface matters.</strong> Well-separated customer touchpoints support separate agents. Unified customer touchpoints need unified agents. Don't make customers route themselves to the right specialist if they don't understand your business structure.</p>
+
+                <h2>When To Start Split, When To Start Unified</h2>
+                
+                <p>Early stage: start with one agent. You don't have enough usage patterns to know what's actually different. Building separate systems prematurely creates technical debt when you discover the differences aren't what you expected.</p>
+
+                <p>Established operations: evaluate based on actual divergence. If you've already got three teams doing three different things with three different processes, separate agents probably makes sense. If three teams are doing the same thing in three locations, one agent probably makes sense.</p>
+
+                <p><strong>The default should be unified until proven otherwise.</strong> It's easier to split one agent into specialized versions than to merge separate agents into a unified system. Start together, split when the performance or context problems become real rather than theoretical.</p>
+
+                <h2>The Hidden Org Chart Problem</h2>
+                
+                <p>Sometimes the push for separate agents comes from organizational politics rather than technical requirements. Each business unit wants "their own" agent. This is org chart thinking, not customer-focused thinking.</p>
+
+                <p>The question isn't "should each VP have their own agent?" The question is "what architecture best serves customers?" If the answer is one agent, build one agent regardless of org structure. If the answer is separate agents, build separate agents and explain why to the VPs who wanted different.</p>
+
+                <p><strong>Don't let org politics drive technical architecture.</strong> Business units don't need separate agents to feel important. They need effective agents that serve their customers well.</p>
+
+                <hr>
+
+                <p>Most organizations should build one agent with business-unit-specific context, not separate agents per unit. The exceptions are when units are genuinely different businesses or when context window economics strongly favor specialization.</p>
+
+                <p>The decision is technical and economic, not political. Base it on actual knowledge overlap, operational costs, and customer experience requirements.</p>
+
+                <hr>
+
+                <p><em><strong>AI Attribution:</strong> This article was written with assistance from Claude, an AI assistant created by Anthropic.</em></p>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

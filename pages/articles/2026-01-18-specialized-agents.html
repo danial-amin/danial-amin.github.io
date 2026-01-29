@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialized Agents Win Over Generalist Agents - Danial Amin</title>
+    <meta name="description" content="Build specialized agents, not generalist ones. This isn't a preference. It's an architectural necessity that becomes obvious once you deploy agents in production.">
+    <meta name="keywords" content="ai-agents specialized-agents agent-architecture ai-systems">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="Specialized Agents Win Over Generalist Agents">
+    <meta property="og:description" content="Build specialized agents, not generalist ones. This isn't a preference. It's an architectural necessity that becomes obvious once you deploy agents in production.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-01-18-specialized-agents.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Specialized Agents Win Over Generalist Agents">
+    <meta name="twitter:description" content="Build specialized agents, not generalist ones. Production systems need depth.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Architecture</span>
+                    <span class="article-date">2026-01-19</span>
+                    <span class="article-read-time">4 min read</span>
+                </div>
+                <h1 class="article-title">Specialized Agents Win Over Generalist Agents</h1>
+                <p class="article-excerpt">Build specialized agents, not generalist ones. This isn't a preference. It's an architectural necessity that becomes obvious once you deploy agents in production.</p>
+                <div class="article-tags">
+                    <span class="tag">ai-agents</span>
+                    <span class="tag">specialized-agents</span>
+                    <span class="tag">agent-architecture</span>
+                    <span class="tag">ai-systems</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Build specialized agents, not generalist ones. This isn't a preference. It's an architectural necessity that becomes obvious once you deploy agents in production.</p>
+
+                <p>The instinct to build one agent that handles everything is wrong. You want a coding agent that also answers customer questions and analyzes data and manages your calendar. This produces an agent that does everything badly instead of anything well.</p>
+
+                <p>Generalist agents optimize for breadth. Specialized agents optimize for depth. Production systems need depth.</p>
+
+                <h2>The Expertise Problem</h2>
+                
+                <p>A generalist agent has shallow knowledge across many domains. Ask it to debug code and it produces generic suggestions. Ask it to handle customer escalations and it follows basic scripts. Ask it to analyze financial data and it misses domain-specific patterns.</p>
+
+                <p>A specialized coding agent knows language-specific idioms, common bug patterns, framework limitations, and performance tradeoffs. A specialized customer service agent understands escalation protocols, emotional intelligence patterns, and resolution strategies. A specialized data agent recognizes statistical anomalies, data quality issues, and analytical approaches.</p>
+
+                <p>The difference isn't subtle. Specialized agents consistently outperform generalists in their specific domains by margins that matter to business outcomes.</p>
+
+                <p><strong>This is the fundamental tradeoff.</strong> You can build an agent that knows something about everything or an agent that knows everything about something. Production environments reward the second option.</p>
+
+                <h2>The Context Window Trap</h2>
+                
+                <p>Generalist agents waste context on irrelevant capabilities. Every interaction loads knowledge about domains you're not using. The customer service query burns tokens on coding knowledge. The data analysis request loads customer interaction patterns.</p>
+
+                <p>This isn't just inefficient. It degrades performance. More context means more opportunity for confusion, slower inference, and higher error rates on the specific task you actually need.</p>
+
+                <p>Specialized agents use their context efficiently. Every token serves the current domain. No wasted capacity on irrelevant knowledge. This produces faster, more accurate responses for the problems you're actually solving.</p>
+
+                <p><strong>The economics are clear.</strong> Running a generalist agent costs more per query and delivers worse results than running the right specialized agent for each task.</p>
+
+                <h2>The Maintenance Nightmare</h2>
+                
+                <p>Generalist agents create complex failure modes. When something breaks, you don't know which domain caused the problem. The agent gives wrong answers sometimes but you can't isolate why. Testing requires validating behavior across all domains simultaneously.</p>
+
+                <p>Specialized agents fail predictably. The coding agent has coding problems. The customer service agent has customer service problems. You can test, debug, and fix each domain independently.</p>
+
+                <p><strong>Operational complexity matters.</strong> Systems you can't debug are systems you can't fix. Generalist agents make debugging harder because every capability interferes with every other capability.</p>
+
+                <h2>When Generalists Seem Better</h2>
+                
+                <p>"But I need one agent that can handle different types of questions." Fine. That's not a generalist agent. That's an orchestrator routing to specialized agents.</p>
+
+                <p>Build a lightweight router that directs queries to the right specialist. User asks about code, route to coding agent. User asks about billing, route to customer service agent. User asks for analysis, route to data agent.</p>
+
+                <p>The router is simple. The specialists are good at their jobs. This architecture delivers better results than a single generalist trying to do everything.</p>
+
+                <p><strong>The confusion is understandable.</strong> From the user's perspective, it looks like one agent. From the architecture's perspective, it's specialized agents with intelligent routing. This is the correct solution.</p>
+
+                <h2>The Deployment Reality</h2>
+                
+                <p>Start with one specialized agent for your most critical use case. Get it working reliably. Then add another specialist for the second most important domain. Build the router when you have multiple specialists.</p>
+
+                <p>This incremental approach works because each specialist delivers value independently. You don't need the full system to get benefits. Each addition improves coverage without degrading existing capabilities.</p>
+
+                <p>Generalist approaches force you to build everything before anything works well. You can't ship the generalist until it handles all domains adequately. This delays production deployment and increases risk.</p>
+
+                <p><strong>The business case is straightforward.</strong> Specialized agents ship faster, work better, and cost less to maintain than generalists. The only advantage of generalists is conceptual simplicity, which isn't worth the performance penalty.</p>
+
+                <h2>The Scaling Path</h2>
+                
+                <p>As you add specialized agents, the system gets better. Each new specialist handles its domain well without affecting other domains. The router gets smarter about directing queries.</p>
+
+                <p>As you improve a generalist agent, the system gets more complex. Adding capabilities to one domain risks breaking another. Testing becomes exponentially harder. Debugging becomes guesswork.</p>
+
+                <p><strong>The long-term trajectory favors specialization.</strong> Systems that start with specialists scale cleanly. Systems that start with generalists eventually get rewritten as specialists after enough production pain.</p>
+
+                <hr>
+
+                <p>The industry will converge on specialized agents. The question is whether you learn this through reading or through expensive production failures with generalist agents that seemed simpler at design time.</p>
+
+                <p>Build specialists. Route intelligently. Scale incrementally. This architecture wins.</p>
+
+                <hr>
+
+                <p><em><strong>AI Attribution:</strong> This article was written with assistance from Claude, an AI assistant created by Anthropic.</em></p>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

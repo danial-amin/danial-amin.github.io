@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Can't Ship LLM Projects Without Evaluation - Danial Amin</title>
+    <meta name="description" content="Build evaluation before you build features. This isn't optional. LLM projects without evaluation infrastructure fail in production because nobody knows if the system actually works.">
+    <meta name="keywords" content="llm-evaluation ai-testing llm-projects ai-quality">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="You Can't Ship LLM Projects Without Evaluation">
+    <meta property="og:description" content="Build evaluation before you build features. LLM projects without evaluation infrastructure fail in production.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-01-21-llm-evaluation.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="You Can't Ship LLM Projects Without Evaluation">
+    <meta name="twitter:description" content="LLMs are non-deterministic. You can't eyeball quality.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">AI Engineering</span>
+                    <span class="article-date">2026-01-20</span>
+                    <span class="article-read-time">4 min read</span>
+                </div>
+                <h1 class="article-title">You Can't Ship LLM Projects Without Evaluation</h1>
+                <p class="article-excerpt">Build evaluation before you build features. This isn't optional. LLM projects without evaluation infrastructure fail in production because nobody knows if the system actually works.</p>
+                <div class="article-tags">
+                    <span class="tag">llm-evaluation</span>
+                    <span class="tag">ai-testing</span>
+                    <span class="tag">llm-projects</span>
+                    <span class="tag">ai-quality</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Build evaluation before you build features. This isn't optional. LLM projects without evaluation infrastructure fail in production because nobody knows if the system actually works.</p>
+
+                <p>The instinct is to build the agent first, test it manually, ship it, then worry about evaluation later. This produces systems that seem fine in demos and break silently in production.</p>
+
+                <p>LLMs are non-deterministic. You can't eyeball quality. You need systematic evaluation or you're deploying blind.</p>
+
+                <h2>The Manual Testing Trap</h2>
+                
+                <p>You test your customer service agent by asking it twenty questions. It answers well. You ship it. Three weeks later customers complain the agent gives wrong answers half the time.</p>
+
+                <p>What happened? Your twenty test questions didn't cover the distribution of real customer queries. The agent performs well on questions similar to what you tested and fails on everything else.</p>
+
+                <p>Manual testing catches obvious failures. It misses systematic problems that only appear at scale across diverse inputs.</p>
+
+                <p><strong>You need evaluation sets with hundreds or thousands of examples.</strong> Real customer queries, edge cases, adversarial inputs, common mistakes. Run your agent against all of them. Measure success rate. Track failure patterns.</p>
+
+                <p>Without this, you're guessing about quality based on a handful of cherry-picked examples.</p>
+
+                <h2>The Regression Problem</h2>
+                
+                <p>You improve your agent. The new version handles complex queries better. You ship it. Customer complaints increase.</p>
+
+                <p>The improvement fixed complex queries but broke simple ones. You didn't notice because you only tested the complex cases you were trying to fix.</p>
+
+                <p><strong>Every change needs full regression testing.</strong> Run your entire evaluation set on every version. Compare results. Make sure improvements don't create new failures.</p>
+
+                <p>LLMs don't have unit tests. Evaluation sets are your unit tests. Without them, every change is a gamble.</p>
+
+                <h2>What To Actually Measure</h2>
+                
+                <p>Don't measure vibes. Measure specific outcomes that matter to your use case.</p>
+
+                <p>For customer service agents, measure resolution rate. What percentage of queries get resolved without escalation? For coding agents, measure success rate on tasks. What percentage of implementations actually work? For data analysis agents, measure accuracy. What percentage of insights are correct?</p>
+
+                <p>Pick metrics that correlate with business value. Track them on every evaluation run. Set thresholds that define acceptable performance.</p>
+
+                <p><strong>The metric matters more than the score.</strong> Measuring the wrong thing means you optimize for outcomes that don't matter. Measure what users actually care about, not what's easy to measure.</p>
+
+                <h2>The Distribution Problem</h2>
+                
+                <p>Your evaluation set needs to match production distribution. If production has 60% billing questions and 40% technical questions, your eval set needs similar ratios.</p>
+
+                <p>Most evaluation sets over-represent hard cases because those are interesting to developers. This produces agents that handle edge cases well but fail on common queries.</p>
+
+                <p><strong>Sample from production logs.</strong> Build your evaluation set from real usage, not imagined examples. Weight by frequency, not difficulty. Test what actually happens, not what might theoretically happen.</p>
+
+                <h2>The Human Baseline</h2>
+                
+                <p>How do you know if 70% success rate is good? Compare to human performance on the same tasks.</p>
+
+                <p>If humans succeed 95% of the time and your agent succeeds 70%, you have a problem. If humans succeed 60% and your agent succeeds 70%, you're beating the baseline.</p>
+
+                <p><strong>Evaluate humans on your evaluation set.</strong> This tells you what performance is actually achievable and whether your agent is competitive with human performance.</p>
+
+                <p>Without this baseline, you don't know if you're building something useful or something that's worse than the status quo.</p>
+
+                <h2>The Update Cadence</h2>
+                
+                <p>Model providers update their models. Your agent's performance changes even if you don't change anything. GPT-4 from January performs differently than GPT-4 from March.</p>
+
+                <p><strong>Run evaluations continuously.</strong> Not just when you make changes, but regularly to detect performance drift from upstream model updates.</p>
+
+                <p>Set up automated evaluation runs daily or weekly. Alert when success rates drop below thresholds. This catches problems before users do.</p>
+
+                <h2>The Cost-Performance Tradeoff</h2>
+                
+                <p>Stronger models cost more. Weaker models cost less. Evaluation tells you if you're paying for performance you don't need or using models too weak for your use case.</p>
+
+                <p>Run your evaluation set on multiple models. Compare success rates and costs. Maybe GPT-3.5 succeeds 85% of the time at 1/10th the cost of GPT-4 that succeeds 92%.</p>
+
+                <p><strong>The cheapest model that meets your quality threshold wins.</strong> Evaluation lets you make informed economic decisions instead of defaulting to the most expensive option.</p>
+
+                <h2>Building The Infrastructure</h2>
+                
+                <p>You need code that runs agents against evaluation sets, measures outcomes, tracks results over time, and alerts on regressions.</p>
+
+                <p>This isn't optional infrastructure you add later. This is foundational infrastructure you build first. Before you write agent logic, write evaluation infrastructure.</p>
+
+                <p>The pattern that works: build eval framework, create initial evaluation set, implement agent, run evals, iterate based on results, expand evaluation set as you discover new failure modes.</p>
+
+                <p>The pattern that fails: build agent, manually test, ship, discover problems in production, scramble to build evaluation after the fact.</p>
+
+                <hr>
+
+                <p>Every production LLM system needs systematic evaluation. The projects that work built evaluation first. The projects that failed tried to add it later.</p>
+
+                <p>You can't manage what you can't measure. LLMs without evaluation are systems you can't manage.</p>
+
+                <hr>
+
+                <p><em><strong>AI Attribution:</strong> This article was written with assistance from Claude, an AI assistant created by Anthropic.</em></p>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
