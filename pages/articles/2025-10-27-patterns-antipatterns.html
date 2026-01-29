@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Agentic AI - Patterns That Work, Traps That Don't - Danial Amin</title>
+    <meta name="description" content="Hard-won lessons from the field on what actually works when building AI agent systems. Skip the hype, learn the patterns.">
+    <meta name="keywords" content="AI-agents software-patterns agentic-frameworks">
+    <meta name="author" content="Danial Amin">
+    <meta property="og:title" content="Building Agentic AI - Patterns That Work, Traps That Don't">
+    <meta property="og:description" content="Hard-won lessons from the field on what actually works when building AI agent systems. Skip the hype, learn the patterns.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pages/articles/2025-10-27-patterns-antipatterns.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building Agentic AI - Patterns That Work, Traps That Don't">
+    <meta name="twitter:description" content="Hard-won lessons from the field on what actually works when building AI agent systems. Skip the hype, learn the patterns.">
+    
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">Industry</span>
+                    <span class="article-date">2025-10-27</span>
+                    <span class="article-read-time">7 min read</span>
+                </div>
+                <h1 class="article-title">Building Agentic AI - Patterns That Work, Traps That Don't</h1>
+                <p class="article-excerpt">Hard-won lessons from the field on what actually works when building AI agent systems. Skip the hype, learn the patterns.</p>
+                <div class="article-tags">
+                    <span class="tag">AI-agents</span>
+                    <span class="tag">software-patterns</span>
+                    <span class="tag">agentic-frameworks</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>You&#39;re building an AI agent. It needs to call APIs, make decisions, handle errors, and not hallucinate your production database into oblivion. Simple, right?</p>
+                <p>Wrong. Agentic AI development is littered with projects that looked promising on day one and became unmaintainable nightmares by week three. The difference between systems that work and systems that fail isn&#39;t about model size or prompt engineering wizardry—it&#39;s about following battle-tested patterns and avoiding common traps.</p>
+                <div class="pattern-box">
+                <strong>Bottom Line:</strong> Agentic AI systems fail predictably. The same mistakes show up in every failed project. Learn the patterns, avoid the traps, ship working systems.
+                </div>
+                
+                <h2>The Core Problem</h2>
+                <p>Agentic systems are fundamentally different from traditional software. They make autonomous decisions, handle ambiguity, and operate in environments you can&#39;t fully control. This creates three core challenges:</p>
+                <p><strong>Unpredictability.</strong> Traditional code follows deterministic paths. Agents don&#39;t. You can&#39;t unit test your way to reliability when the system&#39;s behavior depends on LLM outputs that vary between runs.</p>
+                <p><strong>Tool interaction complexity.</strong> Agents need to call external tools—databases, APIs, file systems. Each tool is a potential failure point. Each interaction requires error handling, validation, and safety checks that traditional software doesn&#39;t need.</p>
+                <p><strong>Evaluation difficulty.</strong> How do you know if your agent works? Success isn&#39;t binary. An agent might complete a task technically but do it inefficiently, unsafely, or in ways that violate business logic. Standard testing frameworks weren&#39;t built for this.</p>
+                <p>These challenges are real, but solvable. The key is recognizing that agentic systems need different architectural patterns than traditional software.</p>
+                <h2>Patterns That Work</h2>
+                <h3>1. Test-Time Compute Amplification</h3>
+                <p><strong>The Pattern:</strong> Give your agent multiple attempts at hard problems. Use parallel execution with pass@n sampling—run the same task multiple times and pick the best result.</p>
+                <p><strong>Why It Works:</strong> Agents are probabilistic. A single run might fail, but running 5-30 attempts dramatically increases success rates on complex tasks. This isn&#39;t brute force—it&#39;s acknowledging the reality of how LLMs work.</p>
+                <p><strong>Implementation:</strong> For critical tasks, use pass@5 or pass@12 sampling. For extremely high-stakes operations (security evaluations, code generation), go up to pass@30. Track success rates and adjust based on task difficulty.</p>
+                <div class="antipattern-box">
+                <strong>Antipattern Alert:</strong> Running agents once and hoping for the best. Single-shot execution on complex tasks guarantees failures that could've been avoided with parallel attempts.
+                </div>
+                
+                <h3>2. Explicit Tool Boundaries</h3>
+                <p><strong>The Pattern:</strong> Provide agents with well-defined tools through agentic harnesses—software setups that give models specific capabilities with clear boundaries and safety rails.</p>
+                <p><strong>Why It Works:</strong> Agents need structure. Vague &quot;do whatever you need&quot; instructions lead to chaos. Explicit tool APIs with documented parameters, error states, and usage examples create predictable behavior.</p>
+                <p><strong>Implementation:</strong> Build a tool registry. Each tool has a schema, examples of correct usage, error handling guidance, and explicit constraints. Pass this context to the agent. Monitor which tools get used and how.</p>
+                <p><strong>Real Example:</strong> Instead of &quot;access the database,&quot; provide specific functions: <code>query_users(filters)</code>, <code>update_user(id, fields)</code>, <code>validate_data(schema)</code>. Each function has validation, rate limits, and audit logging.</p>
+                <h3>3. Domain-Specific Fine-Tuning</h3>
+                <p><strong>The Pattern:</strong> Don&#39;t rely on general-purpose models for specialized tasks. Fine-tune on domain-specific data, especially for high-risk areas like security analysis, medical information, or code generation.</p>
+                <p><strong>Why It Works:</strong> Base models are generalists. Fine-tuning creates specialists. This reduces errors, improves output quality, and makes behavior more predictable in your specific domain.</p>
+                <p><strong>Implementation:</strong> Collect domain-specific examples. Fine-tune checkpoints regularly. Test both base and fine-tuned versions. Measure performance differences on real tasks, not just benchmarks.</p>
+                <div class="pattern-box">
+                <strong>Key Insight:</strong> Fine-tuning isn't optional for production agentic systems in specialized domains. It's the difference between "usually works" and "consistently works."
+                </div>
+                
+                <h3>4. Layered Safety Controls</h3>
+                <p><strong>The Pattern:</strong> Implement multiple independent safety layers. Don&#39;t trust a single mechanism—defense in depth prevents catastrophic failures.</p>
+                <p><strong>Why It Works:</strong> Agents will try to do things you didn&#39;t anticipate. Single safety checks fail. Multiple layers catch what individual checks miss.</p>
+                <p><strong>Implementation Layers:</strong></p>
+                <ul>
+                <li><strong>Input validation:</strong> Check requests before the agent sees them</li>
+                <li><strong>Tool-level permissions:</strong> Restrict which tools agents can use based on context</li>
+                <li><strong>Output filtering:</strong> Review agent actions before execution</li>
+                <li><strong>Audit logging:</strong> Track everything for post-hoc analysis</li>
+                <li><strong>Rate limiting:</strong> Prevent runaway operations</li>
+                </ul>
+                <h3>5. Uncertainty Estimation and Escalation</h3>
+                <p><strong>The Pattern:</strong> Train agents to recognize when they&#39;re uncertain. When confidence is low, escalate to human review instead of guessing.</p>
+                <p><strong>Why It Works:</strong> The most dangerous agent failures come from confidently wrong answers. Agents that know what they don&#39;t know prevent disasters.</p>
+                <p><strong>Implementation:</strong> Build uncertainty estimation into your evaluation pipeline. Track confidence scores. Set thresholds for automatic escalation. Make &quot;I don&#39;t know&quot; an acceptable answer.</p>
+                <div class="antipattern-box">
+                <strong>Antipattern Alert:</strong> Treating every agent output as equally reliable. This guarantees you'll ship confident mistakes to production.
+                </div>
+                
+                <h3>6. Continuous Monitoring and Red Teaming</h3>
+                <p><strong>The Pattern:</strong> Actively test your agents adversarially. Don&#39;t wait for production failures—hunt for vulnerabilities during development.</p>
+                <p><strong>Why It Works:</strong> Agents have attack surfaces you won&#39;t discover through normal testing. Red teaming finds edge cases, prompt injection vulnerabilities, and unexpected behaviors before users do.</p>
+                <p><strong>Implementation:</strong> Set up automated adversarial testing. Test with malicious inputs. Try to make the agent do things it shouldn&#39;t. Document failure modes. Fix them before deployment.</p>
+                <h2>Antipatterns That Kill Projects</h2>
+                <h3>Antipattern 1: Single-Model Dependency</h3>
+                <p><strong>The Trap:</strong> Building your entire system around one model or provider.</p>
+                <p><strong>Why It Fails:</strong> Models change. APIs get updated. Providers have outages. Single-model dependency creates fragility and vendor lock-in.</p>
+                <p><strong>The Fix:</strong> Design for model-agnostic operation. Abstract model calls behind interfaces. Test with multiple models. Have fallback options. Don&#39;t let a provider&#39;s downtime become your downtime.</p>
+                <h3>Antipattern 2: No Elicitation Strategy</h3>
+                <p><strong>The Trap:</strong> Testing agents naively—single runs, no tooling, no attempt to maximize capability.</p>
+                <p><strong>Why It Fails:</strong> Naive testing dramatically underestimates agent capabilities. Bad actors won&#39;t test naively. They&#39;ll use every trick to maximize performance. If you don&#39;t test the same way, you won&#39;t find vulnerabilities until it&#39;s too late.</p>
+                <p><strong>The Fix:</strong> Develop comprehensive elicitation methodologies. Use parallel sampling. Provide relevant tools. Test with domain-specific fine-tuning. Document your testing approach transparently.</p>
+                <div class="antipattern-box">
+                <strong>Real Cost:</strong> Companies that skip proper elicitation discover critical vulnerabilities in production, after users have already found ways to exploit them.
+                </div>
+                
+                <h3>Antipattern 3: Treating Agents Like Traditional Software</h3>
+                <p><strong>The Trap:</strong> Using standard software development practices without adaptation for agent-specific challenges.</p>
+                <p><strong>Why It Fails:</strong> Agents aren&#39;t deterministic. Traditional unit tests don&#39;t work. Standard CI/CD pipelines miss agent-specific failure modes.</p>
+                <p><strong>The Fix:</strong> Build agent-specific testing infrastructure. Focus on behavioral tests over unit tests. Measure success rates across multiple runs. Implement specialized observability for agent decision-making.</p>
+                <h3>Antipattern 4: No External Review</h3>
+                <p><strong>The Trap:</strong> Keeping agent evaluation entirely internal.</p>
+                <p><strong>Why It Fails:</strong> Internal teams develop blind spots. You&#39;ll miss vulnerabilities that external experts would catch immediately.</p>
+                <p><strong>The Fix:</strong> Get external safety testing. Give independent evaluators meaningful access. Accept critical feedback. Publish findings. External review isn&#39;t a sign of weakness—it&#39;s a sign you&#39;re serious about safety.</p>
+                <h3>Antipattern 5: Ignoring the Human Element</h3>
+                <p><strong>The Trap:</strong> Building fully autonomous systems without considering where humans should remain in the loop.</p>
+                <p><strong>Why It Fails:</strong> Not every decision should be automated. Some tasks need human judgment. Removing humans entirely creates brittleness and trust problems.</p>
+                <p><strong>The Fix:</strong> Design human-AI collaboration explicitly. Identify high-stakes decisions that need human approval. Build escalation paths. Make human override easy and well-documented.</p>
+                <h2>What To Do Next</h2>
+                <p>Building reliable agentic systems requires rethinking software development from first principles. Here&#39;s your action plan:</p>
+                <p><strong>Start with safety.</strong> Build multiple independent safety layers before optimizing for performance. Unsafe systems aren&#39;t useful systems.</p>
+                <p><strong>Test adversarially.</strong> Don&#39;t wait for users to find vulnerabilities. Red team your own systems aggressively and continuously.</p>
+                <p><strong>Embrace uncertainty.</strong> Build systems that know what they don&#39;t know. Make escalation pathways clear and friction-free.</p>
+                <p><strong>Monitor everything.</strong> Instrument your agents comprehensively. Log inputs, outputs, tool calls, and decision paths. You can&#39;t fix what you can&#39;t see.</p>
+                <p><strong>Iterate on feedback.</strong> Deploy carefully. Gather data. Find failure modes. Fix them. Deploy again. Agentic systems improve through iteration, not perfection on day one.</p>
+                <div class="pattern-box">
+                <strong>Remember:</strong> The goal isn't to eliminate all failures—it's to catch and fix failures before they become catastrophic. Build systems that fail gracefully, learn quickly, and improve continuously.
+                </div>
+                
+                <p>The difference between agentic systems that work and those that don&#39;t isn&#39;t mysterious. It comes down to following proven patterns, avoiding common traps, and accepting that agents need different architectures than traditional software.</p>
+                <p>Build with these patterns. Avoid these antipatterns. Ship systems that actually work.</p>
+                <hr>
+                <p><em>Analysis based on research from Anthropic, OpenAI, Gemini, and field observations from production agentic deployments.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
