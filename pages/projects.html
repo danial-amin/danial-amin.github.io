@@ -57,6 +57,7 @@
         <div class="container">
             <div class="filter-controls">
                 <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="hobby">Hobby</button>
                 <button class="filter-btn" data-filter="agentic">Agentic AI</button>
                 <button class="filter-btn" data-filter="rag">RAG Systems</button>
                 <button class="filter-btn" data-filter="fintech">Fintech</button>
@@ -70,22 +71,16 @@
     <section class="projects-showcase">
         <div class="container">
             <div class="projects-grid">
-                <!-- Featured Project 1 - AIDC -->
+                <!-- Featured Project 1 - AIDC (password-protected landing) -->
                 <div class="project-card featured" data-category="agentic enterprise">
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">
+                                <a href="projects/aidc.html" class="project-link">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+                                        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v4h8z"/>
                                     </svg>
-                                    <span>Case Study</span>
-                                </a>
-                                <a href="#" class="project-link">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-                                    </svg>
-                                    <span>Technical Docs</span>
+                                    <span>Project (password)</span>
                                 </a>
                             </div>
                         </div>
@@ -400,18 +395,570 @@
                     </div>
                 </div>
 
-                <!-- Project 7 - SignalGuard Observability -->
-                <div class="project-card" data-category="mlops enterprise">
+                <!-- Hobby: PEP Persona Generator -->
+                <div class="project-card" data-category="hobby rag">
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="https://danial-amin.github.io/signal-guard/demo.html" class="project-link" target="_blank">
+                                <a href="projects/pep-be.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/pep-be" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">👤</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • RAG</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">PEP – Persona Generator Backend</h3>
+                        <p class="project-description">
+                            LLM-powered backend for generating personas from unstructured research. Document processing, ChromaDB, multi-step persona generation, and prompt completion.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">FastAPI</span>
+                                <span class="metric-label">API</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">ChromaDB</span>
+                                <span class="metric-label">Vector DB</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">OpenAI</span>
+                                <span class="metric-label">LLM</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">ChromaDB</span>
+                            <span class="tech-tag">OpenAI</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: DDC Parser -->
+                <div class="project-card" data-category="hobby">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/ddc-parser.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/ddc_parser" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">📄</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • NLP</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">DDC Parser</h3>
+                        <p class="project-description">
+                            Upload, parse, and download a polished CV using OpenAI. Vite + Express app for turning messy CV text into clean, structured output.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">OpenAI</span>
+                                <span class="metric-label">Parsing</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Vite</span>
+                                <span class="metric-label">Frontend</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Express</span>
+                                <span class="metric-label">Backend</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Vite</span>
+                            <span class="tech-tag">Express</span>
+                            <span class="tech-tag">OpenAI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Bayesian Hiring Agent -->
+                <div class="project-card" data-category="hobby agentic">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/bayesian-hiring-agent.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/bayesian-hiring-agent" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">📊</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • Research</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Bayesian Hiring Agent</h3>
+                        <p class="project-description">
+                            Cost-aware, fair resume screening using Bayesian orchestration over multiple LLMs. Reduces hiring costs and improves demographic parity.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">34%</span>
+                                <span class="metric-label">Cost Reduction</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">45%</span>
+                                <span class="metric-label">Parity Gain</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Multi-LLM</span>
+                                <span class="metric-label">Orchestration</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Bayesian</span>
+                            <span class="tech-tag">Multi-LLM</span>
+                            <span class="tech-tag">Fairness</span>
+                            <span class="tech-tag">Resume Screening</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: PaperReads -->
+                <div class="project-card" data-category="hobby">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/goodreads-papers.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/goodreads-papers" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">📚</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • Recommendations</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">PaperReads (Goodreads for Papers)</h3>
+                        <p class="project-description">
+                            Modern Goodreads alternative for research papers: browse, track, rate, and get personalized recommendations with TF-IDF and sentence-transformers.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">React</span>
+                                <span class="metric-label">Frontend</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">FastAPI</span>
+                                <span class="metric-label">Backend</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">ML</span>
+                                <span class="metric-label">Recommendations</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">scikit-learn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Voice Agents -->
+                <div class="project-card" data-category="hobby agentic">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/voice-agents.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/voice-agents" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">🎤</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • Voice</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Voice Agents</h3>
+                        <p class="project-description">
+                            Voice-powered AI agents for conversational interfaces and voice-driven workflows—STT, agent/LLM, TTS in a modular pipeline.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Voice</span>
+                                <span class="metric-label">I/O</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">LLM</span>
+                                <span class="metric-label">Agents</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Modular</span>
+                                <span class="metric-label">Pipeline</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Voice</span>
+                            <span class="tech-tag">LLM</span>
+                            <span class="tech-tag">Agents</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: ThreeDLLM -->
+                <div class="project-card" data-category="hobby">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/threedllm.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/threedllm" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">🧊</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • 3D • VLM</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">ThreeDLLM</h3>
+                        <p class="project-description">
+                            Generate 3D objects from text and images with VLM-enhanced prompts; Shap-E, Hugging Face, Neural4D, Instant3D; export OBJ, PLY, STL.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">VLM</span>
+                                <span class="metric-label">Prompts</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Image</span>
+                                <span class="metric-label">to 3D</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Multi</span>
+                                <span class="metric-label">Backend</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Shap-E</span>
+                            <span class="tech-tag">OpenAI</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">PyTorch</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Council of LLMs -->
+                <div class="project-card" data-category="hobby agentic">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/council-of-llms.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/council-of-llms" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">🏛️</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • Multi-LLM</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Council of LLMs</h3>
+                        <p class="project-description">
+                            Multiple LLMs deliberate together to answer hard questions—completion, judging, and consolidation for better robustness.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Multi-LLM</span>
+                                <span class="metric-label">Deliberation</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Judging</span>
+                                <span class="metric-label">Rounds</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Consensus</span>
+                                <span class="metric-label">Output</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Multi-LLM</span>
+                            <span class="tech-tag">Consensus</span>
+                            <span class="tech-tag">Orchestration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Prompt Lab -->
+                <div class="project-card" data-category="hobby">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/prompt-lab.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/prompt-lab" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">🧪</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • LLM Tools</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Prompt Lab</h3>
+                        <p class="project-description">
+                            Experiment with prompts, compare models, and iterate on LLM inputs and outputs in one place.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Prompts</span>
+                                <span class="metric-label">Edit</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Multi-model</span>
+                                <span class="metric-label">Compare</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Iteration</span>
+                                <span class="metric-label">Workflow</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Prompts</span>
+                            <span class="tech-tag">LLM</span>
+                            <span class="tech-tag">Experimentation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Customer Support AI -->
+                <div class="project-card" data-category="hobby rag agentic">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/customer-support-companion.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/customer-support-companion" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">💬</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • RAG • LangGraph</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Customer Support AI</h3>
+                        <p class="project-description">
+                            LLM-based support with LangGraph: RAG, NLP-to-SQL, and analyzer agents with automatic query routing. FastAPI, Pinecone, React.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">RAG</span>
+                                <span class="metric-label">+ SQL + Analyze</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">LangGraph</span>
+                                <span class="metric-label">Orchestration</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Docker</span>
+                                <span class="metric-label">Ready</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">LangGraph</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Pinecone</span>
+                            <span class="tech-tag">React</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hobby: Marge Estimator -->
+                <div class="project-card" data-category="hobby">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/marge-estimator.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/marge_estimator" class="project-link" target="_blank" rel="noopener">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-image-placeholder">
+                            <div class="placeholder-icon">📐</div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <div class="project-type">Hobby • Estimation</div>
+                            <div class="project-status">Open Source</div>
+                        </div>
+                        <h3 class="project-title">Marge Estimator</h3>
+                        <p class="project-description">
+                            Estimation and forecasting for margins, effort, or similar quantities—configurable inputs and logic, repeatable outputs.
+                        </p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Estimation</span>
+                                <span class="metric-label">Logic</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Configurable</span>
+                                <span class="metric-label">Inputs</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Repeatable</span>
+                                <span class="metric-label">Outputs</span>
+                            </div>
+                        </div>
+                        <div class="project-tech">
+                            <span class="tech-tag">Estimation</span>
+                            <span class="tech-tag">Forecasting</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: SignalGuard Observability -->
+                <div class="project-card" data-category="hobby mlops enterprise">
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="projects/signal-guard.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://danial-amin.github.io/signal-guard/demo.html" class="project-link" target="_blank" rel="noopener">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
                                     </svg>
                                     <span>Live Demo</span>
                                 </a>
-                                <a href="https://danial-amin.github.io/signal-guard" class="project-link" target="_blank">
+                                <a href="https://github.com/danial-amin/signal-guard" class="project-link" target="_blank" rel="noopener">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
                                     </svg>
@@ -457,18 +1004,24 @@
                     </div>
                 </div>
 
-                <!-- Project 8 - SignalGuard Logs -->
-                <div class="project-card" data-category="mlops">
+                <!-- Project: SignalGuard Logs (signalguard-aiops) -->
+                <div class="project-card" data-category="hobby mlops">
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="https://github.com/danial-amin/signalguard-aiops" class="project-link" target="_blank">
+                                <a href="projects/signalguard-aiops.html" class="project-link">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+                                    </svg>
+                                    <span>Landing</span>
+                                </a>
+                                <a href="https://github.com/danial-amin/signalguard-aiops" class="project-link" target="_blank" rel="noopener">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
                                     </svg>
                                     <span>GitHub</span>
                                 </a>
-                                <a href="https://danial-amin.github.io/signalguard-aiops/" class="project-link" target="_blank">
+                                <a href="https://danial-amin.github.io/signalguard-aiops/" class="project-link" target="_blank" rel="noopener">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/>
                                     </svg>

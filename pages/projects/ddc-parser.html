@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDC Parser – CV Parser with OpenAI | Danial Amin</title>
+    <meta name="description" content="Upload, parse, and download a polished CV using OpenAI. Simple web app for turning messy CV text into clean, structured output.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">NLP</span>
+                        <span class="article-category">OpenAI</span>
+                    </div>
+                    <h1 class="article-title">DDC Parser</h1>
+                    <p class="project-one-liner">Upload, parse, and download a polished CV—powered by OpenAI.</p>
+                    <div class="article-tags">
+                        <span class="tag">Vite</span>
+                        <span class="tag">Express</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">TypeScript</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/ddc_parser" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Demo (TBD)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>CVs come in every format: copy-pasted text, PDFs, Word docs, inconsistent headings and dates. Turning that into a clean, structured CV for applications or portfolios is repetitive and time-consuming. Small errors and formatting noise can make a strong candidate look unpolished.</p>
+
+                    <h2>The solution</h2>
+                    <p>DDC Parser is a small web app: you provide your CV text (or paste from a document), and the backend uses OpenAI to parse, structure, and polish it. You get a clean, consistent CV ready to download or reuse—without manually reformatting.</p>
+
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without DDC Parser</h3>
+                            <p>Manual reformatting, inconsistent sections and dates, and time spent fixing layout instead of content.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With DDC Parser</h3>
+                            <p>Paste or upload → one click to parse → get a polished, structured CV. Deploy once (e.g. Railway, Render) and reuse for yourself or small teams.</p>
+                        </div>
+                    </div>
+
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Simple UI</strong> – Upload or paste CV text; trigger parse with one action.</li>
+                        <li><strong>LLM-based parsing</strong> – OpenAI (e.g. GPT-4o) structures and cleans sections, dates, and formatting.</li>
+                        <li><strong>Download-ready output</strong> – Get a polished CV you can copy or download.</li>
+                        <li><strong>Deploy anywhere</strong> – Docker, Railway, Render, Fly.io, or a VPS; 5-minute timeout for long CVs.</li>
+                        <li><strong>TypeScript + Vite</strong> – Modern frontend; Express backend; easy to extend or self-host.</li>
+                    </ul>
+
+                    <h2>Tech stack</h2>
+                    <p>Vite, TypeScript, Express, OpenAI API. Optional Dockerfile and configs for Railway, Render, Fly.io. Environment-based config (API key, model, port).</p>
+
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Add a public demo URL and link it from this page.</li>
+                            <li>Support PDF/DOCX upload with extraction (e.g. pdf-parse, mammoth) so users can upload files directly.</li>
+                            <li>Template selection (e.g. academic vs industry, one-page vs two-page) and optional styling for export.</li>
+                            <li>Optional auth or usage limits for a shared instance.</li>
+                            <li>Batch or “improve this section” mode for iterative editing.</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/ddc_parser" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – ddc_parser</a>
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

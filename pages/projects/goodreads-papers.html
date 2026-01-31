@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaperReads (Goodreads for Papers) | Danial Amin</title>
+    <meta name="description" content="A modern Goodreads alternative for research papers with smart recommendations, reading tracking, and advanced search.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">Recommendations</span>
+                        <span class="article-category">Full-stack</span>
+                    </div>
+                    <h1 class="article-title">PaperReads</h1>
+                    <p class="project-one-liner">A modern Goodreads alternative for research papers—browse, track, rate, and get personalized recommendations.</p>
+                    <div class="article-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">scikit-learn</span>
+                        <span class="tag">sentence-transformers</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/goodreads-papers" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Demo (TBD)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Researchers and students read dozens of papers but lack a single place to track what they've read, rate papers, and discover similar work. Goodreads solves this for books; papers need the same—with recommendations grounded in abstracts, keywords, and reading history.</p>
+                    <h2>The solution</h2>
+                    <p>PaperReads is a full-stack app: manage your paper library, track reading status (want to read / reading / completed), rate and favorite papers, and get personalized recommendations using TF-IDF and sentence embeddings plus user-profile weighting.</p>
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without PaperReads</h3>
+                            <p>Scattered PDFs and bookmarks, no unified reading history or discovery based on your interests.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With PaperReads</h3>
+                            <p>One place to browse, search, track, and get recommendations—Docker-ready for self-hosting.</p>
+                        </div>
+                    </div>
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Paper management</strong> – Add, search, and organize papers by title, authors, keywords, abstract.</li>
+                        <li><strong>Smart recommendations</strong> – TF-IDF + cosine similarity and sentence-transformers; user profile from ratings and history.</li>
+                        <li><strong>Reading tracking</strong> – Want to read, currently reading, completed.</li>
+                        <li><strong>Ratings & favorites</strong> – Rate papers and mark favorites to improve recommendations.</li>
+                        <li><strong>Modern UI</strong> – React, Vite, Tailwind CSS, Framer Motion; Docker Compose for backend + frontend + PostgreSQL.</li>
+                    </ul>
+                    <h2>Tech stack</h2>
+                    <p>Backend: FastAPI, SQLAlchemy, PostgreSQL (SQLite for local dev), scikit-learn, sentence-transformers. Frontend: React, Vite, Tailwind CSS, Framer Motion, React Router.</p>
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Public or self-hosted demo; optional auth and multi-user.</li>
+                            <li>Import from BibTeX, Zotero, or arXiv lists.</li>
+                            <li>Export reading list and recommendations to PDF or Notion.</li>
+                            <li>Richer embeddings (e.g. paper-specific models) and reranking.</li>
+                        </ul>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/goodreads-papers" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – goodreads-papers</a>
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content"><p>&copy; 2025 Danial Amin. All rights reserved.</p></div>
+        </div>
+    </footer>
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

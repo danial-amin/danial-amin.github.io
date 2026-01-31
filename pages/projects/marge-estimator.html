@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marge Estimator | Danial Amin</title>
+    <meta name="description" content="Estimation and forecasting tool for margins, effort, or similar quantities—configurable and extensible.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">Estimation</span>
+                    </div>
+                    <h1 class="article-title">Marge Estimator</h1>
+                    <p class="project-one-liner">Estimation and forecasting for margins, effort, or similar quantities—configurable and extensible.</p>
+                    <div class="article-tags">
+                        <span class="tag">Estimation</span>
+                        <span class="tag">Forecasting</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/marge_estimator" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Demo (TBD)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Estimating margins, effort, or other quantities from incomplete or noisy data is common in product, ops, and planning. Ad-hoc spreadsheets or one-off scripts don’t scale and are hard to version or reuse across teams.</p>
+                    <h2>The solution</h2>
+                    <p>Marge Estimator is a hobby project that provides a structured way to define inputs, apply estimation or forecasting logic, and output margins (or other metrics) in a repeatable, configurable way. See the repository for the current scope—models, API, or CLI.</p>
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without Marge Estimator</h3>
+                            <p>Ad-hoc spreadsheets or scripts; no single, versioned way to run and compare estimates.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With Marge Estimator</h3>
+                            <p>Structured inputs, configurable logic, and repeatable outputs—easier to share and iterate.</p>
+                        </div>
+                    </div>
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Input definition</strong> – Define or ingest inputs (e.g. costs, volumes, parameters).</li>
+                        <li><strong>Estimation logic</strong> – Configurable rules or models for margin (or other) estimation.</li>
+                        <li><strong>Outputs</strong> – Estimates, bounds, or forecasts in a consistent format.</li>
+                        <li><strong>Extensibility</strong> – Add new inputs or methods without rewriting the core (see repo for details).</li>
+                    </ul>
+                    <h2>Tech stack</h2>
+                    <p>See the repository for implementation (e.g. Python, optional API or CLI).</p>
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Demo (TBD) – UI, API, or example notebooks.</li>
+                            <li>More estimation methods and sensitivity analysis.</li>
+                            <li>Export to CSV, dashboards, or planning tools.</li>
+                        </ul>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/marge_estimator" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – marge_estimator</a>
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content"><p>&copy; 2025 Danial Amin. All rights reserved.</p></div>
+        </div>
+    </footer>
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalGuard Logs – Log Intelligence Toolkit | Danial Amin</title>
+    <meta name="description" content="Lightweight AIOps toolkit for log analysis: template extraction, semantic anomaly detection, error bursts, new pattern detection.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">AIOps</span>
+                        <span class="article-category">Logs</span>
+                    </div>
+                    <h1 class="article-title">SignalGuard Logs</h1>
+                    <p class="project-one-liner">Log intelligence toolkit: parsing, template extraction, semantic anomaly detection, error bursts, and new pattern detection.</p>
+                    <div class="article-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">scikit-learn</span>
+                        <span class="tag">TF-IDF</span>
+                        <span class="tag">Isolation Forest</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/signalguard-aiops" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="https://danial-amin.github.io/signalguard-aiops/" class="btn btn-primary" target="_blank" rel="noopener">Documentation</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Logs are noisy and high-volume; finding anomalies (error bursts, new patterns, semantic outliers) without a clear pipeline is slow. Teams need a lightweight, library-style toolkit that handles parsing, template extraction, and several detection strategies in one place.</p>
+                    <h2>The solution</h2>
+                    <p>SignalGuard Logs (signalguard-aiops) is a modular Python toolkit: parse logs (regex or JSON), extract templates (Drain-style), build TF-IDF features, and run detectors for error bursts, new templates, and semantic anomalies (Isolation Forest). High-level “recipes” combine these for ready-to-use log health checks.</p>
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without SignalGuard Logs</h3>
+                            <p>Ad-hoc scripts or heavy platforms; no single library for parsing + templates + multiple anomaly detectors.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With SignalGuard Logs</h3>
+                            <p>One package: LogRecord/LogStream, parsers, template extraction, burst/new-pattern/semantic detectors, and recipes.</p>
+                        </div>
+                    </div>
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Log parsing</strong> – Regex and JSON parsers; unified LogRecord / LogStream.</li>
+                        <li><strong>Template extraction</strong> – Naive Drain-style; mask numbers, hex, IDs for pattern grouping.</li>
+                        <li><strong>Feature engineering</strong> – TF-IDF, template frequency, token masking.</li>
+                        <li><strong>Detectors</strong> – Error burst (volume spikes), new template (pattern drift), semantic Isolation Forest.</li>
+                        <li><strong>Recipes</strong> – ErrorBurstRecipe, NewErrorPatternRecipe, CombinedLogHealthRecipe.</li>
+                    </ul>
+                    <h2>Tech stack</h2>
+                    <p>Python, numpy, pandas, scikit-learn (TF-IDF, Isolation Forest). Installable package with examples and tests.</p>
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>BERT/sentence-transformers for semantic embeddings; Drain3 or IPLoM for templates.</li>
+                            <li>Integration with Loki, Elastic, OpenSearch.</li>
+                            <li>Correlate log anomalies with SignalGuard metrics (cross-signal AIOps).</li>
+                        </ul>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/signalguard-aiops" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – signalguard-aiops</a>
+                        <a href="https://danial-amin.github.io/signalguard-aiops/" class="btn btn-primary" target="_blank" rel="noopener">Documentation</a>
+                        <a href="../projects.html" class="btn btn-secondary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content"><p>&copy; 2025 Danial Amin. All rights reserved.</p></div>
+        </div>
+    </footer>
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>

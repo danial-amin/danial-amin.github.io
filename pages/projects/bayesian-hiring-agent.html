@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayesian Hiring Agent | Danial Amin</title>
+    <meta name="description" content="Bayesian orchestration of multi-LLM agents for cost-aware, fair resume screening. Reduces hiring costs and improves demographic parity.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <!-- Optional password gate: uncomment the block below and the script, set data-pwd-value on body -->
+    <!-- <div id="pwd-gate" class="pwd-gate" style="display:none;">
+        <h2>Protected project</h2>
+        <p>This project is shared privately. Enter the password to view.</p>
+        <form>
+            <input type="password" placeholder="Password" autocomplete="current-password" />
+            <p class="pwd-error"></p>
+            <button type="submit">Unlock</button>
+        </form>
+    </div> -->
+
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">Research</span>
+                        <span class="article-category">Multi-LLM</span>
+                    </div>
+                    <h1 class="article-title">Bayesian Hiring Agent</h1>
+                    <p class="project-one-liner">Cost-aware, fair resume screening using Bayesian orchestration over multiple LLMs—treating models as likelihoods, not black-box classifiers.</p>
+                    <div class="article-tags">
+                        <span class="tag">Bayesian</span>
+                        <span class="tag">Multi-LLM</span>
+                        <span class="tag">Resume screening</span>
+                        <span class="tag">Fairness</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/bayesian-hiring-agent" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Demo (TBD)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Resume screening is expensive and noisy: a bad hire costs tens of thousands, while interviews and phone screens add up. Single-LLM classifiers are opaque and can encode bias. Teams need a way to combine multiple models, incorporate costs (missed hire vs. interview cost), and update decisions as new evidence arrives—without treating the LLM as a single point of failure.</p>
+
+                    <h2>The solution</h2>
+                    <p>This project implements a <strong>Bayesian orchestration framework</strong> for multi-LLM resume screening. Instead of using one LLM as a classifier, we elicit likelihoods from several LLMs (e.g. GPT-4o, Claude, Gemini, Grok, DeepSeek) via contrastive prompting, aggregate them with robust statistics, and update beliefs with Bayes’ rule under explicit priors. Decisions are made by expected cost (e.g. cost of missed hire vs. cost of interview), so the system is both cost-aware and auditable.</p>
+
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without Bayesian orchestration</h3>
+                            <p>Single-model bias, no explicit cost tradeoffs, and no principled way to combine or update beliefs as resumes are processed in sequence.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With Bayesian Hiring Agent</h3>
+                            <p>Multiple LLMs as likelihood sources; coherent belief updating; expected-cost action selection; reported ~34% cost reduction and ~45% improvement in demographic parity in experiments.</p>
+                        </div>
+                    </div>
+
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Contrastive prompting</strong> – Elicit likelihoods from LLMs (e.g. “fit vs. not fit”) instead of hard labels.</li>
+                        <li><strong>Multi-model aggregation</strong> – Combine predictions across GPT-4o, Claude, Gemini, Grok, DeepSeek with robust statistics.</li>
+                        <li><strong>Bayesian updating</strong> – Prior + likelihood → posterior; update as each resume is processed (sequential decision-making).</li>
+                        <li><strong>Cost-aware actions</strong> – Choose screen / interview / reject by minimizing expected cost (e.g. $40k missed hire, $2.5k interview, $150 phone screen).</li>
+                        <li><strong>Fairness</strong> – In reported experiments, improves demographic parity (45%) while reducing total cost (34%) vs. best single-LLM baseline.</li>
+                    </ul>
+
+                    <h2>Tech & research</h2>
+                    <p>Implementation and experiments for the framework described in “Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making.” The repo contains code for elicitation, aggregation, belief updating, and evaluation on resume-screening style setups.</p>
+
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Public demo or API (optionally password-protected from this page) for recruiters or researchers.</li>
+                            <li>Support for more LLMs and prompt templates; ablation on contrastive vs. direct prompting.</li>
+                            <li>Calibration and fairness audits on new datasets and domains.</li>
+                            <li>Integration with ATS or HR workflows (e.g. webhook, CSV in/out) for pilot use.</li>
+                            <li>Publication or extended write-up with full experimental details and reproducibility.</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/bayesian-hiring-agent" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – bayesian-hiring-agent</a>
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+    <!-- <script src="../../js/project-pwd-gate.js"></script> -->
+</body>
+</html>

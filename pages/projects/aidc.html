@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIDC - AI Design Companion | Danial Amin</title>
+    <meta name="description" content="Multi-agent AI system for wearable technology design optimization. Password-protected project details.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<!-- Set your password: change data-pwd-value="changeme" to your real password, or use data-pwd-hash="sha256hex" (see pages/projects/README.md) -->
+<body data-theme="dark" data-pwd-protected="true" data-pwd-value="changeme" data-pwd-storage-key="aidc">
+    <canvas id="interactive-bg"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <div id="pwd-gate" class="pwd-gate" style="display:none;">
+        <h2>Protected project</h2>
+        <p>Enter the password to view AIDC project details.</p>
+        <form>
+            <input type="password" placeholder="Password" autocomplete="current-password" />
+            <p class="pwd-error"></p>
+            <button type="submit">Unlock</button>
+        </form>
+    </div>
+
+    <div id="project-content-gated" class="project-content-gated">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Featured</span>
+                        <span class="article-category">Agentic AI</span>
+                        <span class="article-category">Enterprise</span>
+                    </div>
+                    <h1 class="article-title">AIDC – AI Design Companion (Samsung)</h1>
+                    <p class="project-one-liner">Multi-agent AI system for Samsung's wearable technology design optimization. Generative AI, 3D geometric processing, and predictive ML for autonomous design assistance.</p>
+                    <div class="article-tags">
+                        <span class="tag">LangChain</span>
+                        <span class="tag">LangGraph</span>
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">FAISS</span>
+                        <span class="tag">FastAPI</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="../projects.html" class="btn btn-secondary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Wearable design involves complex tradeoffs between form, fit, materials, and user constraints. Exploring the design space manually is slow and leaves good solutions undiscovered. Designers need assistance that understands 3D geometry, user context, and design goals—without replacing human judgment.</p>
+
+                    <h2>The solution</h2>
+                    <p>AIDC is a multi-agent AI system that combines generative AI, 3D geometric processing, and predictive ML models to support autonomous design assistance for Samsung's wearable technology. Agents collaborate on design exploration, feasibility, and optimization while keeping the designer in the loop.</p>
+
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without AIDC</h3>
+                            <p>Manual exploration of design space, slow iteration, and limited use of historical design data and simulation.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With AIDC</h3>
+                            <p>Multi-agent orchestration for design suggestions, 3D body modeling, and predictive evaluation—faster exploration with human oversight.</p>
+                        </div>
+                    </div>
+
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>Multi-agent architecture</strong> – LangChain/LangGraph orchestration for specialized design, geometry, and evaluation agents.</li>
+                        <li><strong>3D body modeling</strong> – Geometric processing for fit and form constraints.</li>
+                        <li><strong>Generative AI</strong> – Design suggestions and variations grounded in context.</li>
+                        <li><strong>Predictive ML</strong> – Models for feasibility and performance estimation.</li>
+                        <li><strong>Production deployment</strong> – FastAPI, FAISS for retrieval, integrated into design workflows.</li>
+                    </ul>
+
+                    <h2>Tech stack</h2>
+                    <p>LangChain, LangGraph, PyTorch, FAISS, FastAPI. Built for accuracy and integration with existing design tools.</p>
+
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Extended case study and technical documentation (shared under NDA where applicable).</li>
+                            <li>Generalization to other product categories and design domains.</li>
+                            <li>Closer integration with CAD and simulation pipelines.</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-landing-cta">
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Danial Amin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/project-pwd-gate.js"></script>
+</body>
+</html>

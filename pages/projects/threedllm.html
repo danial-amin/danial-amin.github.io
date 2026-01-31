@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreeDLLM – Text & Image to 3D | Danial Amin</title>
+    <meta name="description" content="VLM-powered 3D generation from text prompts and images. Multiple backends, export to OBJ, PLY, STL.">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <canvas id="interactive-bg"></canvas>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand"><a href="../../index.html">Danial Amin</a></div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">🌙</span></button>
+            </div>
+            <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+    <div id="project-content-gated" class="project-content-gated unlocked">
+        <section class="article-header">
+            <div class="container">
+                <div class="article-hero project-landing-hero">
+                    <div class="article-meta">
+                        <span class="article-category">Hobby</span>
+                        <span class="article-category">3D</span>
+                        <span class="article-category">VLM</span>
+                    </div>
+                    <h1 class="article-title">ThreeDLLM</h1>
+                    <p class="project-one-liner">Generate 3D objects from text prompts and images using vision-language models and multiple 3D backends—OBJ, PLY, STL.</p>
+                    <div class="article-tags">
+                        <span class="tag">Shap-E</span>
+                        <span class="tag">OpenAI</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Hugging Face</span>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/threedllm" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+                        <a href="#" class="btn btn-primary" target="_blank" rel="noopener">Demo (TBD)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="article-content">
+            <div class="container">
+                <div class="article-body">
+                    <h2>The problem</h2>
+                    <p>Turning a text description or a single image into a usable 3D model is hard: prompt quality matters, and most tools are either closed, expensive, or tied to one format. Designers and developers need a flexible pipeline that can enhance prompts with VLMs and support multiple quality/speed tradeoffs.</p>
+                    <h2>The solution</h2>
+                    <p>ThreeDLLM is a modular pipeline: use a VLM (e.g. GPT-4 Vision) to enhance text prompts or interpret images, then generate 3D with Shap-E, Hugging Face models, or API-based generators (Neural4D, Instant3D). Export to XYZ, OBJ, PLY, or STL for downstream use or 3D printing.</p>
+                    <div class="problem-solution-grid">
+                        <div class="problem-box">
+                            <h3>Without ThreeDLLM</h3>
+                            <p>Single backends, weak prompts, or no image-to-3D; format lock-in.</p>
+                        </div>
+                        <div class="solution-box">
+                            <h3>With ThreeDLLM</h3>
+                            <p>VLM-enhanced prompts, image-to-3D, pluggable generators, and multiple export formats in one CLI/API.</p>
+                        </div>
+                    </div>
+                    <h2>What it does</h2>
+                    <ul class="project-landing-features">
+                        <li><strong>VLM-enhanced prompts</strong> – Improve text prompts with vision-language models for better 3D results.</li>
+                        <li><strong>Image-to-3D</strong> – Generate 3D from a reference image using multimodal understanding.</li>
+                        <li><strong>Multiple backends</strong> – Shap-E (open), Hugging Face (Inference API / Endpoints / local), Neural4D, Instant3D.</li>
+                        <li><strong>Export formats</strong> – XYZ, OBJ, PLY, STL for viewing or 3D printing.</li>
+                        <li><strong>Web UI & API</strong> – FastAPI server with form upload, progress, and download; CLI for scripting.</li>
+                    </ul>
+                    <h2>Tech stack</h2>
+                    <p>Python, PyTorch, Shap-E, FastAPI, Uvicorn; OpenAI for VLM; optional Hugging Face and API keys for Neural4D/Instant3D. Docker and docker-compose for CPU/GPU.</p>
+                    <h2>Next steps</h2>
+                    <div class="next-steps-box">
+                        <h3>Roadmap & ideas</h3>
+                        <ul>
+                            <li>Public demo or hosted API (TBD).</li>
+                            <li>More VLM and 3D backends; quality/price/speed presets.</li>
+                            <li>Batch generation and webhook callbacks for long jobs.</li>
+                            <li>Integration with design tools or asset pipelines.</li>
+                        </ul>
+                    </div>
+                    <div class="project-landing-cta">
+                        <a href="https://github.com/danial-amin/threedllm" class="btn btn-secondary" target="_blank" rel="noopener">GitHub – threedllm</a>
+                        <a href="../projects.html" class="btn btn-primary">Back to projects</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content"><p>&copy; 2025 Danial Amin. All rights reserved.</p></div>
+        </div>
+    </footer>
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
