@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GenAI for Good Is Being Built Backwards - Danial Amin</title>
-    <meta name="description" content="Most GenAI for Good projects start from what the technology can do, then find a social problem to fit it. That's the wrong end of the problem. Impact should define the question. GenAI should be the answer only if it's the right one.">
+    <meta name="description" content="Most GenAI for Good projects start from what the technology can do, then find a social problem to fit it. That's the wrong end of the problem. Impact should define the question. GenAI should be the last design decision, not the first.">
     <meta name="keywords" content="GenAI for Good, AI4Good, impact-first design, responsible AI, HCI, social impact, generative AI">
     <meta name="author" content="Danial Amin">
 
@@ -58,6 +58,17 @@
         .framework-box p {
             margin: 0.35rem 0;
         }
+        .article-inline-image {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .article-inline-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body data-theme="dark">
@@ -98,7 +109,7 @@
                 </div>
                 <h1 class="article-title">GenAI for Good Is Being Built Backwards</h1>
                 <p class="article-excerpt">
-                    Most GenAI for Good projects start from what the technology can do, then find a social problem to fit it. That's the wrong end of the problem. Impact should define the question. GenAI should be the answer only if it's actually the right one.
+                    Most GenAI for Good projects start from what the technology can do, then find a social problem to fit it. That's the wrong end of the problem. Impact should define the question. GenAI should be the last design decision, not the first.
                 </p>
                 <div class="article-tags">
                     <span class="tag">GenAI for Good</span>
@@ -128,67 +139,71 @@
         <div class="container">
             <div class="article-body">
 
-                <p>Every major tech conference now has a "GenAI for Good" track. Every foundation has a grant program for it. Every AI lab has a responsible AI division with a slide deck about it. The label has proliferated faster than any working definition of what it actually means to design one well.</p>
+                <p>Every major tech conference now has a "GenAI for Good" track. Every foundation has a grant program for it. Every AI lab has a responsible AI division with a slide deck about it. The phrase is everywhere, and it sounds reassuring. It implies direction, ethics, and purpose.</p>
 
                 <p>That proliferation is the problem — not the intent behind it.</p>
 
-                <p>The intent is genuine. The urgency is real. But when you look closely at how most GenAI for Good projects get built, you find a consistent structural failure: they start from what the technology can do, then search for a social problem to apply it to. This is backwards. And no amount of ethical review, fairness audit, or responsible AI checklist bolted on at the end will fix a project that was designed in the wrong direction from day one.</p>
+                <p>The intent is genuine. The urgency is real. But when you look closely at how most GenAI for Good projects get built, you find a consistent structural failure: they start from what the technology can do, and only then ask where it might be useful. That sequence feels practical. It is also exactly backwards.</p>
 
                 <div class="insight-box">
-                    <strong>The Core Argument:</strong> The design failure in GenAI for Good is not a values problem. It is a sequencing problem. Impact should define the question. GenAI should be the answer only if — after honest evaluation — it is actually the right one.
+                    <strong>The Core Argument:</strong> The design failure in GenAI for Good is not a values problem. It is a sequencing problem. Impact should define the question. GenAI should be the last design decision, not the first.
                 </div>
 
                 <h2 id="label">The Label Without the Framework</h2>
 
-                <p>"GenAI for Good" is currently doing the same work that "AI for Good" did before it, and "Tech for Good" did before that. Each wave inherits the same fundamental confusion: the belief that attaching a powerful technology to a social cause is, by itself, a design process.</p>
+                <p>"GenAI for Good" is currently doing the same work that "AI for Good" did before it, and "Tech for Good" did before that. Each wave inherits the same fundamental confusion: the belief that attaching a moral label to a technology category produces meaningful direction.</p>
 
                 <p>It isn't. It's a starting point at best, and a distraction at worst.</p>
 
-                <p>What's different about GenAI specifically is the scale of the gap between what the technology appears capable of and what it can reliably deliver in high-stakes, under-resourced, and structurally complex social contexts. Language models are extraordinarily good at producing fluent, confident, and contextually plausible outputs. They are not extraordinarily good at producing correct, equitable, or trustworthy outputs in domains where the cost of error is borne by people who had no say in the system's design.</p>
+                <p>What's different about GenAI specifically is the scale of the gap between what the technology appears capable of and what it can reliably deliver in high-stakes, under-resourced, and institutionally complex settings. That gap is not just technical. It is organizational, ethical, and political.</p>
 
-                <p>That asymmetry matters. A hallucinating model deployed in a commercial chatbot is an embarrassment. A hallucinating model deployed in a healthcare triage tool for a community with limited access to alternative care is something else entirely.</p>
+                <p>That asymmetry matters. A hallucinating model deployed in a commercial chatbot is an embarrassment. A hallucinating model deployed in a healthcare triage tool for a community with limited access to care is a governance failure.</p>
 
                 <p>The label does not come with the framework. Teams have to build that framework themselves — and most aren't.</p>
 
                 <h2 id="trap">The Capability Trap</h2>
 
-                <p>Here is how most GenAI for Good projects actually begin. A team — well-intentioned, technically capable — looks at what the current generation of models can do. They can generate text at scale, reason across documents, translate, summarize, and produce structured outputs from unstructured inputs. These are genuinely remarkable capabilities.</p>
+                <p>Here is how most GenAI for Good projects actually begin. A team — well-intentioned, technically capable — looks at what the current generation of models can do. They can generate text, summarize documents, translate, answer questions, classify, extract patterns, produce synthetic voices, simulate dialogue.</p>
 
                 <p>Then the question becomes: where can we apply this?</p>
 
                 <p>And that framing is the trap.</p>
 
-                <p>When you start from capability, capability becomes the ceiling of your ambition. You end up designing for problems that fit the technology, rather than designing for problems that matter. The communities you are ostensibly serving become audiences for a product demonstration rather than co-designers of a solution. The "good" in GenAI for Good becomes whatever the model can plausibly address — not whatever the actual need requires.</p>
+                <p>When you start from capability, capability becomes the ceiling of your ambition. You end up designing for problems that fit the technology, rather than designing for problems that matter and then asking what role, if any, this technology should play.</p>
 
                 <div class="question-box">
-                    If the model can summarize legal documents and you're building for underserved communities with limited legal access, the question is not "can GenAI help here?" The question is: "What does this community actually need to navigate the legal system, and is a summarization tool the highest-leverage intervention available?" Those are different questions. Most teams only ask the first one.
+                    If the model can summarize legal documents and you're building for underserved communities with limited legal access, the question is not "can GenAI help here?" The question is: "What actually prevents meaningful legal access in this context, and is summarization even close to the bottleneck?"
                 </div>
 
                 <p>This is not a technical failure. It is a design failure. And it happens before the first line of code is written.</p>
 
                 <h2 id="failures">Three Design Failures</h2>
 
-                <p>Most GenAI for Good projects share three structural design failures that distinguish them from their commercial counterparts — not in obvious ways, but in ways that quietly undermine impact at scale.</p>
+                <p>Most GenAI for Good projects share three structural design failures that distinguish them from their commercial counterparts — not in obvious ways, but in ways that quietly undermine impact from the beginning.</p>
 
-                <p><strong>The stakeholder is not the user.</strong> In commercial AI, "user" and "stakeholder" are roughly equivalent. The person using the product is the person whose behavior you're optimizing for. In GenAI for Good, this is almost never true. The person interacting with the system is often not the primary stakeholder — the community, the institution, the ecosystem they belong to is. Designing for individual user experience in these contexts frequently means optimizing for something that doesn't actually improve collective outcomes. A GenAI-powered mental health tool that feels helpful to individual users can still systematically fail a community if it displaces professional care infrastructure or creates dependency without support structures.</p>
+                <p><strong>The stakeholder is not the user.</strong> In commercial AI, "user" and "stakeholder" are roughly equivalent. The person using the product is the person whose behavior you're optimizing around. In social impact work, the relationship is rarely that simple. The person interacting with a system may not be the person most affected by its consequences. Funders, NGOs, public institutions, frontline workers, and communities all sit in a wider stakeholder field with different incentives and different definitions of success.</p>
 
-                <p><strong>Success is not engagement.</strong> Commercial AI is measured by retention, conversion, and engagement. These metrics are seductive precisely because they're legible. But for GenAI for Good, the most successful possible outcome might be that people use the system less over time because their underlying situation has improved. Harm reduction is not the same as usage reduction. Equity of access is not captured in daily active users. Teams that inherit commercial success metrics for social impact projects end up optimizing for the wrong thing — and the data will tell them they're succeeding when they're not.</p>
+                <p><strong>Success is not engagement.</strong> Commercial AI is measured by retention, conversion, and engagement. These metrics are seductive precisely because they're legible. But for GenAI for Good, they are often irrelevant or actively misleading. A system that is used constantly may be a sign of success — or a sign that the institution it was supposed to support is failing. The right metric might be fewer interventions, shorter dependency, improved trust, or increased institutional capability without the tool.</p>
 
                 <p><strong>The goal is exit, not growth.</strong> This is the sharpest difference and the one most teams resist acknowledging. Commercial AI is built to scale, to grow, to become indispensable. A well-designed GenAI for Good project should be built to become unnecessary. If the intervention works, the conditions that made it necessary should change. That requires designing for handoff — to communities, to institutions, to infrastructure that outlasts the technology. Projects that don't plan for exit don't plan for success. They plan for dependency.</p>
 
+                <div class="article-inline-image">
+                    <img src="../../assets/images_blogs/image_genai_good_1.png" alt="Illustration related to designing GenAI for Good projects for exit rather than growth">
+                </div>
+
                 <div class="insight-box">
-                    <strong>The Structural Problem:</strong> Commercial AI borrows its design frameworks from product thinking. Stakeholder = user. Success = engagement. Goal = growth. GenAI for Good requires different answers to all three — and most projects don't realize this until they're already two years in.
+                    <strong>The Structural Problem:</strong> Commercial AI borrows its design frameworks from product thinking. Stakeholder = user. Success = engagement. Goal = growth. GenAI for Good inherits those instincts by default, even when they actively distort the intervention.
                 </div>
 
                 <h2 id="impact-first">Impact-First Design</h2>
 
                 <p>The alternative is not more ethics reviews or more diverse datasets, though both matter. The alternative is a fundamentally different sequencing of design decisions.</p>
 
-                <p>Impact-first design begins with a theory of change, not a technology stack. Before any conversation about what GenAI can do, the team must answer a harder set of questions: What does success actually look like for the people this is meant to serve? What are the structural conditions that produce the problem? What would need to change for those conditions to shift? Who has tried to address this before, what did they learn, and why didn't it scale?</p>
+                <p>Impact-first design begins with a theory of change, not a technology stack. Before any conversation about what GenAI can do, the team must answer a harder set of questions: What does meaningful change look like for this community? What structures currently block it? Which actors hold power over the outcome? What would accountability look like? What would success look like if the tool disappeared?</p>
 
-                <p>These questions are not AI questions. They are social design questions. And answering them rigorously will frequently reveal that GenAI is not the most important intervention available — which is essential information to have before you build anything.</p>
+                <p>These questions are not AI questions. They are social design questions. And answering them rigorously will frequently reveal that GenAI is not the most important intervention available — or not an intervention worth building at all.</p>
 
-                <p>When the answer does point toward GenAI as a useful component of a larger solution, the design work changes character entirely. You are no longer asking "what can this technology do?" You are asking "what role should this technology play in a system designed around human outcomes?" That reframe changes every subsequent decision — what data you collect, how you evaluate the system, who you involve in the design process, and what success looks like.</p>
+                <p>When the answer does point toward GenAI as a useful component of a larger solution, the design work changes character entirely. You are no longer asking "what can this technology do?" You are asking "what is the narrowest, safest, most accountable role this technology can play inside a broader intervention designed around impact?"</p>
 
                 <div class="framework-box">
                     <strong>Impact-First Design: The Sequencing</strong>
@@ -200,23 +215,27 @@
                     <p>6. Build in accountability to stakeholders, not users — who does this system actually answer to?</p>
                 </div>
 
+                <div class="article-inline-image">
+                    <img src="../../assets/images_blogs/image_genai_good_2.png" alt="Framework illustration for the sequencing of impact-first design in GenAI for Good projects">
+                </div>
+
                 <h2 id="practice">What This Looks Like in Practice</h2>
 
                 <p>The practical difference between capability-first and impact-first design shows up in a specific set of decisions that teams make early and rarely revisit.</p>
 
-                <p>It shows up in who is in the room when the problem is defined. Capability-first teams define the problem among people who understand the technology. Impact-first teams define the problem among people who understand the context — ideally including those closest to the conditions being addressed.</p>
+                <p>It shows up in who is in the room when the problem is defined. Capability-first teams define the problem among people who understand the technology. Impact-first teams define the problem among people who understand the system the technology is entering — and include those who bear the consequences if it fails.</p>
 
-                <p>It shows up in how success is measured. Capability-first projects track outputs: queries processed, documents summarized, hours saved. Impact-first projects track outcomes: did legal access improve? Did health outcomes shift? Did the community's capacity to navigate the system increase? These are harder to measure, slower to emerge, and more honest about whether the project is actually working.</p>
+                <p>It shows up in how success is measured. Capability-first projects track outputs: queries processed, documents summarized, hours saved. Impact-first projects track outcomes: did legal access improve, did burden on frontline staff decrease without loss of care quality, did institutional capacity increase, did dependency decrease?</p>
 
-                <p>It shows up in how the team talks about GenAI internally. On capability-first projects, the technology is the center of the design conversation — its limitations set the boundaries of what's considered possible. On impact-first projects, the technology is subordinate to the design conversation. When the model can't do what the community needs, the answer is not to redesign the community need around what the model can do. The answer is to find a different approach.</p>
+                <p>It shows up in how the team talks about GenAI internally. On capability-first projects, the technology is the center of the design conversation — its limitations set the boundaries of what gets imagined. On impact-first projects, the technology is a component inside a larger strategy. If it introduces more fragility than leverage, it gets removed.</p>
 
-                <p>That distinction sounds obvious when stated plainly. It is not obvious in practice. The technology is expensive, impressive, and heavily invested in. The social problem is complex, slow-moving, and resistant to measurement. The path of least resistance is always to let the technology define the scope of the possible. Resisting that path is the actual design challenge of GenAI for Good — and it starts long before the model is selected.</p>
+                <p>That distinction sounds obvious when stated plainly. It is not obvious in practice. The technology is expensive, impressive, and heavily invested in. The social problem is complex, ambiguous, and resistant to neat demos. So teams drift toward the thing they can show. The demo becomes the product. The product becomes the intervention. And the intervention becomes detached from impact.</p>
 
                 <p>The label is not the work. The framework is.</p>
 
                 <hr />
 
-                <p><em>This work has been prepared in collaboration with a Generative AI language model (LLM), which contributed to drafting and refining portions of the text under the author's direction.</em></p>
+                <p><em>This work has been prepared in collaboration with a Generative AI language model (LLM), which contributed to drafting and refining portions of the text under the author's direct guidance, review, and editorial control.</em></p>
 
             </div>
         </div>
@@ -225,9 +244,7 @@
     <!-- Author Bio -->
     <div class="author-bio">
         <h4>About the Author</h4>
-        <p><strong>Danial Amin</strong> is a practitioner in Generative AI for Good for a Stealth AI Research Lab in Helsinki, Finland, and also does academic research in Generative AI for Good at University of Vaasa, Finland. His research focuses on GenAI applications in HCI and human-AI interaction. You can connect with him on
-            <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.
-        </p>
+        <p><strong>Danial Amin</strong> is a practitioner in Generative AI for Good for a Stealth AI Research Lab in Helsinki, Finland, and also does academic research in Generative AI for Good and Human-Computer Interaction at the University of Vaasa, Finland. <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.</p>
     </div>
 
     <!-- Footer -->
