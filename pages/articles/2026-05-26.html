@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thinking With LLMs - How To Use Them To Think Better, Not Less - Danial Amin</title>
+    <meta name="description" content="Most people use LLMs to skip thinking. A few use them to think harder than they could alone. The difference is not the tool - it is whether you are outsourcing cognition or amplifying it.">
+    <meta name="keywords" content="LLM, cognition, human-AI collaboration, critical thinking, generative AI, prompt engineering, verification">
+    <meta name="author" content="Danial Amin">
+
+    <meta property="og:title" content="Thinking With LLMs - How To Use Them To Think Better, Not Less">
+    <meta property="og:description" content="Most people use LLMs to skip thinking. A few use them to think harder than they could alone. The difference is not the tool - it is whether you are outsourcing cognition or amplifying it.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://danial-amin.github.io/pro-portfolio/pages/articles/2026-05-26-thinking-with-llms.html">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Thinking With LLMs - How To Use Them To Think Better, Not Less">
+    <meta name="twitter:description" content="Most people use LLMs to skip thinking. A few use them to think harder than they could alone. The difference is not the tool - it is whether you are outsourcing cognition or amplifying it.">
+
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/themes.css">
+    <link rel="stylesheet" href="../../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        .insight-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+        }
+        .insight-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .pattern-box {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 0.25rem;
+        }
+        .pattern-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .question-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+        .article-figure {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+        .article-figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        .article-figure figcaption {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-style: italic;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Interactive Background -->
+    <canvas id="interactive-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="../../index.html">Danial Amin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../blog.html" class="nav-link active">Blog</a>
+                <a href="../../index.html#contact" class="nav-link">Contact</a>
+                <button class="theme-toggle" id="theme-toggle">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="article-hero">
+                <div class="article-meta">
+                    <span class="article-category">Analysis</span>
+                    <span class="article-date">2026-05-26</span>
+                    <span class="article-read-time">9 min read</span>
+                </div>
+                <h1 class="article-title">Thinking With LLMs - How To Use Them To Think Better, Not Less</h1>
+                <p class="article-excerpt">
+                    Most people use LLMs to skip thinking. A few use them to think harder than they could alone. The difference is not the tool, the model, or the prompt - it is whether you are outsourcing cognition or amplifying it. Here is what the second mode actually looks like in practice.
+                </p>
+                <div class="article-tags">
+                    <span class="tag">LLMs</span>
+                    <span class="tag">Cognition</span>
+                    <span class="tag">Human-AI Collaboration</span>
+                    <span class="tag">Critical Thinking</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#two-modes">Two Modes Using The Same Tool</a></li>
+            <li><a href="#pre-thinking">The Pre-Thinking Problem</a></li>
+            <li><a href="#yes-man">Forcing The Yes-Man To Argue</a></li>
+            <li><a href="#iteration">Iteration Is Where Thinking Happens</a></li>
+            <li><a href="#verification">The Verification Threshold</a></li>
+            <li><a href="#structure">Externalize Structure, Not Conclusions</a></li>
+            <li><a href="#mode-question">The Mode Question</a></li>
+        </ul>
+    </div>
+
+    <!-- Article Content -->
+    <section class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <p>Two people use the same LLM to work through the same problem. One finishes in twenty minutes with an answer they do not fully understand and could not defend if pressed. The other finishes in two hours with a position they have stress-tested from four angles and could explain to a hostile audience. Same tool, opposite outcomes.</p>
+
+                <p>The difference is not prompt engineering. It is not model choice. It is not which system they paid for. It is whether they were using the LLM to think or to avoid thinking. That distinction is the single most important variable in how much value you actually extract from these systems, and almost nobody in the productivity discourse talks about it.</p>
+
+                <div class="insight-box">
+                    <strong>Core Claim:</strong> The same LLM session can either amplify your thinking or replace it. Which one you get depends on how you use it, not which model you use. Most people accidentally choose replacement and call it productivity.
+                </div>
+
+                <h2 id="two-modes">Two Modes Using The Same Tool</h2>
+
+                <p>There are roughly two ways to use an LLM for any cognitive task. The first mode treats it as an answer machine. You have a question, you type the question, you take the answer, you move on. The output looks like work. You feel productive. You ship something.</p>
+
+                <p>The second mode treats it as a thinking surface. You have a vague intuition, you externalize it, you let the model push back, you refine, you push back on the refinement, and somewhere inside that loop you actually figure out what you think. The output of mode two also looks like work, but it carries something the first mode never produces: a defensible position you actually own.</p>
+
+                <figure class="article-figure">
+                    <img src="../../assets/images/articles/2026-05-26-two-modes.png" alt="Diagram contrasting Mode 1 as a linear pipeline from question to answer with Mode 2 as an iterative loop of externalize, pushback, refine, and challenge that produces a defensible position">
+                    <figcaption>Figure 1. The same LLM session produces fundamentally different cognitive outputs depending on whether it is used as a linear answer pipeline or an iterative thinking loop.</figcaption>
+                </figure>
+
+                <p>The first mode is what most people do most of the time. It is also what every "ten ChatGPT tricks" tutorial optimizes for. There is nothing wrong with mode one for trivial tasks where speed is the entire point and the cost of being wrong is near zero. Drafting a polite decline email. Reformatting a CSV. Boilerplate that someone has to write but nobody has to think about.</p>
+
+                <p>The problem starts when mode one quietly leaks into work that should have been mode two. Strategic decisions, research syntheses, performance reviews, technical tradeoff analyses, anything where being wrong costs something real. These all feel faster in mode one because they are faster. They are also worse. The speed is paid for in conclusions you cannot defend and reasoning you cannot reconstruct.</p>
+
+                <h2 id="pre-thinking">The Pre-Thinking Problem</h2>
+
+                <p>Vague prompts produce vague outputs. Everyone repeats this. Almost nobody acknowledges what it implies: the ceiling on what you can extract from an LLM is set by the quality of your thinking before you typed anything.</p>
+
+                <p>If you ask "help me think about X" with no priors about X, you will get a generic survey that confirms whatever you happened to absorb first about the topic. The model is not doing your thinking. It is filling in the shape of your ignorance with statistically average content drawn from its training distribution. You will feel like you learned something. You will have mostly learned the centroid of the internet's opinion about X, packaged in clear prose.</p>
+
+                <p>The fix is not a more sophisticated prompt template. It is having a position before you start. Write three sentences before opening the chat: what you currently believe, what you are genuinely uncertain about, and what evidence would change your mind. Now the model has something to engage with. Now disagreement is structurally possible. Now you will notice when the output drifts toward telling you what you already believed, because you wrote it down and can compare.</p>
+
+                <p>This step takes ninety seconds and gets skipped almost universally. It is also the single change that separates people who get useful work out of LLMs from people who get well-formatted noise.</p>
+
+                <h2 id="yes-man">Forcing The Yes-Man To Argue</h2>
+
+                <p>I have written before about how LLMs are structurally incapable of meaningful disagreement. They are trained to be helpful, which in practice collapses into being agreeable. Drop a half-baked argument into any frontier model and it will find the steel-man for you. Drop the opposite argument an hour later and it will find a way that both are true.</p>
+
+                <p>This is fatal if you want validation. It is useful if you know how to redirect it.</p>
+
+                <p>The move is to never ask "what do you think of X." That prompt invites agreement and the model obliges. Instead ask "argue against X as hard as you can." Ask "what is the strongest case that this is wrong." Ask "what would someone who fundamentally disagrees with this premise say, in their own framing." The model will happily produce these because it is still being agreeable, just at a different level. It is agreeing to your meta-request. You have redirected the sycophancy from your conclusion to your process, and the sycophancy now works for you instead of against you.</p>
+
+                <p>Then run it on the counter-argument. Steel-man the counter to the counter. Three rounds of this and you have something that looks like an actual debate. The position you walk away with will be sturdier than anything you could have arrived at by asking "is my idea good," because at no point did you give the model the opportunity to tell you yes.</p>
+
+                <div class="pattern-box">
+                    <strong>The Adversarial Move:</strong> Replace every "what do you think" with "argue against this." Replace every "is this right" with "find the strongest counter." You are not making the model smarter. You are stopping it from collapsing toward your priors.
+                </div>
+
+                <h2 id="iteration">Iteration Is Where Thinking Happens</h2>
+
+                <p>The cleanest tell that someone is using LLMs to avoid thinking is that they accept the first output. Maybe they tweak the wording. They do not restructure, challenge, or demand more. They treat what the machine gave them on the first try as both the floor and the ceiling of what was possible.</p>
+
+                <p>Thinking lives in the deltas. Between prompt one and prompt three you notice what you actually wanted. Between prompt three and prompt five you find the angle you could not see at the start. The output of the final prompt looks similar in form to the output of the first, but it carries the weight of everything you rejected to get there. That weight is what makes it yours and what makes it correct.</p>
+
+                <p>This is why the obsession with "one-shot" prompting is misguided. The goal is not to write a perfect prompt that produces a perfect output. The goal is to have a sequence of exchanges where each turn sharpens what you are actually asking. If you got it right on the first try, you were not thinking. You were retrieving something that already existed in roughly the form you needed it, and any sufficiently good search engine would have served you equally well.</p>
+
+                <p>The corollary is uncomfortable. If your LLM workflow produces good output in one shot, you are probably not working on hard problems. Hard problems require the iteration because the iteration is the work.</p>
+
+                <h2 id="verification">The Verification Threshold</h2>
+
+                <p>Here is the thing nobody in the AI-productivity space wants to say out loud. You can only safely use an LLM in domains where you can verify the output. The further you are from being able to evaluate the answer, the more the LLM is functioning as a confidence amplifier rather than a thinking tool.</p>
+
+                <p>If I ask Claude about Bayesian inference, I can tell when it is wrong because I have the underlying model. If I ask it about a domain where I am a complete novice, I will believe whatever it says, including the parts that are subtly off in ways that will only matter later. The fluency makes errors invisible. There is no internal scaffold to flag the moment when plausible diverges from correct.</p>
+
+                <p>This puts a hard constraint on the cognitive amplification story. LLMs multiply what you bring. If you bring expertise, you get expertise plus speed plus breadth. If you bring nothing, you get fluent average content from the training distribution and no mechanism to distinguish it from anything better. People treating ChatGPT as an oracle in fields they do not understand are not thinking with AI. They are delegating their epistemics to a system whose confidence is calibrated to user satisfaction, not to truth.</p>
+
+                <p>The implication is sharper than the usual "AI makes mistakes, verify outputs" advice. There is a verification threshold below which LLMs make you worse at thinking, not better. Above it they are transformative. Below it they are a hallucination machine you cannot catch, and the harder you lean on them the more confident you become in things that are not true.</p>
+
+                <figure class="article-figure">
+                    <img src="../../assets/images/articles/2026-05-26-verification-threshold.png" alt="Chart showing domain expertise on the horizontal axis and the cognitive impact of LLM use on the vertical axis, with a curve that is negative at low expertise levels, crosses zero at the verification threshold, and rises steeply into positive territory at high expertise">
+                    <figcaption>Figure 2. The verification threshold. Below a minimum level of domain expertise, LLM assistance functions as a confidence amplifier and degrades thinking. Above it, the same tool becomes a genuine cognitive multiplier.</figcaption>
+                </figure>
+
+                <div class="question-box">
+                    If you cannot independently evaluate whether an LLM output is good, you are not using it to think. You are using it to feel like you thought. These are different things and they have different consequences.
+                </div>
+
+                <h2 id="structure">Externalize Structure, Not Conclusions</h2>
+
+                <p>The most useful thing an LLM does in a thinking task is not generating content. It is generating structure you can react to.</p>
+
+                <p>Ask it for a decision framework and you will see whether the framework matches how the decision actually feels when you sit with it. Ask it to outline an argument and you will notice which sub-points feel hollow when written down in clean prose. Ask it to enumerate the tradeoffs in a technical choice and you will find the tradeoff you had been quietly ignoring because thinking about it was uncomfortable.</p>
+
+                <p>What you should not do is ask it for the conclusion. The conclusion is yours to reach. The LLM is competent at the scaffolding around thinking, the listing, the structuring, the surfacing of considerations you might have missed. It is mediocre at the actual judgment call, because it does not carry the consequences. You do.</p>
+
+                <p>This is the line between a tool that augments cognition and a tool that replaces it. Augmentation expands what you can hold in mind at once. Replacement removes the requirement to hold anything in mind at all. The first makes you smarter over time, because you build mental models from the externalized structure. The second makes you progressively dependent on outputs you can neither generate nor evaluate yourself.</p>
+
+                <h2 id="mode-question">The Mode Question</h2>
+
+                <p>The framing of "how to use LLMs" needs to shift. Most current discussion treats these systems as productivity tools, faster outputs, more emails, quicker drafts. That framing is correct but trivial. The interesting question is whether they make us better thinkers or worse ones, and the answer is not the same for everyone using them. It depends on which mode is running.</p>
+
+                <p>The skill nobody teaches is recognizing which mode you are in mid-task, and switching when the task demands it. A useful tell: if you could not reconstruct your reasoning to a smart colleague who pushed back on it, you were in mode one. If you could, you were in mode two. There is no shame in mode one for the right kinds of work. There is real cost in using it for the wrong ones and not noticing.</p>
+
+                <p>The same LLM can make you sharper or duller. Same tool, opposite trajectories. The variable is you.</p>
+
+                <hr />
+
+                <p><em>This work has been prepared in collaboration with a Generative AI language model (LLM), which contributed to drafting and refining portions of the text under the author's direction.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Author Bio -->
+    <div class="author-bio">
+        <h4>About the Author</h4>
+        <p><strong>Danial Amin</strong> is a Generative AI researcher and practitioner working at the intersection of AI and HCI. You can connect with him on
+            <a href="https://linkedin.com/in/danial-amin" target="_blank" rel="noopener">LinkedIn</a>.
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2026 Danial Amin. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/interactive-bg.js"></script>
+    <script src="../../js/theme-switcher.js"></script>
+    <script src="../../js/daily-colors.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
