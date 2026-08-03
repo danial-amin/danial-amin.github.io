@@ -1,111 +1,161 @@
 ---
-import projects from '../data/projects.json';
-import site from '../data/site.json';
-
-const locked = projects.filter((p) => p.locked);
-const passHash = site.lockedPassHash;
+/**
+ * Gate for the confidential cases.
+ *
+ * Nothing sensitive is rendered here. No titles, no outcomes, not even a count
+ * — the markup is a form and an empty container. The cases live in
+ * src/server/locked-cases.json, are read only by /api/unlock, and reach the
+ * browser only after the server has checked the passphrase.
+ *
+ * The previous version server-rendered every locked title and outcome into a
+ * `hidden` div and compared a SHA-256 hash that was published in the HTML, so
+ * the content was readable with View Source and the hash was brute-forceable
+ * offline.
+ */
 ---
 
 <p class="lede" data-reveal>
   A few engagements stay behind a gate — client-sensitive detail, not marketing copy.
-  The passphrase unlocks this block for the session.
+  The passphrase is checked on the server; nothing confidential is in this page until
+  it passes.
 </p>
 
-<div id="locked-gate" class="locked-gate" data-pass-hash={passHash} data-reveal>
+<div id="locked-gate" class="locked-gate" data-reveal>
   <form id="locked-form" class="locked-form">
     <label for="locked-pass">Passphrase</label>
     <div class="locked-row">
       <input
         id="locked-pass"
-        name="pass"
+        name="passphrase"
         type="password"
         autocomplete="current-password"
         required
       />
-      <button class="btn" type="submit"><span>Unlock</span></button>
+      <button class="btn" type="submit" id="locked-submit"><span>Unlock</span></button>
     </div>
-    <p id="locked-error" class="locked-error" hidden>That passphrase doesn’t match.</p>
+    <p id="locked-error" class="locked-error" hidden aria-live="polite"></p>
   </form>
 
   <ul class="index-list locked-preview" aria-hidden="true">
-    {
-      locked.map((p, i) => (
-        <li>
-          <div class="index-row">
-            <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-            <span class="index-title">{p.title}</span>
-            <span class="index-meta">locked</span>
-            <p class="index-blurb">Details hidden until unlocked.</p>
-          </div>
-        </li>
-      ))
-    }
+    <li>
+      <div class="index-row">
+        <span class="index-idx">··</span>
+        <span class="index-title">Confidential engagement</span>
+        <span class="index-meta">locked</span>
+        <p class="index-blurb">Held on the server until the passphrase is accepted.</p>
+      </div>
+    </li>
   </ul>
 </div>
 
 <div id="locked-content" hidden>
-  <ul class="index-list">
-    {
-      locked.map((p, i) => (
-        <li>
-          <div class="index-row" data-prox>
-            <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-            <span class="index-title">{p.title}</span>
-            <span class="index-meta">{p.year}</span>
-            <p class="index-blurb">{p.outcome}</p>
-          </div>
-        </li>
-      ))
-    }
-  </ul>
+  <ul class="index-list" id="locked-list"></ul>
+  <p class="after-list">
+    <button class="text-link" type="button" id="locked-relock">
+      <span class="arrow" aria-hidden="true">←</span> Lock again
+    </button>
+  </p>
 </div>
 
-<script is:inline>
-  (function () {
-    var STORAGE_KEY = 'cases-unlocked';
-    var gate = document.getElementById('locked-gate');
-    var content = document.getElementById('locked-content');
-    var form = document.getElementById('locked-form');
-    var error = document.getElementById('locked-error');
-    if (!gate || !form) return;
+<script>
+  const gate = document.getElementById('locked-gate');
+  const content = document.getElementById('locked-content');
+  const list = document.getElementById('locked-list');
+  const form = document.getElementById('locked-form') as HTMLFormElement | null;
+  const input = document.getElementById('locked-pass') as HTMLInputElement | null;
+  const submit = document.getElementById('locked-submit') as HTMLButtonElement | null;
+  const error = document.getElementById('locked-error');
+  const relock = document.getElementById('locked-relock');
 
-    var passHash = gate.getAttribute('data-pass-hash') || '';
+  type Case = { id: string; title: string; outcome: string; year: string; tags?: string[] };
 
-    function sha256Hex(text) {
-      var data = new TextEncoder().encode(text);
-      return crypto.subtle.digest('SHA-256', data).then(function (buf) {
-        return Array.from(new Uint8Array(buf))
-          .map(function (b) {
-            return b.toString(16).padStart(2, '0');
-          })
-          .join('');
-      });
-    }
+  function fail(message: string) {
+    if (!error) return;
+    error.textContent = message;
+    error.hidden = false;
+  }
 
-    function unlock() {
-      try {
-        sessionStorage.setItem(STORAGE_KEY, '1');
-      } catch (e) {}
-      gate.hidden = true;
-      if (content) content.hidden = false;
-    }
+  function render(cases: Case[]) {
+    if (!list || !gate || !content) return;
+    list.innerHTML = '';
+    cases.forEach((c, i) => {
+      const li = document.createElement('li');
+      const row = document.createElement('div');
+      row.className = 'index-row';
+      row.setAttribute('data-prox', '');
 
-    try {
-      if (sessionStorage.getItem(STORAGE_KEY) === '1') unlock();
-    } catch (e) {}
+      const idx = document.createElement('span');
+      idx.className = 'index-idx';
+      idx.textContent = String(i + 1).padStart(2, '0');
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var input = document.getElementById('locked-pass');
-      var value = (input && input.value ? input.value : '').trim();
-      sha256Hex(value).then(function (hash) {
-        if (hash === passHash) {
-          if (error) error.hidden = true;
-          unlock();
-        } else if (error) {
-          error.hidden = false;
-        }
-      });
+      const title = document.createElement('span');
+      title.className = 'index-title';
+      title.textContent = c.title;
+
+      const meta = document.createElement('span');
+      meta.className = 'index-meta';
+      meta.textContent = c.year;
+
+      const blurb = document.createElement('p');
+      blurb.className = 'index-blurb';
+      blurb.textContent = c.outcome;
+
+      row.append(idx, title, meta, blurb);
+      li.append(row);
+      list.append(li);
     });
-  })();
+
+    gate.hidden = true;
+    content.hidden = false;
+  }
+
+  async function attempt(passphrase: string) {
+    if (submit) submit.disabled = true;
+    try {
+      const res = await fetch('/api/unlock', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ passphrase }),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        if (error) error.hidden = true;
+        render(data.cases as Case[]);
+        return;
+      }
+      if (res.status === 429) {
+        fail(`Too many attempts. Try again in ${Math.ceil((data.retryInSeconds ?? 900) / 60)} min.`);
+      } else if (res.status === 503) {
+        fail('The gate is not configured on this server yet.');
+      } else {
+        fail('That passphrase doesn’t match.');
+      }
+    } catch {
+      fail('Could not reach the server.');
+    } finally {
+      if (submit) submit.disabled = false;
+    }
+  }
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    attempt(input?.value ?? '');
+  });
+
+  relock?.addEventListener('click', async () => {
+    await fetch('/api/unlock', { method: 'DELETE' }).catch(() => {});
+    if (list) list.innerHTML = '';
+    if (content) content.hidden = true;
+    if (gate) gate.hidden = false;
+    if (input) input.value = '';
+  });
+
+  // Restore a still-valid grant so a reload doesn't demand the passphrase again.
+  fetch('/api/unlock', { headers: { accept: 'application/json' } })
+    .then((r) => (r.ok ? r.json() : null))
+    .then((d) => {
+      if (d?.ok && Array.isArray(d.cases)) render(d.cases as Case[]);
+    })
+    .catch(() => {});
 </script>

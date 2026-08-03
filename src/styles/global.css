@@ -17,10 +17,15 @@
 
   --ink: #f2f0ee;
   --ink-muted: #8b8b94;
-  --ink-faint: #56565f;
+  /* --ink-faint carries dates, row numbers and section notes, so it has to
+     clear 4.5:1 as body text. The first pass used #56565f (2.74:1) and the
+     metadata on long lists was effectively unreadable. */
+  --ink-faint: #7a7a80;
 
-  --rule: #1b1e22;
-  --rule-strong: #2a2e35;
+  /* Separators are structure on a 50-row index, not decoration. #1b1e22 was
+     1.19:1 against the background — a hairline nobody can see. */
+  --rule: #3a4048;
+  --rule-strong: #525a63;
 
   --accent: #e8846b;
   --accent-ink: #08090a;
@@ -42,10 +47,10 @@
 
   --ink: #14120f;
   --ink-muted: #6b655c;
-  --ink-faint: #9a9287;
+  --ink-faint: #726c63;
 
-  --rule: #e0dbd0;
-  --rule-strong: #c8c1b3;
+  --rule: #cdc7bb;
+  --rule-strong: #a8a196;
 
   --accent: #b3452f;
   --accent-ink: #fffefb;
@@ -1065,6 +1070,157 @@ a.index-row:focus-visible .index-title {
   margin: 1.2rem 0 0;
 }
 
+.panel-foot-split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.75rem;
+}
+
+/* ---------- detail pages (case studies, systems) ---------- */
+
+.detail-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: var(--t--1);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 1.1rem;
+}
+
+.detail-kicker a {
+  color: var(--ink-faint);
+  text-decoration: none;
+}
+
+.detail-kicker a:hover {
+  color: var(--accent);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 0.24rem 0.5rem;
+}
+
+.detail-field {
+  padding-block: clamp(1.75rem, 4vw, 2.75rem);
+  border-top: 1px solid var(--rule);
+}
+
+.detail-field:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.detail-field > p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-lead {
+  margin: 0 0 1.1rem;
+  font-family: var(--display);
+  font-size: var(--t-1);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.46;
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+.detail-text {
+  margin: 0 0 1.1rem;
+  color: var(--ink-muted);
+  max-width: 62ch;
+  line-height: 1.68;
+  text-wrap: pretty;
+}
+
+/* shown when a case study has no narrative written yet */
+.detail-todo {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px dashed var(--rule-strong);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: var(--t--1);
+  line-height: 1.75;
+  color: var(--ink-faint);
+  max-width: 60ch;
+}
+
+.detail-todo code {
+  color: var(--accent);
+}
+
+/* prev / next */
+.pager {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  border-block: 1px solid var(--rule);
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+@media (min-width: 720px) {
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pager a {
+  background: var(--bg);
+  padding: 1.15rem 1.1rem;
+  text-decoration: none;
+  display: grid;
+  gap: 0.35rem;
+  transition: background 320ms var(--ease);
+}
+
+.pager a:hover {
+  background: var(--bg-elevated);
+}
+
+.pager .pager-dir {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.pager .pager-name {
+  font-family: var(--display);
+  font-size: var(--t-1);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.pager a:hover .pager-name {
+  color: var(--accent);
+}
+
+.pager-next {
+  text-align: right;
+}
+
 /* ---------- quotes ---------- */
 
 .quote-grid {
@@ -1213,6 +1369,40 @@ a.index-row:focus-visible .index-title {
   border: none;
   border-top: 1px solid var(--rule);
   margin: 2.5rem 0;
+}
+
+/* cross-links between an essay and its newsletter twin */
+.crosslink {
+  margin: 2.5rem 0;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg-elevated);
+}
+
+.crosslink-notice {
+  border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+}
+
+.crosslink p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+.crosslink .field-key {
+  margin-bottom: 0.45rem;
+}
+
+.crosslink-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--ink-muted);
 }
 
 .prose-mirror {
@@ -1634,12 +1824,14 @@ a.index-row:focus-visible .index-title {
   transform: none;
 }
 
-/* rows stagger themselves via an index set in the template */
+/* Rows stagger via an index set in the template. The delay is capped because
+   the writing index is 50 rows — uncapped, the last row waited 2.7s and the
+   list looked like it was failing to load. */
 .js [data-stagger] > * {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 620ms var(--ease), transform 620ms var(--ease);
-  transition-delay: calc(var(--i, 0) * 55ms);
+  transition-delay: calc(min(var(--i, 0), 10) * 55ms);
 }
 
 .js [data-stagger].is-in > * {

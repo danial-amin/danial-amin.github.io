@@ -1,0 +1,84 @@
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export type Post = CollectionEntry<'writing'>;
+
+/**
+ * Some topics exist twice: once as a site essay and once as a newsletter issue.
+ * They should read as one piece — a single row in the indexes, one page holding
+ * the real content, and a link across to the other form.
+ *
+ * Which side wins:
+ *   'longer'     — whichever version actually has the article in it (default)
+ *   'essay'      — always the essay
+ *   'newsletter' — always the newsletter
+ *
+ * Default is 'longer' rather than 'essay' on purpose. For both current pairs the
+ * essay is a stub and the newsletter is the full piece (346 vs 1485 words, and
+ * 515 vs 1801), so preferring the essay would publish the teaser and link the
+ * article away. Flip this if you'd rather have the essay win regardless.
+ */
+export const PREFER: 'longer' | 'essay' | 'newsletter' = 'longer';
+
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '');
+const words = (p: Post) => (p.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+
+export type WritingIndex = {
+  /** one entry per topic, newest first — use this for every list */
+  items: Post[];
+  /** every entry, for route generation, so alternate URLs never 404 */
+  all: Post[];
+  /** id -> the canonical post for that topic */
+  canonicalFor: Map<string, Post>;
+  /** id -> other forms of the same topic */
+  alternatesFor: Map<string, Post[]>;
+};
+
+let cache: WritingIndex | null = null;
+
+export async function getWriting(): Promise<WritingIndex> {
+  if (cache) return cache;
+
+  const all = await getCollection('writing');
+
+  const groups = new Map<string, Post[]>();
+  for (const post of all) {
+    const key = norm(post.data.title);
+    const group = groups.get(key);
+    if (group) group.push(post);
+    else groups.set(key, [post]);
+  }
+
+  const items: Post[] = [];
+  const canonicalFor = new Map<string, Post>();
+  const alternatesFor = new Map<string, Post[]>();
+
+  for (const group of groups.values()) {
+    if (group.length === 1) {
+      items.push(group[0]);
+      canonicalFor.set(group[0].id, group[0]);
+      continue;
+    }
+
+    // longest body first, so 'longer' is just the head of the list
+    const byLength = [...group].sort((a, b) => words(b) - words(a));
+    const bySource = (src: Post['data']['source']) => group.find((p) => p.data.source === src);
+
+    const canonical =
+      PREFER === 'essay'
+        ? bySource('essay') ?? byLength[0]
+        : PREFER === 'newsletter'
+          ? bySource('newsletter') ?? byLength[0]
+          : byLength[0];
+
+    const alternates = group.filter((p) => p.id !== canonical.id);
+
+    items.push(canonical);
+    alternatesFor.set(canonical.id, alternates);
+    for (const post of group) canonicalFor.set(post.id, canonical);
+  }
+
+  items.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  cache = { items, all, canonicalFor, alternatesFor };
+  return cache;
+}

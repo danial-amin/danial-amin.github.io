@@ -1,0 +1,23 @@
+[
+  {
+    "id": "aidc",
+    "title": "AIDC — AI Design Companion",
+    "outcome": "Multi-agent GenAI for Samsung wearable design: geometry, prediction, and designer-in-the-loop workflows.",
+    "year": "2024–25",
+    "tags": ["agentic", "design", "samsung"]
+  },
+  {
+    "id": "airc",
+    "title": "AIRC — AI Research Companion",
+    "outcome": "Enterprise RAG for design documentation with hybrid retrieval and semantic chunking.",
+    "year": "2025",
+    "tags": ["rag", "enterprise"]
+  },
+  {
+    "id": "sandy",
+    "title": "Sandy — Financial Advisor Agent",
+    "outcome": "Multi-agent financial analysis in a regulated fintech environment.",
+    "year": "2023–24",
+    "tags": ["agentic", "fintech"]
+  }
+]

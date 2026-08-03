@@ -1,28 +1,45 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import { getWriting, type Post } from '../../lib/writing';
 import site from '../../data/site.json';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('writing');
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  // Every post keeps its own URL, including alternates, so nothing 404s and
+  // links already shared on LinkedIn keep resolving.
+  const { all } = await getWriting();
+  return all.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
-const { post } = Astro.props;
+const { post } = Astro.props as { post: Post };
+const { canonicalFor, alternatesFor } = await getWriting();
+
+const canonical = canonicalFor.get(post.id) ?? post;
+const isCanonical = canonical.id === post.id;
+const alternates = alternatesFor.get(post.id) ?? [];
+
 const { Content } = await render(post);
 const isNewsletter = post.data.source === 'newsletter';
+/** masthead label, e.g. "AI Pulse & Data Waves" */
+const label = (p: Post) => (p.data.source === 'newsletter' ? site.newsletterName : 'Essay');
+/** lowercase form that reads correctly inside a sentence */
+const inline = (p: Post) => (p.data.source === 'newsletter' ? 'newsletter' : 'essay');
 
 function fmt(d: Date) {
   return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 }
+
+// Point search engines at the fuller version of a duplicated topic.
+const canonicalPath = `/writing/${canonical.id}`;
 ---
 
-<Base title={post.data.title} description={post.data.excerpt}>
+<Base
+  title={post.data.title}
+  description={post.data.excerpt}
+  canonicalPath={isCanonical ? undefined : canonicalPath}
+>
   <article class:list={['prose', isNewsletter && 'prose-mirror']}>
-    <p class="mono-label">{isNewsletter ? site.newsletterName : 'Essay'}</p>
+    <p class="mono-label">{label(post)}</p>
     <h1>{post.data.title}</h1>
     <p class="meta">
       {fmt(post.data.date)}
@@ -38,7 +55,47 @@ function fmt(d: Date) {
       }
     </p>
 
+    {
+      /* This URL is the shorter form of a topic that exists elsewhere in full. */
+      !isCanonical && (
+        <aside class="crosslink crosslink-notice">
+          <p class="field-key">Fuller version</p>
+          <p>
+            This is the short {inline(post)} version. The complete piece is the{' '}
+            <a href={canonicalPath}>{inline(canonical)} edition</a> — longer, and the one to
+            read.
+          </p>
+        </aside>
+      )
+    }
+
     <Content />
+
+    {
+      /* The canonical page points across to the other form(s). */
+      isCanonical && alternates.length > 0 && (
+        <aside class="crosslink">
+          <p class="field-key">Also published as</p>
+          <ul class="crosslink-list">
+            {alternates.map((alt) => (
+              <li>
+                <a href={`/writing/${alt.id}`}>
+                  {label(alt)} edition ({fmt(alt.data.date)})
+                </a>
+                {alt.data.linkedinUrl && (
+                  <>
+                    {' · '}
+                    <a href={alt.data.linkedinUrl} rel="noopener noreferrer" target="_blank">
+                      on LinkedIn ↗
+                    </a>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
 
     <p class="after-list">
       <a class="text-link" href="/writing">

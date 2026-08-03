@@ -10,10 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "start": "npx serve dist -l ${PORT:-3000} -s"
+    "start": "node ./dist/server/entry.mjs"
   },
   "dependencies": {
-    "astro": "^7.1.6",
-    "serve": "^14.2.4"
+    "@astrojs/node": "^11.0.3",
+    "astro": "^7.1.6"
   }
 }

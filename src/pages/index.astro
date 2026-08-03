@@ -7,18 +7,17 @@ import WritingList from '../components/WritingList.astro';
 import ResearchTeaser from '../components/ResearchTeaser.astro';
 import QuoteStrip from '../components/QuoteStrip.astro';
 import ContactBlock from '../components/ContactBlock.astro';
-import { getCollection } from 'astro:content';
+import { getWriting } from '../lib/writing';
 import site from '../data/site.json';
 import systems from '../data/systems.json';
 import publications from '../data/publications.json';
 
-const posts = await getCollection('writing');
-
 // The old homepage filtered to `source === 'newsletter'`, which hid all 45
-// essays. Show the most recent writing regardless of source instead.
-const recent = posts;
-const essays = posts.filter((p) => p.data.source === 'essay').length;
-const newsletters = posts.filter((p) => p.data.source === 'newsletter').length;
+// essays. Show recent writing regardless of source, deduped so a topic that
+// exists as both an essay and a newsletter issue appears once.
+const { items: recent, all, alternatesFor } = await getWriting();
+const essays = all.filter((p) => p.data.source === 'essay').length;
+const newsletters = all.filter((p) => p.data.source === 'newsletter').length;
 
 const nameParts = site.name.split(' ');
 ---
@@ -107,7 +106,7 @@ const nameParts = site.name.split(' ');
     note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`}
     id="writing"
   >
-    <WritingList posts={recent} limit={6} showMore />
+    <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore />
   </Section>
 
   <Section

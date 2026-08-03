@@ -1,0 +1,180 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import projectsData from '../../data/projects.json';
+
+type Project = {
+  id: string;
+  title: string;
+  outcome: string;
+  year: string;
+  tags: string[];
+  featured: boolean;
+  /** optional narrative — render only what exists, never invent it */
+  role?: string;
+  context?: string;
+  problem?: string;
+  approach?: string;
+  result?: string;
+  stack?: string[];
+};
+
+const projects = projectsData as Project[];
+
+export function getStaticPaths() {
+  // projects.json holds only public cases now; the confidential ones live in
+  // src/server/locked-cases.json and deliberately have no route at all.
+  return (projectsData as Project[]).map((p) => ({
+    params: { id: p.id },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props as { project: Project };
+const open = projects;
+const i = open.findIndex((p) => p.id === project.id);
+const prev = open[i - 1];
+const next = open[i + 1];
+
+const hasNarrative = Boolean(
+  project.context || project.problem || project.approach || project.result,
+);
+---
+
+<Base title={project.title} description={project.outcome}>
+  <header class="hero hero-compact">
+    <div>
+      <p class="detail-kicker">
+        <a href="/work">Work</a>
+        <span aria-hidden="true">/</span>
+        <span>Case {String(i + 1).padStart(2, '0')}</span>
+      </p>
+
+      <h1 class="hero-display hero-display-sm">
+        <span class="line-mask"><span>{project.title}</span></span>
+      </h1>
+
+      <p class="hero-tagline" data-reveal style="--reveal-delay:280ms">{project.outcome}</p>
+
+      {
+        project.tags?.length > 0 && (
+          <ul class="tag-row" data-reveal style="--reveal-delay:380ms">
+            {project.tags.map((t) => (
+              <li class="tag">{t}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <aside class="readout" data-reveal style="--reveal-delay:500ms" aria-label="Case details">
+      <div class="readout-bar"><span>Engagement</span></div>
+      <div class="readout-row">
+        <span class="readout-key">Year</span>
+        <span class="readout-val">{project.year}</span>
+      </div>
+      {
+        project.role && (
+          <div class="readout-row">
+            <span class="readout-key">Role</span>
+            <span class="readout-val">{project.role}</span>
+          </div>
+        )
+      }
+      <div class="readout-row">
+        <span class="readout-key">Status</span>
+        <span class="readout-val">Shipped</span>
+      </div>
+    </aside>
+  </header>
+
+  {
+    hasNarrative ? (
+      <Section num="01" title="The case" note="Context, problem, approach, result.">
+        {project.context && (
+          <div class="detail-field" data-reveal>
+            <p class="field-key">Context</p>
+            <p class="detail-text">{project.context}</p>
+          </div>
+        )}
+        {project.problem && (
+          <div class="detail-field" data-reveal>
+            <p class="field-key">Problem</p>
+            <p class="detail-lead">{project.problem}</p>
+          </div>
+        )}
+        {project.approach && (
+          <div class="detail-field" data-reveal>
+            <p class="field-key">Approach</p>
+            <p class="detail-text">{project.approach}</p>
+          </div>
+        )}
+        {project.result && (
+          <div class="detail-field" data-reveal>
+            <p class="field-key">Result</p>
+            <p class="detail-text">{project.result}</p>
+          </div>
+        )}
+        {project.stack && project.stack.length > 0 && (
+          <div class="detail-field" data-reveal>
+            <p class="field-key">Stack</p>
+            <ul class="tag-row" style="margin-top:0">
+              {project.stack.map((s) => (
+                <li class="tag">{s}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </Section>
+    ) : (
+      /* No narrative yet. In production the page simply stops after the
+         header rather than showing an empty section; in dev it tells you
+         which keys to add. Nothing here is invented on your behalf. */
+      import.meta.env.DEV && (
+        <Section num="01" title="No narrative yet" note="Dev-only notice.">
+          <p class="detail-todo">
+            <strong>This page is header-only.</strong>
+            <br />
+            Add any of <code>context</code>, <code>problem</code>, <code>approach</code>,{' '}
+            <code>result</code>, <code>stack[]</code>, <code>role</code> to{' '}
+            <code>"{project.id}"</code> in <code>src/data/projects.json</code> and the
+            matching blocks appear here automatically.
+            <br />
+            <br />
+            I did not draft these — writing client outcomes for you would mean
+            inventing detail I have no source for.
+          </p>
+        </Section>
+      )
+    )
+  }
+
+  <nav class="pager" aria-label="Other cases">
+    {
+      prev ? (
+        <a href={`/work/${prev.id}`}>
+          <span class="pager-dir">← Previous</span>
+          <span class="pager-name">{prev.title}</span>
+        </a>
+      ) : (
+        <a href="/work">
+          <span class="pager-dir">← Back</span>
+          <span class="pager-name">All work</span>
+        </a>
+      )
+    }
+    {
+      next ? (
+        <a class="pager-next" href={`/work/${next.id}`}>
+          <span class="pager-dir">Next →</span>
+          <span class="pager-name">{next.title}</span>
+        </a>
+      ) : (
+        <a class="pager-next" href="/work">
+          <span class="pager-dir">Next →</span>
+          <span class="pager-name">All work</span>
+        </a>
+      )
+    }
+  </nav>
+</Base>

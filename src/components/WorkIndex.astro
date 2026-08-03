@@ -15,12 +15,12 @@ const items = projects.filter((p) => !p.locked && (!featuredOnly || p.featured))
   {
     items.map((p, i) => (
       <li style={`--i:${i}`}>
-        <div class="index-row" data-prox>
+        <a class="index-row" href={`/work/${p.id}`} data-prox>
           <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
           <span class="index-title">{p.title}</span>
           <span class="index-meta">{p.year}</span>
           <p class="index-blurb">{p.outcome}</p>
-        </div>
+        </a>
       </li>
     ))
   }

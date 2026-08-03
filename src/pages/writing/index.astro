@@ -1,12 +1,13 @@
 ---
 import Base from '../../layouts/Base.astro';
 import WritingList from '../../components/WritingList.astro';
-import { getCollection } from 'astro:content';
+import { getWriting } from '../../lib/writing';
 import site from '../../data/site.json';
 
-const posts = await getCollection('writing');
-const essays = posts.filter((p) => p.data.source === 'essay').length;
-const newsletters = posts.filter((p) => p.data.source === 'newsletter').length;
+const { items: posts, all, alternatesFor } = await getWriting();
+const essays = all.filter((p) => p.data.source === 'essay').length;
+const newsletters = all.filter((p) => p.data.source === 'newsletter').length;
+const merged = [...alternatesFor.keys()].length;
 ---
 
 <Base title="Writing" description={`Essays and full mirrors of ${site.newsletterName}.`}>
@@ -49,10 +50,10 @@ const newsletters = posts.filter((p) => p.data.source === 'newsletter').length;
     </div>
 
     <p class="filter-count" id="filter-count" aria-live="polite">
-      Showing all {posts.length}
+      Showing all {posts.length}{merged > 0 ? ` · ${merged} published in both forms` : ''}
     </p>
 
-    <WritingList posts={posts} />
+    <WritingList posts={posts} alternatesFor={alternatesFor} />
   </div>
 </Base>
 
@@ -68,7 +69,9 @@ const newsletters = posts.filter((p) => p.data.source === 'newsletter').length;
 
       let shown = 0;
       items.forEach((li) => {
-        const show = filter === 'all' || li.dataset.source === filter;
+        // a topic published in both forms belongs to both filters
+        const show =
+          filter === 'all' || li.dataset.source === filter || li.dataset.both === 'true';
         li.hidden = !show;
         if (show) shown += 1;
       });

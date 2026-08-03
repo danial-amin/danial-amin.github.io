@@ -8,12 +8,17 @@ import Eggs from '../components/Eggs.astro';
 interface Props {
   title?: string;
   description?: string;
+  /** override <link rel=canonical>, e.g. a duplicated topic pointing at the fuller version */
+  canonicalPath?: string;
 }
 
-const { title = site.name, description = site.tagline } = Astro.props;
+const { title = site.name, description = site.tagline, canonicalPath } = Astro.props;
 const pageTitle =
   title === site.name ? `${site.name} — Agentic AI & GenAI representation` : `${title} · ${site.name}`;
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const canonicalHref = Astro.site
+  ? new URL(canonicalPath ?? path, Astro.site).href
+  : canonicalPath ?? Astro.url.href;
 
 const nav = [
   { href: '/work', label: 'Work' },
@@ -31,7 +36,7 @@ const nav = [
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
     <meta name="theme-color" content="#08090a" />
-    <link rel="canonical" href={Astro.site ? new URL(path, Astro.site).href : Astro.url.href} />
+    <link rel="canonical" href={canonicalHref} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

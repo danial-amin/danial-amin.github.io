@@ -1,65 +1,46 @@
 [
   {
-    "id": "aidc",
-    "title": "AIDC — AI Design Companion",
-    "outcome": "Multi-agent GenAI for Samsung wearable design: geometry, prediction, and designer-in-the-loop workflows.",
-    "year": "2024–25",
-    "tags": ["agentic", "design", "samsung"],
-    "featured": true,
-    "locked": true
-  },
-  {
-    "id": "airc",
-    "title": "AIRC — AI Research Companion",
-    "outcome": "Enterprise RAG for design documentation with hybrid retrieval and semantic chunking.",
-    "year": "2025",
-    "tags": ["rag", "enterprise"],
-    "featured": true,
-    "locked": true
-  },
-  {
     "id": "kyc",
     "title": "KYC Automation & Compliance",
     "outcome": "Document verification and audit trails for a regulated fintech, built for GDPR scrutiny.",
     "year": "2023–24",
-    "tags": ["fintech", "compliance"],
-    "featured": true,
-    "locked": false
+    "tags": [
+      "fintech",
+      "compliance"
+    ],
+    "featured": true
   },
   {
     "id": "lending",
     "title": "AI-Powered Lending (NCB Jamaica)",
     "outcome": "Credit risk models with explainability for Caribbean banking constraints.",
     "year": "2023–24",
-    "tags": ["ml", "fintech"],
-    "featured": true,
-    "locked": false
+    "tags": [
+      "ml",
+      "fintech"
+    ],
+    "featured": true
   },
   {
     "id": "signalguard",
     "title": "SignalGuard",
     "outcome": "Observability and log intelligence — anomalies, bursts, and drift for AIOps demos that behave like production.",
     "year": "2024",
-    "tags": ["aiops", "observability"],
-    "featured": true,
-    "locked": false
+    "tags": [
+      "aiops",
+      "observability"
+    ],
+    "featured": true
   },
   {
     "id": "bayesian-hiring",
     "title": "Bayesian Hiring Agent",
     "outcome": "Cost-aware, fairer resume screening by orchestrating multiple LLMs under uncertainty.",
     "year": "2025",
-    "tags": ["agents", "fairness"],
-    "featured": true,
-    "locked": false
-  },
-  {
-    "id": "sandy",
-    "title": "Sandy — Financial Advisor Agent",
-    "outcome": "Multi-agent financial analysis in a regulated fintech environment.",
-    "year": "2023–24",
-    "tags": ["agentic", "fintech"],
-    "featured": false,
-    "locked": true
+    "tags": [
+      "agents",
+      "fairness"
+    ],
+    "featured": true
   }
 ]

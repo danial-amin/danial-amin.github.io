@@ -7,8 +7,9 @@ import LockedCases from '../../components/LockedCases.astro';
 import systems from '../../data/systems.json';
 import projects from '../../data/projects.json';
 
-const open = projects.filter((p) => !p.locked).length;
-const locked = projects.filter((p) => p.locked).length;
+const open = projects.length;
+// The count is intentionally not derived from data — the confidential cases
+// live server-side now, and even their number stays off the static page.
 ---
 
 <Base title="Work" description="Live systems and case studies — with the reasoning behind each.">
@@ -40,7 +41,7 @@ const locked = projects.filter((p) => p.locked).length;
       </div>
       <div class="readout-row">
         <span class="readout-key">Under NDA</span>
-        <span class="readout-val">{locked}</span>
+        <span class="readout-val">gated</span>
       </div>
     </aside>
   </header>

@@ -1,32 +1,44 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { Post } from '../lib/writing';
 
 interface Props {
-  posts: CollectionEntry<'writing'>[];
+  posts: Post[];
+  /** id -> other forms of the same topic, so a row can say "essay + newsletter" */
+  alternatesFor?: Map<string, Post[]>;
   limit?: number;
   showMore?: boolean;
-  /** number rows from the newest down, rather than by position */
   numbered?: boolean;
 }
 
-const { posts, limit, showMore = false, numbered = true } = Astro.props;
+const { posts, alternatesFor, limit, showMore = false, numbered = true } = Astro.props;
 const sorted = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const items = limit ? sorted.slice(0, limit) : sorted;
 
 function fmt(d: Date) {
   return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
 }
+
+function kind(post: Post) {
+  const alts = alternatesFor?.get(post.id) ?? [];
+  if (alts.length === 0) return post.data.source === 'newsletter' ? 'Newsletter' : 'Essay';
+  // exists in both forms — say so instead of picking one arbitrarily
+  return 'Essay + Newsletter';
+}
 ---
 
 <ul class="index-list" id="writing-list" data-stagger>
   {
     items.map((post, i) => (
-      <li data-source={post.data.source} style={`--i:${i}`}>
+      <li
+        data-source={post.data.source}
+        data-both={(alternatesFor?.get(post.id) ?? []).length > 0 ? 'true' : undefined}
+        style={`--i:${i}`}
+      >
         <a class="index-row" href={`/writing/${post.id}`} data-prox>
           {numbered && <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>}
           <span class="index-title">{post.data.title}</span>
           <span class="index-meta">
-            {post.data.source === 'newsletter' ? 'Newsletter' : 'Essay'} · {fmt(post.data.date)}
+            {kind(post)} · {fmt(post.data.date)}
           </span>
           <p class="index-blurb">{post.data.excerpt}</p>
         </a>

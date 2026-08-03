@@ -2,14 +2,15 @@
 /**
  * Atmosphere + choreography.
  *
- * Renders the three fixed layers (cursor bloom, grain, scroll progress) and
- * owns every motion listener on the site:
- *   - pointer  -> --mx/--my (drives .bloom) and --prox on [data-prox] elements
- *   - scroll   -> --progress on the top hairline
+ * Renders the four fixed layers (cursor bloom, latent field, grain, scroll
+ * progress) and owns every motion listener on the site:
+ *   - pointer  -> --mx/--my (drives .bloom / .field) and --prox on [data-prox]
+ *   - scroll   -> --progress on the top hairline, plus the reveal sweep
  *   - viewport -> .is-in on [data-reveal] / [data-stagger] / .line-mask
  *
- * All pointer/scroll work is coalesced into a single rAF pass and every
- * element rect is cached, so mousemove never triggers a layout read.
+ * All pointer/scroll work is coalesced into a single rAF pass and element
+ * positions are cached document-relative, so mousemove and scroll never force
+ * a layout read.
  */
 ---
 
@@ -26,8 +27,41 @@
 
   const revealTargets = '[data-reveal], [data-stagger], .line-mask, .abyss-note';
 
+  /** observed but not yet revealed — the scroll sweep drains this */
+  let pending = [];
+  let io = null;
+
+  function reveal(el) {
+    el.classList.add('is-in');
+    if (io) io.unobserve(el);
+  }
+
   function revealAll() {
     document.querySelectorAll(revealTargets).forEach((el) => el.classList.add('is-in'));
+  }
+
+  /**
+   * Fallback for the observer. Reveals anything whose top has entered the
+   * viewport, regardless of how tall it is.
+   *
+   * This exists because content whose visibility depends on an animation must
+   * never be able to stay hidden. The first version used
+   * `threshold: 0.08`, and a ratio threshold is a fraction of the *element's
+   * own* area — so an element taller than about 1/threshold viewports can
+   * never reach it. The writing index is one ~7000px list of 50 rows; it
+   * needed 560px visible and short viewports never delivered that, so it sat
+   * at opacity 0 permanently. The threshold is 0 now, and this sweep means
+   * even a future mistake degrades to "animation didn't play", not "page is
+   * blank".
+   */
+  function sweepReveals(vh) {
+    for (let i = pending.length - 1; i >= 0; i--) {
+      const el = pending[i];
+      if (el.getBoundingClientRect().top < vh) {
+        reveal(el);
+        pending.splice(i, 1);
+      }
+    }
   }
 
   function observeReveals() {
@@ -36,25 +70,28 @@
       return;
     }
 
-    const io = new IntersectionObserver(
+    io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          entry.target.classList.add('is-in');
-          io.unobserve(entry.target);
+          reveal(entry.target);
+          const at = pending.indexOf(entry.target);
+          if (at > -1) pending.splice(at, 1);
         }
       },
-      // fire a little before the element is fully on screen so the motion
-      // reads as "already happening" rather than "triggered by me"
-      { rootMargin: '0px 0px -12% 0px', threshold: 0.08 },
+      // threshold MUST stay 0 — see sweepReveals above. The negative bottom
+      // margin is what delays the trigger, not a ratio.
+      { rootMargin: '0px 0px -10% 0px', threshold: 0 },
     );
+
+    pending = [];
 
     document.querySelectorAll(revealTargets).forEach((el) => {
       // anything already in view on load reveals immediately, staggered
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.92) {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) {
         el.classList.add('is-in');
       } else {
+        pending.push(el);
         io.observe(el);
       }
     });
@@ -67,18 +104,28 @@
   let py = -9999;
   let pointerDirty = false;
   let scrollDirty = true;
-  let rects = [];
+  let boxes = [];
   let proxEls = [];
   let frame = 0;
 
+  /**
+   * Positions are stored document-relative and converted to viewport space with
+   * the current scrollY. The writing index has 50 proximity rows, so measuring
+   * per scroll frame meant 50 forced layouts a frame; vertical scrolling can't
+   * change these values, only a resize or reflow can.
+   */
   function measure() {
     proxEls = Array.from(document.querySelectorAll('[data-prox]'));
-    rects = proxEls.map((el) => el.getBoundingClientRect());
+    const sy = window.scrollY;
+    boxes = proxEls.map((el) => {
+      const r = el.getBoundingClientRect();
+      return { top: r.top + sy, bottom: r.bottom + sy, left: r.left, right: r.right };
+    });
   }
 
-  function nearness(rect) {
-    const dx = Math.max(rect.left - px, 0, px - rect.right);
-    const dy = Math.max(rect.top - py, 0, py - rect.bottom);
+  function nearness(box, sy) {
+    const dx = Math.max(box.left - px, 0, px - box.right);
+    const dy = Math.max(box.top - sy - py, 0, py - (box.bottom - sy));
     const d = Math.hypot(dx, dy);
     return d >= RANGE ? 0 : 1 - d / RANGE;
   }
@@ -89,13 +136,14 @@
   function tick() {
     frame = 0;
 
+    const sy = window.scrollY;
+    const vh = window.innerHeight;
+
     if (scrollDirty) {
       scrollDirty = false;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-      scrollRule?.style.setProperty('--progress', String(p));
-      // rects move with the page, so re-measure on the same frame
-      rects = proxEls.map((el) => el.getBoundingClientRect());
+      const max = document.documentElement.scrollHeight - vh;
+      scrollRule?.style.setProperty('--progress', String(max > 0 ? Math.min(sy / max, 1) : 0));
+      if (pending.length) sweepReveals(vh);
     }
 
     if (pointerDirty) {
@@ -105,11 +153,11 @@
     }
 
     for (let i = 0; i < proxEls.length; i++) {
-      const rect = rects[i];
+      const box = boxes[i];
       // skip anything off screen entirely
-      if (rect.bottom < -RANGE || rect.top > window.innerHeight + RANGE) continue;
+      if (box.bottom - sy < -RANGE || box.top - sy > vh + RANGE) continue;
       const el = proxEls[i];
-      const next = nearness(rect);
+      const next = nearness(box, sy);
       const prev = Number(el.dataset.proxValue || 0);
       if (Math.abs(next - prev) < 0.012) continue;
       el.dataset.proxValue = String(next);
@@ -133,16 +181,31 @@
     measure();
     schedule();
 
-    window.addEventListener('scroll', () => {
-      scrollDirty = true;
-      schedule();
-    }, { passive: true });
+    window.addEventListener(
+      'scroll',
+      () => {
+        scrollDirty = true;
+        schedule();
+      },
+      { passive: true },
+    );
 
-    window.addEventListener('resize', () => {
+    window.addEventListener(
+      'resize',
+      () => {
+        measure();
+        scrollDirty = true;
+        schedule();
+      },
+      { passive: true },
+    );
+
+    // fonts land after first paint and reflow every row, so re-measure once
+    document.fonts?.ready.then(() => {
       measure();
       scrollDirty = true;
       schedule();
-    }, { passive: true });
+    });
 
     if (reduced.matches) return;
 
