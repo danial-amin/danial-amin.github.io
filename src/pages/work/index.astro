@@ -1,40 +1,69 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
 import SystemsList from '../../components/SystemsList.astro';
+import WorkIndex from '../../components/WorkIndex.astro';
 import LockedCases from '../../components/LockedCases.astro';
+import systems from '../../data/systems.json';
 import projects from '../../data/projects.json';
+
+const open = projects.filter((p) => !p.locked).length;
+const locked = projects.filter((p) => p.locked).length;
 ---
 
-<Base title="Work" description="Case studies and live systems" page="work">
-  <header class="page-intro page-intro-work">
-    <p class="page-eyebrow">Work</p>
-    <h1 class="page-h1">Systems & cases</h1>
-    <p class="page-deck">
-      Products I still run, with the reasoning behind them. Then open engagements. Confidential work is locked below.
-    </p>
+<Base title="Work" description="Live systems and case studies — with the reasoning behind each.">
+  <header class="hero hero-compact">
+    <div>
+      <p class="hero-kicker"><span>Work</span></p>
+      <h1 class="hero-display hero-display-sm">
+        <span class="line-mask"><span>Systems</span></span>
+        <span class="line-mask" style="--reveal-delay:110ms"><span>&amp; cases</span></span>
+      </h1>
+      <p class="hero-tagline" data-reveal style="--reveal-delay:340ms">
+        Products I still run, the engagements that shipped, and a locked shelf for work I
+        can’t show in public.
+      </p>
+    </div>
+
+    <aside class="readout" data-reveal style="--reveal-delay:480ms" aria-label="At a glance">
+      <div class="readout-bar">
+        <span>Inventory</span>
+        <span class="dot" aria-hidden="true"></span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Systems live</span>
+        <span class="readout-val">{systems.length}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Open cases</span>
+        <span class="readout-val">{open}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Under NDA</span>
+        <span class="readout-val">{locked}</span>
+      </div>
+    </aside>
   </header>
 
-  <SystemsList />
+  <Section
+    num="01"
+    title="Products I run"
+    note="Each one exists because something annoyed me enough to build the fix."
+    id="systems"
+  >
+    <SystemsList />
+  </Section>
 
-  <section class="section">
-    <p class="section-label">Case studies</p>
-    <h2 class="section-title" data-num="Open">Engagements</h2>
-    <ul class="index-list work-cases">
-      {
-        projects
-          .filter((p) => !p.locked)
-          .map((p) => (
-            <li>
-              <div class="index-row">
-                <span class="index-title">{p.title}</span>
-                <span class="index-meta">{p.year}</span>
-                <p class="index-blurb">{p.outcome}</p>
-              </div>
-            </li>
-          ))
-      }
-    </ul>
-  </section>
+  <Section
+    num="02"
+    title="Engagements"
+    note="Consulting and product work, described by outcome."
+    id="cases"
+  >
+    <WorkIndex featuredOnly={false} showMore={false} />
+  </Section>
 
-  <LockedCases />
+  <Section num="··" title="Confidential cases" id="locked">
+    <LockedCases />
+  </Section>
 </Base>

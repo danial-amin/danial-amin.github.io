@@ -1,0 +1,226 @@
+---
+/**
+ * Easter eggs. Four kinds, none of them advertised on the page:
+ *
+ *  1. typed keywords — persona / council / latent / hire, each doing
+ *     something different (the old build signposted one word in the footer
+ *     and pointed it at a single modal)
+ *  2. a console note for anyone who opens DevTools
+ *  3. an idle whisper after ~40s of stillness
+ *  4. a line hidden below the footer, for people who scroll past the end
+ *
+ * The only hint anywhere is the blinking caret in the hero kicker, which
+ * looks like decoration until you notice it accepts typing.
+ */
+import site from '../data/site.json';
+---
+
+<!-- PEP: the `persona` reward -->
+<div class="overlay overlay-center" id="egg-pep" hidden>
+  <div class="surface egg-card" role="dialog" aria-modal="true" aria-labelledby="egg-pep-title">
+    <p class="mono-label">Egg 01 · unlocked</p>
+    <h2 id="egg-pep-title">Persona Ecosystem Playground</h2>
+    <p>
+      The research tool behind the papers — modelling how GenAI represents people, from
+      single minority views up to whole population ecosystems. Distinct from PPR, which
+      reviews manuscripts.
+    </p>
+    <div class="egg-actions">
+      <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank"><span>Open PEP</span></a>
+      <a class="btn btn-ghost" href="/research"><span>The research</span></a>
+      <button class="btn btn-ghost" type="button" data-egg-close><span>Close</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- toast host, shared by the quieter eggs and the palette -->
+<div class="toast" id="toast" role="status" aria-live="polite"><span id="toast-text"></span></div>
+
+<script define:vars={{ email: site.email }}>
+  (function () {
+    var root = document.documentElement;
+
+    /* ---------- toast plumbing ---------- */
+
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var toastTimer;
+
+    function say(text, ms) {
+      if (!toast || !toastText) return;
+      toastText.textContent = text;
+      toast.classList.add('is-up');
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(function () {
+        toast.classList.remove('is-up');
+      }, ms || 3200);
+    }
+
+    document.addEventListener('site:toast', function (e) {
+      say(e.detail && e.detail.text ? e.detail.text : '', e.detail && e.detail.ms);
+    });
+
+    /* ---------- overlay helpers ---------- */
+
+    function openOverlay(el) {
+      if (!el || !el.hidden) return;
+      el.hidden = false;
+      requestAnimationFrame(function () {
+        el.classList.add('is-open');
+      });
+    }
+
+    function closeOverlay(el) {
+      if (!el || el.hidden) return;
+      el.classList.remove('is-open');
+      window.setTimeout(function () {
+        el.hidden = true;
+      }, 240);
+    }
+
+    var pep = document.getElementById('egg-pep');
+
+    document.querySelectorAll('[data-egg-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        closeOverlay(pep);
+      });
+    });
+
+    if (pep) {
+      pep.addEventListener('click', function (e) {
+        if (e.target === pep) closeOverlay(pep);
+      });
+    }
+
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeOverlay(pep);
+    });
+
+    /* ---------- egg 1: typed keywords ---------- */
+
+    // "council" mirrors the real product: models propose, judge, consolidate.
+    var deliberation = [
+      'COUNCIL · convening three models…',
+      'MODEL A — “Ships fast. 80–90% solutions, then hardens them.”',
+      'MODEL B — “Dissent noted: he will argue with your brief first.”',
+      'MODEL C — “That is the feature, not the bug.”',
+      'CONSOLIDATED — verdict: talk to him. ⌘K → Email Danial.',
+    ];
+
+    function runCouncil() {
+      deliberation.forEach(function (line, i) {
+        window.setTimeout(function () {
+          say(line, i === deliberation.length - 1 ? 6000 : 2100);
+        }, i * 2000);
+      });
+    }
+
+    function toggleLatent() {
+      var on = root.hasAttribute('data-latent');
+      if (on) {
+        root.removeAttribute('data-latent');
+        say('Latent mode off.');
+      } else {
+        root.setAttribute('data-latent', '');
+        say('Latent mode — the field follows your cursor. Type it again to leave.', 5200);
+      }
+    }
+
+    var eggs = {
+      persona: function () {
+        openOverlay(pep);
+      },
+      council: runCouncil,
+      latent: toggleLatent,
+      hire: function () {
+        say('Good answer. Opening mail…', 2000);
+        window.setTimeout(function () {
+          window.location.href = 'mailto:' + email;
+        }, 900);
+      },
+    };
+
+    var words = Object.keys(eggs);
+    var longest = words.reduce(function (n, w) {
+      return Math.max(n, w.length);
+    }, 0);
+    var buffer = '';
+
+    window.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var el = document.activeElement;
+      var typing =
+        el instanceof HTMLInputElement ||
+        el instanceof HTMLTextAreaElement ||
+        (el && el.isContentEditable);
+      if (typing) return;
+      if (e.key.length !== 1) return;
+
+      buffer = (buffer + e.key.toLowerCase()).slice(-longest);
+      for (var i = 0; i < words.length; i++) {
+        if (buffer.endsWith(words[i])) {
+          buffer = '';
+          eggs[words[i]]();
+          break;
+        }
+      }
+    });
+
+    /* ---------- egg 2: console note ---------- */
+
+    try {
+      var head = 'font:600 15px/1.5 ui-monospace,monospace;color:#e8846b';
+      var body = 'font:400 12px/1.7 ui-monospace,monospace;color:#8b8b94';
+      console.log(
+        '%cYou opened DevTools. Of course you did.\n%c' +
+          'Four eggs on this site. You have found zero of them this way —\n' +
+          'but the source is right there, so call it half a point.\n\n' +
+          'If you build things and want someone who argues with the brief\n' +
+          'before writing the code: ' +
+          email +
+          '\n\nTry ⌘K. Then try typing a word this site cares about.',
+        head,
+        body,
+      );
+    } catch (err) {
+      /* console locked down — fine */
+    }
+
+    /* ---------- egg 3: idle whisper ---------- */
+
+    var idleTimer;
+    var idleShown = false;
+
+    function armIdle() {
+      window.clearTimeout(idleTimer);
+      if (idleShown) return;
+      idleTimer = window.setTimeout(function () {
+        idleShown = true;
+        say('Stillness is data too. Nothing here is tracking you.', 5000);
+      }, 40000);
+    }
+
+    ['pointermove', 'keydown', 'scroll', 'pointerdown', 'focus'].forEach(function (evt) {
+      window.addEventListener(evt, armIdle, { passive: true });
+    });
+    armIdle();
+
+    /* ---------- egg 4: below the footer ---------- */
+
+    var abyss = document.querySelector('.abyss-note');
+    if (abyss && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+      io.observe(abyss);
+    }
+  })();
+</script>

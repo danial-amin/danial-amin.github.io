@@ -1,35 +1,129 @@
 ---
 import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import SystemsList from '../components/SystemsList.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+import WritingList from '../components/WritingList.astro';
+import ResearchTeaser from '../components/ResearchTeaser.astro';
+import QuoteStrip from '../components/QuoteStrip.astro';
+import ContactBlock from '../components/ContactBlock.astro';
+import { getCollection } from 'astro:content';
 import site from '../data/site.json';
+import systems from '../data/systems.json';
+import publications from '../data/publications.json';
+
+const posts = await getCollection('writing');
+
+// The old homepage filtered to `source === 'newsletter'`, which hid all 45
+// essays. Show the most recent writing regardless of source instead.
+const recent = posts;
+const essays = posts.filter((p) => p.data.source === 'essay').length;
+const newsletters = posts.filter((p) => p.data.source === 'newsletter').length;
+
+const nameParts = site.name.split(' ');
 ---
 
-<Base title={site.name} description={site.tagline} page="home">
-  <div class="home-portal">
-    <p class="home-kicker">Espoo</p>
-    <h1 class="home-name">{site.name}</h1>
-    <p class="home-line">{site.tagline}</p>
+<Base title={site.name} description={site.tagline}>
+  <header class="hero">
+    <div>
+      <p class="hero-kicker">
+        <span>Espoo · practice &amp; research</span>
+        <span class="caret" aria-hidden="true"></span>
+      </p>
 
-    <nav class="home-doors" aria-label="Sections">
-      <a class="door" href="/work">
-        <span class="door-num">01</span>
-        <span class="door-title">Work</span>
-        <span class="door-desc">Live systems & case studies — why they exist, what shipped.</span>
-      </a>
-      <a class="door" href="/writing">
-        <span class="door-num">02</span>
-        <span class="door-title">Writing</span>
-        <span class="door-desc">Essays and full mirrors of AI Pulse & Data Waves.</span>
-      </a>
-      <a class="door" href="/research">
-        <span class="door-num">03</span>
-        <span class="door-title">Research</span>
-        <span class="door-desc">GenAI personas, fairness, HCI — plus the academic site.</span>
-      </a>
-    </nav>
+      <h1 class="hero-display">
+        {
+          nameParts.map((part, i) => (
+            <span class="line-mask" style={`--reveal-delay:${i * 110}ms`}>
+              <span>{part}</span>
+            </span>
+          ))
+        }
+      </h1>
 
-    <p class="home-contact">
-      <a class="btn" href={`mailto:${site.email}`}>{site.cta}</a>
-      <a href={site.cv}>CV</a>
-    </p>
-  </div>
+      <p class="hero-tagline" data-reveal style="--reveal-delay:400ms">{site.tagline}</p>
+
+      <div class="hero-actions" data-reveal style="--reveal-delay:520ms">
+        <a class="btn" href={`mailto:${site.email}`}><span>{site.cta}</span></a>
+        <a class="btn btn-ghost" href="#systems"><span>See what runs</span></a>
+      </div>
+    </div>
+
+    <aside class="readout" data-reveal style="--reveal-delay:640ms" aria-label="At a glance">
+      <div class="readout-bar">
+        <span>Status</span>
+        <span class="dot" aria-hidden="true"></span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Systems live</span>
+        <span class="readout-val">{systems.length}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Essays</span>
+        <span class="readout-val">{essays}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Newsletters</span>
+        <span class="readout-val">{newsletters}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Papers</span>
+        <span class="readout-val">{publications.length}</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Based in</span>
+        <span class="readout-val">Espoo, FI</span>
+      </div>
+      <div class="readout-row">
+        <span class="readout-key">Open to</span>
+        <span class="readout-val">Agentic builds</span>
+      </div>
+    </aside>
+
+    <p class="scroll-cue" data-reveal style="--reveal-delay:820ms">Scroll</p>
+  </header>
+
+  <Section
+    num="01"
+    title="Products I run"
+    note="Five systems in production. Each one exists because something annoyed me."
+    id="systems"
+  >
+    <SystemsList />
+  </Section>
+
+  <Section
+    num="02"
+    title="Work that shipped"
+    note="Consulting and product engagements, with outcomes rather than tool lists."
+    id="work"
+  >
+    <WorkIndex />
+  </Section>
+
+  <Section
+    num="03"
+    title="Writing"
+    note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`}
+    id="writing"
+  >
+    <WritingList posts={recent} limit={6} showMore />
+  </Section>
+
+  <Section
+    num="04"
+    title="Research"
+    note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve."
+    id="research"
+  >
+    <ResearchTeaser />
+  </Section>
+
+  <Section num="05" title="From collaborators" id="proof">
+    <QuoteStrip />
+  </Section>
+
+  <Section num="06" title="Build something clear" id="contact">
+    <ContactBlock />
+  </Section>
 </Base>

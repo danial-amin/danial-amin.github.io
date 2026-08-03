@@ -1,0 +1,261 @@
+---
+/**
+ * ⌘K / Ctrl-K / "?" command palette.
+ *
+ * Every command is rendered server-side into the list; the script only
+ * filters, moves the selection, and runs the action. Actions are declared
+ * as data attributes so there is no eval and no client-side command registry
+ * to keep in sync with the markup.
+ */
+import site from '../data/site.json';
+import systems from '../data/systems.json';
+
+type Cmd = {
+  label: string;
+  kind: string;
+  icon: string;
+  /** either a destination... */
+  href?: string;
+  external?: boolean;
+  /** ...or a named built-in action */
+  act?: 'theme' | 'copy-email' | 'top';
+  keywords?: string;
+};
+
+const commands: Cmd[] = [
+  { label: 'Home', kind: 'page', icon: '/', href: '/', keywords: 'index start' },
+  { label: 'Work — cases & systems', kind: 'page', icon: '/', href: '/work', keywords: 'projects portfolio cases' },
+  { label: 'Writing — essays & newsletter', kind: 'page', icon: '/', href: '/writing', keywords: 'blog posts articles pulse' },
+  { label: 'Research — papers & news', kind: 'page', icon: '/', href: '/research', keywords: 'academic publications chi hci personas' },
+
+  ...systems.map((s) => ({
+    label: s.name.split('—')[0].trim(),
+    kind: 'system',
+    icon: '↗',
+    href: s.url,
+    external: true,
+    keywords: `${s.name} ${s.blurb} live product`,
+  })),
+
+  { label: 'Jump to live systems', kind: 'anchor', icon: '#', href: '/#systems', keywords: 'products running' },
+  { label: 'Jump to writing', kind: 'anchor', icon: '#', href: '/#writing', keywords: 'essays' },
+  { label: 'Jump to contact', kind: 'anchor', icon: '#', href: '/#contact', keywords: 'email hire reach out' },
+
+  { label: 'Email Danial', kind: 'action', icon: '✉', href: `mailto:${site.email}`, keywords: 'contact hire write message' },
+  { label: 'Copy email address', kind: 'action', icon: '⧉', act: 'copy-email', keywords: 'clipboard contact' },
+  { label: 'Download CV (PDF)', kind: 'action', icon: '⇩', href: site.cv, keywords: 'resume curriculum vitae' },
+  { label: 'Toggle theme', kind: 'action', icon: '◐', act: 'theme', keywords: 'dark light mode appearance' },
+  { label: 'Back to top', kind: 'action', icon: '↑', act: 'top', keywords: 'scroll up' },
+
+  { label: 'LinkedIn', kind: 'link', icon: '↗', href: site.socials.linkedin, external: true, keywords: 'social profile' },
+  { label: 'GitHub', kind: 'link', icon: '↗', href: site.socials.github, external: true, keywords: 'code source repos' },
+  { label: 'Google Scholar', kind: 'link', icon: '↗', href: site.socials.scholar, external: true, keywords: 'citations papers academic' },
+  { label: 'ORCID', kind: 'link', icon: '↗', href: site.socials.orcid, external: true, keywords: 'academic id' },
+  { label: 'Academic site', kind: 'link', icon: '↗', href: site.academicUrl, external: true, keywords: 'publications full record' },
+];
+---
+
+<div class="overlay overlay-top" id="palette-layer" hidden>
+  <div class="surface palette" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="palette-input-wrap">
+      <span class="palette-prompt" aria-hidden="true">&gt;</span>
+      <input
+        id="palette-input"
+        type="text"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="palette-list"
+        aria-autocomplete="list"
+        placeholder="Jump to, open, or run something…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <ul class="palette-list" id="palette-list" role="listbox" aria-label="Commands">
+      {
+        commands.map((c) => (
+          <li role="presentation">
+            <a
+              class="palette-item"
+              role="option"
+              aria-selected="false"
+              href={c.href ?? '#'}
+              data-act={c.act}
+              data-external={c.external ? 'true' : undefined}
+              data-search={`${c.label} ${c.kind} ${c.keywords ?? ''}`.toLowerCase()}
+              {...(c.external ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
+            >
+              <span class="palette-icon" aria-hidden="true">{c.icon}</span>
+              <span class="palette-label">{c.label}</span>
+              <span class="palette-kind">{c.kind}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="palette-empty" id="palette-empty" hidden>Nothing matches. Try “writing”, “council”, “cv”.</p>
+
+    <div class="palette-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>esc</kbd> close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const layer = document.getElementById('palette-layer');
+  const input = document.getElementById('palette-input') as HTMLInputElement | null;
+  const list = document.getElementById('palette-list');
+  const empty = document.getElementById('palette-empty');
+  if (layer && input && list) {
+    const items = Array.from(list.querySelectorAll<HTMLAnchorElement>('.palette-item'));
+    let visible = items.slice();
+    let cursor = 0;
+    let lastFocus: HTMLElement | null = null;
+
+    function paint() {
+      items.forEach((el) => {
+        el.dataset.active = 'false';
+        el.setAttribute('aria-selected', 'false');
+      });
+      const active = visible[cursor];
+      if (active) {
+        active.dataset.active = 'true';
+        active.setAttribute('aria-selected', 'true');
+        active.scrollIntoView({ block: 'nearest' });
+      }
+      if (empty) empty.hidden = visible.length > 0;
+    }
+
+    function filter(q: string) {
+      const needle = q.trim().toLowerCase();
+      const terms = needle.split(/\s+/).filter(Boolean);
+      visible = [];
+      items.forEach((el) => {
+        const hay = el.dataset.search || '';
+        const hit = terms.every((t) => hay.includes(t));
+        const li = el.parentElement as HTMLElement;
+        li.hidden = !hit;
+        if (hit) visible.push(el);
+      });
+      cursor = 0;
+      paint();
+    }
+
+    function open() {
+      if (!layer.hidden) return;
+      lastFocus = document.activeElement as HTMLElement;
+      layer.hidden = false;
+      requestAnimationFrame(() => layer.classList.add('is-open'));
+      input.value = '';
+      filter('');
+      input.focus();
+    }
+
+    function close() {
+      if (layer.hidden) return;
+      layer.classList.remove('is-open');
+      window.setTimeout(() => {
+        layer.hidden = true;
+      }, 240);
+      lastFocus?.focus();
+    }
+
+    function run(el: HTMLAnchorElement) {
+      const act = el.dataset.act;
+      if (!act) {
+        close();
+        if (el.dataset.external === 'true') {
+          window.open(el.href, '_blank', 'noopener,noreferrer');
+        } else {
+          window.location.assign(el.getAttribute('href') || '/');
+        }
+        return;
+      }
+
+      if (act === 'theme') {
+        document.dispatchEvent(new CustomEvent('site:toggle-theme'));
+      } else if (act === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (act === 'copy-email') {
+        const mail = items.find((i) => i.href.startsWith('mailto:'));
+        const addr = mail ? mail.href.replace('mailto:', '') : '';
+        navigator.clipboard
+          ?.writeText(addr)
+          .then(() =>
+            document.dispatchEvent(
+              new CustomEvent('site:toast', { detail: { text: `Copied ${addr}` } }),
+            ),
+          )
+          .catch(() => {});
+      }
+      close();
+    }
+
+    input.addEventListener('input', () => filter(input.value));
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || (e.key === 'n' && e.ctrlKey)) {
+        e.preventDefault();
+        cursor = visible.length ? (cursor + 1) % visible.length : 0;
+        paint();
+      } else if (e.key === 'ArrowUp' || (e.key === 'p' && e.ctrlKey)) {
+        e.preventDefault();
+        cursor = visible.length ? (cursor - 1 + visible.length) % visible.length : 0;
+        paint();
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const active = visible[cursor];
+        if (active) run(active);
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+      }
+    });
+
+    items.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+        run(el);
+      });
+      el.addEventListener('pointerenter', () => {
+        const idx = visible.indexOf(el);
+        if (idx > -1) {
+          cursor = idx;
+          paint();
+        }
+      });
+    });
+
+    layer.addEventListener('click', (e) => {
+      if (e.target === layer) close();
+    });
+
+    document.addEventListener('site:open-palette', open);
+
+    window.addEventListener('keydown', (e) => {
+      const openCombo = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
+      if (openCombo) {
+        e.preventDefault();
+        layer.hidden ? open() : close();
+        return;
+      }
+
+      // "?" and "/" open too, but never while the visitor is typing
+      const el = document.activeElement;
+      const typing =
+        el instanceof HTMLInputElement ||
+        el instanceof HTMLTextAreaElement ||
+        (el as HTMLElement)?.isContentEditable;
+      if (typing) return;
+
+      if (e.key === '?' || e.key === '/') {
+        e.preventDefault();
+        open();
+      }
+    });
+  }
+</script>

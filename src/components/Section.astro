@@ -1,0 +1,28 @@
+---
+/**
+ * The section chassis. On desktop the head sticks in the left rail while its
+ * body scrolls past — that pinning is what breaks the old build's "seven
+ * identical stacked blocks" rhythm without needing seven bespoke layouts.
+ */
+interface Props {
+  num: string;
+  title: string;
+  note?: string;
+  id?: string;
+}
+
+const { num, title, note, id } = Astro.props;
+---
+
+<section class="section" id={id}>
+  <div class="section-grid">
+    <div class="section-head" data-reveal>
+      <p class="section-num">{num}</p>
+      <h2 class="section-title">{title}</h2>
+      {note && <p class="section-note">{note}</p>}
+    </div>
+    <div class="section-body">
+      <slot />
+    </div>
+  </div>
+</section>

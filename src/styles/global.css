@@ -170,6 +170,60 @@ body {
   }
 }
 
+/* Latent mode — unlocked by typing an egg word. A point field appears, but
+   only inside a halo around the pointer, so the "latent space" is something
+   you have to sweep to see. Also uses --mx/--my. */
+[data-latent] {
+  --bloom-size: 56rem;
+  --bloom: rgb(232 132 107 / 0.13);
+  --grain-opacity: 0.055;
+}
+
+[data-theme='light'][data-latent] {
+  --bloom: rgb(179 69 47 / 0.11);
+}
+
+[data-latent] .field {
+  opacity: 1;
+}
+
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+  background-image: radial-gradient(circle at center, var(--rule-strong) 1.1px, transparent 1.1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(
+    24rem 24rem at var(--mx) var(--my),
+    #000 4%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(24rem 24rem at var(--mx) var(--my), #000 4%, transparent 72%);
+}
+
+/* the one hint: a caret in the hero kicker that quietly invites typing */
+.caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background: var(--accent);
+  vertical-align: -0.14em;
+  animation: blink 1.15s steps(2, jump-none) infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 /* scroll progress hairline */
 .scroll-rule {
   position: fixed;
@@ -510,13 +564,17 @@ main {
 
 .line-mask > span {
   display: block;
+}
+
+/* scoped to .js so the headline is never hidden without scripting */
+.js .line-mask > span {
   transform: translateY(103%);
   transition: transform 1000ms var(--ease);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.is-in .line-mask > span,
-.line-mask.is-in > span {
+.js .is-in .line-mask > span,
+.js .line-mask.is-in > span {
   transform: none;
 }
 
@@ -638,6 +696,18 @@ main {
   height: 1px;
   width: clamp(2rem, 8vw, 5rem);
   background: linear-gradient(90deg, var(--rule-strong), transparent);
+}
+
+/* inner pages: same hero grammar, shorter, so they don't cosplay the homepage */
+.hero-compact {
+  min-height: 0;
+  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.hero-display-sm {
+  font-size: var(--t-4);
+  letter-spacing: -0.04em;
+  line-height: 0.92;
 }
 
 /* ---------- buttons ---------- */
@@ -834,6 +904,36 @@ a.index-row:focus-visible .index-title {
   .index-blurb {
     grid-row: 3;
   }
+}
+
+/* long titles (papers, news) sit better at body scale than display scale */
+.pub-title,
+.news-title {
+  font-size: var(--t-1);
+  line-height: 1.35;
+  max-width: 52ch;
+}
+
+.news-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.after-list {
+  margin: 1.75rem 0 0;
+}
+
+.latest-note {
+  margin-top: 1.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg-elevated);
+}
+
+.latest-note p:last-child {
+  margin-bottom: 0;
 }
 
 /* ---------- system panels ---------- */
@@ -1270,13 +1370,16 @@ a.index-row:focus-visible .index-title {
   font-size: var(--t--1);
   line-height: 1.9;
   color: var(--ink-faint);
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 1200ms var(--ease), transform 1200ms var(--ease);
   margin: 0;
 }
 
-.abyss-note.is-in {
+.js .abyss-note {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1200ms var(--ease), transform 1200ms var(--ease);
+}
+
+.js .abyss-note.is-in {
   opacity: 1;
   transform: none;
 }
@@ -1515,27 +1618,31 @@ a.index-row:focus-visible .index-title {
 
 /* ---------- reveal primitives ---------- */
 
-[data-reveal] {
+/* Every "start hidden" rule is scoped to .js, which the inline head script
+   adds before first paint. If scripting is blocked or a module fails to
+   execute, none of this applies and the page is just static and readable. */
+
+.js [data-reveal] {
   opacity: 0;
   transform: translateY(var(--reveal-y, 16px));
   transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-[data-reveal].is-in {
+.js [data-reveal].is-in {
   opacity: 1;
   transform: none;
 }
 
 /* rows stagger themselves via an index set in the template */
-[data-stagger] > * {
+.js [data-stagger] > * {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 620ms var(--ease), transform 620ms var(--ease);
   transition-delay: calc(var(--i, 0) * 55ms);
 }
 
-[data-stagger].is-in > * {
+.js [data-stagger].is-in > * {
   opacity: 1;
   transform: none;
 }
@@ -1568,6 +1675,7 @@ a.index-row:focus-visible .index-title {
   }
 
   .bloom,
+  .field,
   .grain {
     display: none;
   }
@@ -1587,336 +1695,3 @@ a.index-row:focus-visible .index-title {
   }
 }
 
-/* ============================================================
-   Page differentiation — home / work / writing / research
-   ============================================================ */
-
-.page-intro {
-  padding: clamp(1.5rem, 4vw, 2.5rem) 0 2rem;
-  margin-bottom: 2.5rem;
-  border-bottom: 1px solid var(--rule-strong);
-}
-
-.page-eyebrow {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 0.75rem;
-}
-
-.page-h1 {
-  font-family: var(--display);
-  font-size: var(--t-4);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
-  margin: 0 0 1rem;
-  max-width: 16ch;
-}
-
-.page-deck {
-  margin: 0;
-  max-width: 38rem;
-  color: var(--ink-muted);
-  font-size: var(--t-1);
-  text-wrap: pretty;
-}
-
-/* HOME — directory, not a dump of every section */
-[data-page='home'] .home-portal {
-  min-height: 72vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 2rem 0 4rem;
-}
-
-[data-page='home'] .home-kicker {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 0.85rem;
-}
-
-[data-page='home'] .home-name {
-  font-family: var(--display);
-  font-size: var(--t-5);
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 0.88;
-  margin: 0 0 1.35rem;
-}
-
-[data-page='home'] .home-line {
-  font-family: var(--display);
-  font-size: var(--t-2);
-  font-style: italic;
-  font-weight: 500;
-  max-width: 30rem;
-  margin: 0 0 3rem;
-  line-height: 1.35;
-  color: var(--ink-muted);
-}
-
-[data-page='home'] .home-doors {
-  display: grid;
-  gap: 0;
-  border-top: 1px solid var(--rule-strong);
-  margin-bottom: 2.75rem;
-}
-
-[data-page='home'] .door {
-  display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 0.35rem 1.35rem;
-  padding: 1.4rem 0;
-  border-bottom: 1px solid var(--rule);
-  text-decoration: none;
-  align-items: baseline;
-}
-
-@media (min-width: 720px) {
-  [data-page='home'] .door {
-    grid-template-columns: 3rem 9rem 1fr;
-  }
-}
-
-[data-page='home'] .door:hover .door-title {
-  color: var(--accent);
-}
-
-[data-page='home'] .door-num {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  color: var(--ink-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-[data-page='home'] .door-title {
-  font-family: var(--display);
-  font-size: var(--t-3);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-}
-
-[data-page='home'] .door-desc {
-  grid-column: 2 / -1;
-  color: var(--ink-muted);
-  font-size: var(--t-0);
-}
-
-@media (min-width: 720px) {
-  [data-page='home'] .door-desc {
-    grid-column: auto;
-  }
-}
-
-[data-page='home'] .home-contact {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 1.5rem;
-  align-items: center;
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-[data-page='home'] .home-contact a:not(.btn) {
-  text-decoration: none;
-  color: var(--ink-faint);
-}
-
-/* WORK — steel / product catalog */
-[data-page='work'] {
-  --accent: #7aa2c7;
-  --accent-soft: rgb(122 162 199 / 0.12);
-  --signal: #7aa2c7;
-}
-
-[data-theme='light'][data-page='work'] {
-  --accent: #2f5f8a;
-  --accent-soft: rgb(47 95 138 / 0.1);
-  --signal: #2f5f8a;
-}
-
-[data-page='work'] .page-h1 {
-  max-width: 12ch;
-}
-
-/* WRITING — journal / ochre */
-[data-page='writing'] {
-  --accent: #d4a574;
-  --accent-soft: rgb(212 165 116 / 0.12);
-}
-
-[data-theme='light'][data-page='writing'] {
-  --accent: #8a5a28;
-  --accent-soft: rgb(138 90 40 / 0.1);
-}
-
-[data-page='writing'] .writing-h1 {
-  font-style: italic;
-  font-weight: 500;
-  max-width: 12ch;
-}
-
-[data-page='writing'] .page-intro-writing .filter-bar {
-  margin-top: 1.5rem;
-  margin-bottom: 0;
-}
-
-[data-page='writing'] .writing-feed {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--rule-strong);
-}
-
-[data-page='writing'] .writing-feed > li {
-  border-bottom: 1px solid var(--rule);
-}
-
-[data-page='writing'] .writing-row {
-  display: grid;
-  gap: 0.4rem 1rem;
-  padding: 1.2rem 0;
-  text-decoration: none;
-  grid-template-columns: 6.5rem 3.25rem 1fr;
-  align-items: baseline;
-}
-
-[data-page='writing'] .writing-excerpt {
-  grid-column: 1 / -1;
-  color: var(--ink-muted);
-  font-size: var(--t-0);
-  max-width: 44rem;
-  text-wrap: pretty;
-}
-
-@media (min-width: 820px) {
-  [data-page='writing'] .writing-excerpt {
-    grid-column: 3;
-  }
-}
-
-[data-page='writing'] .writing-date,
-[data-page='writing'] .writing-kind {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-[data-page='writing'] .writing-title {
-  font-family: var(--display);
-  font-size: var(--t-2);
-  font-weight: 600;
-  letter-spacing: -0.022em;
-  line-height: 1.15;
-}
-
-[data-page='writing'] .writing-row:hover .writing-title {
-  color: var(--accent);
-}
-
-/* RESEARCH — academic / green-gray */
-[data-page='research'] {
-  --accent: #8fbfa4;
-  --accent-soft: rgb(143 191 164 / 0.12);
-  --bg: #070a08;
-  --bg-elevated: #0c100e;
-}
-
-[data-theme='light'][data-page='research'] {
-  --accent: #2f6b4f;
-  --accent-soft: rgb(47 107 79 / 0.1);
-  --bg: #f2f4f1;
-  --bg-elevated: #fafbf9;
-}
-
-[data-page='research'] .research-h1 {
-  max-width: 18ch;
-}
-
-[data-page='research'] .research-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 1.5rem;
-}
-
-[data-page='research'] .bib-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--rule-strong);
-}
-
-[data-page='research'] .bib-item {
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: 0.75rem 1rem;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-
-[data-page='research'] .bib-n {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  color: var(--accent);
-  padding-top: 0.2rem;
-  font-variant-numeric: tabular-nums;
-}
-
-[data-page='research'] .bib-title {
-  font-family: var(--sans);
-  font-size: 1.02rem;
-  font-weight: 500;
-  margin: 0 0 0.4rem;
-  line-height: 1.4;
-  max-width: 46rem;
-  text-wrap: pretty;
-}
-
-[data-page='research'] .bib-meta {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  color: var(--ink-faint);
-  letter-spacing: 0.03em;
-}
-
-[data-page='research'] .news-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--rule);
-}
-
-[data-page='research'] .news-list li {
-  display: grid;
-  gap: 0.4rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-
-@media (min-width: 700px) {
-  [data-page='research'] .news-list li {
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1.25rem;
-  }
-}
-
-[data-page='research'] .news-list time {
-  font-family: var(--mono);
-  font-size: var(--t--1);
-  color: var(--ink-faint);
-  font-variant-numeric: tabular-nums;
-}

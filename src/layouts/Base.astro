@@ -1,156 +1,175 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
+import SiteMotion from '../components/SiteMotion.astro';
+import CommandPalette from '../components/CommandPalette.astro';
+import Eggs from '../components/Eggs.astro';
 
 interface Props {
   title?: string;
   description?: string;
-  page?: 'home' | 'work' | 'writing' | 'research';
 }
 
-const { title = site.name, description = site.tagline, page = 'home' } = Astro.props;
-const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.name}`;
+const { title = site.name, description = site.tagline } = Astro.props;
+const pageTitle =
+  title === site.name ? `${site.name} — Agentic AI & GenAI representation` : `${title} · ${site.name}`;
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+
+const nav = [
+  { href: '/work', label: 'Work' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/research', label: 'Research' },
+];
 ---
 
 <!doctype html>
-<html lang="en" data-page={page}>
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <link rel="canonical" href={Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href} />
-    <link rel="icon" href="/favicon.ico" />
+    <meta name="theme-color" content="#08090a" />
+    <link rel="canonical" href={Astro.site ? new URL(path, Astro.site).href : Astro.url.href} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- fonts: preconnect + link, replacing the render-blocking CSS @import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap"
+    />
+
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    {Astro.site && <meta property="og:url" content={new URL(path, Astro.site).href} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+
     <script is:inline>
+      // Dark is the design; light is a courtesy. Only an explicit stored choice
+      // leaves dark, so there is no first-paint flash in either direction.
       (function () {
+        // `js` gates every reveal animation. Without it the content is simply
+        // visible, so a failed/blocked module never leaves a blank page.
+        document.documentElement.classList.add('js');
         try {
           var stored = localStorage.getItem('theme');
-          var theme =
-            stored ||
-            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
   </head>
+
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <SiteMotion />
+
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="/" data-egg-brand>{site.name}</a>
+        <a class="brand" href="/">{site.name}</a>
+
         <nav class="nav" aria-label="Primary">
-          <a href="/work" aria-current={page === 'work' ? 'page' : undefined}>Work</a>
-          <a href="/writing" aria-current={page === 'writing' ? 'page' : undefined}>Writing</a>
-          <a href="/research" aria-current={page === 'research' ? 'page' : undefined}>Research</a>
+          {
+            nav.map((item) => (
+              <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
           <a href={`mailto:${site.email}`}>Contact</a>
-          <button class="icon-btn" type="button" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-            ◐
-          </button>
+
+          <span class="header-tools">
+            <button
+              class="kbd-hint"
+              type="button"
+              id="palette-open"
+              aria-label="Open command palette"
+            >
+              <kbd>⌘</kbd><kbd>K</kbd>
+            </button>
+            <button
+              class="icon-btn"
+              type="button"
+              id="theme-toggle"
+              aria-label="Toggle light and dark theme"
+              title="Toggle theme"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3">
+                <circle cx="8" cy="8" r="5.3" />
+                <path d="M8 2.7a5.3 5.3 0 0 1 0 10.6z" fill="currentColor" stroke="none" />
+              </svg>
+            </button>
+          </span>
         </nav>
       </header>
 
-      <main>
+      <main id="main">
         <slot />
       </main>
 
       <footer class="site-footer">
-        <div class="footer-row">
-          <div class="footer-links">
-            <a href={`mailto:${site.email}`}>{site.email}</a>
-            <a href={site.socials.linkedin} rel="noopener noreferrer" target="_blank">LinkedIn</a>
-            <a href={site.socials.github} rel="noopener noreferrer" target="_blank">GitHub</a>
-            <a href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
-            <a href={site.cv}>CV</a>
-            <a href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic</a>
-          </div>
+        <div class="footer-links">
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={site.socials.linkedin} rel="noopener noreferrer" target="_blank">LinkedIn</a>
+          <a href={site.socials.github} rel="noopener noreferrer" target="_blank">GitHub</a>
+          <a href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
+          <a href={site.cv}>CV</a>
+          <a href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic</a>
         </div>
-        <p>
-          © {new Date().getFullYear()} {site.name}
-          {page === 'writing' ? ` · ${site.newsletterName}` : ''}
-          <span style="opacity:0.55"> · type <kbd>persona</kbd></span>
+        <p class="footer-fine">
+          <span>© {new Date().getFullYear()} {site.name} · {site.location}</span>
+          <span>{site.newsletterName}, mirrored in full</span>
         </p>
       </footer>
     </div>
 
-    <div class="egg-layer" id="egg-layer" hidden>
-      <div class="egg-card" role="dialog" aria-modal="true" aria-labelledby="egg-title">
-        <h2 id="egg-title">PEP unlocked</h2>
-        <p>
-          Persona Ecosystem Playground — modeling how GenAI represents people. Separate from PPR (Persona Paper Reviewer).
-        </p>
-        <div class="egg-actions">
-          <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank">Open PEP</a>
-          <a class="btn btn-ghost" href="/research">Research</a>
-          <button class="btn btn-ghost" type="button" id="egg-close">Close</button>
-        </div>
-      </div>
-    </div>
+    <!-- egg 4: only reachable by scrolling past the footer -->
+    <section class="abyss" aria-hidden="true">
+      <p class="abyss-note">
+        You scrolled past the end. Almost nobody does.<br />
+        <em>“The people you design for are not the average of your data.”</em><br />
+        That is four years of research compressed badly — the long version is on the academic
+        site. But you went further than most, so: thank you.
+      </p>
+    </section>
+
+    <CommandPalette />
+    <Eggs />
 
     <script>
+      // Theme toggle lives in the layout because both the command palette and
+      // the eggs dispatch `site:toggle-theme` at it.
       const root = document.documentElement;
-      const toggle = document.getElementById('theme-toggle');
 
-      function setTheme(theme: string) {
+      function apply(theme: string) {
         root.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-      }
-
-      toggle?.addEventListener('click', () => {
-        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        setTheme(next);
-      });
-
-      const egg = document.getElementById('egg-layer');
-      const close = document.getElementById('egg-close');
-      let buffer = '';
-
-      function openEgg() {
-        if (!egg) return;
-        egg.hidden = false;
-        requestAnimationFrame(() => egg.classList.add('is-open'));
-      }
-
-      function closeEgg() {
-        if (!egg) return;
-        egg.classList.remove('is-open');
-        setTimeout(() => {
-          egg.hidden = true;
-        }, 240);
-      }
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeEgg();
-        if (e.metaKey || e.ctrlKey || e.altKey) return;
-        if (e.key.length !== 1) return;
-        buffer = (buffer + e.key.toLowerCase()).slice(-7);
-        if (buffer.endsWith('persona')) openEgg();
-      });
-
-      close?.addEventListener('click', closeEgg);
-      egg?.addEventListener('click', (e) => {
-        if (e.target === egg) closeEgg();
-      });
-
-      let clicks = 0;
-      let clickTimer: number | undefined;
-      document.querySelector('[data-egg-brand]')?.addEventListener('click', (e) => {
-        clicks += 1;
-        window.clearTimeout(clickTimer);
-        clickTimer = window.setTimeout(() => {
-          clicks = 0;
-        }, 700);
-        if (clicks >= 3) {
-          e.preventDefault();
-          openEgg();
-          clicks = 0;
+        try {
+          localStorage.setItem('theme', theme);
+        } catch (e) {
+          /* private mode: the attribute still applies to this page */
         }
+      }
+
+      function toggleTheme() {
+        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      }
+
+      document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+      document.addEventListener('site:toggle-theme', toggleTheme);
+
+      document.getElementById('palette-open')?.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('site:open-palette'));
       });
     </script>
   </body>

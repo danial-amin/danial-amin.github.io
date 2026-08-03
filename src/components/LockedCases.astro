@@ -6,53 +6,59 @@ const locked = projects.filter((p) => p.locked);
 const passHash = site.lockedPassHash;
 ---
 
-<section class="section locked-section" id="locked-cases">
-  <p class="section-label">Locked</p>
-  <h2 class="section-title" data-num="·· / Locked">Confidential case studies</h2>
-  <p class="locked-lead">
-    A few engagements stay behind a gate — client-sensitive detail, not marketing copy. Enter the passphrase to unlock this block for this session.
-  </p>
+<p class="lede" data-reveal>
+  A few engagements stay behind a gate — client-sensitive detail, not marketing copy.
+  The passphrase unlocks this block for the session.
+</p>
 
-  <div id="locked-gate" class="locked-gate" data-pass-hash={passHash}>
-    <form id="locked-form" class="locked-form">
-      <label for="locked-pass">Passphrase</label>
-      <div class="locked-row">
-        <input id="locked-pass" name="pass" type="password" autocomplete="current-password" required />
-        <button class="btn" type="submit">Unlock</button>
-      </div>
-      <p id="locked-error" class="locked-error" hidden>That passphrase doesn’t match.</p>
-    </form>
-    <ul class="index-list locked-preview" aria-hidden="true">
-      {
-        locked.map((p) => (
-          <li>
-            <div class="index-row">
-              <span class="index-title">{p.title}</span>
-              <span class="index-meta">locked</span>
-              <p class="index-blurb">Details hidden until unlocked.</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
+<div id="locked-gate" class="locked-gate" data-pass-hash={passHash} data-reveal>
+  <form id="locked-form" class="locked-form">
+    <label for="locked-pass">Passphrase</label>
+    <div class="locked-row">
+      <input
+        id="locked-pass"
+        name="pass"
+        type="password"
+        autocomplete="current-password"
+        required
+      />
+      <button class="btn" type="submit"><span>Unlock</span></button>
+    </div>
+    <p id="locked-error" class="locked-error" hidden>That passphrase doesn’t match.</p>
+  </form>
 
-  <div id="locked-content" class="locked-content" hidden>
-    <ul class="index-list">
-      {
-        locked.map((p) => (
-          <li>
-            <div class="index-row">
-              <span class="index-title">{p.title}</span>
-              <span class="index-meta">{p.year}</span>
-              <p class="index-blurb">{p.outcome}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-</section>
+  <ul class="index-list locked-preview" aria-hidden="true">
+    {
+      locked.map((p, i) => (
+        <li>
+          <div class="index-row">
+            <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
+            <span class="index-title">{p.title}</span>
+            <span class="index-meta">locked</span>
+            <p class="index-blurb">Details hidden until unlocked.</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<div id="locked-content" hidden>
+  <ul class="index-list">
+    {
+      locked.map((p, i) => (
+        <li>
+          <div class="index-row" data-prox>
+            <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
+            <span class="index-title">{p.title}</span>
+            <span class="index-meta">{p.year}</span>
+            <p class="index-blurb">{p.outcome}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
 
 <script is:inline>
   (function () {

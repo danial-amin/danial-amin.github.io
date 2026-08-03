@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
+import site from '../../data/site.json';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -12,25 +13,23 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const isNewsletter = post.data.source === 'newsletter';
 
 function fmt(d: Date) {
   return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 ---
 
-<Base title={post.data.title} description={post.data.excerpt} page="writing">
-  <article class:list={['prose', post.data.source === 'newsletter' && 'newsletter-prose']}>
-    <p class="section-label">
-      {post.data.source === 'newsletter' ? 'AI Pulse & Data Waves' : 'Essay'}
-    </p>
+<Base title={post.data.title} description={post.data.excerpt}>
+  <article class:list={['prose', isNewsletter && 'prose-mirror']}>
+    <p class="mono-label">{isNewsletter ? site.newsletterName : 'Essay'}</p>
     <h1>{post.data.title}</h1>
     <p class="meta">
       {fmt(post.data.date)}
       {
         post.data.linkedinUrl && (
           <>
-            {' '}
-            ·{' '}
+            {' · '}
             <a href={post.data.linkedinUrl} rel="noopener noreferrer" target="_blank">
               View on LinkedIn
             </a>
@@ -38,10 +37,12 @@ function fmt(d: Date) {
         )
       }
     </p>
+
     <Content />
-    <p style="margin-top:2.5rem">
-      <a href="/writing" style="font-family:var(--mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em">
-        ← All writing
+
+    <p class="after-list">
+      <a class="text-link" href="/writing">
+        <span class="arrow" aria-hidden="true">←</span> All writing
       </a>
     </p>
   </article>
