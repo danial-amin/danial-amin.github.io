@@ -42,23 +42,23 @@ const hasNarrative = Boolean(
 ---
 
 <Base title={project.title} description={project.outcome}>
-  <header class="hero hero-compact">
+  <header class="cover">
     <div>
-      <p class="detail-kicker">
+      <p class="crumb">
         <a href="/work">Work</a>
         <span aria-hidden="true">/</span>
         <span>Case {String(i + 1).padStart(2, '0')}</span>
       </p>
 
-      <h1 class="hero-display hero-display-sm">
-        <span class="line-mask"><span>{project.title}</span></span>
+      <h1 class="cover-name" style="font-size:var(--t-4)">
+        {project.title}
       </h1>
 
-      <p class="hero-tagline" data-reveal style="--reveal-delay:280ms">{project.outcome}</p>
+      <p class="cover-line" data-set style="--set-delay:280ms">{project.outcome}</p>
 
       {
         project.tags?.length > 0 && (
-          <ul class="tag-row" data-reveal style="--reveal-delay:380ms">
+          <ul class="tags" data-set style="--set-delay:380ms">
             {project.tags.map((t) => (
               <li class="tag">{t}</li>
             ))}
@@ -67,58 +67,39 @@ const hasNarrative = Boolean(
       }
     </div>
 
-    <aside class="readout" data-reveal style="--reveal-delay:500ms" aria-label="Case details">
-      <div class="readout-bar"><span>Engagement</span></div>
-      <div class="readout-row">
-        <span class="readout-key">Year</span>
-        <span class="readout-val">{project.year}</span>
-      </div>
-      {
-        project.role && (
-          <div class="readout-row">
-            <span class="readout-key">Role</span>
-            <span class="readout-val">{project.role}</span>
-          </div>
-        )
-      }
-      <div class="readout-row">
-        <span class="readout-key">Status</span>
-        <span class="readout-val">Shipped</span>
-      </div>
-    </aside>
-  </header>
+    </header>
 
   {
     hasNarrative ? (
       <Section num="01" title="The case" note="Context, problem, approach, result.">
         {project.context && (
-          <div class="detail-field" data-reveal>
+          <div class="slab" data-set>
             <p class="field-key">Context</p>
-            <p class="detail-text">{project.context}</p>
+            <p class="field-built">{project.context}</p>
           </div>
         )}
         {project.problem && (
-          <div class="detail-field" data-reveal>
+          <div class="slab" data-set>
             <p class="field-key">Problem</p>
-            <p class="detail-lead">{project.problem}</p>
+            <p class="field-why">{project.problem}</p>
           </div>
         )}
         {project.approach && (
-          <div class="detail-field" data-reveal>
+          <div class="slab" data-set>
             <p class="field-key">Approach</p>
-            <p class="detail-text">{project.approach}</p>
+            <p class="field-built">{project.approach}</p>
           </div>
         )}
         {project.result && (
-          <div class="detail-field" data-reveal>
+          <div class="slab" data-set>
             <p class="field-key">Result</p>
-            <p class="detail-text">{project.result}</p>
+            <p class="field-built">{project.result}</p>
           </div>
         )}
         {project.stack && project.stack.length > 0 && (
-          <div class="detail-field" data-reveal>
+          <div class="slab" data-set>
             <p class="field-key">Stack</p>
-            <ul class="tag-row" style="margin-top:0">
+            <ul class="tags" style="margin-top:0">
               {project.stack.map((s) => (
                 <li class="tag">{s}</li>
               ))}
@@ -132,7 +113,7 @@ const hasNarrative = Boolean(
          which keys to add. Nothing here is invented on your behalf. */
       import.meta.env.DEV && (
         <Section num="01" title="No narrative yet" note="Dev-only notice.">
-          <p class="detail-todo">
+          <p class="todo">
             <strong>This page is header-only.</strong>
             <br />
             Add any of <code>context</code>, <code>problem</code>, <code>approach</code>,{' '}

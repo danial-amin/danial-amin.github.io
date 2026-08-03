@@ -2,36 +2,30 @@
 import projects from '../data/projects.json';
 
 interface Props {
-  /** false = every open project, not just the featured ones */
   featuredOnly?: boolean;
   showMore?: boolean;
 }
-
 const { featuredOnly = true, showMore = true } = Astro.props;
-const items = projects.filter((p) => !p.locked && (!featuredOnly || p.featured));
+const items = projects.filter((p) => !featuredOnly || p.featured);
 ---
 
-<ul class="index-list" data-stagger>
+<ul class="listing" data-run>
   {
     items.map((p, i) => (
       <li style={`--i:${i}`}>
-        <a class="index-row" href={`/work/${p.id}`} data-prox>
-          <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-          <span class="index-title">{p.title}</span>
-          <span class="index-meta">{p.year}</span>
-          <p class="index-blurb">{p.outcome}</p>
+        <a class="entry" href={`/work/${p.id}`} data-lift>
+          <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="entry-title"><mark>{p.title}</mark></span>
+          <span class="entry-meta">{p.year}</span>
+          <p class="entry-blurb">{p.outcome}</p>
         </a>
       </li>
     ))
   }
 </ul>
 
-{
-  showMore && (
-    <p class="after-list" data-reveal>
-      <a class="text-link" href="/work">
-        All case studies <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </p>
-  )
-}
+{showMore && (
+  <p style="margin:1.4rem 0 0" data-set>
+    <a class="jump" href="/work">All case studies →</a>
+  </p>
+)}

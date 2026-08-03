@@ -1,96 +1,65 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
+import Ink from '../../components/Ink.astro';
 import publications from '../../data/publications.json';
 import news from '../../data/news.json';
 import site from '../../data/site.json';
 ---
 
-<Base
-  title="Research"
-  description="GenAI personas, fairness, and HCI — with the full record on the academic site."
->
-  <header class="hero hero-compact">
-    <div>
-      <p class="hero-kicker"><span>Research</span></p>
-      <h1 class="hero-display hero-display-sm">
-        <span class="line-mask"><span>Personas</span></span>
-        <span class="line-mask" style="--reveal-delay:110ms"><span>&amp; fairness</span></span>
-      </h1>
-      <p class="hero-tagline" data-reveal style="--reveal-delay:340ms">
-        Doctoral work at the University of Vaasa on how Generative AI represents the people it
-        claims to serve — and what that gets wrong.
-      </p>
-      <div class="hero-actions" data-reveal style="--reveal-delay:460ms">
-        <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">
-          <span>Academic site</span>
-        </a>
-        <a class="btn btn-ghost" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">
-          <span>Scholar</span>
-        </a>
-        <a class="btn btn-ghost" href={site.socials.orcid} rel="noopener noreferrer" target="_blank">
-          <span>ORCID</span>
-        </a>
-      </div>
+<Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
+  <header class="cover">
+    <p class="cover-issue">
+      <span>Section — Research</span>
+      <span>University of Vaasa</span>
+      <span>PersonaTeam</span>
+      <span>{publications.length} publications</span>
+    </p>
+    <h1 class="cover-name" style="font-size:var(--t-4)">
+      <Ink text="Personas" y={4} fromY={20} />
+      <Ink text="& fairness" x={5} y={5} fromX={20} fromY={24} />
+    </h1>
+    <p class="cover-line" data-set style="--set-delay:220ms">
+      Doctoral work on how Generative AI represents the people it claims to serve — and what
+      that gets wrong.
+    </p>
+    <div class="cover-actions" data-set style="--set-delay:300ms">
+      <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic site</a>
+      <a class="btn btn-out" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
+      <a class="btn btn-out" href={site.socials.orcid} rel="noopener noreferrer" target="_blank">ORCID</a>
     </div>
-
-    <aside class="readout" data-reveal style="--reveal-delay:600ms" aria-label="At a glance">
-      <div class="readout-bar"><span>Record</span></div>
-      <div class="readout-row">
-        <span class="readout-key">Publications</span>
-        <span class="readout-val">{publications.length}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Affiliation</span>
-        <span class="readout-val">Vaasa</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Group</span>
-        <span class="readout-val">PersonaTeam</span>
-      </div>
-    </aside>
   </header>
 
-  <Section
-    num="01"
-    title="Publications"
-    note="Selected — the complete list lives on the academic site."
-    id="publications"
-  >
-    <ul class="index-list" data-stagger>
-      {
-        publications.map((p, i) => (
-          <li style={`--i:${i}`}>
-            <div class="index-row" data-prox>
-              <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-              <span class="index-title pub-title">{p.title}</span>
-              <span class="index-meta">
-                {p.venue} · {p.year}
-              </span>
-              <p class="index-blurb">
-                {p.status}
-                {p.doi ? ` · doi:${p.doi}` : ''}
-              </p>
-            </div>
-          </li>
-        ))
-      }
+  <Section num="1" title="Publications" note="Selected — the complete list lives on the academic site." id="publications">
+    <ul class="listing" data-run>
+      {publications.map((p, i) => (
+        <li style={`--i:${i}`}>
+          <div class="entry" data-lift>
+            <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
+              {p.title}
+            </span>
+            <span class="entry-meta">{p.venue} · {p.year}</span>
+            <p class="entry-blurb">{p.status}{p.doi ? ` · doi:${p.doi}` : ''}</p>
+          </div>
+        </li>
+      ))}
     </ul>
   </Section>
 
-  <Section num="02" title="News" id="news">
-    <ul class="index-list" data-stagger>
-      {
-        news.map((n, i) => (
-          <li style={`--i:${i}`}>
-            <div class="index-row" data-prox>
-              <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-              <span class="index-title news-title">{n.text}</span>
-              <span class="index-meta">{n.date}</span>
-            </div>
-          </li>
-        ))
-      }
+  <Section num="2" title="News" id="news">
+    <ul class="listing" data-run>
+      {news.map((n, i) => (
+        <li style={`--i:${i}`}>
+          <div class="entry" data-lift>
+            <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="entry-title" style="font-family:var(--body);font-weight:600;font-size:0.98rem;text-transform:none">
+              {n.text}
+            </span>
+            <span class="entry-meta">{n.date}</span>
+          </div>
+        </li>
+      ))}
     </ul>
   </Section>
 </Base>

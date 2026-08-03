@@ -14,16 +14,16 @@
  */
 ---
 
-<p class="lede" data-reveal>
+<p class="lede" data-set>
   A few engagements stay behind a gate — client-sensitive detail, not marketing copy.
   The passphrase is checked on the server; nothing confidential is in this page until
   it passes.
 </p>
 
-<div id="locked-gate" class="locked-gate" data-reveal>
-  <form id="locked-form" class="locked-form">
+<div id="locked-gate" class="gate" data-set>
+  <form id="locked-form" >
     <label for="locked-pass">Passphrase</label>
-    <div class="locked-row">
+    <div class="gate-row">
       <input
         id="locked-pass"
         name="passphrase"
@@ -33,26 +33,25 @@
       />
       <button class="btn" type="submit" id="locked-submit"><span>Unlock</span></button>
     </div>
-    <p id="locked-error" class="locked-error" hidden aria-live="polite"></p>
+    <p id="locked-error" class="gate-error" hidden aria-live="polite"></p>
   </form>
 
-  <ul class="index-list locked-preview" aria-hidden="true">
+  <ul class="listing gate-blur" aria-hidden="true">
     <li>
-      <div class="index-row">
-        <span class="index-idx">··</span>
-        <span class="index-title">Confidential engagement</span>
-        <span class="index-meta">locked</span>
-        <p class="index-blurb">Held on the server until the passphrase is accepted.</p>
+      <div class="entry">
+        <span class="entry-num">··</span>
+        <span class="entry-title">Confidential engagement</span>
+        <span class="entry-meta">locked</span>
+        <p class="entry-blurb">Held on the server until the passphrase is accepted.</p>
       </div>
     </li>
   </ul>
 </div>
 
 <div id="locked-content" hidden>
-  <ul class="index-list" id="locked-list"></ul>
-  <p class="after-list">
-    <button class="text-link" type="button" id="locked-relock">
-      <span class="arrow" aria-hidden="true">←</span> Lock again
+  <ul class="listing" id="locked-list"></ul>
+  <p style="margin-top:1.6rem">
+    <button class="jump" type="button" id="locked-relock"> ← Lock again
     </button>
   </p>
 </div>
@@ -81,23 +80,23 @@
     cases.forEach((c, i) => {
       const li = document.createElement('li');
       const row = document.createElement('div');
-      row.className = 'index-row';
-      row.setAttribute('data-prox', '');
+      row.className = 'entry';
+      row.setAttribute('data-lift', '');
 
       const idx = document.createElement('span');
-      idx.className = 'index-idx';
+      idx.className = 'entry-num';
       idx.textContent = String(i + 1).padStart(2, '0');
 
       const title = document.createElement('span');
-      title.className = 'index-title';
+      title.className = 'entry-title';
       title.textContent = c.title;
 
       const meta = document.createElement('span');
-      meta.className = 'index-meta';
+      meta.className = 'entry-meta';
       meta.textContent = c.year;
 
       const blurb = document.createElement('p');
-      blurb.className = 'index-blurb';
+      blurb.className = 'entry-blurb';
       blurb.textContent = c.outcome;
 
       row.append(idx, title, meta, blurb);

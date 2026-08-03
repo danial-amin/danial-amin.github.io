@@ -31,9 +31,9 @@ const commands: Cmd[] = [
   ...systems.map((s) => ({
     label: s.name.split('—')[0].trim(),
     kind: 'system',
-    icon: '↗',
-    href: s.url,
-    external: true,
+    icon: '§',
+    href: `/systems/${s.id}`,
+    external: false,
     keywords: `${s.name} ${s.blurb} live product`,
   })),
 
@@ -44,7 +44,7 @@ const commands: Cmd[] = [
   { label: 'Email Danial', kind: 'action', icon: '✉', href: `mailto:${site.email}`, keywords: 'contact hire write message' },
   { label: 'Copy email address', kind: 'action', icon: '⧉', act: 'copy-email', keywords: 'clipboard contact' },
   { label: 'Download CV (PDF)', kind: 'action', icon: '⇩', href: site.cv, keywords: 'resume curriculum vitae' },
-  { label: 'Toggle theme', kind: 'action', icon: '◐', act: 'theme', keywords: 'dark light mode appearance' },
+  { label: 'Flip paper stock', kind: 'press', icon: '◧', act: 'theme', keywords: 'dark light cream black card stock theme' },
   { label: 'Back to top', kind: 'action', icon: '↑', act: 'top', keywords: 'scroll up' },
 
   { label: 'LinkedIn', kind: 'link', icon: '↗', href: site.socials.linkedin, external: true, keywords: 'social profile' },
@@ -56,9 +56,9 @@ const commands: Cmd[] = [
 ---
 
 <div class="overlay overlay-top" id="palette-layer" hidden>
-  <div class="surface palette" role="dialog" aria-modal="true" aria-label="Command palette">
-    <div class="palette-input-wrap">
-      <span class="palette-prompt" aria-hidden="true">&gt;</span>
+  <div class="sheet palette" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="palette-top">
+      <span  aria-hidden="true">&gt;</span>
       <input
         id="palette-input"
         type="text"
@@ -86,7 +86,7 @@ const commands: Cmd[] = [
               data-search={`${c.label} ${c.kind} ${c.keywords ?? ''}`.toLowerCase()}
               {...(c.external ? { rel: 'noopener noreferrer', target: '_blank' } : {})}
             >
-              <span class="palette-icon" aria-hidden="true">{c.icon}</span>
+              <span class="palette-mark" aria-hidden="true">{c.icon}</span>
               <span class="palette-label">{c.label}</span>
               <span class="palette-kind">{c.kind}</span>
             </a>
@@ -95,7 +95,7 @@ const commands: Cmd[] = [
       }
     </ul>
 
-    <p class="palette-empty" id="palette-empty" hidden>Nothing matches. Try “writing”, “council”, “cv”.</p>
+    <p class="palette-none" id="palette-empty" hidden>Nothing matches. Try “writing”, “council”, “cv”.</p>
 
     <div class="palette-foot">
       <span><kbd>↑</kbd><kbd>↓</kbd> move</span>

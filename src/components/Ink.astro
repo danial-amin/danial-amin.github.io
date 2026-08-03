@@ -1,0 +1,34 @@
+---
+/**
+ * A word printed twice: the black pass, and a fluorescent pink pass that landed
+ * slightly out of register. On reveal the pink plate travels in and settles,
+ * which is the whole aesthetic in one gesture.
+ *
+ * The pink layer is aria-hidden — it's the same word, and a screen reader
+ * shouldn't hear it twice.
+ */
+interface Props {
+  text: string;
+  /** final offset of the pink plate, px */
+  x?: number;
+  y?: number;
+  /** where the pink plate starts before it registers, px */
+  fromX?: number;
+  fromY?: number;
+  class?: string;
+}
+
+const { text, x = 3, y = 4, fromX = 16, fromY = 20, class: cls } = Astro.props;
+
+const style = [
+  `--rx:${x}px`,
+  `--ry:${y}px`,
+  `--rx0:${fromX}px`,
+  `--ry0:${fromY}px`,
+].join(';');
+---
+
+<span class:list={['ink', cls]} style={style} data-set>
+  <span class="ink-a" aria-hidden="true">{text}</span>
+  <span class="ink-k">{text}</span>
+</span>

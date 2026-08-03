@@ -1,14 +1,13 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
-import SiteMotion from '../components/SiteMotion.astro';
+import Press from '../components/Press.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import Eggs from '../components/Eggs.astro';
 
 interface Props {
   title?: string;
   description?: string;
-  /** override <link rel=canonical>, e.g. a duplicated topic pointing at the fuller version */
   canonicalPath?: string;
 }
 
@@ -25,28 +24,29 @@ const nav = [
   { href: '/writing', label: 'Writing' },
   { href: '/research', label: 'Research' },
 ];
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-stock="cream">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#08090a" />
+    <meta name="theme-color" content="#f4efe3" />
     <link rel="canonical" href={canonicalHref} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- fonts: preconnect + link, replacing the render-blocking CSS @import -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap"
     />
 
     <meta property="og:title" content={pageTitle} />
@@ -59,17 +59,17 @@ const nav = [
     <meta name="twitter:description" content={description} />
 
     <script is:inline>
-      // Dark is the design; light is a courtesy. Only an explicit stored choice
-      // leaves dark, so there is no first-paint flash in either direction.
+      // `js` gates every reveal. Without it the page is simply printed and
+      // readable, so a blocked module never leaves a blank sheet.
       (function () {
-        // `js` gates every reveal animation. Without it the content is simply
-        // visible, so a failed/blocked module never leaves a blank page.
         document.documentElement.classList.add('js');
         try {
-          var stored = localStorage.getItem('theme');
-          document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
+          var stored = localStorage.getItem('stock');
+          if (stored === 'black' || stored === 'cream') {
+            document.documentElement.setAttribute('data-stock', stored);
+          }
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          /* private mode — cream stays */
         }
       })();
     </script>
@@ -78,7 +78,7 @@ const nav = [
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <SiteMotion />
+    <Press />
 
     <div class="site-shell">
       <header class="site-header">
@@ -95,25 +95,10 @@ const nav = [
           <a href={`mailto:${site.email}`}>Contact</a>
 
           <span class="header-tools">
-            <button
-              class="kbd-hint"
-              type="button"
-              id="palette-open"
-              aria-label="Open command palette"
-            >
-              <kbd>⌘</kbd><kbd>K</kbd>
-            </button>
-            <button
-              class="icon-btn"
-              type="button"
-              id="theme-toggle"
-              aria-label="Toggle light and dark theme"
-              title="Toggle theme"
-            >
-              <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3">
-                <circle cx="8" cy="8" r="5.3" />
-                <path d="M8 2.7a5.3 5.3 0 0 1 0 10.6z" fill="currentColor" stroke="none" />
-              </svg>
+            {/* a press setting, not a light/dark switch — white and fluoro ink
+                on black card is a real Riso technique */}
+            <button class="stamp-btn" type="button" id="stock-toggle" aria-label="Change paper stock">
+              Stock
             </button>
           </span>
         </nav>
@@ -132,20 +117,21 @@ const nav = [
           <a href={site.cv}>CV</a>
           <a href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic</a>
         </div>
-        <p class="footer-fine">
-          <span>© {new Date().getFullYear()} {site.name} · {site.location}</span>
-          <span>{site.newsletterName}, mirrored in full</span>
+        <p class="colophon">
+          <span>© {year} {site.name} · {site.location}</span>
+          <span>Set in Archivo Black &amp; Courier Prime</span>
+          <span>Two inks · printed off-register on purpose</span>
         </p>
       </footer>
     </div>
 
-    <!-- egg 4: only reachable by scrolling past the footer -->
-    <section class="abyss" aria-hidden="true">
-      <p class="abyss-note">
-        You scrolled past the end. Almost nobody does.<br />
-        <em>“The people you design for are not the average of your data.”</em><br />
-        That is four years of research compressed badly — the long version is on the academic
-        site. But you went further than most, so: thank you.
+    <!-- the back page, past the staples -->
+    <section class="backpage" aria-hidden="true">
+      <p class="backpage-note">
+        You went past the last page. Almost nobody does.
+        <strong>“The people you design for are not the average of your data.”</strong>
+        Four years of research, compressed badly. The long version is on the academic site —
+        but you got further than most, so: thank you.
       </p>
     </section>
 
@@ -153,29 +139,24 @@ const nav = [
     <Eggs />
 
     <script>
-      // Theme toggle lives in the layout because both the command palette and
-      // the eggs dispatch `site:toggle-theme` at it.
+      // Paper stock. The palette and the eggs both dispatch at this.
       const root = document.documentElement;
 
-      function apply(theme: string) {
-        root.setAttribute('data-theme', theme);
+      function setStock(stock: string) {
+        root.setAttribute('data-stock', stock);
         try {
-          localStorage.setItem('theme', theme);
+          localStorage.setItem('stock', stock);
         } catch (e) {
-          /* private mode: the attribute still applies to this page */
+          /* private mode — applies for this page only */
         }
       }
 
-      function toggleTheme() {
-        apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      function flipStock() {
+        setStock(root.getAttribute('data-stock') === 'black' ? 'cream' : 'black');
       }
 
-      document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
-      document.addEventListener('site:toggle-theme', toggleTheme);
-
-      document.getElementById('palette-open')?.addEventListener('click', () => {
-        document.dispatchEvent(new CustomEvent('site:open-palette'));
-      });
+      document.getElementById('stock-toggle')?.addEventListener('click', flipStock);
+      document.addEventListener('site:toggle-theme', flipStock);
     </script>
   </body>
 </html>

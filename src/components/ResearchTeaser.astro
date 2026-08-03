@@ -7,34 +7,32 @@ const top = publications.slice(0, 3);
 const latest = news[0];
 ---
 
-<ul class="index-list" data-stagger>
+<ul class="listing" data-run>
   {
     top.map((p, i) => (
       <li style={`--i:${i}`}>
-        <div class="index-row" data-prox>
-          <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>
-          <span class="index-title pub-title">{p.title}</span>
-          <span class="index-meta">
-            {p.venue} · {p.year}
+        <div class="entry" data-lift>
+          <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
+            {p.title}
           </span>
-          <p class="index-blurb">{p.status}</p>
+          <span class="entry-meta">{p.venue} · {p.year}</span>
+          <p class="entry-blurb">{p.status}</p>
         </div>
       </li>
     ))
   }
 </ul>
 
-{
-  latest && (
-    <div class="latest-note" data-reveal>
-      <p class="field-key">Latest · {latest.date}</p>
-      <p class="field-built">{latest.text}</p>
-    </div>
-  )
-}
+{latest && (
+  <div class="crosslink" data-set>
+    <p class="field-key">Latest · {latest.date}</p>
+    <p>{latest.text}</p>
+  </div>
+)}
 
-<p class="after-list" data-reveal>
-  <a class="text-link" href={site.academicUrl} rel="noopener noreferrer" target="_blank">
-    Full academic record <span class="arrow" aria-hidden="true">↗</span>
+<p style="margin:1.4rem 0 0" data-set>
+  <a class="jump" href={site.academicUrl} rel="noopener noreferrer" target="_blank">
+    Full academic record ↗
   </a>
 </p>

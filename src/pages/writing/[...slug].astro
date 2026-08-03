@@ -39,9 +39,9 @@ const canonicalPath = `/writing/${canonical.id}`;
   canonicalPath={isCanonical ? undefined : canonicalPath}
 >
   <article class:list={['prose', isNewsletter && 'prose-mirror']}>
-    <p class="mono-label">{label(post)}</p>
+    <p class="typed">{label(post)}</p>
     <h1>{post.data.title}</h1>
-    <p class="meta">
+    <p class="byline">
       {fmt(post.data.date)}
       {
         post.data.linkedinUrl && (
@@ -76,7 +76,7 @@ const canonicalPath = `/writing/${canonical.id}`;
       isCanonical && alternates.length > 0 && (
         <aside class="crosslink">
           <p class="field-key">Also published as</p>
-          <ul class="crosslink-list">
+          <ul >
             {alternates.map((alt) => (
               <li>
                 <a href={`/writing/${alt.id}`}>
@@ -97,9 +97,9 @@ const canonicalPath = `/writing/${canonical.id}`;
       )
     }
 
-    <p class="after-list">
-      <a class="text-link" href="/writing">
-        <span class="arrow" aria-hidden="true">←</span> All writing
+    <p style="margin-top:2rem">
+      <a class="jump" href="/writing">
+        ← All writing
       </a>
     </p>
   </article>

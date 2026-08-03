@@ -2,14 +2,13 @@
 import testimonials from '../data/testimonials.json';
 ---
 
-<div class="quote-grid" data-stagger>
+<div class="quotes" data-run>
   {
     testimonials.map((t, i) => (
-      <blockquote class="quote" style={`--i:${i}`}>
+      <blockquote class="quote" data-lift style={`--i:${i}`}>
         <p>“{t.quote}”</p>
         <footer>
-          <strong>{t.name}</strong>
-          <br />
+          <strong>{t.name}</strong><br />
           {t.role}, {t.company}
         </footer>
       </blockquote>

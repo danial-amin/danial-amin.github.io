@@ -1,0 +1,358 @@
+---
+/**
+ * The press. Replaces the old SiteMotion (cursor bloom + drifting grain +
+ * fade-up), which was atmosphere for its own sake.
+ *
+ * Four pointer mechanics, each assigned to one kind of thing rather than all
+ * applied everywhere:
+ *
+ *   [data-lift]   cards and listing rows — lift, tilt, cast a real shadow
+ *   [data-magnet] display type          — letters lean toward the pointer
+ *   [data-loupe]  halftone plates       — a magnifier that actually magnifies
+ *   the paper      background            — ink soaks in and accumulates
+ *
+ * Plus the reveal pass, which is what makes blocks arrive at all.
+ */
+---
+
+<div class="stock" aria-hidden="true"></div>
+<canvas class="bleed" id="bleed" aria-hidden="true"></canvas>
+
+<script>
+  const root = document.documentElement;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  /* ================= reveal pass ================= */
+
+  const SET = '[data-set], [data-run], .backpage-note';
+  let pendingSets = [];
+  let io = null;
+
+  function setIn(el) {
+    el.classList.add('is-set');
+    io?.unobserve(el);
+  }
+
+  function armReveals() {
+    if (reduced.matches || !('IntersectionObserver' in window)) {
+      document.querySelectorAll(SET).forEach((el) => el.classList.add('is-set'));
+      return;
+    }
+
+    // threshold stays 0 — a ratio threshold is a fraction of the element's own
+    // area, so a list taller than ~1/threshold viewports can never reach it.
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          setIn(e.target);
+          const at = pendingSets.indexOf(e.target);
+          if (at > -1) pendingSets.splice(at, 1);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0 },
+    );
+
+    pendingSets = [];
+    document.querySelectorAll(SET).forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.94) {
+        el.classList.add('is-set');
+      } else {
+        pendingSets.push(el);
+        io.observe(el);
+      }
+    });
+  }
+
+  /** Fallback so content gated behind an animation can never stay hidden. */
+  function sweepSets(vh) {
+    for (let i = pendingSets.length - 1; i >= 0; i--) {
+      const el = pendingSets[i];
+      if (el.getBoundingClientRect().top < vh) {
+        setIn(el);
+        pendingSets.splice(i, 1);
+      }
+    }
+  }
+
+  /* ================= shared pointer state ================= */
+
+  let px = -9999;
+  let py = -9999;
+  let moved = false;
+  let scrolled = true;
+  let frame = 0;
+
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(tick);
+  };
+
+  /* ---- mechanic 1: lift & tilt (cards, listing rows) ---- */
+
+  const LIFT_RANGE = 150;
+  let lifts = [];
+
+  function measureLifts() {
+    const sy = window.scrollY;
+    lifts = Array.from(document.querySelectorAll('[data-lift]')).map((el) => {
+      const r = el.getBoundingClientRect();
+      return { el, top: r.top + sy, h: r.height, left: r.left, w: r.width };
+    });
+  }
+
+  function applyLift(sy, vh) {
+    for (const it of lifts) {
+      const top = it.top - sy;
+      if (top + it.h < -LIFT_RANGE || top > vh + LIFT_RANGE) continue;
+
+      const cx = it.left + it.w / 2;
+      const cy = top + it.h / 2;
+      const dx = px - cx;
+      const dy = py - cy;
+
+      const inside = px >= it.left && px <= it.left + it.w && py >= top && py <= top + it.h;
+
+      if (!inside) {
+        if (it.on) {
+          it.on = false;
+          it.el.classList.remove('is-lift');
+          it.el.style.removeProperty('--tilt-x');
+          it.el.style.removeProperty('--tilt-y');
+          it.el.style.removeProperty('--lift');
+          it.el.style.removeProperty('--lift-shadow');
+        }
+        continue;
+      }
+
+      it.on = true;
+      it.el.classList.add('is-lift');
+      // tilt away from the pointer, as if the sheet is being pressed at that point
+      const ry = (dx / (it.w / 2)) * 3.2;
+      const rx = (-dy / (it.h / 2)) * 3.2;
+      it.el.style.setProperty('--tilt-y', `${ry.toFixed(2)}deg`);
+      it.el.style.setProperty('--tilt-x', `${rx.toFixed(2)}deg`);
+      it.el.style.setProperty('--lift', '10px');
+      // the shadow falls opposite the lean — weight, not glow
+      it.el.style.setProperty(
+        '--lift-shadow',
+        `${(-ry * 1.6).toFixed(1)}px ${(rx * 1.6 + 9).toFixed(1)}px 0 rgb(43 38 34 / 0.22)`,
+      );
+    }
+  }
+
+  /* ---- mechanic 2: magnetic type (display words) ---- */
+
+  const MAG_RANGE = 220;
+  let magnets = [];
+
+  function buildMagnets() {
+    magnets = [];
+    document.querySelectorAll('[data-magnet]').forEach((host) => {
+      // split once, into spans, preserving spaces as real gaps
+      if (!host.dataset.split) {
+        const text = host.textContent ?? '';
+        host.textContent = '';
+        for (const ch of text) {
+          if (ch === ' ') {
+            host.append(document.createTextNode(' '));
+            continue;
+          }
+          const s = document.createElement('span');
+          s.className = 'mag';
+          s.style.display = 'inline-block';
+          s.style.willChange = 'transform';
+          s.textContent = ch;
+          host.append(s);
+        }
+        host.dataset.split = '1';
+      }
+      host.querySelectorAll('.mag').forEach((s) => magnets.push({ el: s }));
+    });
+    measureMagnets();
+  }
+
+  function measureMagnets() {
+    const sy = window.scrollY;
+    for (const m of magnets) {
+      const r = m.el.getBoundingClientRect();
+      m.cx = r.left + r.width / 2;
+      m.cy = r.top + sy + r.height / 2;
+    }
+  }
+
+  function applyMagnets(sy, vh) {
+    for (const m of magnets) {
+      const cy = m.cy - sy;
+      if (cy < -MAG_RANGE || cy > vh + MAG_RANGE) continue;
+      const dx = px - m.cx;
+      const dy = py - cy;
+      const d = Math.hypot(dx, dy);
+      if (d > MAG_RANGE) {
+        if (m.active) {
+          m.active = false;
+          m.el.style.transform = '';
+        }
+        continue;
+      }
+      m.active = true;
+      // lean toward the pointer, strongest up close
+      const pull = (1 - d / MAG_RANGE) ** 2;
+      const tx = (dx / d || 0) * pull * 9;
+      const ty = (dy / d || 0) * pull * 9;
+      const skew = (dx / MAG_RANGE) * pull * 5;
+      m.el.style.transform = `translate(${tx.toFixed(2)}px,${ty.toFixed(2)}px) skewX(${skew.toFixed(2)}deg)`;
+    }
+  }
+
+  /* ---- mechanic 3: loupe (halftone plates only) ---- */
+
+  function armLoupes() {
+    document.querySelectorAll('[data-loupe]').forEach((plate) => {
+      if (plate.dataset.loupeReady) return;
+      plate.dataset.loupeReady = '1';
+
+      const lens = document.createElement('div');
+      lens.className = 'loupe';
+      lens.setAttribute('aria-hidden', 'true');
+      const inner = document.createElement('div');
+      inner.className = 'loupe-inner';
+      lens.append(inner);
+      plate.append(lens);
+
+      if (reduced.matches || !finePointer.matches) return;
+
+      plate.addEventListener('pointermove', (e) => {
+        const r = plate.getBoundingClientRect();
+        lens.style.setProperty('--lx', `${e.clientX - r.left}px`);
+        lens.style.setProperty('--ly', `${e.clientY - r.top}px`);
+        lens.classList.add('is-on');
+      });
+      plate.addEventListener('pointerleave', () => lens.classList.remove('is-on'));
+    });
+  }
+
+  /* ---- mechanic 4: ink soaking into the paper ---- */
+
+  const canvas = document.getElementById('bleed');
+  const ctx = canvas instanceof HTMLCanvasElement ? canvas.getContext('2d') : null;
+  let lastStamp = 0;
+
+  function sizeCanvas() {
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  /**
+   * Ink accumulates: each stamp is a soft, low-alpha blot that never fades, so
+   * a long visit slowly stains the page. Nothing is cleared on move — that's
+   * the difference between ink and a cursor glow.
+   */
+  function stampInk(x, y) {
+    if (!ctx) return;
+    const now = performance.now();
+    if (now - lastStamp < 55) return;
+    lastStamp = now;
+
+    const r = 26 + Math.abs(Math.sin(now / 900)) * 12;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    const dark = root.getAttribute('data-stock') === 'black';
+    g.addColorStop(0, dark ? 'rgba(255,75,139,0.05)' : 'rgba(255,75,139,0.055)');
+    g.addColorStop(1, 'rgba(255,75,139,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  /* ================= frame ================= */
+
+  function tick() {
+    frame = 0;
+    const sy = window.scrollY;
+    const vh = window.innerHeight;
+
+    if (scrolled) {
+      scrolled = false;
+      if (pendingSets.length) sweepSets(vh);
+    }
+
+    if (moved) {
+      moved = false;
+      root.style.setProperty('--mx', `${px}px`);
+      root.style.setProperty('--my', `${py}px`);
+      stampInk(px, py);
+    }
+
+    applyLift(sy, vh);
+    applyMagnets(sy, vh);
+  }
+
+  function onMove(e) {
+    px = e.clientX;
+    py = e.clientY;
+    moved = true;
+    schedule();
+  }
+
+  function start() {
+    armReveals();
+    armLoupes();
+    sizeCanvas();
+    measureLifts();
+    buildMagnets();
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        scrolled = true;
+        schedule();
+      },
+      { passive: true },
+    );
+
+    window.addEventListener(
+      'resize',
+      () => {
+        sizeCanvas();
+        measureLifts();
+        measureMagnets();
+        scrolled = true;
+        schedule();
+      },
+      { passive: true },
+    );
+
+    // Archivo Black lands after first paint and reflows every glyph box
+    document.fonts?.ready.then(() => {
+      measureLifts();
+      measureMagnets();
+      scrolled = true;
+      schedule();
+    });
+
+    if (reduced.matches || !finePointer.matches) return;
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerleave', () => {
+      px = -9999;
+      py = -9999;
+      moved = true;
+      schedule();
+    });
+  }
+
+  start();
+
+  document.addEventListener('astro:after-swap', () => {
+    armReveals();
+    armLoupes();
+    measureLifts();
+    buildMagnets();
+    scrolled = true;
+    schedule();
+  });
+</script>

@@ -9,26 +9,25 @@
  *  3. an idle whisper after ~40s of stillness
  *  4. a line hidden below the footer, for people who scroll past the end
  *
- * The only hint anywhere is the blinking caret in the hero kicker, which
- * looks like decoration until you notice it accepts typing.
+ * Nothing on the page advertises them.
  */
 import site from '../data/site.json';
 ---
 
 <!-- PEP: the `persona` reward -->
 <div class="overlay overlay-center" id="egg-pep" hidden>
-  <div class="surface egg-card" role="dialog" aria-modal="true" aria-labelledby="egg-pep-title">
-    <p class="mono-label">Egg 01 · unlocked</p>
+  <div class="sheet egg" role="dialog" aria-modal="true" aria-labelledby="egg-pep-title">
+    <p class="typed">Egg 01 · unlocked</p>
     <h2 id="egg-pep-title">Persona Ecosystem Playground</h2>
     <p>
       The research tool behind the papers — modelling how GenAI represents people, from
       single minority views up to whole population ecosystems. Distinct from PPR, which
       reviews manuscripts.
     </p>
-    <div class="egg-actions">
-      <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank"><span>Open PEP</span></a>
-      <a class="btn btn-ghost" href="/research"><span>The research</span></a>
-      <button class="btn btn-ghost" type="button" data-egg-close><span>Close</span></button>
+    <div class="egg-row">
+      <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank">Open PEP</a>
+      <a class="btn btn-out" href="/research">The research</a>
+      <button class="btn btn-out" type="button" data-egg-close>Close</button>
     </div>
   </div>
 </div>
@@ -115,14 +114,14 @@ import site from '../data/site.json';
       });
     }
 
-    function toggleLatent() {
-      var on = root.hasAttribute('data-latent');
-      if (on) {
-        root.removeAttribute('data-latent');
-        say('Latent mode off.');
+    // A Riso jam: the second pass lands badly out of register.
+    function toggleMisprint() {
+      if (root.hasAttribute('data-misprint')) {
+        root.removeAttribute('data-misprint');
+        say('Registration corrected. Nice run.');
       } else {
-        root.setAttribute('data-latent', '');
-        say('Latent mode — the field follows your cursor. Type it again to leave.', 5200);
+        root.setAttribute('data-misprint', '');
+        say('Bad registration — the pink drum has slipped. Type it again to fix the run.', 5200);
       }
     }
 
@@ -131,7 +130,7 @@ import site from '../data/site.json';
         openOverlay(pep);
       },
       council: runCouncil,
-      latent: toggleLatent,
+      misprint: toggleMisprint,
       hire: function () {
         say('Good answer. Opening mail…', 2000);
         window.setTimeout(function () {
@@ -169,8 +168,8 @@ import site from '../data/site.json';
     /* ---------- egg 2: console note ---------- */
 
     try {
-      var head = 'font:600 15px/1.5 ui-monospace,monospace;color:#e8846b';
-      var body = 'font:400 12px/1.7 ui-monospace,monospace;color:#8b8b94';
+      var head = 'font:600 15px/1.5 ui-monospace,monospace;color:#ff4b8b';
+      var body = 'font:400 12px/1.7 ui-monospace,monospace;color:#1268b3';
       console.log(
         '%cYou opened DevTools. Of course you did.\n%c' +
           'Four eggs on this site. You have found zero of them this way —\n' +
@@ -178,7 +177,7 @@ import site from '../data/site.json';
           'If you build things and want someone who argues with the brief\n' +
           'before writing the code: ' +
           email +
-          '\n\nTry ⌘K. Then try typing a word this site cares about.',
+          '\n\nTry \u2318K. Then try typing a word this print shop cares about.',
         head,
         body,
       );
@@ -207,13 +206,13 @@ import site from '../data/site.json';
 
     /* ---------- egg 4: below the footer ---------- */
 
-    var abyss = document.querySelector('.abyss-note');
+    var abyss = document.querySelector('.backpage-note');
     if (abyss && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-in');
+              entry.target.classList.add('is-set');
               io.unobserve(entry.target);
             }
           });

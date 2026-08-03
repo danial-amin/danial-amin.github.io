@@ -1,8 +1,8 @@
 ---
 /**
- * The section chassis. On desktop the head sticks in the left rail while its
- * body scrolls past — that pinning is what breaks the old build's "seven
- * identical stacked blocks" rhythm without needing seven bespoke layouts.
+ * A spread. The head sits in the gutter with a stamped page tab; the body runs
+ * in the wide column. No "01 / Cases" mono kicker — that pattern was doing the
+ * work of looking designed rather than being useful.
  */
 interface Props {
   num: string;
@@ -10,15 +10,14 @@ interface Props {
   note?: string;
   id?: string;
 }
-
 const { num, title, note, id } = Astro.props;
 ---
 
 <section class="section" id={id}>
   <div class="section-grid">
-    <div class="section-head" data-reveal>
-      <p class="section-num">{num}</p>
-      <h2 class="section-title">{title}</h2>
+    <div class="section-head" data-set>
+      <p class="section-num">p. {num}</p>
+      <h2 class="section-title" data-magnet>{title}</h2>
       {note && <p class="section-note">{note}</p>}
     </div>
     <div class="section-body">

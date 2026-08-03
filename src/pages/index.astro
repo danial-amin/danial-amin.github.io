@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
+import Ink from '../components/Ink.astro';
 import SystemsList from '../components/SystemsList.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import WritingList from '../components/WritingList.astro';
@@ -10,119 +11,67 @@ import ContactBlock from '../components/ContactBlock.astro';
 import { getWriting } from '../lib/writing';
 import site from '../data/site.json';
 import systems from '../data/systems.json';
-import publications from '../data/publications.json';
 
-// The old homepage filtered to `source === 'newsletter'`, which hid all 45
-// essays. Show recent writing regardless of source, deduped so a topic that
-// exists as both an essay and a newsletter issue appears once.
 const { items: recent, all, alternatesFor } = await getWriting();
 const essays = all.filter((p) => p.data.source === 'essay').length;
 const newsletters = all.filter((p) => p.data.source === 'newsletter').length;
-
 const nameParts = site.name.split(' ');
 ---
 
 <Base title={site.name} description={site.tagline}>
-  <header class="hero">
-    <div>
-      <p class="hero-kicker">
-        <span>Espoo · practice &amp; research</span>
-        <span class="caret" aria-hidden="true"></span>
-      </p>
+  <header class="cover">
+    <p class="cover-issue">
+      <span>Espoo, Finland</span>
+      <span>Practice &amp; research</span>
+      <span>Two inks, off register</span>
+    </p>
 
-      <h1 class="hero-display">
-        {
-          nameParts.map((part, i) => (
-            <span class="line-mask" style={`--reveal-delay:${i * 110}ms`}>
-              <span>{part}</span>
-            </span>
-          ))
-        }
-      </h1>
+    <h1 class="cover-name">
+      {nameParts.map((part, i) => (
+        <Ink text={part} x={3 + i} y={5} fromX={22 - i * 6} fromY={26} />
+      ))}
+    </h1>
 
-      <p class="hero-tagline" data-reveal style="--reveal-delay:400ms">{site.tagline}</p>
-
-      <div class="hero-actions" data-reveal style="--reveal-delay:520ms">
-        <a class="btn" href={`mailto:${site.email}`}><span>{site.cta}</span></a>
-        <a class="btn btn-ghost" href="#systems"><span>See what runs</span></a>
+    <div class="cover-body">
+      <div>
+        <p class="cover-line" data-set style="--set-delay:220ms">{site.tagline}</p>
+        <div class="cover-actions" data-set style="--set-delay:300ms">
+          <a class="btn" href={`mailto:${site.email}`}>{site.cta}</a>
+          <a class="btn btn-out" href="#systems">See what runs</a>
+        </div>
       </div>
+
+      {/* a printed plate. the loupe lives here — move over it to resolve the dots */}
+      <figure class="plate" data-loupe data-set style="--set-delay:380ms;margin:0">
+        <div class="plate-screen"></div>
+        <figcaption class="plate-caption">
+          Fig. 1 — {systems.length} live systems · {essays + newsletters} pieces written · look closer
+        </figcaption>
+      </figure>
     </div>
-
-    <aside class="readout" data-reveal style="--reveal-delay:640ms" aria-label="At a glance">
-      <div class="readout-bar">
-        <span>Status</span>
-        <span class="dot" aria-hidden="true"></span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Systems live</span>
-        <span class="readout-val">{systems.length}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Essays</span>
-        <span class="readout-val">{essays}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Newsletters</span>
-        <span class="readout-val">{newsletters}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Papers</span>
-        <span class="readout-val">{publications.length}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Based in</span>
-        <span class="readout-val">Espoo, FI</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Open to</span>
-        <span class="readout-val">Agentic builds</span>
-      </div>
-    </aside>
-
-    <p class="scroll-cue" data-reveal style="--reveal-delay:820ms">Scroll</p>
   </header>
 
-  <Section
-    num="01"
-    title="Products I run"
-    note="Five systems in production. Each one exists because something annoyed me."
-    id="systems"
-  >
+  <Section num="1" title="Products I run" note="Five in production. Each one exists because something annoyed me enough to build the fix." id="systems">
     <SystemsList />
   </Section>
 
-  <Section
-    num="02"
-    title="Work that shipped"
-    note="Consulting and product engagements, with outcomes rather than tool lists."
-    id="work"
-  >
+  <Section num="2" title="Work that shipped" note="Consulting and product engagements, described by outcome." id="work">
     <WorkIndex />
   </Section>
 
-  <Section
-    num="03"
-    title="Writing"
-    note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`}
-    id="writing"
-  >
+  <Section num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`} id="writing">
     <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore />
   </Section>
 
-  <Section
-    num="04"
-    title="Research"
-    note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve."
-    id="research"
-  >
+  <Section num="4" title="Research" note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve." id="research">
     <ResearchTeaser />
   </Section>
 
-  <Section num="05" title="From collaborators" id="proof">
+  <Section num="5" title="Collaborators" id="proof">
     <QuoteStrip />
   </Section>
 
-  <Section num="06" title="Build something clear" id="contact">
+  <Section num="6" title="Build something clear" id="contact">
     <ContactBlock />
   </Section>
 </Base>

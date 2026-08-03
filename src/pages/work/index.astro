@@ -1,70 +1,40 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
+import Ink from '../../components/Ink.astro';
 import SystemsList from '../../components/SystemsList.astro';
 import WorkIndex from '../../components/WorkIndex.astro';
 import LockedCases from '../../components/LockedCases.astro';
 import systems from '../../data/systems.json';
 import projects from '../../data/projects.json';
-
-const open = projects.length;
-// The count is intentionally not derived from data — the confidential cases
-// live server-side now, and even their number stays off the static page.
 ---
 
 <Base title="Work" description="Live systems and case studies — with the reasoning behind each.">
-  <header class="hero hero-compact">
-    <div>
-      <p class="hero-kicker"><span>Work</span></p>
-      <h1 class="hero-display hero-display-sm">
-        <span class="line-mask"><span>Systems</span></span>
-        <span class="line-mask" style="--reveal-delay:110ms"><span>&amp; cases</span></span>
-      </h1>
-      <p class="hero-tagline" data-reveal style="--reveal-delay:340ms">
-        Products I still run, the engagements that shipped, and a locked shelf for work I
-        can’t show in public.
-      </p>
-    </div>
-
-    <aside class="readout" data-reveal style="--reveal-delay:480ms" aria-label="At a glance">
-      <div class="readout-bar">
-        <span>Inventory</span>
-        <span class="dot" aria-hidden="true"></span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Systems live</span>
-        <span class="readout-val">{systems.length}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Open cases</span>
-        <span class="readout-val">{open}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Under NDA</span>
-        <span class="readout-val">gated</span>
-      </div>
-    </aside>
+  <header class="cover">
+    <p class="cover-issue">
+      <span>Section — Work</span>
+      <span>{systems.length} live systems</span>
+      <span>{projects.length} open cases</span>
+      <span>Some held back</span>
+    </p>
+    <h1 class="cover-name" style="font-size:var(--t-4)">
+      <Ink text="Systems" y={4} fromY={20} />
+      <Ink text="& cases" x={5} y={5} fromX={20} fromY={24} />
+    </h1>
+    <p class="cover-line" data-set style="--set-delay:220ms">
+      Products I still run, the engagements that shipped, and a shelf I can’t show in public.
+    </p>
   </header>
 
-  <Section
-    num="01"
-    title="Products I run"
-    note="Each one exists because something annoyed me enough to build the fix."
-    id="systems"
-  >
+  <Section num="1" title="Products I run" note="Each one exists because something annoyed me enough to build the fix." id="systems">
     <SystemsList />
   </Section>
 
-  <Section
-    num="02"
-    title="Engagements"
-    note="Consulting and product work, described by outcome."
-    id="cases"
-  >
+  <Section num="2" title="Engagements" note="Described by outcome, not by tool list." id="cases">
     <WorkIndex featuredOnly={false} showMore={false} />
   </Section>
 
-  <Section num="··" title="Confidential cases" id="locked">
+  <Section num="—" title="Held back" note="Client-sensitive. Checked on the server, not in this page." id="locked">
     <LockedCases />
   </Section>
 </Base>

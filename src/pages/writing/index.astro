@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import WritingList from '../../components/WritingList.astro';
+import Ink from '../../components/Ink.astro';
 import { getWriting } from '../../lib/writing';
 import site from '../../data/site.json';
 
@@ -11,45 +12,30 @@ const merged = [...alternatesFor.keys()].length;
 ---
 
 <Base title="Writing" description={`Essays and full mirrors of ${site.newsletterName}.`}>
-  <header class="hero hero-compact">
-    <div>
-      <p class="hero-kicker"><span>Writing</span></p>
-      <h1 class="hero-display hero-display-sm">
-        <span class="line-mask"><span>Pulse</span></span>
-        <span class="line-mask" style="--reveal-delay:110ms"><span>&amp; essays</span></span>
-      </h1>
-      <p class="hero-tagline" data-reveal style="--reveal-delay:340ms">
-        On-site mirrors of <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank"
-          >{site.newsletterName}</a
-        >, plus longer essays. Nothing here is gated.
-      </p>
-    </div>
-
-    <aside class="readout" data-reveal style="--reveal-delay:480ms" aria-label="At a glance">
-      <div class="readout-bar"><span>Archive</span></div>
-      <div class="readout-row">
-        <span class="readout-key">Essays</span>
-        <span class="readout-val">{essays}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Newsletters</span>
-        <span class="readout-val">{newsletters}</span>
-      </div>
-      <div class="readout-row">
-        <span class="readout-key">Total</span>
-        <span class="readout-val">{posts.length}</span>
-      </div>
-    </aside>
+  <header class="cover">
+    <p class="cover-issue">
+      <span>Section — Writing</span>
+      <span>{essays} essays</span>
+      <span>{newsletters} issues</span>
+      <span>Nothing gated</span>
+    </p>
+    <h1 class="cover-name" style="font-size:var(--t-4)">
+      <Ink text="Pulse" y={4} fromY={20} />
+      <Ink text="& essays" x={5} y={5} fromX={20} fromY={24} />
+    </h1>
+    <p class="cover-line" data-set style="--set-delay:220ms">
+      On-site mirrors of <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a>, plus longer essays.
+    </p>
   </header>
 
   <div class="section">
-    <div class="filter-bar" role="group" aria-label="Filter writing">
+    <div class="filters" role="group" aria-label="Filter writing">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
       <button type="button" data-filter="newsletter" aria-pressed="false">Newsletter</button>
       <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
     </div>
 
-    <p class="filter-count" id="filter-count" aria-live="polite">
+    <p class="tally" id="filter-count" aria-live="polite">
       Showing all {posts.length}{merged > 0 ? ` · ${merged} published in both forms` : ''}
     </p>
 
@@ -58,7 +44,7 @@ const merged = [...alternatesFor.keys()].length;
 </Base>
 
 <script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-bar button');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filters button');
   const items = document.querySelectorAll<HTMLElement>('#writing-list li');
   const count = document.getElementById('filter-count');
 

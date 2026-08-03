@@ -3,56 +3,46 @@ import type { Post } from '../lib/writing';
 
 interface Props {
   posts: Post[];
-  /** id -> other forms of the same topic, so a row can say "essay + newsletter" */
   alternatesFor?: Map<string, Post[]>;
   limit?: number;
   showMore?: boolean;
   numbered?: boolean;
 }
-
 const { posts, alternatesFor, limit, showMore = false, numbered = true } = Astro.props;
 const sorted = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const items = limit ? sorted.slice(0, limit) : sorted;
 
-function fmt(d: Date) {
-  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
-}
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
 
 function kind(post: Post) {
   const alts = alternatesFor?.get(post.id) ?? [];
-  if (alts.length === 0) return post.data.source === 'newsletter' ? 'Newsletter' : 'Essay';
-  // exists in both forms — say so instead of picking one arbitrarily
-  return 'Essay + Newsletter';
+  if (alts.length) return 'Essay + Newsletter';
+  return post.data.source === 'newsletter' ? 'Newsletter' : 'Essay';
 }
 ---
 
-<ul class="index-list" id="writing-list" data-stagger>
+<ul class="listing" id="writing-list" data-run>
   {
     items.map((post, i) => (
       <li
         data-source={post.data.source}
-        data-both={(alternatesFor?.get(post.id) ?? []).length > 0 ? 'true' : undefined}
+        data-both={(alternatesFor?.get(post.id) ?? []).length ? 'true' : undefined}
         style={`--i:${i}`}
       >
-        <a class="index-row" href={`/writing/${post.id}`} data-prox>
-          {numbered && <span class="index-idx">{String(i + 1).padStart(2, '0')}</span>}
-          <span class="index-title">{post.data.title}</span>
-          <span class="index-meta">
-            {kind(post)} · {fmt(post.data.date)}
-          </span>
-          <p class="index-blurb">{post.data.excerpt}</p>
+        <a class="entry" href={`/writing/${post.id}`} data-lift>
+          {numbered && <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>}
+          <span class="entry-title"><mark>{post.data.title}</mark></span>
+          <span class="entry-meta">{kind(post)} · {fmt(post.data.date)}</span>
+          <p class="entry-blurb">{post.data.excerpt}</p>
         </a>
       </li>
     ))
   }
 </ul>
 
-{
-  showMore && (
-    <p class="after-list" data-reveal>
-      <a class="text-link" href="/writing">
-        All writing <span class="arrow" aria-hidden="true">→</span>
-      </a>
-    </p>
-  )
-}
+{showMore && (
+  <p style="margin:1.4rem 0 0" data-set>
+    <a class="jump" href="/writing">All writing →</a>
+  </p>
+)}
