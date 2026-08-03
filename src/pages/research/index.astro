@@ -5,53 +5,52 @@ import news from '../../data/news.json';
 import site from '../../data/site.json';
 ---
 
-<Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site">
-  <header class="hero">
-    <p class="section-label">Research</p>
-    <h1 class="hero-display" style="max-width:14ch">Academic practice</h1>
-    <p class="hero-tagline">
-      Doctoral work at the University of Vaasa on Generative AI and user representation. Full publications, CV, and news live on the academic site for now.
+<Base
+  title="Research"
+  description="GenAI personas, fairness, and HCI — with the full record on the academic site"
+  page="research"
+>
+  <header class="page-intro page-intro-research">
+    <p class="page-eyebrow">Research</p>
+    <h1 class="page-h1 research-h1">Personas · fairness · HCI</h1>
+    <p class="page-deck">
+      Doctoral candidate, University of Vaasa (PersonaTeam). This page is a teaser — the full record lives on the academic site.
     </p>
-    <div class="hero-meta">
-      <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">Open academic.danialamin.com</a>
-      <a class="btn btn-ghost" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Google Scholar</a>
+    <div class="research-actions">
+      <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">academic.danialamin.com</a>
+      <a class="btn btn-ghost" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
+      <a class="btn btn-ghost" href={site.socials.orcid} rel="noopener noreferrer" target="_blank">ORCID</a>
     </div>
   </header>
 
-  <section class="section">
+  <section class="section research-pubs">
     <p class="section-label">Selected publications</p>
-    <ul class="index-list">
+    <ol class="bib-list">
       {
-        publications.map((p) => (
-          <li>
-            <div class="index-row">
-              <span class="index-title">{p.title}</span>
-              <span class="index-meta">
-                {p.year} · {p.status}
-              </span>
-              <p class="index-blurb">
-                {p.venue}
+        publications.map((p, i) => (
+          <li class="bib-item">
+            <span class="bib-n">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p class="bib-title">{p.title}</p>
+              <p class="bib-meta">
+                {p.venue} · {p.year} · {p.status}
                 {p.doi ? ` · doi:${p.doi}` : ''}
               </p>
             </div>
           </li>
         ))
       }
-    </ul>
+    </ol>
   </section>
 
-  <section class="section">
+  <section class="section research-news">
     <p class="section-label">News</p>
-    <ul class="index-list">
+    <ul class="news-list">
       {
         news.map((n) => (
           <li>
-            <div class="index-row">
-              <span class="index-title" style="font-size:1.05rem;font-family:var(--sans);font-weight:500">
-                {n.text}
-              </span>
-              <span class="index-meta">{n.date}</span>
-            </div>
+            <time>{n.date}</time>
+            <span>{n.text}</span>
           </li>
         ))
       }

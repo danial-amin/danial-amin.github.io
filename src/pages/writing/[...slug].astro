@@ -18,7 +18,7 @@ function fmt(d: Date) {
 }
 ---
 
-<Base title={post.data.title} description={post.data.excerpt}>
+<Base title={post.data.title} description={post.data.excerpt} page="writing">
   <article class:list={['prose', post.data.source === 'newsletter' && 'newsletter-prose']}>
     <p class="section-label">
       {post.data.source === 'newsletter' ? 'AI Pulse & Data Waves' : 'Essay'}

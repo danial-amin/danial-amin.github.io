@@ -4,33 +4,36 @@ import systems from '../data/systems.json';
 
 <section class="section">
   <p class="section-label">Live systems</p>
-  <h2 class="section-title" data-num="02 / Systems">Products I run</h2>
-  <div class="case-stack">
+  <h2 class="section-title">Products I run</h2>
+  <div class="panel-stack">
     {
-      systems.map((s) => (
-        <article class="case-block">
-          <header class="case-head">
+      systems.map((s, i) => (
+        <article class="panel">
+          <p class="panel-id">{String(i + 1).padStart(2, '0')} · system</p>
+          <header class="panel-head">
             <div>
-              <h3 class="case-name">
+              <h3 class="panel-name">
                 <a href={s.url} rel="noopener noreferrer" target="_blank">
                   {s.name}
                 </a>
               </h3>
-              <p class="case-blurb">{s.blurb}</p>
+              <p class="panel-blurb">{s.blurb}</p>
             </div>
-            <span class="case-status">{s.status}</span>
+            <span class="panel-status">{s.status}</span>
           </header>
-          <div class="case-why">
-            <p class="case-label">Why</p>
-            <p>{s.why}</p>
+          <div class="panel-detail">
+            <div>
+              <p class="field-key">Why</p>
+              <p class="field-why">{s.why}</p>
+            </div>
+            <div>
+              <p class="field-key">What shipped</p>
+              <p class="field-built">{s.built}</p>
+            </div>
           </div>
-          <div class="case-built">
-            <p class="case-label">What shipped</p>
-            <p>{s.built}</p>
-          </div>
-          <p class="case-link">
-            <a href={s.url} rel="noopener noreferrer" target="_blank">
-              Open {s.name.split('—')[0].trim()} →
+          <p class="panel-foot">
+            <a class="text-link" href={s.url} rel="noopener noreferrer" target="_blank">
+              Open {s.name.split('—')[0].trim()} <span class="arrow">→</span>
             </a>
           </p>
         </article>

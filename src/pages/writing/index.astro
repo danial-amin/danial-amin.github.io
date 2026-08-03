@@ -12,52 +12,54 @@ function fmt(d: Date) {
 }
 ---
 
-<Base title="Writing" description={`Essays and ${site.newsletterName}`}>
-  <header class="hero">
-    <p class="section-label">Writing</p>
-    <h1 class="hero-display" style="max-width:12ch">Essays & newsletter</h1>
-    <p class="hero-tagline">
-      Site essays plus on-site mirrors of <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a>.
+<Base title="Writing" description={`Essays and ${site.newsletterName}`} page="writing">
+  <header class="page-intro page-intro-writing">
+    <p class="page-eyebrow">Writing</p>
+    <h1 class="page-h1 writing-h1">Pulse & essays</h1>
+    <p class="page-deck">
+      On-site mirrors of
+      <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a>
+      plus longer essays. Filter below.
     </p>
     <div class="filter-bar" role="tablist" aria-label="Filter writing">
       <button type="button" data-filter="all" aria-pressed="true">All</button>
-      <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
       <button type="button" data-filter="newsletter" aria-pressed="false">Newsletter</button>
+      <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
     </div>
   </header>
 
-  <ul class="index-list" id="writing-list">
+  <ol class="writing-feed" id="writing-list">
     {
       posts.map((post) => (
         <li data-source={post.data.source}>
-          <a href={`/writing/${post.id}`}>
-            <span class="index-title">{post.data.title}</span>
-            <span class="index-meta">
-              {post.data.source === 'newsletter' ? 'Newsletter' : 'Essay'} · {fmt(post.data.date)}
-            </span>
-            <p class="index-blurb">{post.data.excerpt}</p>
+          <a href={`/writing/${post.id}`} class="writing-row">
+            <time class="writing-date" datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+            <span class="writing-kind">{post.data.source === 'newsletter' ? 'NL' : 'Essay'}</span>
+            <span class="writing-title">{post.data.title}</span>
+            <span class="writing-excerpt">{post.data.excerpt}</span>
           </a>
         </li>
       ))
     }
-  </ul>
+  </ol>
 </Base>
 
 <style>
   .filter-bar button {
     font: inherit;
     font-family: var(--mono);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 0.35rem 0.55rem;
+    padding: 0.4rem 0.6rem;
     border: 1px solid var(--rule);
     color: var(--ink-muted);
     background: transparent;
     cursor: pointer;
   }
   .filter-bar button[aria-pressed='true'] {
-    color: var(--ink);
+    color: var(--bg);
+    background: var(--ink);
     border-color: var(--ink);
   }
 </style>
@@ -73,7 +75,7 @@ function fmt(d: Date) {
       items.forEach((li) => {
         const source = li.getAttribute('data-source');
         const show = filter === 'all' || source === filter;
-        li.hidden = !show;
+        (li as HTMLElement).hidden = !show;
       });
     });
   });

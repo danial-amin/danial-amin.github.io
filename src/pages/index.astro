@@ -1,44 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
-import SystemsList from '../components/SystemsList.astro';
-import WorkIndex from '../components/WorkIndex.astro';
-import LockedCases from '../components/LockedCases.astro';
-import WritingList from '../components/WritingList.astro';
-import ResearchTeaser from '../components/ResearchTeaser.astro';
-import QuoteStrip from '../components/QuoteStrip.astro';
-import ContactBlock from '../components/ContactBlock.astro';
-import { getCollection } from 'astro:content';
 import site from '../data/site.json';
-
-const posts = await getCollection('writing');
-const newsletters = posts.filter((p) => p.data.source === 'newsletter');
 ---
 
-<Base title={site.name} description={site.tagline}>
-  <header class="hero">
-    <div>
-      <p class="hero-kicker">Espoo · practice · research</p>
-      <h1 class="hero-display">{site.name}</h1>
-      <p class="hero-tagline">{site.tagline}</p>
-      <div class="hero-meta">
-        <a class="btn" href={`mailto:${site.email}`}>{site.cta}</a>
-        <a href="/work">Work</a>
-        <a href="/writing">Writing</a>
-      </div>
-    </div>
-    <aside class="hero-aside orbit" aria-label="At a glance">
-      <span>Case studies from consulting & product work</span>
-      <span>Live systems — with the reasoning behind each</span>
-      <span>{site.newsletterName}, mirrored in full</span>
-      <span>GenAI personas & HCI research</span>
-    </aside>
-  </header>
+<Base title={site.name} description={site.tagline} page="home">
+  <div class="home-portal">
+    <p class="home-kicker">Espoo</p>
+    <h1 class="home-name">{site.name}</h1>
+    <p class="home-line">{site.tagline}</p>
 
-  <WorkIndex />
-  <SystemsList />
-  <LockedCases />
-  <WritingList posts={newsletters} limit={5} />
-  <ResearchTeaser />
-  <QuoteStrip />
-  <ContactBlock />
+    <nav class="home-doors" aria-label="Sections">
+      <a class="door" href="/work">
+        <span class="door-num">01</span>
+        <span class="door-title">Work</span>
+        <span class="door-desc">Live systems & case studies — why they exist, what shipped.</span>
+      </a>
+      <a class="door" href="/writing">
+        <span class="door-num">02</span>
+        <span class="door-title">Writing</span>
+        <span class="door-desc">Essays and full mirrors of AI Pulse & Data Waves.</span>
+      </a>
+      <a class="door" href="/research">
+        <span class="door-num">03</span>
+        <span class="door-title">Research</span>
+        <span class="door-desc">GenAI personas, fairness, HCI — plus the academic site.</span>
+      </a>
+    </nav>
+
+    <p class="home-contact">
+      <a class="btn" href={`mailto:${site.email}`}>{site.cta}</a>
+      <a href={site.cv}>CV</a>
+    </p>
+  </div>
 </Base>

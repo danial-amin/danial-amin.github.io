@@ -5,14 +5,15 @@ import site from '../data/site.json';
 interface Props {
   title?: string;
   description?: string;
+  page?: 'home' | 'work' | 'writing' | 'research';
 }
 
-const { title = site.name, description = site.tagline } = Astro.props;
+const { title = site.name, description = site.tagline, page = 'home' } = Astro.props;
 const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.name}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-page={page}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,9 +46,9 @@ const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.nam
       <header class="site-header">
         <a class="brand" href="/" data-egg-brand>{site.name}</a>
         <nav class="nav" aria-label="Primary">
-          <a href="/work">Work</a>
-          <a href="/writing">Writing</a>
-          <a href="/research">Research</a>
+          <a href="/work" aria-current={page === 'work' ? 'page' : undefined}>Work</a>
+          <a href="/writing" aria-current={page === 'writing' ? 'page' : undefined}>Writing</a>
+          <a href="/research" aria-current={page === 'research' ? 'page' : undefined}>Research</a>
           <a href={`mailto:${site.email}`}>Contact</a>
           <button class="icon-btn" type="button" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
             ◐
@@ -71,8 +72,9 @@ const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.nam
           </div>
         </div>
         <p>
-          © {new Date().getFullYear()} {site.name}. {site.newsletterName} mirrored on-site.
-          <span style="opacity:0.55"> Type <kbd>persona</kbd>.</span>
+          © {new Date().getFullYear()} {site.name}
+          {page === 'writing' ? ` · ${site.newsletterName}` : ''}
+          <span style="opacity:0.55"> · type <kbd>persona</kbd></span>
         </p>
       </footer>
     </div>
@@ -81,8 +83,7 @@ const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.nam
       <div class="egg-card" role="dialog" aria-modal="true" aria-labelledby="egg-title">
         <h2 id="egg-title">PEP unlocked</h2>
         <p>
-          Persona Ecosystem Playground — the research tool for modeling how GenAI represents people,
-          from minority views to whole ecosystems. Separate from PPR (Persona Paper Reviewer).
+          Persona Ecosystem Playground — modeling how GenAI represents people. Separate from PPR (Persona Paper Reviewer).
         </p>
         <div class="egg-actions">
           <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank">Open PEP</a>
@@ -105,15 +106,6 @@ const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.nam
         const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         setTheme(next);
       });
-
-      window.addEventListener(
-        'pointermove',
-        (e) => {
-          root.style.setProperty('--mx', `${(e.clientX / window.innerWidth) * 100}%`);
-          root.style.setProperty('--my', `${(e.clientY / window.innerHeight) * 100}%`);
-        },
-        { passive: true },
-      );
 
       const egg = document.getElementById('egg-layer');
       const close = document.getElementById('egg-close');

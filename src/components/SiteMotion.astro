@@ -1,0 +1,172 @@
+---
+/**
+ * Atmosphere + choreography.
+ *
+ * Renders the three fixed layers (cursor bloom, grain, scroll progress) and
+ * owns every motion listener on the site:
+ *   - pointer  -> --mx/--my (drives .bloom) and --prox on [data-prox] elements
+ *   - scroll   -> --progress on the top hairline
+ *   - viewport -> .is-in on [data-reveal] / [data-stagger] / .line-mask
+ *
+ * All pointer/scroll work is coalesced into a single rAF pass and every
+ * element rect is cached, so mousemove never triggers a layout read.
+ */
+---
+
+<div class="bloom" id="bloom" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="scroll-rule" id="scroll-rule" aria-hidden="true"></div>
+
+<script>
+  const root = document.documentElement;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- reveal on scroll ---------- */
+
+  const revealTargets = '[data-reveal], [data-stagger], .line-mask, .abyss-note';
+
+  function revealAll() {
+    document.querySelectorAll(revealTargets).forEach((el) => el.classList.add('is-in'));
+  }
+
+  function observeReveals() {
+    if (reduced.matches || !('IntersectionObserver' in window)) {
+      revealAll();
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      },
+      // fire a little before the element is fully on screen so the motion
+      // reads as "already happening" rather than "triggered by me"
+      { rootMargin: '0px 0px -12% 0px', threshold: 0.08 },
+    );
+
+    document.querySelectorAll(revealTargets).forEach((el) => {
+      // anything already in view on load reveals immediately, staggered
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92) {
+        el.classList.add('is-in');
+      } else {
+        io.observe(el);
+      }
+    });
+  }
+
+  /* ---------- pointer bloom + proximity ---------- */
+
+  const RANGE = 130; // px falloff for the proximity wash
+  let px = -9999;
+  let py = -9999;
+  let pointerDirty = false;
+  let scrollDirty = true;
+  let rects = [];
+  let proxEls = [];
+  let frame = 0;
+
+  function measure() {
+    proxEls = Array.from(document.querySelectorAll('[data-prox]'));
+    rects = proxEls.map((el) => el.getBoundingClientRect());
+  }
+
+  function nearness(rect) {
+    const dx = Math.max(rect.left - px, 0, px - rect.right);
+    const dy = Math.max(rect.top - py, 0, py - rect.bottom);
+    const d = Math.hypot(dx, dy);
+    return d >= RANGE ? 0 : 1 - d / RANGE;
+  }
+
+  const scrollRule = document.getElementById('scroll-rule');
+  const bloom = document.getElementById('bloom');
+
+  function tick() {
+    frame = 0;
+
+    if (scrollDirty) {
+      scrollDirty = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      scrollRule?.style.setProperty('--progress', String(p));
+      // rects move with the page, so re-measure on the same frame
+      rects = proxEls.map((el) => el.getBoundingClientRect());
+    }
+
+    if (pointerDirty) {
+      pointerDirty = false;
+      root.style.setProperty('--mx', `${px}px`);
+      root.style.setProperty('--my', `${py}px`);
+    }
+
+    for (let i = 0; i < proxEls.length; i++) {
+      const rect = rects[i];
+      // skip anything off screen entirely
+      if (rect.bottom < -RANGE || rect.top > window.innerHeight + RANGE) continue;
+      const el = proxEls[i];
+      const next = nearness(rect);
+      const prev = Number(el.dataset.proxValue || 0);
+      if (Math.abs(next - prev) < 0.012) continue;
+      el.dataset.proxValue = String(next);
+      el.style.setProperty('--prox', next.toFixed(3));
+    }
+  }
+
+  function schedule() {
+    if (!frame) frame = requestAnimationFrame(tick);
+  }
+
+  function onPointerMove(e) {
+    px = e.clientX;
+    py = e.clientY;
+    pointerDirty = true;
+    bloom?.classList.add('is-live');
+    schedule();
+  }
+
+  function startMotion() {
+    measure();
+    schedule();
+
+    window.addEventListener('scroll', () => {
+      scrollDirty = true;
+      schedule();
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      measure();
+      scrollDirty = true;
+      schedule();
+    }, { passive: true });
+
+    if (reduced.matches) return;
+
+    // coarse pointers (touch) get no bloom and no proximity — it would only
+    // ever fire on tap, which reads as a glitch
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      window.addEventListener('pointerleave', () => {
+        bloom?.classList.remove('is-live');
+        px = -9999;
+        py = -9999;
+        pointerDirty = true;
+        schedule();
+      });
+    }
+  }
+
+  observeReveals();
+  startMotion();
+
+  // re-arm after Astro view transitions swap the document
+  document.addEventListener('astro:after-swap', () => {
+    observeReveals();
+    measure();
+    scrollDirty = true;
+    schedule();
+  });
+</script>
