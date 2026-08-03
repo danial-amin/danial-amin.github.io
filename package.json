@@ -1,28 +1,19 @@
 {
-  "name": "danial-amin-blog-automation",
-  "version": "1.0.0",
-  "description": "Automation script for updating blog pages with new articles",
-  "main": "update-blog.js",
-  "scripts": {
-    "update-blog": "node update-blog.js",
-    "test": "echo \"No tests specified\" && exit 0",
-    "serve": "python3 -m http.server 8000",
-    "start": "python3 -m http.server 8000"
-  },
-  "keywords": [
-    "blog",
-    "automation",
-    "static-site",
-    "html"
-  ],
-  "author": "Danial Amin",
-  "license": "MIT",
+  "name": "danial-amin-portfolio",
+  "type": "module",
+  "version": "2.0.0",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "start": "npx serve dist -l ${PORT:-3000} -s"
   },
   "dependencies": {
-    "github-calendar": "^2.3.4",
-    "gray-matter": "^4.0.3",
-    "marked": "^12.0.0"
+    "astro": "^7.1.6",
+    "serve": "^14.2.4"
   }
 }

@@ -1,0 +1,43 @@
+---
+import publications from '../data/publications.json';
+import news from '../data/news.json';
+import site from '../data/site.json';
+
+const top = publications.slice(0, 3);
+---
+
+<section class="section">
+  <p class="section-label">Research</p>
+  <h2 class="section-title" data-num="04 / Research">GenAI personas, fairness, HCI</h2>
+  <div class="research-panel">
+    <ul class="index-list">
+      {
+        top.map((p) => (
+          <li>
+            <div class="index-row">
+              <span class="index-title" style="font-size:1.05rem">{p.title}</span>
+              <span class="index-meta">
+                {p.venue} · {p.year}
+              </span>
+              <p class="index-blurb">{p.status}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    {
+      news[0] && (
+        <p style="color:var(--ink-muted);font-size:0.95rem;margin:0">
+          <span style="font-family:var(--mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em">
+            Latest · {news[0].date}
+          </span>
+          <br />
+          {news[0].text}
+        </p>
+      )
+    }
+    <a class="more" href={site.academicUrl} rel="noopener noreferrer" target="_blank">
+      Full academic site →
+    </a>
+  </div>
+</section>

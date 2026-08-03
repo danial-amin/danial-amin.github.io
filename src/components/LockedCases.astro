@@ -1,0 +1,105 @@
+---
+import projects from '../data/projects.json';
+import site from '../data/site.json';
+
+const locked = projects.filter((p) => p.locked);
+const passHash = site.lockedPassHash;
+---
+
+<section class="section locked-section" id="locked-cases">
+  <p class="section-label">Locked</p>
+  <h2 class="section-title" data-num="·· / Locked">Confidential case studies</h2>
+  <p class="locked-lead">
+    A few engagements stay behind a gate — client-sensitive detail, not marketing copy. Enter the passphrase to unlock this block for this session.
+  </p>
+
+  <div id="locked-gate" class="locked-gate" data-pass-hash={passHash}>
+    <form id="locked-form" class="locked-form">
+      <label for="locked-pass">Passphrase</label>
+      <div class="locked-row">
+        <input id="locked-pass" name="pass" type="password" autocomplete="current-password" required />
+        <button class="btn" type="submit">Unlock</button>
+      </div>
+      <p id="locked-error" class="locked-error" hidden>That passphrase doesn’t match.</p>
+    </form>
+    <ul class="index-list locked-preview" aria-hidden="true">
+      {
+        locked.map((p) => (
+          <li>
+            <div class="index-row">
+              <span class="index-title">{p.title}</span>
+              <span class="index-meta">locked</span>
+              <p class="index-blurb">Details hidden until unlocked.</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div id="locked-content" class="locked-content" hidden>
+    <ul class="index-list">
+      {
+        locked.map((p) => (
+          <li>
+            <div class="index-row">
+              <span class="index-title">{p.title}</span>
+              <span class="index-meta">{p.year}</span>
+              <p class="index-blurb">{p.outcome}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = 'cases-unlocked';
+    var gate = document.getElementById('locked-gate');
+    var content = document.getElementById('locked-content');
+    var form = document.getElementById('locked-form');
+    var error = document.getElementById('locked-error');
+    if (!gate || !form) return;
+
+    var passHash = gate.getAttribute('data-pass-hash') || '';
+
+    function sha256Hex(text) {
+      var data = new TextEncoder().encode(text);
+      return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+        return Array.from(new Uint8Array(buf))
+          .map(function (b) {
+            return b.toString(16).padStart(2, '0');
+          })
+          .join('');
+      });
+    }
+
+    function unlock() {
+      try {
+        sessionStorage.setItem(STORAGE_KEY, '1');
+      } catch (e) {}
+      gate.hidden = true;
+      if (content) content.hidden = false;
+    }
+
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === '1') unlock();
+    } catch (e) {}
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = document.getElementById('locked-pass');
+      var value = (input && input.value ? input.value : '').trim();
+      sha256Hex(value).then(function (hash) {
+        if (hash === passHash) {
+          if (error) error.hidden = true;
+          unlock();
+        } else if (error) {
+          error.hidden = false;
+        }
+      });
+    });
+  })();
+</script>

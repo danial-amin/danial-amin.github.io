@@ -1,0 +1,33 @@
+---
+import projects from '../data/projects.json';
+
+interface Props {
+  mode?: 'open' | 'all-open-only';
+}
+
+const { mode = 'open' } = Astro.props;
+const items = projects.filter((p) => p.featured && !p.locked);
+---
+
+<section class="section">
+  <p class="section-label">Case studies</p>
+  <h2 class="section-title" data-num="01 / Cases">Work that shipped</h2>
+  <ul class="index-list">
+    {
+      items.map((p) => (
+        <li>
+          <div class="index-row">
+            <span class="index-title">{p.title}</span>
+            <span class="index-meta">{p.year}</span>
+            <p class="index-blurb">{p.outcome}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+  <p style="margin-top:1rem">
+    <a href="/work" style="font-family:var(--mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em">
+      All case studies →
+    </a>
+  </p>
+</section>

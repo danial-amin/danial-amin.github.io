@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'writing'>[];
+  fieldNotes?: boolean;
+  limit?: number;
+}
+
+const { posts, fieldNotes = false, limit } = Astro.props;
+const sorted = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const items = limit ? sorted.slice(0, limit) : sorted;
+
+function fmt(d: Date) {
+  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+}
+---
+
+<section class:list={['section', fieldNotes && 'field-notes']}>
+  <p class="section-label">Writing</p>
+  <h2 class="section-title" data-num="03 / Writing">AI Pulse & Data Waves</h2>
+  <ul class="index-list">
+    {
+      items.map((post, i) => (
+        <li>
+          <a href={`/writing/${post.id}`}>
+            {fieldNotes && <span class="index-issue">No. {String(i + 1).padStart(2, '0')}</span>}
+            <span class="index-title">{post.data.title}</span>
+            <span class="index-meta">
+              {post.data.source === 'newsletter' ? 'NL' : 'Essay'} · {fmt(post.data.date)}
+            </span>
+            <p class="index-blurb">{post.data.excerpt}</p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p style="margin-top:1rem">
+    <a href="/writing" style="font-family:var(--mono);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em">
+      All writing →
+    </a>
+  </p>
+</section>

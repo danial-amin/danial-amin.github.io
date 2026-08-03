@@ -1,0 +1,80 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import site from '../../data/site.json';
+
+const posts = (await getCollection('writing')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+function fmt(d: Date) {
+  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+}
+---
+
+<Base title="Writing" description={`Essays and ${site.newsletterName}`}>
+  <header class="hero">
+    <p class="section-label">Writing</p>
+    <h1 class="hero-display" style="max-width:12ch">Essays & newsletter</h1>
+    <p class="hero-tagline">
+      Site essays plus on-site mirrors of <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a>.
+    </p>
+    <div class="filter-bar" role="tablist" aria-label="Filter writing">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="essay" aria-pressed="false">Essays</button>
+      <button type="button" data-filter="newsletter" aria-pressed="false">Newsletter</button>
+    </div>
+  </header>
+
+  <ul class="index-list" id="writing-list">
+    {
+      posts.map((post) => (
+        <li data-source={post.data.source}>
+          <a href={`/writing/${post.id}`}>
+            <span class="index-title">{post.data.title}</span>
+            <span class="index-meta">
+              {post.data.source === 'newsletter' ? 'Newsletter' : 'Essay'} · {fmt(post.data.date)}
+            </span>
+            <p class="index-blurb">{post.data.excerpt}</p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .filter-bar button {
+    font: inherit;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid var(--rule);
+    color: var(--ink-muted);
+    background: transparent;
+    cursor: pointer;
+  }
+  .filter-bar button[aria-pressed='true'] {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-bar button');
+  const items = document.querySelectorAll('#writing-list li');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      items.forEach((li) => {
+        const source = li.getAttribute('data-source');
+        const show = filter === 'all' || source === filter;
+        li.hidden = !show;
+      });
+    });
+  });
+</script>

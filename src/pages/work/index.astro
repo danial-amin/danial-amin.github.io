@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import SystemsList from '../../components/SystemsList.astro';
+import LockedCases from '../../components/LockedCases.astro';
+import projects from '../../data/projects.json';
+---
+
+<Base title="Work" description="Case studies and live systems">
+  <header class="hero">
+    <div>
+      <p class="hero-kicker">Work</p>
+      <h1 class="hero-display" style="max-width:10ch">Cases & systems</h1>
+      <p class="hero-tagline">
+        Open engagements, products I still run — and why they exist — plus a locked shelf for confidential work.
+      </p>
+    </div>
+  </header>
+
+  <SystemsList />
+
+  <section class="section">
+    <p class="section-label">Case studies</p>
+    <h2 class="section-title" data-num="01 / Cases">Open engagements</h2>
+    <ul class="index-list">
+      {
+        projects
+          .filter((p) => !p.locked)
+          .map((p) => (
+            <li>
+              <div class="index-row">
+                <span class="index-title">{p.title}</span>
+                <span class="index-meta">{p.year}</span>
+                <p class="index-blurb">{p.outcome}</p>
+              </div>
+            </li>
+          ))
+      }
+    </ul>
+  </section>
+
+  <LockedCases />
+</Base>

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "inkwell",
+    "name": "Inkwell",
+    "blurb": "Private writing companion — AI crafts prompts; you write the answers.",
+    "url": "https://inkwell.danialamin.com",
+    "status": "live",
+    "why": "Most “AI journals” write for you. That kills the point of a journal. I wanted a tool that only nudges — prompts shaped to your themes — while the words stay unmistakably yours.",
+    "built": "Theme-based prompt generation, private accounts, timed and spontaneous nudges. The model never authors the entry."
+  },
+  {
+    "id": "council",
+    "name": "Council of LLMs",
+    "blurb": "Multiple models deliberate, judge, and consolidate hard questions.",
+    "url": "https://council.danialamin.com",
+    "status": "live",
+    "why": "One model on a hard question is a single overconfident voice. I wanted deliberation as a product — propose, judge, consolidate — so disagreement becomes signal instead of noise.",
+    "built": "Multi-provider completion, judging rounds, and a consolidation step into one answer you can actually inspect."
+  },
+  {
+    "id": "promptlab",
+    "name": "Prompt Lab",
+    "blurb": "Experiment with prompts, compare models, iterate in one place.",
+    "url": "https://promptlab.danialamin.com",
+    "status": "live",
+    "why": "Prompt work usually lives in chat tabs and half-broken scripts. Tiny wording changes matter, and comparing models side-by-side shouldn’t require a new ritual every time.",
+    "built": "Edit prompts and params, run across models, compare outputs in one loop so iteration stays visible."
+  },
+  {
+    "id": "ppr",
+    "name": "Persona Paper Reviewer",
+    "blurb": "Review research through persona-aware lenses for HCI and GenAI work.",
+    "url": "https://ppr.danialamin.com",
+    "status": "live",
+    "why": "HCI and persona papers need reviewers who understand representation risk — not generic “be nicer” feedback. I built PPR to stress manuscripts the way our research actually critiques them.",
+    "built": "Agentic PDF review, revision validation against prior comments, grep-grounded style checks without a page cap."
+  },
+  {
+    "id": "pep",
+    "name": "PEP — Persona Ecosystem Playground",
+    "blurb": "Playground for modeling persona ecosystems — minority views to whole populations.",
+    "url": "https://pep.danialamin.com",
+    "status": "live",
+    "why": "Personas from scattered research are slow, inconsistent, and easy to stereotype. PEP exists to turn unstructured context into structured persona ecosystems you can probe — including minority views.",
+    "built": "Ingest research/transcripts, retrieve with vectors, generate and expand persona sets grounded in your own material."
+  }
+]

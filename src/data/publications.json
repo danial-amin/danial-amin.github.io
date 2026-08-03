@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Creating and Evaluating Personas Using Generative AI: A Scoping Review of 81 Articles",
+    "venue": "CHI’26",
+    "year": 2026,
+    "status": "Published",
+    "doi": "10.1145/3772318.3790608"
+  },
+  {
+    "title": "Generative AI Personas Considered Harmful? Examining the Risks of Algorithmic User Representations in HCI Design",
+    "venue": "International Journal of Human-Computer Studies",
+    "year": 2025,
+    "status": "Published",
+    "doi": "10.1016/j.ijhcs.2025.103657"
+  },
+  {
+    "title": "Large language models (LLMs) in human-computer interaction",
+    "venue": "CRC Press",
+    "year": 2026,
+    "status": "Published",
+    "doi": "10.1201/9781003492252-10"
+  },
+  {
+    "title": "Proposing a Quantitative Framework for Persona Set Diversity Measurement",
+    "venue": "IEEE Access",
+    "year": 2026,
+    "status": "In review",
+    "doi": null
+  }
+]

@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import publications from '../../data/publications.json';
+import news from '../../data/news.json';
+import site from '../../data/site.json';
+---
+
+<Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site">
+  <header class="hero">
+    <p class="section-label">Research</p>
+    <h1 class="hero-display" style="max-width:14ch">Academic practice</h1>
+    <p class="hero-tagline">
+      Doctoral work at the University of Vaasa on Generative AI and user representation. Full publications, CV, and news live on the academic site for now.
+    </p>
+    <div class="hero-meta">
+      <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">Open academic.danialamin.com</a>
+      <a class="btn btn-ghost" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Google Scholar</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <p class="section-label">Selected publications</p>
+    <ul class="index-list">
+      {
+        publications.map((p) => (
+          <li>
+            <div class="index-row">
+              <span class="index-title">{p.title}</span>
+              <span class="index-meta">
+                {p.year} · {p.status}
+              </span>
+              <p class="index-blurb">
+                {p.venue}
+                {p.doi ? ` · doi:${p.doi}` : ''}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <p class="section-label">News</p>
+    <ul class="index-list">
+      {
+        news.map((n) => (
+          <li>
+            <div class="index-row">
+              <span class="index-title" style="font-size:1.05rem;font-family:var(--sans);font-weight:500">
+                {n.text}
+              </span>
+              <span class="index-meta">{n.date}</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>

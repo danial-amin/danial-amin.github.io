@@ -1,0 +1,20 @@
+---
+import testimonials from '../data/testimonials.json';
+---
+
+<section class="section">
+  <p class="section-label">People say</p>
+  <h2 class="section-title" data-num="05 / Proof">From collaborators</h2>
+  <div class="quote-grid">
+    {
+      testimonials.map((t) => (
+        <blockquote class="quote">
+          <p>“{t.quote}”</p>
+          <footer>
+            {t.name} · {t.role}, {t.company}
+          </footer>
+        </blockquote>
+      ))
+    }
+  </div>
+</section>

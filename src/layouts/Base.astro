@@ -1,0 +1,165 @@
+---
+import '../styles/global.css';
+import site from '../data/site.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.name, description = site.tagline } = Astro.props;
+const pageTitle = title === site.name ? `${site.name}` : `${title} · ${site.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <link rel="canonical" href={Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href} />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var theme =
+            stored ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="/" data-egg-brand>{site.name}</a>
+        <nav class="nav" aria-label="Primary">
+          <a href="/work">Work</a>
+          <a href="/writing">Writing</a>
+          <a href="/research">Research</a>
+          <a href={`mailto:${site.email}`}>Contact</a>
+          <button class="icon-btn" type="button" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+            ◐
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-row">
+          <div class="footer-links">
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            <a href={site.socials.linkedin} rel="noopener noreferrer" target="_blank">LinkedIn</a>
+            <a href={site.socials.github} rel="noopener noreferrer" target="_blank">GitHub</a>
+            <a href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
+            <a href={site.cv}>CV</a>
+            <a href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic</a>
+          </div>
+        </div>
+        <p>
+          © {new Date().getFullYear()} {site.name}. {site.newsletterName} mirrored on-site.
+          <span style="opacity:0.55"> Type <kbd>persona</kbd>.</span>
+        </p>
+      </footer>
+    </div>
+
+    <div class="egg-layer" id="egg-layer" hidden>
+      <div class="egg-card" role="dialog" aria-modal="true" aria-labelledby="egg-title">
+        <h2 id="egg-title">PEP unlocked</h2>
+        <p>
+          Persona Ecosystem Playground — the research tool for modeling how GenAI represents people,
+          from minority views to whole ecosystems. Separate from PPR (Persona Paper Reviewer).
+        </p>
+        <div class="egg-actions">
+          <a class="btn" href={site.pepUrl} rel="noopener noreferrer" target="_blank">Open PEP</a>
+          <a class="btn btn-ghost" href="/research">Research</a>
+          <button class="btn btn-ghost" type="button" id="egg-close">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+
+      function setTheme(theme: string) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+      }
+
+      toggle?.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      });
+
+      window.addEventListener(
+        'pointermove',
+        (e) => {
+          root.style.setProperty('--mx', `${(e.clientX / window.innerWidth) * 100}%`);
+          root.style.setProperty('--my', `${(e.clientY / window.innerHeight) * 100}%`);
+        },
+        { passive: true },
+      );
+
+      const egg = document.getElementById('egg-layer');
+      const close = document.getElementById('egg-close');
+      let buffer = '';
+
+      function openEgg() {
+        if (!egg) return;
+        egg.hidden = false;
+        requestAnimationFrame(() => egg.classList.add('is-open'));
+      }
+
+      function closeEgg() {
+        if (!egg) return;
+        egg.classList.remove('is-open');
+        setTimeout(() => {
+          egg.hidden = true;
+        }, 240);
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeEgg();
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        if (e.key.length !== 1) return;
+        buffer = (buffer + e.key.toLowerCase()).slice(-7);
+        if (buffer.endsWith('persona')) openEgg();
+      });
+
+      close?.addEventListener('click', closeEgg);
+      egg?.addEventListener('click', (e) => {
+        if (e.target === egg) closeEgg();
+      });
+
+      let clicks = 0;
+      let clickTimer: number | undefined;
+      document.querySelector('[data-egg-brand]')?.addEventListener('click', (e) => {
+        clicks += 1;
+        window.clearTimeout(clickTimer);
+        clickTimer = window.setTimeout(() => {
+          clicks = 0;
+        }, 700);
+        if (clicks >= 3) {
+          e.preventDefault();
+          openEgg();
+          clicks = 0;
+        }
+      });
+    </script>
+  </body>
+</html>
