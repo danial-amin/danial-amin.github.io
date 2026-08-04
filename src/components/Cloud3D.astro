@@ -50,7 +50,7 @@ const client = nodes.map((n, i) => ({
 
     <p class="cl-read" id="clRead" hidden></p>
 
-    <p class="cl-hint" id="clHint">Drag to turn it</p>
+    <p class="cl-hint" id="clHint">Drag to turn it · click a concept to pin it</p>
   </div>
 
   <figcaption class="cl-cap">
@@ -85,11 +85,12 @@ const client = nodes.map((n, i) => ({
     display: block;
     width: 100%;
     height: auto;
-    mix-blend-mode: var(--plate-blend);
   }
 
+  /* No multiply here. Multiplying every dot toward the paper collapsed the four
+     inks into near-black, which is what made the cloud look monochrome. */
   .cl-dot {
-    mix-blend-mode: var(--plate-blend);
+    mix-blend-mode: normal;
   }
 
   .cl-dot.k0 { fill: var(--ink-k); }
@@ -145,37 +146,119 @@ const client = nodes.map((n, i) => ({
 
   /* the readout replaces the hint once something is picked */
   .cl-read {
-    bottom: 0.45rem;
+    bottom: 0.5rem;
     left: 0.6rem;
-    right: 0.6rem;
+    width: min(24rem, calc(100% - 1.2rem));
     text-transform: none;
-    letter-spacing: 0.02em;
-    font-size: 0.66rem;
+    letter-spacing: 0.01em;
+    font-size: 0.68rem;
     color: var(--ink-k);
     background: var(--paper);
-    border: 1.5px solid var(--ink-k);
-    padding: 0.35rem 0.5rem;
-    line-height: 1.5;
+    border: 2px solid var(--ink-k);
+    box-shadow: 4px 4px 0 var(--ink-a);
+    padding: 0;
+    line-height: 1.45;
+    pointer-events: auto;
   }
 
-  .cl-read b {
+  .cl-read :global(.cl-r-h) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.3rem 0.45rem;
+    background: var(--ink-k);
+    color: var(--paper);
+  }
+
+  .cl-read :global(.cl-r-h b) {
     font-family: var(--display);
     text-transform: uppercase;
     letter-spacing: -0.01em;
+    font-size: 0.82rem;
   }
 
-  .cl-read a {
-    color: var(--ink-b);
+  .cl-read :global(.cl-r-h .dim) {
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  /* neighbours as chips with their distance, rather than a run-on line */
+  .cl-read :global(.cl-r-nb) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    margin: 0;
+    padding: 0.35rem 0.45rem;
+    border-bottom: 1.5px dashed var(--ink-hair);
+  }
+
+  .cl-read :global(.cl-nb) {
+    font-family: var(--type);
+    font-size: 0.6rem;
+    border: 1.5px solid var(--ink-hair);
+    padding: 0.02rem 0.28rem;
+    color: var(--ink-soft);
+  }
+
+  .cl-read :global(.cl-nb i) {
+    font-style: normal;
+    margin-left: 0.3em;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cl-read :global(.cl-r-l) {
+    margin: 0;
+    padding: 0.3rem 0.45rem 0.1rem;
+    font-family: var(--type);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-a);
+  }
+
+  /* the links are the point of pinning, so they are rows you can hit */
+  .cl-read :global(.cl-r-u) {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0.25rem;
+  }
+
+  .cl-read :global(.cl-r-u li) {
+    border-top: 1.5px dashed var(--ink-hair);
+  }
+
+  .cl-read :global(.cl-r-u a) {
+    display: block;
+    padding: 0.28rem 0.45rem;
+    color: var(--ink-k);
     text-decoration: none;
+    line-height: 1.35;
   }
 
-  .cl-read a:hover {
+  .cl-read :global(.cl-r-u a::before) {
+    content: '→ ';
+    color: var(--ink-a);
+  }
+
+  .cl-read :global(.cl-r-u a:hover) {
     background: var(--ink-a);
     color: var(--on-a);
   }
 
-  .cl-read .dim {
-    color: var(--ink-faint);
+  .cl-read :global(.cl-r-u a:hover::before) {
+    color: var(--on-a);
+  }
+
+  /* a pinned concept keeps its ring so you can see what the panel refers to */
+  .cl-node.pinned .cl-dot {
+    stroke: var(--ink-k);
+    stroke-width: 1.2;
+    paint-order: stroke;
   }
 
   .cl-cap {
@@ -240,6 +323,13 @@ const client = nodes.map((n, i) => ({
     let pitch = -0.25;
     let spin = still.matches ? 0 : 0.0022;
     let picked = -1;
+    /**
+     * Pinned selection. Without it the readout cleared on pointerleave, so its
+     * links vanished the moment you moved toward them — they were unreachable
+     * rather than broken. Pinning also freezes the drift, so the thing you are
+     * reading about stops moving.
+     */
+    let pinned = -1;
 
     const SCALE = 92;
     const DEPTH = 2.6; // perspective divisor
@@ -268,11 +358,11 @@ const client = nodes.map((n, i) => ({
         const n = nodes[o.i];
         const e = els[o.i];
         e.g.setAttribute('transform', `translate(${o.x.toFixed(2)} ${o.y.toFixed(2)})`);
-        e.c.setAttribute('r', (n.r * 0.36 * o.k).toFixed(2));
-        e.c.setAttribute('fill-opacity', (0.45 + o.k * 0.5).toFixed(2));
+        e.c.setAttribute('r', (n.r * 0.5 * o.k).toFixed(2));
+        e.c.setAttribute('fill-opacity', (0.62 + o.k * 0.38).toFixed(2));
         // only the prominent concepts keep a label, and only when facing us
         const showLabel = (n.big && o.k > 0.95) || o.i === picked;
-        e.t.setAttribute('x', (n.r * 0.36 * o.k + 2).toFixed(2));
+        e.t.setAttribute('x', (n.r * 0.5 * o.k + 2).toFixed(2));
         e.t.setAttribute('y', '1.6');
         e.t.setAttribute('font-size', (3.6 * o.k).toFixed(2));
         e.t.setAttribute('opacity', showLabel ? '1' : '0');
@@ -329,28 +419,72 @@ const client = nodes.map((n, i) => ({
       picked = i;
       const n = nodes[i];
       els.forEach((e, j) => e.g.classList.toggle('on', j === i));
-      const near = n.nb.map((x) => `${x.term} ${x.d.toFixed(2)}`).join(' · ');
+
+      const near = n.nb
+        .map((x) => `<span class="cl-nb">${x.term}<i>${x.d.toFixed(2)}</i></span>`)
+        .join('');
       const links = n.u
-        .map((u) => `<a href="/writing/${u.id}">${u.title}</a>`)
-        .join('<span class="dim"> · </span>');
+        .map((u) => `<li><a href="/writing/${u.id}">${u.title}</a></li>`)
+        .join('');
+
       read.innerHTML =
-        `<b>${n.t}</b> <span class="dim">— ${n.d} essays${n.p ? `, ${n.p} papers` : ''}</span><br>` +
-        `<span class="dim">near:</span> ${near}` +
-        (links ? `<br><span class="dim">in:</span> ${links}` : '');
+        `<p class="cl-r-h"><b>${n.t}</b>` +
+        `<span class="dim">${n.d} essays${n.p ? ` · ${n.p} papers` : ''}</span></p>` +
+        `<p class="cl-r-nb">${near}</p>` +
+        (links ? `<p class="cl-r-l">Used in</p><ul class="cl-r-u">${links}</ul>` : '');
+
       read.hidden = false;
       hint.hidden = true;
       frame();
     }
 
+    function unpin() {
+      pinned = -1;
+      picked = -1;
+      els.forEach((e) => e.g.classList.remove('on', 'pinned'));
+      read.hidden = true;
+      hint.hidden = false;
+      hint.textContent = 'Drag to turn it · click a concept to pin it';
+      if (!still.matches) spin = 0.0012;
+      frame();
+    }
+
     els.forEach((e, i) => {
       e.g.addEventListener('pointerenter', () => {
-        if (!dragging) show(i);
+        if (!dragging && pinned < 0) show(i);
       });
-      e.g.addEventListener('focus', () => show(i));
-      e.g.addEventListener('click', (ev) => ev.stopPropagation());
+      e.g.addEventListener('focus', () => {
+        if (pinned < 0) show(i);
+      });
+      e.g.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        if (pinned === i) {
+          unpin();
+          return;
+        }
+        pinned = i;
+        spin = 0;
+        show(i);
+        els.forEach((el, j) => el.g.classList.toggle('pinned', j === i));
+      });
+      e.g.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter' || ev.key === ' ') {
+          ev.preventDefault();
+          e.g.dispatchEvent(new Event('click', { bubbles: true }));
+        }
+      });
+    });
+
+    // clicking empty space or pressing Escape releases the pin
+    stage.addEventListener('click', () => {
+      if (pinned >= 0) unpin();
+    });
+    window.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape' && pinned >= 0) unpin();
     });
 
     stage.addEventListener('pointerleave', () => {
+      if (pinned >= 0) return;
       picked = -1;
       els.forEach((e) => e.g.classList.remove('on'));
       read.hidden = true;

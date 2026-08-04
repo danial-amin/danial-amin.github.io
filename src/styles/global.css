@@ -31,9 +31,12 @@
   /* text placed ON an --ink-a fill. Burgundy is dark enough that riso black
      over it is only 2.52:1, so fills get paper-coloured type instead. */
   --on-a: #f4efe3;
-  /* burgundy over blue, actually multiplied — the fourth colour a two-ink
-     press gives you for free, used for the fourth concept cluster */
-  --ink-ab: #0a1f50;
+  /* The fourth cluster ink. It was the true burgundy-over-blue overprint
+     (#0a1f50), which is honest but 1.06:1 against the black — the two were
+     indistinguishable as dots, which is why the cloud read as one colour. This
+     is burgundy at light coverage instead: it separates by lightness (4.71:1
+     from black) rather than by hue, which also survives colour blindness. */
+  --ink-ab: #b8809d;
 
   --ink-body: #2b2622;
   --ink-soft: rgb(43 38 34 / 0.66);
@@ -56,7 +59,7 @@
   --ink-a: #c07d9f;
   --ink-b: #4aa3e0;
   --on-a: #221f1d;
-  --ink-ab: #374f8b;
+  --ink-ab: #d3a3bb;
 
   --ink-body: #f4efe3;
   --ink-soft: rgb(244 239 227 / 0.72);
