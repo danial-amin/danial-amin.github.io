@@ -31,12 +31,22 @@
   /* text placed ON an --ink-a fill. Burgundy is dark enough that riso black
      over it is only 2.52:1, so fills get paper-coloured type instead. */
   --on-a: #f4efe3;
-  /* The fourth cluster ink. It was the true burgundy-over-blue overprint
-     (#0a1f50), which is honest but 1.06:1 against the black — the two were
-     indistinguishable as dots, which is why the cloud read as one colour. This
-     is burgundy at light coverage instead: it separates by lightness (4.71:1
-     from black) rather than by hue, which also survives colour blindness. */
   --ink-ab: #b8809d;
+
+  /**
+   * Eight cluster inks for the concept cloud. All are plausible Riso colours and
+   * every one clears 4.4:1 on the cream, because the labels render small — a
+   * palette that only works at display size would have been useless here. Four
+   * colours had also proved too few to read 210 words as grouped.
+   */
+  --c0: #2b2622;
+  --c1: #1268b3;
+  --c2: #914e72;
+  --c3: #6a4a9c;
+  --c4: #0a6f74;
+  --c5: #1f7a45;
+  --c6: #b03349;
+  --c7: #8f5322;
 
   --ink-body: #2b2622;
   --ink-soft: rgb(43 38 34 / 0.66);
@@ -60,6 +70,16 @@
   --ink-b: #4aa3e0;
   --on-a: #221f1d;
   --ink-ab: #d3a3bb;
+
+  /* lifted for the dark stock */
+  --c0: #f4efe3;
+  --c1: #6bb8ee;
+  --c2: #d18cae;
+  --c3: #a98fd8;
+  --c4: #4fb9be;
+  --c5: #63c98c;
+  --c6: #e8798c;
+  --c7: #d29a5e;
 
   --ink-body: #f4efe3;
   --ink-soft: rgb(244 239 227 / 0.72);

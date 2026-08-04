@@ -38,7 +38,7 @@ const client = nodes.map((n, i) => ({
 
 <figure class="cl" data-set>
   <div class="cl-stage" id="clStage">
-    <svg viewBox="-140 -104 280 236" id="clSvg" role="img"
+    <svg viewBox="-140 -86 280 218" id="clSvg" role="img"
       aria-label={`Rotating three-dimensional embedding of ${nodes.length} concepts from ${docs} essays and ${academicDocs} publications.`}>
       <g id="clPts"></g>
     </svg>
@@ -49,7 +49,7 @@ const client = nodes.map((n, i) => ({
       <span>{dims} dims</span>
     </p>
 
-    <p class="cl-hint" id="clHint">Drag to turn it · click a concept to pin it</p>
+    <p class="cl-hint" id="clHint">Drag to turn · click a word to open it</p>
   </div>
 
   <!-- underneath, so it never covers the thing it describes -->
@@ -93,10 +93,14 @@ const client = nodes.map((n, i) => ({
     mix-blend-mode: normal;
   }
 
-  .cl-dot.k0 { fill: var(--ink-k); }
-  .cl-dot.k1 { fill: var(--ink-b); }
-  .cl-dot.k2 { fill: var(--ink-a); }
-  .cl-dot.k3 { fill: var(--ink-ab); }
+  .cl-dot.k0 { fill: var(--c0); }
+  .cl-dot.k1 { fill: var(--c1); }
+  .cl-dot.k2 { fill: var(--c2); }
+  .cl-dot.k3 { fill: var(--c3); }
+  .cl-dot.k4 { fill: var(--c4); }
+  .cl-dot.k5 { fill: var(--c5); }
+  .cl-dot.k6 { fill: var(--c6); }
+  .cl-dot.k7 { fill: var(--c7); }
 
   .cl-dot.ac {
     stroke: var(--ink-k);
@@ -111,13 +115,25 @@ const client = nodes.map((n, i) => ({
     pointer-events: none;
   }
 
-  .cl-lab.k0 { fill: var(--ink-k); }
-  .cl-lab.k1 { fill: var(--ink-b); }
-  .cl-lab.k2 { fill: var(--ink-a); }
-  .cl-lab.k3 { fill: var(--ink-ab); }
+  .cl-lab.k0 { fill: var(--c0); }
+  .cl-lab.k1 { fill: var(--c1); }
+  .cl-lab.k2 { fill: var(--c2); }
+  .cl-lab.k3 { fill: var(--c3); }
+  .cl-lab.k4 { fill: var(--c4); }
+  .cl-lab.k5 { fill: var(--c5); }
+  .cl-lab.k6 { fill: var(--c6); }
+  .cl-lab.k7 { fill: var(--c7); }
 
-  .cl-node.on .cl-dot {
-    fill: var(--ink-a);
+  .cl-node.hot .cl-lab,
+  .cl-node.on .cl-lab {
+    font-weight: 700;
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 1.2;
+  }
+
+  .cl-node.hot {
+    cursor: pointer;
   }
 
   .cl-node.on .cl-lab {
@@ -498,18 +514,20 @@ const client = nodes.map((n, i) => ({
       els.forEach((e) => e.g.classList.remove('on', 'pinned'));
       read.hidden = true;
       hint.hidden = false;
-      hint.textContent = 'Drag to turn it · click a concept to pin it';
+      hint.textContent = 'Drag to turn · click a word to open it';
       if (!still.matches) spin = 0.0012;
       frame();
     }
 
     els.forEach((e, i) => {
+      // hover only marks the word; the panel is a click, so it never flickers
+      // open while you are sweeping across 210 labels
       e.g.addEventListener('pointerenter', () => {
-        if (!dragging && pinned < 0) show(i);
+        if (!dragging && pinned < 0) e.g.classList.add('hot');
       });
-      e.g.addEventListener('focus', () => {
-        if (pinned < 0) show(i);
-      });
+      e.g.addEventListener('pointerleave', () => e.g.classList.remove('hot'));
+      e.g.addEventListener('focus', () => e.g.classList.add('hot'));
+      e.g.addEventListener('blur', () => e.g.classList.remove('hot'));
       e.g.addEventListener('click', (ev) => {
         ev.stopPropagation();
         if (dragging) return; // finished a drag, not a click
@@ -540,12 +558,7 @@ const client = nodes.map((n, i) => ({
     });
 
     stage.addEventListener('pointerleave', () => {
-      if (pinned >= 0) return;
-      picked = -1;
-      els.forEach((e) => e.g.classList.remove('on'));
-      read.hidden = true;
-      hint.hidden = false;
-      frame();
+      els.forEach((e) => e.g.classList.remove('hot'));
     });
 
     // pause the drift when off screen

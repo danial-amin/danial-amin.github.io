@@ -1,6 +1,6 @@
 {
   "generated": "run `npm run map` after writing something new",
-  "method": "tf-idf term vectors over documents, cosine distance, k-means(4)",
+  "method": "tf-idf term vectors over documents, cosine distance, k-means(8)",
   "docs": 50,
   "academicDocs": 34,
   "dims": 84,
@@ -2968,7 +2968,7 @@
           "title": "The Four Ds of AI Fluency - A Framework That Actually Makes Sense"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 7.7,
       "neighbours": [
         {
@@ -3096,7 +3096,7 @@
           "title": "One Agent Per Business Unit or One Agent For All"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 6.7,
       "neighbours": [
         {
@@ -3288,7 +3288,7 @@
           "title": "How Not to Supervise - Seven Principles That Actually Matter"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 8.3,
       "neighbours": [
         {
@@ -3348,7 +3348,7 @@
           "title": "The Personality Problem - Why Your LLM's Character Matters More Than Its IQ"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.2,
       "neighbours": [
         {
@@ -3540,7 +3540,7 @@
           "title": "The Personality Mirror - How LLMs' Hidden Character Shapes Everything You Know"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 5.8,
       "neighbours": [
         {
@@ -3668,7 +3668,7 @@
           "title": "The Prompt Practitioner's Handbook - Heuristics for Better Industry Research"
         }
       ],
-      "cluster": 0,
+      "cluster": 5,
       "r": 6.1,
       "neighbours": [
         {
@@ -3860,7 +3860,7 @@
           "title": "The Time Series Blind Spot - Why Generative AI Failed at Forecasting"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 4.9,
       "neighbours": [
         {
@@ -3988,7 +3988,7 @@
           "title": "Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 5.2,
       "neighbours": [
         {
@@ -4116,7 +4116,7 @@
           "title": "The Representation Crisis - How LLM-Based Synthetic Users Obscure Rather Than Illuminate User Understanding"
         }
       ],
-      "cluster": 1,
+      "cluster": 3,
       "r": 7,
       "neighbours": [
         {
@@ -4476,7 +4476,7 @@
           "title": "The Time Series Blind Spot - Why Generative AI Failed at Forecasting"
         }
       ],
-      "cluster": 3,
+      "cluster": 5,
       "r": 5.8,
       "neighbours": [
         {
@@ -4532,7 +4532,7 @@
           "title": "The Data Fossil Fuel Crisis - Why LLMs Are Hitting Peak Information"
         }
       ],
-      "cluster": 1,
+      "cluster": 4,
       "r": 4.2,
       "neighbours": [
         {
@@ -4596,7 +4596,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 6.7,
       "neighbours": [
         {
@@ -4660,7 +4660,7 @@
           "title": "RAG, Finetuning, and Prompt Engineering - Extending the Capabilities of LLMs"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 7.3,
       "neighbours": [
         {
@@ -4724,7 +4724,7 @@
           "title": "Red Teaming AI for Social Good - Testing for Hidden Biases in the Age of Generative AI"
         }
       ],
-      "cluster": 2,
+      "cluster": 4,
       "r": 6.4,
       "neighbours": [
         {
@@ -4788,7 +4788,7 @@
           "title": "Building Portfolio Projects That Actually Matter"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 6.4,
       "neighbours": [
         {
@@ -4904,7 +4904,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 3,
+      "cluster": 5,
       "r": 4.6,
       "neighbours": [
         {
@@ -5156,7 +5156,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 2,
+      "cluster": 3,
       "r": 6.7,
       "neighbours": [
         {
@@ -5204,7 +5204,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 3,
+      "cluster": 4,
       "r": 8.9,
       "neighbours": [
         {
@@ -5268,7 +5268,7 @@
           "title": "The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security"
         }
       ],
-      "cluster": 2,
+      "cluster": 6,
       "r": 7.3,
       "neighbours": [
         {
@@ -5396,7 +5396,7 @@
           "title": "The Living Memory - When Your Digital Twin Knows You Better Than You Know Yourself"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 5.8,
       "neighbours": [
         {
@@ -5716,7 +5716,7 @@
           "title": "Agentic AI Patterns - Engineering Systems That Don't Fail"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 5.8,
       "neighbours": [
         {
@@ -5780,7 +5780,7 @@
           "title": "The Time Series Blind Spot - Why Generative AI Failed at Forecasting"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 6.4,
       "neighbours": [
         {
@@ -6100,7 +6100,7 @@
           "title": "The Personality Mirror - How LLMs' Hidden Character Shapes Everything You Know"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 5.8,
       "neighbours": [
         {
@@ -6164,7 +6164,7 @@
           "title": "The Case for Personality in LLM Agents - Why Character-Driven AI is Essential for Effective Human-Computer Interaction"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 5.8,
       "neighbours": [
         {
@@ -6228,7 +6228,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 6.4,
       "neighbours": [
         {
@@ -6356,7 +6356,7 @@
           "title": "LLMs as Evaluators - Who Watches the Watchers?"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 6.4,
       "neighbours": [
         {
@@ -6412,7 +6412,7 @@
           "title": "Beyond the Safety Theater - What Real AI Safety Looks Like (Part 2)"
         }
       ],
-      "cluster": 1,
+      "cluster": 6,
       "r": 3.9,
       "neighbours": [
         {
@@ -6988,7 +6988,7 @@
           "title": "Why Specialized AI Will Win Over General AI"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 5.2,
       "neighbours": [
         {
@@ -7052,7 +7052,7 @@
           "title": "Specialized Agents Win Over Generalist Agents"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 5.2,
       "neighbours": [
         {
@@ -7116,7 +7116,7 @@
           "title": "The \\\"Yes Sir\\\" Problem - Why LLMs Can't Disagree and What This Means for AI Development"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 7,
       "neighbours": [
         {
@@ -7308,7 +7308,7 @@
           "title": "The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.9,
       "neighbours": [
         {
@@ -7372,7 +7372,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 5.5,
       "neighbours": [
         {
@@ -7500,7 +7500,7 @@
           "title": "DeepSeek R1's Game-Changing Approach to Parameter Activation - What Industry Needs to Know"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 7,
       "neighbours": [
         {
@@ -7624,7 +7624,7 @@
           "title": "GenAI for Good Is Being Built Backwards"
         }
       ],
-      "cluster": 3,
+      "cluster": 4,
       "r": 5.5,
       "neighbours": [
         {
@@ -7752,7 +7752,7 @@
           "title": "Why Problem Framing Became Critical in the Age of Generative AI"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 4.9,
       "neighbours": [
         {
@@ -7816,7 +7816,7 @@
           "title": "Beyond Test Scores - Why We Need to Measure AI's Moral Compass, Not Its Memory"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 5.5,
       "neighbours": [
         {
@@ -8064,7 +8064,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 4.6,
       "neighbours": [
         {
@@ -8256,7 +8256,7 @@
           "title": "LLMs as Evaluators - Who Watches the Watchers?"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 5.2,
       "neighbours": [
         {
@@ -8320,7 +8320,7 @@
           "title": "The AI Safety Mirage - Why Industry Rankings Are Failing Us (Part 1)"
         }
       ],
-      "cluster": 2,
+      "cluster": 6,
       "r": 5.2,
       "neighbours": [
         {
@@ -8384,7 +8384,7 @@
           "title": "The Representation Crisis - How LLM-Based Synthetic Users Obscure Rather Than Illuminate User Understanding"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 6.1,
       "neighbours": [
         {
@@ -8448,7 +8448,7 @@
           "title": "Beyond the LLM Bubble: Why We're Conflating GenAI with Transformers"
         }
       ],
-      "cluster": 2,
+      "cluster": 5,
       "r": 5.5,
       "neighbours": [
         {
@@ -8632,7 +8632,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 3.9,
       "neighbours": [
         {
@@ -8688,7 +8688,7 @@
           "title": "Specialized Agents Win Over Generalist Agents"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 3.9,
       "neighbours": [
         {
@@ -8752,7 +8752,7 @@
           "title": "The Personality Problem - Why Your LLM's Character Matters More Than Its IQ"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 6.7,
       "neighbours": [
         {
@@ -8928,7 +8928,7 @@
           "title": "GenAI for Good Is Being Built Backwards"
         }
       ],
-      "cluster": 0,
+      "cluster": 5,
       "r": 4.2,
       "neighbours": [
         {
@@ -8992,7 +8992,7 @@
           "title": "The Data Fossil Fuel Crisis - Why LLMs Are Hitting Peak Information"
         }
       ],
-      "cluster": 1,
+      "cluster": 5,
       "r": 6.1,
       "neighbours": [
         {
@@ -9180,7 +9180,7 @@
           "title": "The Personality Problem - Why Your LLM's Character Matters More Than Its IQ"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.2,
       "neighbours": [
         {
@@ -9364,7 +9364,7 @@
           "title": "The AI Safety Mirage - Why Industry Rankings Are Failing Us (Part 1)"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 5.8,
       "neighbours": [
         {
@@ -9660,7 +9660,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 5.5,
       "neighbours": [
         {
@@ -9724,7 +9724,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.9,
       "neighbours": [
         {
@@ -9784,7 +9784,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 3,
       "r": 4.9,
       "neighbours": [
         {
@@ -9896,7 +9896,7 @@
           "title": "The \\\"Yes Sir\\\" Problem - Why LLMs Can't Disagree and What This Means for AI Development"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 5.8,
       "neighbours": [
         {
@@ -9956,7 +9956,7 @@
           "title": "Why Personified AI Actually Works Better"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.2,
       "neighbours": [
         {
@@ -10016,7 +10016,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.2,
       "neighbours": [
         {
@@ -10251,7 +10251,7 @@
           "title": "Beyond the Safety Theater - What Real AI Safety Looks Like (Part 2)"
         }
       ],
-      "cluster": 1,
+      "cluster": 6,
       "r": 5.2,
       "neighbours": [
         {
@@ -10311,7 +10311,7 @@
           "title": "How Not to Supervise - Seven Principles That Actually Matter"
         }
       ],
-      "cluster": 2,
+      "cluster": 5,
       "r": 5.2,
       "neighbours": [
         {
@@ -10439,7 +10439,7 @@
           "title": "The Time Series Blind Spot - Why Generative AI Failed at Forecasting"
         }
       ],
-      "cluster": 1,
+      "cluster": 2,
       "r": 5.2,
       "neighbours": [
         {
@@ -10503,7 +10503,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 0,
+      "cluster": 1,
       "r": 4.6,
       "neighbours": [
         {
@@ -10567,7 +10567,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 4.6,
       "neighbours": [
         {
@@ -10695,7 +10695,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 1,
       "r": 4.6,
       "neighbours": [
         {
@@ -10751,7 +10751,7 @@
           "title": "Why Personified AI Actually Works Better"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 3.9,
       "neighbours": [
         {
@@ -10919,7 +10919,7 @@
           "title": "How Uncertainty Makes AI Agents Smarter: Why Bayesian Thinking Matters"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 3.9,
       "neighbours": [
         {
@@ -11231,7 +11231,7 @@
           "title": "The Living Memory - When Your Digital Twin Knows You Better Than You Know Yourself"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 5.5,
       "neighbours": [
         {
@@ -11535,7 +11535,7 @@
           "title": "Beyond the LLM Bubble: Why We're Conflating GenAI with Transformers"
         }
       ],
-      "cluster": 2,
+      "cluster": 6,
       "r": 4.9,
       "neighbours": [
         {
@@ -11791,7 +11791,7 @@
           "title": "The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.9,
       "neighbours": [
         {
@@ -11911,7 +11911,7 @@
           "title": "GenAI for Good Is Being Built Backwards"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.2,
       "neighbours": [
         {
@@ -12031,7 +12031,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.2,
       "neighbours": [
         {
@@ -12091,7 +12091,7 @@
           "title": "One Agent Per Business Unit or One Agent For All"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 4.2,
       "neighbours": [
         {
@@ -12279,7 +12279,7 @@
           "title": "The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 5.2,
       "neighbours": [
         {
@@ -12331,7 +12331,7 @@
           "title": "Beyond the LLM Bubble: Why We're Conflating GenAI with Transformers"
         }
       ],
-      "cluster": 2,
+      "cluster": 5,
       "r": 4.2,
       "neighbours": [
         {
@@ -12478,7 +12478,7 @@
       "papers": 4,
       "academic": true,
       "used": [],
-      "cluster": 3,
+      "cluster": 4,
       "r": 4.2,
       "neighbours": [
         {
@@ -12542,7 +12542,7 @@
           "title": "The Personality Problem - Why Your LLM's Character Matters More Than Its IQ"
         }
       ],
-      "cluster": 1,
+      "cluster": 0,
       "r": 4.6,
       "neighbours": [
         {
@@ -12602,7 +12602,7 @@
           "title": "Teaching LLMs Like Teaching Kids to Ride - Why Analytical Tasks Need Focused Instruction"
         }
       ],
-      "cluster": 3,
+      "cluster": 2,
       "r": 4.6,
       "neighbours": [
         {
@@ -12722,7 +12722,7 @@
           "title": "The Data Fossil Fuel Crisis - Why LLMs Are Hitting Peak Information"
         }
       ],
-      "cluster": 1,
+      "cluster": 4,
       "r": 4.6,
       "neighbours": [
         {
@@ -12914,7 +12914,7 @@
           "title": "The Small Sample Problem - How Minimal Data Poisoning Threatens LLM Security"
         }
       ],
-      "cluster": 2,
+      "cluster": 0,
       "r": 5.5,
       "neighbours": [
         {
@@ -12978,7 +12978,7 @@
           "title": "Building Agentic AI - Patterns That Work, Traps That Don't"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 5.5,
       "neighbours": [
         {
@@ -13034,7 +13034,7 @@
           "title": "Nobody Hands Out a Prize for Breaking the Ruler"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 3.9,
       "neighbours": [
         {
@@ -13146,7 +13146,7 @@
           "title": "The Time Series Blind Spot - Why Generative AI Failed at Forecasting"
         }
       ],
-      "cluster": 0,
+      "cluster": 1,
       "r": 3.9,
       "neighbours": [
         {
@@ -13254,7 +13254,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 0,
+      "cluster": 7,
       "r": 3.9,
       "neighbours": [
         {
@@ -13409,7 +13409,7 @@
       "papers": 2,
       "academic": true,
       "used": [],
-      "cluster": 3,
+      "cluster": 5,
       "r": 3.6,
       "neighbours": [
         {
@@ -13665,7 +13665,7 @@
           "title": "Thinking With LLMs: How To Use Them To Think Better, Not Less"
         }
       ],
-      "cluster": 0,
+      "cluster": 1,
       "r": 4.9,
       "neighbours": [
         {
@@ -13729,7 +13729,7 @@
           "title": "The Fable Fiasco And What We Need To Do About It!"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.9,
       "neighbours": [
         {
@@ -13793,7 +13793,7 @@
           "title": "Why Personified AI Actually Works Better"
         }
       ],
-      "cluster": 1,
+      "cluster": 6,
       "r": 4.9,
       "neighbours": [
         {
@@ -13857,7 +13857,7 @@
           "title": "The Living Memory - When Your Digital Twin Knows You Better Than You Know Yourself"
         }
       ],
-      "cluster": 1,
+      "cluster": 2,
       "r": 4.9,
       "neighbours": [
         {
@@ -14049,7 +14049,7 @@
           "title": "The Case for Personality in LLM Agents - Why Character-Driven AI is Essential for Effective Human-Computer Interaction"
         }
       ],
-      "cluster": 2,
+      "cluster": 1,
       "r": 5.2,
       "neighbours": [
         {
@@ -14241,7 +14241,7 @@
           "title": "The Four Ds of AI Fluency - A Framework That Actually Makes Sense"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 5.2,
       "neighbours": [
         {
@@ -14541,7 +14541,7 @@
           "title": "Why Personified AI Actually Works Better"
         }
       ],
-      "cluster": 1,
+      "cluster": 7,
       "r": 4.2,
       "neighbours": [
         {
@@ -14661,7 +14661,7 @@
           "title": "LLM Wrapped"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.2,
       "neighbours": [
         {
@@ -14717,7 +14717,7 @@
           "title": "You Can't Ship LLM Projects Without Evaluation"
         }
       ],
-      "cluster": 2,
+      "cluster": 6,
       "r": 4.2,
       "neighbours": [
         {
@@ -14777,7 +14777,7 @@
           "title": "Building Portfolio Projects That Actually Matter"
         }
       ],
-      "cluster": 1,
+      "cluster": 6,
       "r": 4.2,
       "neighbours": [
         {
@@ -15053,7 +15053,7 @@
           "title": "LLMs as Evaluators - Who Watches the Watchers?"
         }
       ],
-      "cluster": 3,
+      "cluster": 6,
       "r": 3.9,
       "neighbours": [
         {
@@ -15096,7 +15096,7 @@
       "papers": 3,
       "academic": true,
       "used": [],
-      "cluster": 3,
+      "cluster": 4,
       "r": 3.9,
       "neighbours": [
         {
@@ -15160,7 +15160,7 @@
           "title": "How Not to Supervise - Seven Principles That Actually Matter"
         }
       ],
-      "cluster": 0,
+      "cluster": 1,
       "r": 5.5,
       "neighbours": [
         {
@@ -15352,7 +15352,7 @@
           "title": "Why Problem Framing Became Critical in the Age of Generative AI"
         }
       ],
-      "cluster": 2,
+      "cluster": 7,
       "r": 4.6,
       "neighbours": [
         {
@@ -15608,7 +15608,7 @@
           "title": "The Fable Fiasco And What We Need To Do About It!"
         }
       ],
-      "cluster": 0,
+      "cluster": 6,
       "r": 4.6,
       "neighbours": [
         {

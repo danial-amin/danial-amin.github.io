@@ -438,7 +438,7 @@ const D = Array.from({ length: n }, (_, i) =>
   Array.from({ length: n }, (_, j) => Math.sqrt(Math.max(0, 2 - 2 * sim[i][j]))),
 );
 
-const clusters = kmeans(vectors, 4);
+const clusters = kmeans(vectors, 8);
 
 const W = 1000;
 const H = 620;
@@ -537,7 +537,7 @@ await writeFile(
   JSON.stringify(
     {
       generated: 'run `npm run map` after writing something new',
-      method: 'tf-idf term vectors over documents, cosine distance, k-means(4)',
+      method: 'tf-idf term vectors over documents, cosine distance, k-means(8)',
       docs: writingDocs.length,
       academicDocs: docs.length - writingDocs.length,
       dims: docs.length,
