@@ -1,30 +1,231 @@
 [
   {
-    "title": "Creating and Evaluating Personas Using Generative AI: A Scoping Review of 81 Articles",
-    "venue": "CHI’26",
+    "title": "\"Are These AI Personas Really Personas?\": Investigating to What Extent LLM-Generated Personas Follow Persona Design Theory",
+    "venue": "CUI'2026",
+    "year": 2026,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "\"Pathways to the Metaverse\": Exploring the User Experience Mechanisms Driving Technology Acceptance in Virtual Lab Visits with an LLM-powered Avatar",
+    "venue": "IUI'2026",
     "year": 2026,
     "status": "Published",
-    "doi": "10.1145/3772318.3790608"
+    "doi": "10.1145/3742413.3789084",
+    "selected": false
   },
   {
-    "title": "Generative AI Personas Considered Harmful? Examining the Risks of Algorithmic User Representations in HCI Design",
-    "venue": "International Journal of Human-Computer Studies",
-    "year": 2025,
+    "title": "AI Representing Personas Representing User Groups: Applying the Agency Theory to Examine Interaction Challenges of Conversational Personas as Decision-Making Tools",
+    "venue": "DSS'2026",
+    "year": 2026,
     "status": "Published",
-    "doi": "10.1016/j.ijhcs.2025.103657"
+    "doi": "10.1016/j.dss.2026.114633",
+    "selected": false
   },
   {
-    "title": "Large language models (LLMs) in human-computer interaction",
+    "title": "Assessing Inter-Rater Agreement Among Large Language Model Judges: Evidence from Persona Evaluation Across Educational Risk Contexts",
+    "venue": "TFSC",
+    "year": 2026,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making",
+    "venue": "arXiv",
+    "year": 2026,
+    "status": "Published, Preprint",
+    "selected": false
+  },
+  {
+    "title": "Creating and Evaluating Personas Using Generative AI: A Scoping Review of 81 Articles",
+    "venue": "CHI'2026",
+    "year": 2026,
+    "status": "Published",
+    "doi": "10.1145/3772318.3790608",
+    "selected": true
+  },
+  {
+    "title": "Do LLMs Know How Many Personas to Generate? A Benchmarking Study in Customer Segmentation",
+    "venue": "AICCSA'2026",
+    "year": 2026,
+    "status": "In review, Paper",
+    "selected": false
+  },
+  {
+    "title": "From Generation to Simulation: Responsible Use of AI Personas in Human-Centered Design and Research",
+    "venue": "CHI'2026",
+    "year": 2026,
+    "status": "Published, Workshop",
+    "doi": "10.1145/3772363.3778745",
+    "selected": false
+  },
+  {
+    "title": "From Priming Modalities to Educational AI Chatbot Engagement: A Study of 67 Learners",
+    "venue": "IJHCI",
+    "year": 2026,
+    "status": "Published",
+    "doi": "10.1080/10447318.2026.2654818",
+    "selected": false
+  },
+  {
+    "title": "How Can Tensions in Sustainability Transitions Be Made Visible?: Challenging the Actor-Centered Ecosystem Approach through Persona-Based Modeling",
+    "venue": "Palgrave",
+    "year": 2026,
+    "status": "In review",
+    "selected": true
+  },
+  {
+    "title": "How to Design Anthropomorphic Attributes for Conversational Agents?: A Meta Analysis of 79 Articles",
+    "venue": "TAFFC'2026",
+    "year": 2026,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "How to Model AI Agents as Personas?: Applying the Persona Ecosystem Playground to 41,300 Posts on Moltbook for Behavioral Insights",
+    "venue": "BIT",
+    "year": 2026,
+    "status": "In review",
+    "selected": true
+  },
+  {
+    "title": "Introducing Persona Ecosystem Playground (PEP): Generating Behaviorally Grounded Personas from Think-Aloud Data Using LLMs with RAG",
+    "venue": "CUI'2026",
+    "year": 2026,
+    "status": "Published",
+    "doi": "10.1145/3816046.3816269",
+    "selected": false
+  },
+  {
+    "title": "Large language models (LLMs) in human-computer interaction: Using LLM-generated personas to model everything from minority views to entire ecosystems",
     "venue": "CRC Press",
     "year": 2026,
     "status": "Published",
-    "doi": "10.1201/9781003492252-10"
+    "doi": "10.1201/9781003492252-10",
+    "selected": true
   },
   {
-    "title": "Proposing a Quantitative Framework for Persona Set Diversity Measurement",
+    "title": "On the Need for Computational Resources for the Scientific Benchmarking of Data-Driven Personas",
+    "venue": "Plos One",
+    "year": 2026,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "PersonaBase: A Formative Evaluation Study of Computational Resources for Data-Driven Personas",
+    "venue": "HT'2026",
+    "year": 2026,
+    "status": "Accepted",
+    "selected": false
+  },
+  {
+    "title": "PersonaBase: Computational Resources for Advancing the Research and Practice of Data-Driven Personas",
+    "venue": "NordiCHI'2026",
+    "year": 2026,
+    "status": "Accepted",
+    "selected": false
+  },
+  {
+    "title": "Proposing a Quantitative Framework for Persona Set Diversity Measurement as a Pathway to Inclusive User Representation",
     "venue": "IEEE Access",
     "year": 2026,
     "status": "In review",
-    "doi": null
+    "selected": true
+  },
+  {
+    "title": "Reconceptualizing the Persona Perception Scale for Non-Human Personas: A Formative Validation Study",
+    "venue": "NordiCHI'2026",
+    "year": 2026,
+    "status": "Accepted",
+    "selected": false
+  },
+  {
+    "title": "“Designing Prompts to Design Personas”: A Review of Prompt Design for AI-Generated Personas from Techno-Fairness Perspective",
+    "venue": "IJHCI",
+    "year": 2026,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "“Half My Survey Data Is Bad; The Problem Is, I Can't Tell Which Half”: Evaluating the Validatablity of Large-Scale Survey Data Using 176 Algorithmically Generated Personas",
+    "venue": "HT'2026",
+    "year": 2026,
+    "status": "Accepted",
+    "selected": false
+  },
+  {
+    "title": "\"When AI Writes Personas\": Analyzing Lexical Diversity in LLM-Generated Persona Descriptions",
+    "venue": "CHI'25",
+    "year": 2025,
+    "status": "Published, Extended Abstract",
+    "doi": "10.1145/3706599.3719712",
+    "selected": true
+  },
+  {
+    "title": "Generative AI Personas Considered Harmful? Examining the Risks of Algorithmic User Representations in HCI Design",
+    "venue": "IJHCS",
+    "year": 2025,
+    "status": "Published",
+    "doi": "10.1016/j.ijhcs.2025.103657",
+    "selected": true
+  },
+  {
+    "title": "How to Anthropomorphize Conversational Agents in Information Systems?: A Review of Humanizing Attributes",
+    "venue": "OIR",
+    "year": 2025,
+    "status": "In review",
+    "selected": false
+  },
+  {
+    "title": "Representing Religious Practices via AI-Generated Personas: A Case Study of Ramadan Behaviors from Four Predominantly Muslim Countries",
+    "venue": "AICCSA'25",
+    "year": 2025,
+    "status": "Published",
+    "doi": "10.1109/AICCSA66935.2025.11315204",
+    "selected": false
+  },
+  {
+    "title": "The Use of Large Language Models in HCI: A Critical Analysis of Synthetic Users",
+    "venue": "AH'25",
+    "year": 2025,
+    "status": "Published, Poster",
+    "doi": "10.1145/3745900.3746108",
+    "selected": false
+  },
+  {
+    "title": "Using AI for User Representation: An Analysis of 83 Persona Prompts",
+    "venue": "AICCSA'25",
+    "year": 2025,
+    "status": "Published",
+    "doi": "10.1109/AICCSA66935.2025.11315350",
+    "selected": false
+  },
+  {
+    "title": "Role of Private-Public Partnerships in Creation of Space Awareness and Outreach in Pakistan",
+    "venue": "ICASE'21",
+    "year": 2021,
+    "status": "Published",
+    "selected": false
+  },
+  {
+    "title": "The Role of National Centers in Sustainable Development of Pakistan",
+    "venue": "ICASE'21",
+    "year": 2021,
+    "status": "Published",
+    "selected": false
+  },
+  {
+    "title": "Role of subject matter experts in creating awareness through space technology education and popularization (STEP): World space week celebrations — A case study",
+    "venue": "ICASE'17",
+    "year": 2017,
+    "status": "Published",
+    "selected": false
+  },
+  {
+    "title": "Unification of traditional and scientific pedagogy in Space Technology Education and Popularization (STEP): Space summer school—A case study",
+    "venue": "ICASE'17",
+    "year": 2017,
+    "status": "Published",
+    "selected": false
   }
 ]
