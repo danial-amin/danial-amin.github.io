@@ -171,11 +171,11 @@ const clientNodes = nodes.map((n, i) => ({
   </div>
 
   <div class="fig-panel" id="cm-panel" hidden>
-    <p class="fig-panel-head">
-      <span id="cm-panel-term"></span>
-      <button class="fig-panel-x" type="button" id="cm-panel-close" aria-label="Close">×</button>
-    </p>
-    <ul id="cm-panel-list"></ul>
+    <div class="fig-panel-bar">
+      <p class="fig-panel-tab" id="cm-panel-term"></p>
+      <button class="stamp-btn" type="button" id="cm-panel-close">Close</button>
+    </div>
+    <ul class="listing" id="cm-panel-list"></ul>
   </div>
 
   <details class="fig-list">
@@ -449,49 +449,59 @@ const clientNodes = nodes.map((n, i) => ({
 
   /* ---- the pieces panel ---- */
 
+  /* Same weight as a card: 2px rule and the hard burgundy offset the sheets
+     and toasts use. Previously this was a thin box with an unstyled × and
+     default link styling, which read as a different site. */
   .fig-panel {
-    margin-top: 0.5rem;
-    border: 1.5px solid var(--ink-k);
+    margin-top: 0.75rem;
+    border: 2px solid var(--ink-k);
     background: var(--paper);
-    padding: 0.6rem 0.7rem;
+    box-shadow: 6px 6px 0 var(--ink-a);
+    padding: 0.75rem 0.8rem 0.5rem;
   }
 
-  .fig-panel-head {
+  .fig-panel-bar {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    margin: 0 0 0.4rem;
-    font-family: var(--type);
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink-b);
+    margin-bottom: 0.6rem;
   }
 
-  .fig-panel-x {
-    border: none;
-    background: transparent;
-    font-family: var(--type);
-    font-size: 1rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--ink-soft);
-    padding: 0 0.2rem;
-  }
-
-  .fig-panel ul {
+  /* the stamped tab the section heads use */
+  .fig-panel-tab {
     margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 0.92rem;
-    line-height: 1.5;
+    font-family: var(--type);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--paper);
+    background: var(--ink-k);
+    padding: 0.16rem 0.45rem;
+    transform: rotate(-1deg);
   }
 
-  .fig-panel li + li {
-    margin-top: 0.3rem;
-    padding-top: 0.3rem;
-    border-top: 1.5px dashed var(--ink-hair);
+  /* rows reuse .listing/.entry from the global sheet, so the panel inherits
+     the hover, the numbering and the type scale automatically */
+  .fig-panel .listing > li:first-child {
+    border-top: 1.5px solid var(--ink-hair);
+  }
+
+  .fig-panel .entry {
+    grid-template-columns: 2rem 1fr auto;
+    padding: 0.6rem 0.3rem 0.65rem;
+  }
+
+  .fig-panel .entry-title {
+    font-size: 1rem;
+    text-transform: none;
+  }
+
+  .fig-panel-none {
+    font-family: var(--type);
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.5rem;
   }
 
   /* ---- text fallback ---- */
@@ -691,21 +701,43 @@ const clientNodes = nodes.map((n, i) => ({
 
     function openPanel(i: number) {
       const n = data[i];
-      panelTerm.textContent = `“${n.t}” appears in`;
+      panelTerm.textContent = `“${n.t}” · ${n.d} pieces`;
       panelList.innerHTML = '';
+
       if (!n.u.length) {
         const li = document.createElement('li');
-        li.textContent = 'Only in the publications, not the essays.';
+        const p = document.createElement('p');
+        p.className = 'fig-panel-none';
+        p.textContent = 'Only in the publications — this one never made it into an essay.';
+        li.append(p);
         panelList.append(li);
       }
-      for (const u of n.u) {
+
+      n.u.forEach((u, k) => {
         const li = document.createElement('li');
         const a = document.createElement('a');
+        a.className = 'entry';
         a.href = `/writing/${u.id}`;
-        a.textContent = u.title;
+
+        const num = document.createElement('span');
+        num.className = 'entry-num';
+        num.textContent = String(k + 1).padStart(2, '0');
+
+        const title = document.createElement('span');
+        title.className = 'entry-title';
+        const mark = document.createElement('mark');
+        mark.textContent = u.title;
+        title.append(mark);
+
+        const meta = document.createElement('span');
+        meta.className = 'entry-meta';
+        meta.textContent = u.id.startsWith('newsletter/') ? 'Newsletter' : 'Essay';
+
+        a.append(num, title, meta);
         li.append(a);
         panelList.append(li);
-      }
+      });
+
       panel.hidden = false;
     }
 
