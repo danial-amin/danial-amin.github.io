@@ -145,7 +145,7 @@ function tokens(text) {
 
 /* ---------- tf-idf ---------- */
 
-const ACADEMIC_BOOST = 2.4;
+const ACADEMIC_BOOST = 1.3;
 
 function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 140 }) {
   const tf = docs.map(() => new Map());
@@ -163,11 +163,30 @@ function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 140 }) {
   const N = docs.length;
   const maxDf = Math.floor(N * maxDfRatio);
 
-  // which terms appear in the academic documents at all
-  const academicIdx = docs.map((d, i) => (d.kind === 'academic' ? i : -1)).filter((i) => i >= 0);
+  /**
+   * Document frequency has to be split by corpus. `df` spans everything, but
+   * the page reports "in N of 50 pieces", so display needs the written-only
+   * count. And the academic ring is only meaningful if it marks vocabulary that
+   * is *distinctively* research-side — with 31 titles in the corpus, "appears
+   * in any academic record at all" flagged 60% of concepts and said nothing.
+   */
+  const acIdx = docs.map((d, i) => (d.kind === 'academic' ? i : -1)).filter((i) => i >= 0);
+  const wrIdx = docs.map((d, i) => (d.kind === 'writing' ? i : -1)).filter((i) => i >= 0);
+
+  const dfWritten = new Map();
+  const dfAcademic = new Map();
+  for (const t of df.keys()) {
+    dfWritten.set(t, wrIdx.reduce((n, i) => n + ((tf[i].get(t) ?? 0) > 0 ? 1 : 0), 0));
+    dfAcademic.set(t, acIdx.reduce((n, i) => n + ((tf[i].get(t) ?? 0) > 0 ? 1 : 0), 0));
+  }
+
   const isAcademic = new Map();
   for (const t of df.keys()) {
-    isAcademic.set(t, academicIdx.some((i) => (tf[i].get(t) ?? 0) > 0));
+    const a = dfAcademic.get(t) / Math.max(acIdx.length, 1);
+    const w = dfWritten.get(t) / Math.max(wrIdx.length, 1);
+    // present in at least two papers, and proportionally more a paper word
+    // than an essay word
+    isAcademic.set(t, dfAcademic.get(t) >= 2 && a > w * 1.15);
   }
 
   // an academic term only needs to show up twice, because the academic corpus
@@ -210,7 +229,7 @@ function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 140 }) {
   });
 
   const academic = new Map(picked.map((p) => [p.t, p.academic]));
-  return { terms, vectors, df, tf, academic };
+  return { terms, vectors, df, tf, academic, dfWritten, dfAcademic };
 }
 
 /* ---------- geometry ---------- */
@@ -354,7 +373,7 @@ function relax(pts, sizes, rounds = 220) {
 /* ---------- run ---------- */
 
 const docs = await loadDocs();
-const { terms, vectors, df, tf, academic } = buildMatrix(docs, {});
+const { terms, vectors, df, tf, academic, dfWritten, dfAcademic } = buildMatrix(docs, {});
 const writingDocs = docs.filter((d) => d.kind === 'writing');
 console.log(
   `corpus: ${writingDocs.length} written pieces + ${docs.length - writingDocs.length} academic records` +
@@ -394,6 +413,7 @@ const scaled = raw.map(([x, y]) => [
 
 // label footprint scales with how often the term appears
 const weights = terms.map((t) => df.get(t));
+const writtenWeights = terms.map((t) => dfWritten.get(t));
 const maxDfv = Math.max(...weights);
 const sizes = terms.map((t, i) => 22 + (weights[i] / maxDfv) * 26);
 const placed = relax(scaled, sizes);
@@ -417,7 +437,9 @@ const nodes = terms.map((t, i) => {
 
   return {
     term: t,
-    docs: weights[i],
+    // written-only, so the "in N of 50 pieces" label on the page is true
+    docs: dfWritten.get(t),
+    papers: dfAcademic.get(t),
     academic: !!academic.get(t),
     used,
     cluster: clusters[i],
