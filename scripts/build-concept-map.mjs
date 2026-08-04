@@ -57,6 +57,7 @@ like real wrong right fundamental generic single everything produces produce ask
 built build builds building reveals reveal shows show shown seems seem
 becomes become became turns turn turned starts started stops stopped keeps kept
 means meant matters mattered happens happen happened
+fundamentally complex understand understanding understood
 time times year years day days week weeks month months today tomorrow yesterday recently currently
 people person human humans user users end ends start begin begins put puts run runs running
 question questions answer answers problem problems reason reasons result results cause causes
@@ -79,18 +80,52 @@ const STOP = new Set(
 
 async function loadDocs() {
   const docs = [];
+
   for (const sub of ['essays', 'newsletter']) {
     const dir = path.join(ROOT, sub);
     for (const f of (await readdir(dir)).filter((n) => n.endsWith('.md'))) {
       let raw = await readFile(path.join(dir, f), 'utf8');
+      const title = /^title:\s*(.+)$/m.exec(raw)?.[1]?.trim().replace(/^["']|["']$/g, '') ?? f;
       // frontmatter, code, urls, inline markup
       raw = raw.replace(/^---[\s\S]*?\n---/, ' ');
       raw = raw.replace(/```[\s\S]*?```/g, ' ').replace(/`[^`]*`/g, ' ');
       raw = raw.replace(/https?:\/\/\S+/g, ' ');
       raw = raw.replace(/[*_>#|\[\]()]/g, ' ');
-      docs.push({ id: `${sub}/${f.replace(/\.md$/, '')}`, source: sub, text: raw });
+      docs.push({
+        id: `${sub}/${f.replace(/\.md$/, '')}`,
+        title,
+        kind: 'writing',
+        text: raw,
+      });
     }
   }
+
+  /**
+   * The academic side. These documents are short — four publication titles and
+   * three news lines — so they contribute little raw frequency. Their job is
+   * provenance: they mark which concepts belong to the research vocabulary, and
+   * that mark then protects those concepts from being outranked by fifty much
+   * longer essays (see ACADEMIC_BOOST below).
+   *
+   * The CV is deliberately not included. It is a consulting CV — no
+   * publications, no doctoral work — so it would only add client/enterprise
+   * delivery vocabulary, which is the opposite of academic.
+   */
+  const pubs = JSON.parse(await readFile('src/data/publications.json', 'utf8'));
+  for (const pub of pubs) {
+    docs.push({
+      id: `pub/${pub.doi ?? pub.year}`,
+      title: pub.title,
+      kind: 'academic',
+      text: `${pub.title} ${pub.title} ${pub.venue} ${pub.status}`,
+    });
+  }
+
+  const news = JSON.parse(await readFile('src/data/news.json', 'utf8'));
+  for (const n of news) {
+    docs.push({ id: `news/${n.date}`, title: n.text, kind: 'academic', text: n.text });
+  }
+
   return docs;
 }
 
@@ -110,7 +145,9 @@ function tokens(text) {
 
 /* ---------- tf-idf ---------- */
 
-function buildMatrix(docs, { minDf = 4, maxDfRatio = 0.55, topTerms = 120 }) {
+const ACADEMIC_BOOST = 2.4;
+
+function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 140 }) {
   const tf = docs.map(() => new Map());
   const df = new Map();
 
@@ -126,8 +163,17 @@ function buildMatrix(docs, { minDf = 4, maxDfRatio = 0.55, topTerms = 120 }) {
   const N = docs.length;
   const maxDf = Math.floor(N * maxDfRatio);
 
+  // which terms appear in the academic documents at all
+  const academicIdx = docs.map((d, i) => (d.kind === 'academic' ? i : -1)).filter((i) => i >= 0);
+  const isAcademic = new Map();
+  for (const t of df.keys()) {
+    isAcademic.set(t, academicIdx.some((i) => (tf[i].get(t) ?? 0) > 0));
+  }
+
+  // an academic term only needs to show up twice, because the academic corpus
+  // is tiny by nature; everything else still has to clear minDf
   let vocab = [...df.entries()]
-    .filter(([t, n]) => n >= minDf && n <= maxDf)
+    .filter(([t, n]) => n <= maxDf && n >= (isAcademic.get(t) ? 2 : minDf))
     .map(([t]) => t);
 
   // prefer a bigram over its parts when they carry the same weight
@@ -135,7 +181,8 @@ function buildMatrix(docs, { minDf = 4, maxDfRatio = 0.55, topTerms = 120 }) {
     const idf = Math.log(N / (df.get(t) + 1)) + 1;
     let s = 0;
     for (let i = 0; i < N; i++) s += (tf[i].get(t) ?? 0) * idf;
-    return { t, s: s * (t.includes(' ') ? 1.25 : 1), df: df.get(t) };
+    const boost = (t.includes(' ') ? 1.25 : 1) * (isAcademic.get(t) ? ACADEMIC_BOOST : 1);
+    return { t, s: s * boost, df: df.get(t), academic: !!isAcademic.get(t) };
   });
   scored.sort((a, b) => b.s - a.s);
 
@@ -162,7 +209,8 @@ function buildMatrix(docs, { minDf = 4, maxDfRatio = 0.55, topTerms = 120 }) {
     return v;
   });
 
-  return { terms, vectors, df, tf };
+  const academic = new Map(picked.map((p) => [p.t, p.academic]));
+  return { terms, vectors, df, tf, academic };
 }
 
 /* ---------- geometry ---------- */
@@ -306,8 +354,12 @@ function relax(pts, sizes, rounds = 220) {
 /* ---------- run ---------- */
 
 const docs = await loadDocs();
-const { terms, vectors, df } = buildMatrix(docs, {});
-console.log(`corpus: ${docs.length} pieces · vocabulary kept: ${terms.length} terms`);
+const { terms, vectors, df, tf, academic } = buildMatrix(docs, {});
+const writingDocs = docs.filter((d) => d.kind === 'writing');
+console.log(
+  `corpus: ${writingDocs.length} written pieces + ${docs.length - writingDocs.length} academic records` +
+    ` · vocabulary kept: ${terms.length} terms (${[...academic.values()].filter(Boolean).length} academic)`,
+);
 
 const n = terms.length;
 const sim = Array.from({ length: n }, () => new Float64Array(n));
@@ -354,9 +406,20 @@ const nodes = terms.map((t, i) => {
     .slice(0, 3)
     .map((c) => c.other);
 
+  // the actual pieces this concept appears in, most-used first — makes each
+  // node a way into the writing rather than a dead dot
+  const used = docs
+    .map((d, j) => ({ d, n: tf[j].get(t) ?? 0 }))
+    .filter((c) => c.n > 0 && c.d.kind === 'writing')
+    .sort((a, b) => b.n - a.n)
+    .slice(0, 5)
+    .map((c) => ({ id: c.d.id, title: c.d.title }));
+
   return {
     term: t,
     docs: weights[i],
+    academic: !!academic.get(t),
+    used,
     cluster: clusters[i],
     x: +Math.min(Math.max(placed[i][0], 18), W - 18).toFixed(1),
     y: +Math.min(Math.max(placed[i][1], 18), H - 18).toFixed(1),
@@ -387,7 +450,8 @@ await writeFile(
     {
       generated: 'run `npm run map` after writing something new',
       method: 'tf-idf term vectors over documents, cosine distance, classical MDS, k-means(4)',
-      docs: docs.length,
+      docs: writingDocs.length,
+      academicDocs: docs.length - writingDocs.length,
       width: W,
       height: H,
       nodes,
