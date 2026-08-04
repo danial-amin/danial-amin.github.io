@@ -38,7 +38,7 @@ const client = nodes.map((n, i) => ({
 
 <figure class="cl" data-set>
   <div class="cl-stage" id="clStage">
-    <svg viewBox="-168 -104 336 260" id="clSvg" role="img"
+    <svg viewBox="-196 -122 392 300" id="clSvg" role="img"
       aria-label={`Rotating three-dimensional embedding of ${nodes.length} concepts from ${docs} essays and ${academicDocs} publications.`}>
       <g id="clPts"></g>
     </svg>
@@ -332,8 +332,13 @@ const client = nodes.map((n, i) => ({
       g.setAttribute('role', 'button');
       g.setAttribute('aria-label', `${n.t}, in ${n.d} essays`);
 
-      // invisible, generous, and first so it sits behind the visible marks
-      const hit = document.createElementNS(SVGNS, 'circle');
+      /**
+       * The target is a rect covering the dot AND the label, because the label is
+       * what people aim at. It was a small circle centred on the dot while the
+       * word ran off to the right outside it — so clicking a word hit nothing at
+       * all, which is exactly what it felt like.
+       */
+      const hit = document.createElementNS(SVGNS, 'rect');
       hit.setAttribute('class', 'cl-hit');
 
       const c = document.createElementNS(SVGNS, 'circle');
@@ -345,6 +350,31 @@ const client = nodes.map((n, i) => ({
       g.append(hit, c, t);
       group.append(g);
       return { g, c, t, hit };
+    });
+
+    /**
+     * Label widths, measured once at a reference size. getComputedTextLength is
+     * a layout read, so it happens here rather than per frame, and the per-frame
+     * width is just a proportional scale of it. Re-measured after the webfont
+     * lands, since Courier Prime replaces the fallback and the metrics change.
+     */
+    const REF = 10;
+    let widths = new Float64Array(nodes.length);
+
+    function measure() {
+      els.forEach((e, i) => {
+        e.t.setAttribute('font-size', String(REF));
+        try {
+          widths[i] = e.t.getComputedTextLength();
+        } catch {
+          widths[i] = nodes[i].t.length * REF * 0.6;
+        }
+      });
+    }
+    measure();
+    document.fonts?.ready.then(() => {
+      measure();
+      frame();
     });
 
     let yaw = 0.6;
@@ -359,7 +389,7 @@ const client = nodes.map((n, i) => ({
      */
     let pinned = -1;
 
-    const SCALE = 118;
+    const SCALE = 142;
     const DEPTH = 2.6; // perspective divisor
 
     function frame() {
@@ -388,8 +418,6 @@ const client = nodes.map((n, i) => ({
         e.g.setAttribute('transform', `translate(${o.x.toFixed(2)} ${o.y.toFixed(2)})`);
         const r = n.r * 0.46 * o.k;
         e.c.setAttribute('r', r.toFixed(2));
-        // the hit area covers the word as well as the dot
-        e.hit.setAttribute('r', Math.max(4.5, r * 2.4).toFixed(2));
         e.c.setAttribute('fill-opacity', (0.62 + o.k * 0.38).toFixed(2));
         /**
          * Every word is drawn. With 140 of them the crowd is managed by depth
@@ -400,9 +428,17 @@ const client = nodes.map((n, i) => ({
         const front = (o.k - 0.72) / 0.5; // roughly 0 at the back, 1 at the front
         const fade = Math.max(0.16, Math.min(1, front));
         const lit = n.big || o.i === picked;
+        const fs = (n.big ? 6.4 : 5) * o.k;
         e.t.setAttribute('x', (r + 2).toFixed(2));
-        e.t.setAttribute('y', '1.6');
-        e.t.setAttribute('font-size', ((n.big ? 5 : 3.8) * o.k).toFixed(2));
+        e.t.setAttribute('y', (fs * 0.34).toFixed(2));
+        e.t.setAttribute('font-size', fs.toFixed(2));
+
+        // the target: from just left of the dot to just past the end of the word
+        const textW = widths[o.i] * (fs / REF);
+        e.hit.setAttribute('x', (-r - 3).toFixed(2));
+        e.hit.setAttribute('y', (-fs * 0.85).toFixed(2));
+        e.hit.setAttribute('width', (r * 2 + 6 + textW + 3).toFixed(2));
+        e.hit.setAttribute('height', (fs * 1.75).toFixed(2));
         e.t.setAttribute('opacity', (lit ? Math.max(0.55, fade) : fade * 0.82).toFixed(2));
         // reorder for depth
         group.append(e.g);
