@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { getWriting, fullVersionOf, type Post } from '../../lib/writing';
+import { ACADEMIC_IS_LOCAL } from '../../lib/origins';
 import site from '../../data/site.json';
 
 export async function getStaticPaths() {
@@ -83,6 +84,7 @@ const here = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
             This is the short version — {here.toLocaleString('en-GB')} words. The full essay is{' '}
             {full.words.toLocaleString('en-GB')} words with its full structure, on the academic
             site: <a href={full.url} rel="noopener" target="_blank">read it there ↗</a>
+            {ACADEMIC_IS_LOCAL && <span class="local-note"> local: {full.url}</span>}
           </p>
         </aside>
       )

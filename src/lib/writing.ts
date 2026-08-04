@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import fullVersions from '../data/full-versions.json';
+import { academicEssay } from './origins';
 
 export type Post = CollectionEntry<'writing'>;
 
@@ -32,7 +33,9 @@ const words = (p: Post) => (p.body ?? '').trim().split(/\s+/).filter(Boolean).le
 const fullBySlug = new Map(
   (fullVersions as { slug: string; full: string; words: number }[]).map((f) => [
     f.slug.toLowerCase(),
-    { url: f.full, words: f.words },
+    // the URL is composed from the current environment's origin, not the
+    // absolute one baked into the generated file, so local runs stay local
+    { url: academicEssay(f.slug), words: f.words, slug: f.slug.toLowerCase() },
   ]),
 );
 

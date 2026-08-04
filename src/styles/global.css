@@ -1593,3 +1593,14 @@ kbd {
     font-size: 0.66rem;
   }
 }
+
+/* dev-only marker: the academic link is pointing at a local server, not the
+   real domain. Never appears in a production build. */
+.local-note {
+  display: block;
+  margin-top: 0.3rem;
+  font-family: var(--type);
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
