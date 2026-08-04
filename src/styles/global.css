@@ -82,7 +82,11 @@
   --t-5: clamp(3.4rem, 13vw, 10rem);
 
   --gutter: clamp(1rem, 4vw, 2.5rem);
-  --shell: 74rem;
+  /* The shell was 74rem while prose sat at 38rem — text filled 54% and 544px
+     stood empty to the right, which reads as broken rather than as margin. The
+     shell is a reading column now; blocks that need the room take .wide. */
+  --shell: 48rem;
+  --wide: 78rem;
   --dot: 7px; /* halftone screen pitch */
 
   /* paper doesn't ease like software. two curves only: a snap for things
@@ -247,6 +251,17 @@ body {
   opacity: 0.22;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23m)'/%3E%3C/svg%3E");
+}
+
+/**
+ * Break out of the reading column, symmetrically. Negative margins when the
+ * requested width exceeds the shell, so the element widens without shifting its
+ * centre and nothing overlaps in flow.
+ */
+.wide {
+  --w: min(100vw - 2 * var(--gutter), var(--wide));
+  width: var(--w);
+  margin-inline: calc((100% - var(--w)) / 2);
 }
 
 /* ---------- masthead ---------- */
@@ -874,7 +889,7 @@ main {
 /* ---------- prose ---------- */
 
 .prose {
-  max-width: 38rem;
+  max-width: 42rem;
   padding-block: clamp(2rem, 5vw, 3.5rem) 3rem;
   position: relative;
   z-index: 2;
