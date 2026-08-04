@@ -17,6 +17,7 @@ type Project = {
   approach?: string;
   result?: string;
   stack?: string[];
+  links?: { label: string; href: string }[];
 };
 
 const projects = projectsData as Project[];
@@ -94,6 +95,16 @@ const hasNarrative = Boolean(
           <div class="slab" data-set>
             <p class="field-key">Result</p>
             <p class="field-built">{project.result}</p>
+          </div>
+        )}
+        {project.links && project.links.length > 0 && (
+          <div class="slab" data-set>
+            <p class="field-key">Read more</p>
+            <p class="card-foot">
+              {project.links.map((l) => (
+                <a class="jump" href={l.href} rel="noopener" target="_blank">{l.label} ↗</a>
+              ))}
+            </p>
           </div>
         )}
         {project.stack && project.stack.length > 0 && (

@@ -41,6 +41,21 @@
       "agents",
       "fairness"
     ],
-    "featured": true
+    "featured": true,
+    "role": "Sole author",
+    "context": "Written up as a sole-authored preprint — \"Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making\", arXiv 2601.01522.",
+    "problem": "Screening at volume forces a choice nobody wants to make explicit: give every candidate the same expensive model pass, or give them all the same cheap one. The first does not scale and the second is where unfair outcomes hide.",
+    "approach": "Treat model choice as a sequential decision under uncertainty rather than a fixed pipeline: orchestrate several LLMs and spend more capable, more costly evaluation only where the decision is genuinely uncertain.",
+    "stack": [
+      "Multi-LLM orchestration",
+      "Bayesian decision theory",
+      "Python"
+    ],
+    "links": [
+      {
+        "label": "Read the preprint",
+        "href": "https://arxiv.org/abs/2601.01522"
+      }
+    ]
   }
 ]
