@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
-import { getWriting, type Post } from '../../lib/writing';
+import { getWriting, fullVersionOf, type Post } from '../../lib/writing';
 import site from '../../data/site.json';
 
 export async function getStaticPaths() {
@@ -31,11 +31,17 @@ function fmt(d: Date) {
 
 // Point search engines at the fuller version of a duplicated topic.
 const canonicalPath = `/writing/${canonical.id}`;
+
+// If the long version lives on the academic site, that is the canonical home of
+// this piece and this page is explicitly the extract.
+const full = fullVersionOf(post);
+const here = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
 ---
 
 <Base
   title={post.data.title}
   description={post.data.excerpt}
+  canonicalUrl={full?.url}
   canonicalPath={isCanonical ? undefined : canonicalPath}
 >
   <article class:list={['prose', isNewsletter && 'prose-mirror']}>
@@ -69,7 +75,33 @@ const canonicalPath = `/writing/${canonical.id}`;
       )
     }
 
+    {
+      full && (
+        <aside class="crosslink crosslink-notice">
+          <p class="field-key">Extract</p>
+          <p>
+            This is the short version — {here.toLocaleString('en-GB')} words. The full essay is{' '}
+            {full.words.toLocaleString('en-GB')} words with its full structure, on the academic
+            site: <a href={full.url} rel="noopener" target="_blank">read it there ↗</a>
+          </p>
+        </aside>
+      )
+    }
+
     <Content />
+
+    {
+      full && (
+        <aside class="crosslink">
+          <p class="field-key">Continue</p>
+          <p>
+            That was the extract. The complete essay —{' '}
+            {full.words.toLocaleString('en-GB')} words — is at{' '}
+            <a href={full.url} rel="noopener" target="_blank">academic.danialamin.com ↗</a>
+          </p>
+        </aside>
+      )
+    }
 
     {
       /* The canonical page points across to the other form(s). */
