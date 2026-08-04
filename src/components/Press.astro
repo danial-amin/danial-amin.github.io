@@ -205,32 +205,10 @@
     }
   }
 
-  /* ---- mechanic 3: loupe (halftone plates only) ---- */
-
-  function armLoupes() {
-    document.querySelectorAll('[data-loupe]').forEach((plate) => {
-      if (plate.dataset.loupeReady) return;
-      plate.dataset.loupeReady = '1';
-
-      const lens = document.createElement('div');
-      lens.className = 'loupe';
-      lens.setAttribute('aria-hidden', 'true');
-      const inner = document.createElement('div');
-      inner.className = 'loupe-inner';
-      lens.append(inner);
-      plate.append(lens);
-
-      if (reduced.matches || !finePointer.matches) return;
-
-      plate.addEventListener('pointermove', (e) => {
-        const r = plate.getBoundingClientRect();
-        lens.style.setProperty('--lx', `${e.clientX - r.left}px`);
-        lens.style.setProperty('--ly', `${e.clientY - r.top}px`);
-        lens.classList.add('is-on');
-      });
-      plate.addEventListener('pointerleave', () => lens.classList.remove('is-on'));
-    });
-  }
+  /* ---- mechanic 3: loupe ----
+     Lives in WritingPlate now. The plate's dots are real data, so its loupe
+     magnifies the actual vectors and names the piece under the cursor; a
+     generic CSS dot-screen lens here would have nothing true to show. */
 
   /* ---- mechanic 4: ink soaking into the paper ---- */
 
@@ -260,8 +238,8 @@
     const r = 26 + Math.abs(Math.sin(now / 900)) * 12;
     const g = ctx.createRadialGradient(x, y, 0, x, y, r);
     const dark = root.getAttribute('data-stock') === 'black';
-    g.addColorStop(0, dark ? 'rgba(255,75,139,0.05)' : 'rgba(255,75,139,0.055)');
-    g.addColorStop(1, 'rgba(255,75,139,0)');
+    g.addColorStop(0, dark ? 'rgba(192,125,159,0.05)' : 'rgba(145,78,114,0.05)');
+    g.addColorStop(1, 'rgba(145,78,114,0)');
     ctx.fillStyle = g;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
@@ -300,7 +278,6 @@
 
   function start() {
     armReveals();
-    armLoupes();
     sizeCanvas();
     measureLifts();
     buildMagnets();
@@ -349,7 +326,6 @@
 
   document.addEventListener('astro:after-swap', () => {
     armReveals();
-    armLoupes();
     measureLifts();
     buildMagnets();
     scrolled = true;

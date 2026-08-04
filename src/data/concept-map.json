@@ -1,0 +1,2421 @@
+{
+  "generated": "run `npm run map` after writing something new",
+  "method": "tf-idf term vectors over documents, cosine distance, classical MDS, k-means(4)",
+  "docs": 50,
+  "width": 1000,
+  "height": 620,
+  "nodes": [
+    {
+      "term": "model",
+      "docs": 23,
+      "cluster": 0,
+      "x": 768,
+      "y": 225.6,
+      "r": 12,
+      "neighbours": [
+        "tool",
+        "machine",
+        "technical"
+      ]
+    },
+    {
+      "term": "data",
+      "docs": 20,
+      "cluster": 1,
+      "x": 584.5,
+      "y": 367,
+      "r": 10.8,
+      "neighbours": [
+        "training",
+        "fundamentally",
+        "patterns"
+      ]
+    },
+    {
+      "term": "genai",
+      "docs": 5,
+      "cluster": 0,
+      "x": 928.4,
+      "y": 141.9,
+      "r": 5,
+      "neighbours": [
+        "technology",
+        "gap",
+        "social"
+      ]
+    },
+    {
+      "term": "agents",
+      "docs": 8,
+      "cluster": 1,
+      "x": 658.2,
+      "y": 425.9,
+      "r": 6.1,
+      "neighbours": [
+        "architectural",
+        "agentic",
+        "customer"
+      ]
+    },
+    {
+      "term": "llm",
+      "docs": 21,
+      "cluster": 3,
+      "x": 611.2,
+      "y": 403.4,
+      "r": 11.2,
+      "neighbours": [
+        "prompt",
+        "thinking",
+        "training"
+      ]
+    },
+    {
+      "term": "personality",
+      "docs": 4,
+      "cluster": 0,
+      "x": 39.7,
+      "y": 254,
+      "r": 4.6,
+      "neighbours": [
+        "personalities",
+        "cognitive",
+        "interaction"
+      ]
+    },
+    {
+      "term": "design",
+      "docs": 9,
+      "cluster": 0,
+      "x": 444.6,
+      "y": 113,
+      "r": 6.5,
+      "neighbours": [
+        "consistent",
+        "outcomes",
+        "consistency"
+      ]
+    },
+    {
+      "term": "patterns",
+      "docs": 17,
+      "cluster": 0,
+      "x": 301.9,
+      "y": 288.5,
+      "r": 9.7,
+      "neighbours": [
+        "learn",
+        "based",
+        "interaction"
+      ]
+    },
+    {
+      "term": "projects",
+      "docs": 8,
+      "cluster": 0,
+      "x": 892,
+      "y": 126.9,
+      "r": 6.1,
+      "neighbours": [
+        "failure",
+        "teams",
+        "success"
+      ]
+    },
+    {
+      "term": "safety",
+      "docs": 9,
+      "cluster": 2,
+      "x": 736.6,
+      "y": 420.7,
+      "r": 6.5,
+      "neighbours": [
+        "anthropic",
+        "companies",
+        "company"
+      ]
+    },
+    {
+      "term": "thinking",
+      "docs": 11,
+      "cluster": 3,
+      "x": 708.5,
+      "y": 300.3,
+      "r": 7.3,
+      "neighbours": [
+        "vague",
+        "prompt",
+        "llm"
+      ]
+    },
+    {
+      "term": "research",
+      "docs": 19,
+      "cluster": 2,
+      "x": 615.3,
+      "y": 474.1,
+      "r": 10.4,
+      "neighbours": [
+        "analysis",
+        "industry",
+        "fundamentally"
+      ]
+    },
+    {
+      "term": "system",
+      "docs": 16,
+      "cluster": 0,
+      "x": 883.7,
+      "y": 185.2,
+      "r": 9.3,
+      "neighbours": [
+        "measure",
+        "scale",
+        "projects"
+      ]
+    },
+    {
+      "term": "specialized",
+      "docs": 6,
+      "cluster": 1,
+      "x": 746.6,
+      "y": 543.9,
+      "r": 5.3,
+      "neighbours": [
+        "domains",
+        "specific",
+        "generative"
+      ]
+    },
+    {
+      "term": "technology",
+      "docs": 7,
+      "cluster": 0,
+      "x": 917.3,
+      "y": 110,
+      "r": 5.7,
+      "neighbours": [
+        "genai",
+        "access",
+        "teams"
+      ]
+    },
+    {
+      "term": "training",
+      "docs": 17,
+      "cluster": 1,
+      "x": 658.7,
+      "y": 531,
+      "r": 9.7,
+      "neighbours": [
+        "data",
+        "content",
+        "large"
+      ]
+    },
+    {
+      "term": "cognitive",
+      "docs": 7,
+      "cluster": 3,
+      "x": 99.7,
+      "y": 254.8,
+      "r": 5.7,
+      "neighbours": [
+        "personality",
+        "behavior",
+        "interacting"
+      ]
+    },
+    {
+      "term": "knowledge",
+      "docs": 8,
+      "cluster": 1,
+      "x": 621.8,
+      "y": 534.2,
+      "r": 6.1,
+      "neighbours": [
+        "information",
+        "large",
+        "comprehensive"
+      ]
+    },
+    {
+      "term": "language",
+      "docs": 17,
+      "cluster": 1,
+      "x": 580.1,
+      "y": 497.6,
+      "r": 9.7,
+      "neighbours": [
+        "large",
+        "fundamentally",
+        "implications"
+      ]
+    },
+    {
+      "term": "information",
+      "docs": 13,
+      "cluster": 1,
+      "x": 692,
+      "y": 432.8,
+      "r": 8.1,
+      "neighbours": [
+        "knowledge",
+        "comprehensive",
+        "context"
+      ]
+    },
+    {
+      "term": "understand",
+      "docs": 16,
+      "cluster": 0,
+      "x": 436.8,
+      "y": 161.3,
+      "r": 9.3,
+      "neighbours": [
+        "interacting",
+        "learn",
+        "generate"
+      ]
+    },
+    {
+      "term": "neutral",
+      "docs": 4,
+      "cluster": 1,
+      "x": 154.8,
+      "y": 283.3,
+      "r": 4.6,
+      "neighbours": [
+        "personalities",
+        "interacting",
+        "personality"
+      ]
+    },
+    {
+      "term": "prompt",
+      "docs": 10,
+      "cluster": 3,
+      "x": 740,
+      "y": 360.8,
+      "r": 6.9,
+      "neighbours": [
+        "engineering",
+        "llm",
+        "difference"
+      ]
+    },
+    {
+      "term": "code",
+      "docs": 12,
+      "cluster": 3,
+      "x": 668.4,
+      "y": 293.5,
+      "r": 7.7,
+      "neighbours": [
+        "chatgpt",
+        "failure",
+        "projects"
+      ]
+    },
+    {
+      "term": "content",
+      "docs": 7,
+      "cluster": 1,
+      "x": 710,
+      "y": 404.7,
+      "r": 5.7,
+      "neighbours": [
+        "training",
+        "bias",
+        "outputs"
+      ]
+    },
+    {
+      "term": "evaluation",
+      "docs": 7,
+      "cluster": 0,
+      "x": 888.9,
+      "y": 219.8,
+      "r": 5.7,
+      "neighbours": [
+        "measure",
+        "infrastructure",
+        "test"
+      ]
+    },
+    {
+      "term": "production",
+      "docs": 11,
+      "cluster": 2,
+      "x": 800.3,
+      "y": 425.2,
+      "r": 7.3,
+      "neighbours": [
+        "test",
+        "deployment",
+        "projects"
+      ]
+    },
+    {
+      "term": "interaction",
+      "docs": 11,
+      "cluster": 0,
+      "x": 170.5,
+      "y": 317.1,
+      "r": 7.3,
+      "neighbours": [
+        "personality",
+        "behavior",
+        "cognitive"
+      ]
+    },
+    {
+      "term": "outputs",
+      "docs": 11,
+      "cluster": 0,
+      "x": 848.4,
+      "y": 173.2,
+      "r": 7.3,
+      "neighbours": [
+        "evaluate",
+        "tool",
+        "change"
+      ]
+    },
+    {
+      "term": "bias",
+      "docs": 6,
+      "cluster": 1,
+      "x": 623,
+      "y": 438.7,
+      "r": 5.3,
+      "neighbours": [
+        "responses",
+        "profound",
+        "content"
+      ]
+    },
+    {
+      "term": "behavior",
+      "docs": 9,
+      "cluster": 0,
+      "x": 213.3,
+      "y": 201.8,
+      "r": 6.5,
+      "neighbours": [
+        "interacting",
+        "cognitive",
+        "interaction"
+      ]
+    },
+    {
+      "term": "tool",
+      "docs": 9,
+      "cluster": 0,
+      "x": 633.2,
+      "y": 40,
+      "r": 6.5,
+      "neighbours": [
+        "difference",
+        "outputs",
+        "outcomes"
+      ]
+    },
+    {
+      "term": "current",
+      "docs": 12,
+      "cluster": 2,
+      "x": 842.6,
+      "y": 455.9,
+      "r": 7.7,
+      "neighbours": [
+        "applications",
+        "framework",
+        "generative"
+      ]
+    },
+    {
+      "term": "capability",
+      "docs": 8,
+      "cluster": 0,
+      "x": 872.8,
+      "y": 151.3,
+      "r": 6.1,
+      "neighbours": [
+        "infrastructure",
+        "measure",
+        "failure"
+      ]
+    },
+    {
+      "term": "industry",
+      "docs": 14,
+      "cluster": 2,
+      "x": 773.9,
+      "y": 524.9,
+      "r": 8.5,
+      "neighbours": [
+        "companies",
+        "market",
+        "research"
+      ]
+    },
+    {
+      "term": "analysis",
+      "docs": 13,
+      "cluster": 3,
+      "x": 524,
+      "y": 463,
+      "r": 8.1,
+      "neighbours": [
+        "engineering",
+        "research",
+        "specific"
+      ]
+    },
+    {
+      "term": "approach",
+      "docs": 13,
+      "cluster": 2,
+      "x": 792.3,
+      "y": 490.9,
+      "r": 8.1,
+      "neighbours": [
+        "challenges",
+        "shift",
+        "teams"
+      ]
+    },
+    {
+      "term": "deployment",
+      "docs": 9,
+      "cluster": 2,
+      "x": 803.6,
+      "y": 458.4,
+      "r": 6.5,
+      "neighbours": [
+        "model",
+        "production",
+        "architecture"
+      ]
+    },
+    {
+      "term": "teams",
+      "docs": 9,
+      "cluster": 0,
+      "x": 919.4,
+      "y": 225.6,
+      "r": 6.5,
+      "neighbours": [
+        "projects",
+        "technology",
+        "shift"
+      ]
+    },
+    {
+      "term": "context",
+      "docs": 11,
+      "cluster": 1,
+      "x": 640.7,
+      "y": 373.4,
+      "r": 7.3,
+      "neighbours": [
+        "information",
+        "enterprise",
+        "limitations"
+      ]
+    },
+    {
+      "term": "framework",
+      "docs": 7,
+      "cluster": 0,
+      "x": 865.2,
+      "y": 278.2,
+      "r": 5.7,
+      "neighbours": [
+        "domains",
+        "practical",
+        "current"
+      ]
+    },
+    {
+      "term": "challenges",
+      "docs": 10,
+      "cluster": 2,
+      "x": 599.2,
+      "y": 557.1,
+      "r": 6.9,
+      "neighbours": [
+        "approach",
+        "large",
+        "implications"
+      ]
+    },
+    {
+      "term": "large",
+      "docs": 12,
+      "cluster": 1,
+      "x": 494.7,
+      "y": 580,
+      "r": 7.7,
+      "neighbours": [
+        "language",
+        "implications",
+        "profound"
+      ]
+    },
+    {
+      "term": "failure",
+      "docs": 12,
+      "cluster": 0,
+      "x": 825,
+      "y": 115.2,
+      "r": 7.7,
+      "neighbours": [
+        "projects",
+        "scale",
+        "evaluation"
+      ]
+    },
+    {
+      "term": "social",
+      "docs": 6,
+      "cluster": 0,
+      "x": 679.5,
+      "y": 180.9,
+      "r": 5.3,
+      "neighbours": [
+        "design",
+        "scale",
+        "technology"
+      ]
+    },
+    {
+      "term": "capabilities",
+      "docs": 9,
+      "cluster": 1,
+      "x": 681.8,
+      "y": 465.7,
+      "r": 6.5,
+      "neighbours": [
+        "limitations",
+        "complex",
+        "tasks"
+      ]
+    },
+    {
+      "term": "test",
+      "docs": 9,
+      "cluster": 0,
+      "x": 695.3,
+      "y": 269.7,
+      "r": 6.5,
+      "neighbours": [
+        "infrastructure",
+        "evaluation",
+        "measure"
+      ]
+    },
+    {
+      "term": "specific",
+      "docs": 14,
+      "cluster": 1,
+      "x": 527.9,
+      "y": 415.5,
+      "r": 8.5,
+      "neighbours": [
+        "specialized",
+        "engineering",
+        "domains"
+      ]
+    },
+    {
+      "term": "tasks",
+      "docs": 14,
+      "cluster": 3,
+      "x": 585.9,
+      "y": 441.6,
+      "r": 8.5,
+      "neighbours": [
+        "reasoning",
+        "complex",
+        "specific"
+      ]
+    },
+    {
+      "term": "reasoning",
+      "docs": 11,
+      "cluster": 3,
+      "x": 540.3,
+      "y": 271.9,
+      "r": 7.3,
+      "neighbours": [
+        "understand",
+        "tasks",
+        "back"
+      ]
+    },
+    {
+      "term": "consistent",
+      "docs": 11,
+      "cluster": 0,
+      "x": 233.5,
+      "y": 175.4,
+      "r": 7.3,
+      "neighbours": [
+        "personality",
+        "design",
+        "personalities"
+      ]
+    },
+    {
+      "term": "scaling",
+      "docs": 5,
+      "cluster": 2,
+      "x": 746.4,
+      "y": 507.2,
+      "r": 5,
+      "neighbours": [
+        "architecture",
+        "context",
+        "architectural"
+      ]
+    },
+    {
+      "term": "access",
+      "docs": 5,
+      "cluster": 0,
+      "x": 926.6,
+      "y": 170.4,
+      "r": 5,
+      "neighbours": [
+        "technology",
+        "public",
+        "change"
+      ]
+    },
+    {
+      "term": "limitations",
+      "docs": 8,
+      "cluster": 1,
+      "x": 496.7,
+      "y": 401,
+      "r": 6.1,
+      "neighbours": [
+        "capabilities",
+        "interacting",
+        "understand"
+      ]
+    },
+    {
+      "term": "generative",
+      "docs": 8,
+      "cluster": 2,
+      "x": 808.2,
+      "y": 521.4,
+      "r": 6.1,
+      "neighbours": [
+        "domains",
+        "applications",
+        "specialized"
+      ]
+    },
+    {
+      "term": "intelligence",
+      "docs": 10,
+      "cluster": 1,
+      "x": 558.9,
+      "y": 464.7,
+      "r": 6.9,
+      "neighbours": [
+        "system",
+        "fundamentally",
+        "knowledge"
+      ]
+    },
+    {
+      "term": "decisions",
+      "docs": 10,
+      "cluster": 0,
+      "x": 771.9,
+      "y": 179.8,
+      "r": 6.9,
+      "neighbours": [
+        "system",
+        "tool",
+        "change"
+      ]
+    },
+    {
+      "term": "architecture",
+      "docs": 10,
+      "cluster": 2,
+      "x": 484.4,
+      "y": 472.3,
+      "r": 6.9,
+      "neighbours": [
+        "scaling",
+        "performance",
+        "deployment"
+      ]
+    },
+    {
+      "term": "outcomes",
+      "docs": 7,
+      "cluster": 0,
+      "x": 465.8,
+      "y": 62.2,
+      "r": 5.7,
+      "neighbours": [
+        "difference",
+        "interacting",
+        "requires"
+      ]
+    },
+    {
+      "term": "development",
+      "docs": 12,
+      "cluster": 2,
+      "x": 524.1,
+      "y": 519.9,
+      "r": 7.7,
+      "neighbours": [
+        "behavior",
+        "critical",
+        "challenges"
+      ]
+    },
+    {
+      "term": "creates",
+      "docs": 14,
+      "cluster": 2,
+      "x": 775.5,
+      "y": 362.7,
+      "r": 8.5,
+      "neighbours": [
+        "projects",
+        "system",
+        "current"
+      ]
+    },
+    {
+      "term": "practical",
+      "docs": 9,
+      "cluster": 0,
+      "x": 798.7,
+      "y": 320.9,
+      "r": 6.5,
+      "neighbours": [
+        "framework",
+        "documents",
+        "technology"
+      ]
+    },
+    {
+      "term": "anthropic",
+      "docs": 6,
+      "cluster": 2,
+      "x": 810.4,
+      "y": 349.1,
+      "r": 5.3,
+      "neighbours": [
+        "public",
+        "safety",
+        "company"
+      ]
+    },
+    {
+      "term": "business",
+      "docs": 8,
+      "cluster": 1,
+      "x": 769,
+      "y": 452.4,
+      "r": 6.1,
+      "neighbours": [
+        "enterprise",
+        "customer",
+        "agents"
+      ]
+    },
+    {
+      "term": "fundamentally",
+      "docs": 15,
+      "cluster": 1,
+      "x": 545.2,
+      "y": 381.2,
+      "r": 8.9,
+      "neighbours": [
+        "language",
+        "data",
+        "model"
+      ]
+    },
+    {
+      "term": "complex",
+      "docs": 15,
+      "cluster": 3,
+      "x": 713.1,
+      "y": 336.7,
+      "r": 8.9,
+      "neighbours": [
+        "technology",
+        "gap",
+        "capabilities"
+      ]
+    },
+    {
+      "term": "scale",
+      "docs": 10,
+      "cluster": 0,
+      "x": 960,
+      "y": 127.8,
+      "r": 6.9,
+      "neighbours": [
+        "success",
+        "infrastructure",
+        "failure"
+      ]
+    },
+    {
+      "term": "technical",
+      "docs": 13,
+      "cluster": 3,
+      "x": 814.1,
+      "y": 259.9,
+      "r": 8.1,
+      "neighbours": [
+        "model",
+        "outputs",
+        "tool"
+      ]
+    },
+    {
+      "term": "without",
+      "docs": 13,
+      "cluster": 0,
+      "x": 663.3,
+      "y": 257,
+      "r": 8.1,
+      "neighbours": [
+        "evaluation",
+        "quality",
+        "efficiency"
+      ]
+    },
+    {
+      "term": "actual",
+      "docs": 13,
+      "cluster": 0,
+      "x": 709.6,
+      "y": 193.8,
+      "r": 8.1,
+      "neighbours": [
+        "design",
+        "outcomes",
+        "understand"
+      ]
+    },
+    {
+      "term": "customer",
+      "docs": 6,
+      "cluster": 1,
+      "x": 819.1,
+      "y": 399.8,
+      "r": 5.3,
+      "neighbours": [
+        "agents",
+        "business",
+        "production"
+      ]
+    },
+    {
+      "term": "domains",
+      "docs": 8,
+      "cluster": 1,
+      "x": 838.1,
+      "y": 422.9,
+      "r": 6.1,
+      "neighbours": [
+        "specialized",
+        "specific",
+        "framework"
+      ]
+    },
+    {
+      "term": "process",
+      "docs": 10,
+      "cluster": 0,
+      "x": 727.7,
+      "y": 230.5,
+      "r": 6.9,
+      "neighbours": [
+        "outputs",
+        "evaluate",
+        "understand"
+      ]
+    },
+    {
+      "term": "generate",
+      "docs": 12,
+      "cluster": 1,
+      "x": 469.2,
+      "y": 320.3,
+      "r": 7.7,
+      "neighbours": [
+        "training",
+        "understand",
+        "outcomes"
+      ]
+    },
+    {
+      "term": "agentic",
+      "docs": 5,
+      "cluster": 0,
+      "x": 764.3,
+      "y": 305,
+      "r": 5,
+      "neighbours": [
+        "traditional",
+        "agents",
+        "assumption"
+      ]
+    },
+    {
+      "term": "gap",
+      "docs": 7,
+      "cluster": 0,
+      "x": 834.3,
+      "y": 231.9,
+      "r": 5.7,
+      "neighbours": [
+        "complex",
+        "technology",
+        "genai"
+      ]
+    },
+    {
+      "term": "companies",
+      "docs": 7,
+      "cluster": 2,
+      "x": 760.3,
+      "y": 482,
+      "r": 5.7,
+      "neighbours": [
+        "market",
+        "safety",
+        "industry"
+      ]
+    },
+    {
+      "term": "company",
+      "docs": 7,
+      "cluster": 2,
+      "x": 834.2,
+      "y": 366.3,
+      "r": 5.7,
+      "neighbours": [
+        "anthropic",
+        "safety",
+        "public"
+      ]
+    },
+    {
+      "term": "success",
+      "docs": 7,
+      "cluster": 0,
+      "x": 901.2,
+      "y": 84.8,
+      "r": 5.7,
+      "neighbours": [
+        "scale",
+        "evaluate",
+        "evaluation"
+      ]
+    },
+    {
+      "term": "chatgpt",
+      "docs": 9,
+      "cluster": 3,
+      "x": 572.7,
+      "y": 279.5,
+      "r": 6.5,
+      "neighbours": [
+        "claude",
+        "technical",
+        "reasoning"
+      ]
+    },
+    {
+      "term": "engineering",
+      "docs": 11,
+      "cluster": 3,
+      "x": 564.8,
+      "y": 412.2,
+      "r": 7.3,
+      "neighbours": [
+        "prompt",
+        "analysis",
+        "specific"
+      ]
+    },
+    {
+      "term": "critical",
+      "docs": 11,
+      "cluster": 2,
+      "x": 691.3,
+      "y": 511.9,
+      "r": 7.3,
+      "neighbours": [
+        "development",
+        "challenges",
+        "creates"
+      ]
+    },
+    {
+      "term": "enterprise",
+      "docs": 6,
+      "cluster": 1,
+      "x": 708,
+      "y": 481.3,
+      "r": 5.3,
+      "neighbours": [
+        "business",
+        "context",
+        "customer"
+      ]
+    },
+    {
+      "term": "back",
+      "docs": 8,
+      "cluster": 3,
+      "x": 748.5,
+      "y": 266.4,
+      "r": 6.1,
+      "neighbours": [
+        "vague",
+        "machine",
+        "reasoning"
+      ]
+    },
+    {
+      "term": "quality",
+      "docs": 10,
+      "cluster": 0,
+      "x": 707.7,
+      "y": 373.2,
+      "r": 6.9,
+      "neighbours": [
+        "performance",
+        "efficiency",
+        "evaluate"
+      ]
+    },
+    {
+      "term": "documents",
+      "docs": 5,
+      "cluster": 0,
+      "x": 805.7,
+      "y": 228.5,
+      "r": 5,
+      "neighbours": [
+        "assumption",
+        "success",
+        "practical"
+      ]
+    },
+    {
+      "term": "evaluate",
+      "docs": 5,
+      "cluster": 0,
+      "x": 845.1,
+      "y": 141.6,
+      "r": 5,
+      "neighbours": [
+        "outputs",
+        "toward",
+        "shift"
+      ]
+    },
+    {
+      "term": "traditional",
+      "docs": 5,
+      "cluster": 0,
+      "x": 680.1,
+      "y": 341.3,
+      "r": 5,
+      "neighbours": [
+        "agentic",
+        "architectural",
+        "creates"
+      ]
+    },
+    {
+      "term": "personalities",
+      "docs": 4,
+      "cluster": 0,
+      "x": 62.8,
+      "y": 241,
+      "r": 4.6,
+      "neighbours": [
+        "personality",
+        "consistent",
+        "neutral"
+      ]
+    },
+    {
+      "term": "performance",
+      "docs": 12,
+      "cluster": 3,
+      "x": 509.5,
+      "y": 370.3,
+      "r": 7.7,
+      "neighbours": [
+        "quality",
+        "model",
+        "architecture"
+      ]
+    },
+    {
+      "term": "infrastructure",
+      "docs": 6,
+      "cluster": 0,
+      "x": 902.8,
+      "y": 155.1,
+      "r": 5.3,
+      "neighbours": [
+        "measure",
+        "evaluation",
+        "test"
+      ]
+    },
+    {
+      "term": "change",
+      "docs": 6,
+      "cluster": 0,
+      "x": 849.7,
+      "y": 94.7,
+      "r": 5.3,
+      "neighbours": [
+        "outputs",
+        "evaluate",
+        "shift"
+      ]
+    },
+    {
+      "term": "toward",
+      "docs": 9,
+      "cluster": 0,
+      "x": 780.1,
+      "y": 265.5,
+      "r": 6.5,
+      "neighbours": [
+        "evaluate",
+        "outputs",
+        "safety"
+      ]
+    },
+    {
+      "term": "vague",
+      "docs": 5,
+      "cluster": 3,
+      "x": 738.9,
+      "y": 294.1,
+      "r": 5,
+      "neighbours": [
+        "thinking",
+        "machine",
+        "prompt"
+      ]
+    },
+    {
+      "term": "claude",
+      "docs": 10,
+      "cluster": 3,
+      "x": 570.7,
+      "y": 312.2,
+      "r": 6.9,
+      "neighbours": [
+        "chatgpt",
+        "personalities",
+        "capability"
+      ]
+    },
+    {
+      "term": "learn",
+      "docs": 8,
+      "cluster": 0,
+      "x": 402.6,
+      "y": 119,
+      "r": 6.1,
+      "neighbours": [
+        "patterns",
+        "behavior",
+        "interacting"
+      ]
+    },
+    {
+      "term": "efficiency",
+      "docs": 4,
+      "cluster": 0,
+      "x": 543.6,
+      "y": 348.5,
+      "r": 4.6,
+      "neighbours": [
+        "quality",
+        "performance",
+        "shift"
+      ]
+    },
+    {
+      "term": "public",
+      "docs": 4,
+      "cluster": 2,
+      "x": 804.8,
+      "y": 376.1,
+      "r": 4.6,
+      "neighbours": [
+        "anthropic",
+        "access",
+        "safety"
+      ]
+    },
+    {
+      "term": "requires",
+      "docs": 6,
+      "cluster": 0,
+      "x": 369.4,
+      "y": 104.1,
+      "r": 5.3,
+      "neighbours": [
+        "interacting",
+        "outcomes",
+        "learn"
+      ]
+    },
+    {
+      "term": "architectural",
+      "docs": 9,
+      "cluster": 2,
+      "x": 654.9,
+      "y": 483.4,
+      "r": 6.5,
+      "neighbours": [
+        "agents",
+        "traditional",
+        "production"
+      ]
+    },
+    {
+      "term": "foundation",
+      "docs": 7,
+      "cluster": 2,
+      "x": 847.7,
+      "y": 393.2,
+      "r": 5.7,
+      "neighbours": [
+        "applications",
+        "architecture",
+        "domains"
+      ]
+    },
+    {
+      "term": "comprehensive",
+      "docs": 7,
+      "cluster": 1,
+      "x": 633.4,
+      "y": 506,
+      "r": 5.7,
+      "neighbours": [
+        "information",
+        "key",
+        "knowledge"
+      ]
+    },
+    {
+      "term": "implications",
+      "docs": 7,
+      "cluster": 1,
+      "x": 558.1,
+      "y": 525.5,
+      "r": 5.7,
+      "neighbours": [
+        "profound",
+        "large",
+        "language"
+      ]
+    },
+    {
+      "term": "based",
+      "docs": 7,
+      "cluster": 1,
+      "x": 183.4,
+      "y": 283.7,
+      "r": 5.7,
+      "neighbours": [
+        "interacting",
+        "behavior",
+        "patterns"
+      ]
+    },
+    {
+      "term": "control",
+      "docs": 7,
+      "cluster": 0,
+      "x": 206.9,
+      "y": 302.3,
+      "r": 5.7,
+      "neighbours": [
+        "consistency",
+        "personality",
+        "personalities"
+      ]
+    },
+    {
+      "term": "key",
+      "docs": 5,
+      "cluster": 1,
+      "x": 785.4,
+      "y": 395.2,
+      "r": 5,
+      "neighbours": [
+        "comprehensive",
+        "information",
+        "measure"
+      ]
+    },
+    {
+      "term": "assumption",
+      "docs": 5,
+      "cluster": 0,
+      "x": 671.6,
+      "y": 376.5,
+      "r": 5,
+      "neighbours": [
+        "documents",
+        "agentic",
+        "agents"
+      ]
+    },
+    {
+      "term": "measure",
+      "docs": 5,
+      "cluster": 0,
+      "x": 915.9,
+      "y": 195.9,
+      "r": 5,
+      "neighbours": [
+        "infrastructure",
+        "evaluation",
+        "system"
+      ]
+    },
+    {
+      "term": "ever",
+      "docs": 5,
+      "cluster": 3,
+      "x": 681.3,
+      "y": 402.4,
+      "r": 5,
+      "neighbours": [
+        "writing",
+        "code",
+        "chatgpt"
+      ]
+    },
+    {
+      "term": "shift",
+      "docs": 8,
+      "cluster": 0,
+      "x": 891,
+      "y": 254,
+      "r": 6.1,
+      "neighbours": [
+        "evaluate",
+        "change",
+        "outputs"
+      ]
+    },
+    {
+      "term": "difference",
+      "docs": 8,
+      "cluster": 0,
+      "x": 644.8,
+      "y": 92.7,
+      "r": 6.1,
+      "neighbours": [
+        "tool",
+        "outcomes",
+        "prompt"
+      ]
+    },
+    {
+      "term": "generation",
+      "docs": 8,
+      "cluster": 1,
+      "x": 768.2,
+      "y": 419,
+      "r": 6.1,
+      "neighbours": [
+        "training",
+        "language",
+        "large"
+      ]
+    },
+    {
+      "term": "profound",
+      "docs": 8,
+      "cluster": 1,
+      "x": 477.2,
+      "y": 440.9,
+      "r": 6.1,
+      "neighbours": [
+        "implications",
+        "large",
+        "bias"
+      ]
+    },
+    {
+      "term": "responses",
+      "docs": 8,
+      "cluster": 3,
+      "x": 544.3,
+      "y": 493.4,
+      "r": 6.1,
+      "neighbours": [
+        "writing",
+        "bias",
+        "profound"
+      ]
+    },
+    {
+      "term": "machine",
+      "docs": 6,
+      "cluster": 3,
+      "x": 826.9,
+      "y": 300,
+      "r": 5.3,
+      "neighbours": [
+        "vague",
+        "model",
+        "back"
+      ]
+    },
+    {
+      "term": "applications",
+      "docs": 6,
+      "cluster": 2,
+      "x": 824.8,
+      "y": 495.6,
+      "r": 5.3,
+      "neighbours": [
+        "current",
+        "foundation",
+        "generative"
+      ]
+    },
+    {
+      "term": "market",
+      "docs": 6,
+      "cluster": 2,
+      "x": 734,
+      "y": 468.9,
+      "r": 5.3,
+      "neighbours": [
+        "companies",
+        "industry",
+        "current"
+      ]
+    },
+    {
+      "term": "writing",
+      "docs": 6,
+      "cluster": 3,
+      "x": 647.5,
+      "y": 453.8,
+      "r": 5.3,
+      "neighbours": [
+        "responses",
+        "ever",
+        "analysis"
+      ]
+    },
+    {
+      "term": "consistency",
+      "docs": 6,
+      "cluster": 0,
+      "x": 146.4,
+      "y": 257,
+      "r": 5.3,
+      "neighbours": [
+        "consistent",
+        "control",
+        "personality"
+      ]
+    },
+    {
+      "term": "interacting",
+      "docs": 4,
+      "cluster": 0,
+      "x": 159.7,
+      "y": 131.3,
+      "r": 4.6,
+      "neighbours": [
+        "behavior",
+        "requires",
+        "cognitive"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "a": 0,
+      "b": 31,
+      "s": 0.581
+    },
+    {
+      "a": 0,
+      "b": 114,
+      "s": 0.579
+    },
+    {
+      "a": 1,
+      "b": 15,
+      "s": 0.657
+    },
+    {
+      "a": 1,
+      "b": 64,
+      "s": 0.551
+    },
+    {
+      "a": 2,
+      "b": 14,
+      "s": 0.797
+    },
+    {
+      "a": 2,
+      "b": 75,
+      "s": 0.526
+    },
+    {
+      "a": 3,
+      "b": 99,
+      "s": 0.697
+    },
+    {
+      "a": 3,
+      "b": 74,
+      "s": 0.584
+    },
+    {
+      "a": 4,
+      "b": 22,
+      "s": 0.606
+    },
+    {
+      "a": 4,
+      "b": 10,
+      "s": 0.546
+    },
+    {
+      "a": 5,
+      "b": 88,
+      "s": 0.936
+    },
+    {
+      "a": 5,
+      "b": 16,
+      "s": 0.747
+    },
+    {
+      "a": 6,
+      "b": 50,
+      "s": 0.71
+    },
+    {
+      "a": 6,
+      "b": 58,
+      "s": 0.615
+    },
+    {
+      "a": 7,
+      "b": 95,
+      "s": 0.68
+    },
+    {
+      "a": 7,
+      "b": 103,
+      "s": 0.59
+    },
+    {
+      "a": 8,
+      "b": 43,
+      "s": 0.706
+    },
+    {
+      "a": 8,
+      "b": 38,
+      "s": 0.589
+    },
+    {
+      "a": 9,
+      "b": 62,
+      "s": 0.726
+    },
+    {
+      "a": 9,
+      "b": 76,
+      "s": 0.635
+    },
+    {
+      "a": 10,
+      "b": 93,
+      "s": 0.702
+    },
+    {
+      "a": 10,
+      "b": 22,
+      "s": 0.552
+    },
+    {
+      "a": 11,
+      "b": 35,
+      "s": 0.518
+    },
+    {
+      "a": 11,
+      "b": 34,
+      "s": 0.516
+    },
+    {
+      "a": 12,
+      "b": 107,
+      "s": 0.629
+    },
+    {
+      "a": 12,
+      "b": 66,
+      "s": 0.577
+    },
+    {
+      "a": 13,
+      "b": 71,
+      "s": 0.882
+    },
+    {
+      "a": 13,
+      "b": 47,
+      "s": 0.559
+    },
+    {
+      "a": 14,
+      "b": 52,
+      "s": 0.635
+    },
+    {
+      "a": 15,
+      "b": 24,
+      "s": 0.605
+    },
+    {
+      "a": 16,
+      "b": 30,
+      "s": 0.72
+    },
+    {
+      "a": 17,
+      "b": 19,
+      "s": 0.565
+    },
+    {
+      "a": 17,
+      "b": 42,
+      "s": 0.509
+    },
+    {
+      "a": 18,
+      "b": 42,
+      "s": 0.803
+    },
+    {
+      "a": 18,
+      "b": 64,
+      "s": 0.614
+    },
+    {
+      "a": 19,
+      "b": 101,
+      "s": 0.548
+    },
+    {
+      "a": 20,
+      "b": 119,
+      "s": 0.618
+    },
+    {
+      "a": 20,
+      "b": 95,
+      "s": 0.601
+    },
+    {
+      "a": 21,
+      "b": 88,
+      "s": 0.658
+    },
+    {
+      "a": 21,
+      "b": 119,
+      "s": 0.611
+    },
+    {
+      "a": 22,
+      "b": 80,
+      "s": 0.77
+    },
+    {
+      "a": 23,
+      "b": 79,
+      "s": 0.482
+    },
+    {
+      "a": 23,
+      "b": 43,
+      "s": 0.446
+    },
+    {
+      "a": 24,
+      "b": 29,
+      "s": 0.544
+    },
+    {
+      "a": 25,
+      "b": 107,
+      "s": 0.699
+    },
+    {
+      "a": 25,
+      "b": 90,
+      "s": 0.645
+    },
+    {
+      "a": 26,
+      "b": 46,
+      "s": 0.546
+    },
+    {
+      "a": 26,
+      "b": 37,
+      "s": 0.534
+    },
+    {
+      "a": 5,
+      "b": 27,
+      "s": 0.737
+    },
+    {
+      "a": 27,
+      "b": 30,
+      "s": 0.67
+    },
+    {
+      "a": 28,
+      "b": 86,
+      "s": 0.671
+    },
+    {
+      "a": 28,
+      "b": 31,
+      "s": 0.654
+    },
+    {
+      "a": 29,
+      "b": 113,
+      "s": 0.553
+    },
+    {
+      "a": 29,
+      "b": 112,
+      "s": 0.549
+    },
+    {
+      "a": 30,
+      "b": 119,
+      "s": 0.785
+    },
+    {
+      "a": 31,
+      "b": 110,
+      "s": 0.813
+    },
+    {
+      "a": 32,
+      "b": 115,
+      "s": 0.602
+    },
+    {
+      "a": 32,
+      "b": 40,
+      "s": 0.491
+    },
+    {
+      "a": 33,
+      "b": 90,
+      "s": 0.643
+    },
+    {
+      "a": 33,
+      "b": 107,
+      "s": 0.566
+    },
+    {
+      "a": 34,
+      "b": 76,
+      "s": 0.621
+    },
+    {
+      "a": 34,
+      "b": 116,
+      "s": 0.569
+    },
+    {
+      "a": 35,
+      "b": 80,
+      "s": 0.635
+    },
+    {
+      "a": 36,
+      "b": 41,
+      "s": 0.56
+    },
+    {
+      "a": 36,
+      "b": 109,
+      "s": 0.55
+    },
+    {
+      "a": 0,
+      "b": 37,
+      "s": 0.551
+    },
+    {
+      "a": 14,
+      "b": 38,
+      "s": 0.556
+    },
+    {
+      "a": 19,
+      "b": 39,
+      "s": 0.532
+    },
+    {
+      "a": 39,
+      "b": 82,
+      "s": 0.5
+    },
+    {
+      "a": 40,
+      "b": 71,
+      "s": 0.51
+    },
+    {
+      "a": 40,
+      "b": 61,
+      "s": 0.5
+    },
+    {
+      "a": 41,
+      "b": 42,
+      "s": 0.552
+    },
+    {
+      "a": 42,
+      "b": 102,
+      "s": 0.665
+    },
+    {
+      "a": 43,
+      "b": 66,
+      "s": 0.588
+    },
+    {
+      "a": 6,
+      "b": 44,
+      "s": 0.567
+    },
+    {
+      "a": 44,
+      "b": 66,
+      "s": 0.565
+    },
+    {
+      "a": 45,
+      "b": 53,
+      "s": 0.657
+    },
+    {
+      "a": 45,
+      "b": 65,
+      "s": 0.51
+    },
+    {
+      "a": 46,
+      "b": 90,
+      "s": 0.643
+    },
+    {
+      "a": 25,
+      "b": 46,
+      "s": 0.641
+    },
+    {
+      "a": 47,
+      "b": 80,
+      "s": 0.553
+    },
+    {
+      "a": 48,
+      "b": 49,
+      "s": 0.543
+    },
+    {
+      "a": 48,
+      "b": 65,
+      "s": 0.507
+    },
+    {
+      "a": 20,
+      "b": 49,
+      "s": 0.547
+    },
+    {
+      "a": 5,
+      "b": 50,
+      "s": 0.731
+    },
+    {
+      "a": 51,
+      "b": 57,
+      "s": 0.706
+    },
+    {
+      "a": 39,
+      "b": 51,
+      "s": 0.432
+    },
+    {
+      "a": 52,
+      "b": 97,
+      "s": 0.554
+    },
+    {
+      "a": 53,
+      "b": 119,
+      "s": 0.515
+    },
+    {
+      "a": 54,
+      "b": 71,
+      "s": 0.505
+    },
+    {
+      "a": 54,
+      "b": 115,
+      "s": 0.504
+    },
+    {
+      "a": 12,
+      "b": 55,
+      "s": 0.488
+    },
+    {
+      "a": 55,
+      "b": 64,
+      "s": 0.408
+    },
+    {
+      "a": 12,
+      "b": 56,
+      "s": 0.537
+    },
+    {
+      "a": 31,
+      "b": 56,
+      "s": 0.495
+    },
+    {
+      "a": 57,
+      "b": 89,
+      "s": 0.525
+    },
+    {
+      "a": 58,
+      "b": 110,
+      "s": 0.664
+    },
+    {
+      "a": 58,
+      "b": 119,
+      "s": 0.618
+    },
+    {
+      "a": 30,
+      "b": 59,
+      "s": 0.571
+    },
+    {
+      "a": 59,
+      "b": 81,
+      "s": 0.468
+    },
+    {
+      "a": 8,
+      "b": 60,
+      "s": 0.563
+    },
+    {
+      "a": 12,
+      "b": 60,
+      "s": 0.477
+    },
+    {
+      "a": 61,
+      "b": 85,
+      "s": 0.495
+    },
+    {
+      "a": 62,
+      "b": 97,
+      "s": 0.819
+    },
+    {
+      "a": 63,
+      "b": 82,
+      "s": 0.598
+    },
+    {
+      "a": 63,
+      "b": 70,
+      "s": 0.527
+    },
+    {
+      "a": 14,
+      "b": 65,
+      "s": 0.55
+    },
+    {
+      "a": 65,
+      "b": 75,
+      "s": 0.539
+    },
+    {
+      "a": 66,
+      "b": 78,
+      "s": 0.628
+    },
+    {
+      "a": 66,
+      "b": 90,
+      "s": 0.605
+    },
+    {
+      "a": 0,
+      "b": 67,
+      "s": 0.578
+    },
+    {
+      "a": 28,
+      "b": 67,
+      "s": 0.524
+    },
+    {
+      "a": 25,
+      "b": 68,
+      "s": 0.464
+    },
+    {
+      "a": 68,
+      "b": 84,
+      "s": 0.451
+    },
+    {
+      "a": 6,
+      "b": 69,
+      "s": 0.571
+    },
+    {
+      "a": 58,
+      "b": 69,
+      "s": 0.488
+    },
+    {
+      "a": 3,
+      "b": 70,
+      "s": 0.567
+    },
+    {
+      "a": 47,
+      "b": 71,
+      "s": 0.54
+    },
+    {
+      "a": 28,
+      "b": 72,
+      "s": 0.56
+    },
+    {
+      "a": 72,
+      "b": 86,
+      "s": 0.548
+    },
+    {
+      "a": 15,
+      "b": 73,
+      "s": 0.581
+    },
+    {
+      "a": 20,
+      "b": 73,
+      "s": 0.548
+    },
+    {
+      "a": 74,
+      "b": 87,
+      "s": 0.695
+    },
+    {
+      "a": 14,
+      "b": 75,
+      "s": 0.539
+    },
+    {
+      "a": 76,
+      "b": 116,
+      "s": 0.732
+    },
+    {
+      "a": 62,
+      "b": 77,
+      "s": 0.653
+    },
+    {
+      "a": 9,
+      "b": 77,
+      "s": 0.555
+    },
+    {
+      "a": 78,
+      "b": 86,
+      "s": 0.606
+    },
+    {
+      "a": 79,
+      "b": 94,
+      "s": 0.591
+    },
+    {
+      "a": 67,
+      "b": 79,
+      "s": 0.5
+    },
+    {
+      "a": 41,
+      "b": 81,
+      "s": 0.454
+    },
+    {
+      "a": 83,
+      "b": 93,
+      "s": 0.522
+    },
+    {
+      "a": 83,
+      "b": 114,
+      "s": 0.513
+    },
+    {
+      "a": 84,
+      "b": 89,
+      "s": 0.59
+    },
+    {
+      "a": 84,
+      "b": 96,
+      "s": 0.569
+    },
+    {
+      "a": 85,
+      "b": 106,
+      "s": 0.585
+    },
+    {
+      "a": 78,
+      "b": 85,
+      "s": 0.568
+    },
+    {
+      "a": 86,
+      "b": 92,
+      "s": 0.652
+    },
+    {
+      "a": 87,
+      "b": 99,
+      "s": 0.475
+    },
+    {
+      "a": 50,
+      "b": 88,
+      "s": 0.697
+    },
+    {
+      "a": 0,
+      "b": 89,
+      "s": 0.545
+    },
+    {
+      "a": 90,
+      "b": 107,
+      "s": 0.703
+    },
+    {
+      "a": 28,
+      "b": 91,
+      "s": 0.629
+    },
+    {
+      "a": 86,
+      "b": 91,
+      "s": 0.587
+    },
+    {
+      "a": 28,
+      "b": 92,
+      "s": 0.547
+    },
+    {
+      "a": 93,
+      "b": 114,
+      "s": 0.604
+    },
+    {
+      "a": 88,
+      "b": 94,
+      "s": 0.511
+    },
+    {
+      "a": 30,
+      "b": 95,
+      "s": 0.663
+    },
+    {
+      "a": 89,
+      "b": 96,
+      "s": 0.517
+    },
+    {
+      "a": 98,
+      "b": 119,
+      "s": 0.714
+    },
+    {
+      "a": 58,
+      "b": 98,
+      "s": 0.617
+    },
+    {
+      "a": 100,
+      "b": 115,
+      "s": 0.538
+    },
+    {
+      "a": 57,
+      "b": 100,
+      "s": 0.495
+    },
+    {
+      "a": 101,
+      "b": 105,
+      "s": 0.501
+    },
+    {
+      "a": 102,
+      "b": 112,
+      "s": 0.679
+    },
+    {
+      "a": 103,
+      "b": 119,
+      "s": 0.675
+    },
+    {
+      "a": 30,
+      "b": 103,
+      "s": 0.62
+    },
+    {
+      "a": 104,
+      "b": 118,
+      "s": 0.689
+    },
+    {
+      "a": 5,
+      "b": 104,
+      "s": 0.651
+    },
+    {
+      "a": 19,
+      "b": 105,
+      "s": 0.498
+    },
+    {
+      "a": 74,
+      "b": 106,
+      "s": 0.558
+    },
+    {
+      "a": 108,
+      "b": 117,
+      "s": 0.481
+    },
+    {
+      "a": 23,
+      "b": 108,
+      "s": 0.434
+    },
+    {
+      "a": 86,
+      "b": 109,
+      "s": 0.625
+    },
+    {
+      "a": 91,
+      "b": 109,
+      "s": 0.561
+    },
+    {
+      "a": 15,
+      "b": 111,
+      "s": 0.524
+    },
+    {
+      "a": 18,
+      "b": 111,
+      "s": 0.484
+    },
+    {
+      "a": 42,
+      "b": 112,
+      "s": 0.609
+    },
+    {
+      "a": 113,
+      "b": 117,
+      "s": 0.601
+    },
+    {
+      "a": 50,
+      "b": 118,
+      "s": 0.695
+    }
+  ]
+}

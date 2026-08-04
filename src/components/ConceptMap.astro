@@ -1,0 +1,382 @@
+---
+/**
+ * Fig. 1 — an embedding map of the writing.
+ *
+ * Not decoration and not a metaphor: the geometry is computed from the corpus
+ * by scripts/build-concept-map.mjs (tf-idf term vectors over the 50 pieces →
+ * cosine distance → classical MDS → k-means), so proximity on the page really
+ * is proximity in the term space. Regenerate with `npm run map`.
+ *
+ * Four clusters out of two inks, because a Riso overprints: black, burgundy,
+ * blue, and burgundy × blue multiplied into a fourth colour.
+ *
+ * The loupe is the point. An embedding map is illegible until you zoom, so at
+ * rest only the densest concepts are labelled and the rest are dots; the lens
+ * magnifies the same vectors and every label becomes readable. Pointing at a
+ * concept names it, counts the pieces it appears in, and lists its nearest
+ * neighbours in the space.
+ */
+import map from '../data/concept-map.json';
+
+const { width: W, height: H, nodes, edges, docs } = map;
+
+// label the densest concepts at rest; everything else waits for the lens
+const byDocs = [...nodes].sort((a, b) => b.docs - a.docs);
+const majorCutoff = byDocs[Math.min(17, byDocs.length - 1)]?.docs ?? 0;
+const isMajor = (n: (typeof nodes)[number]) => n.docs >= majorCutoff;
+
+const clusterInk = ['var(--ink-k)', 'var(--ink-b)', 'var(--ink-a)', 'var(--ink-ab)'];
+---
+
+<figure class="fig" data-set>
+  <div class="fig-plate" id="cm-plate">
+    <svg class="cm-svg" viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+      <g class="cm-edges">
+        {
+          edges.map((e) => (
+            <line
+              x1={nodes[e.a].x}
+              y1={nodes[e.a].y}
+              x2={nodes[e.b].x}
+              y2={nodes[e.b].y}
+              style={`opacity:${(e.s * 0.85).toFixed(2)}`}
+            />
+          ))
+        }
+      </g>
+      <g class="cm-dots">
+        {
+          nodes.map((n) => (
+            <circle
+              cx={n.x}
+              cy={n.y}
+              r={n.r}
+              style={`fill:${clusterInk[n.cluster]}`}
+              data-term={n.term}
+              data-docs={n.docs}
+              data-nb={n.neighbours.join(' · ')}
+            />
+          ))
+        }
+      </g>
+      <g class="cm-labels">
+        {
+          nodes
+            .filter(isMajor)
+            .map((n) => (
+              <text x={n.x + n.r + 4} y={n.y + 5} class="cm-major">
+                {n.term}
+              </text>
+            ))
+        }
+      </g>
+    </svg>
+
+    <!-- the lens: same geometry, narrowed viewBox, every label drawn -->
+    <div class="loupe" aria-hidden="true">
+      <svg class="loupe-svg" viewBox={`0 0 ${W} ${H}`}>
+        <g class="cm-edges">
+          {
+            edges.map((e) => (
+              <line x1={nodes[e.a].x} y1={nodes[e.a].y} x2={nodes[e.b].x} y2={nodes[e.b].y} />
+            ))
+          }
+        </g>
+        <g class="cm-dots">
+          {
+            nodes.map((n) => (
+              <circle cx={n.x} cy={n.y} r={n.r} style={`fill:${clusterInk[n.cluster]}`} />
+            ))
+          }
+        </g>
+        <g class="cm-labels">
+          {
+            nodes.map((n) => (
+              <text x={n.x + n.r + 3} y={n.y + 3} class="cm-all">
+                {n.term}
+              </text>
+            ))
+          }
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <figcaption class="fig-cap">
+    <span id="cm-default">
+      <strong>Fig. 1</strong> — {nodes.length} concepts from {docs} pieces, placed by how they
+      co-occur. Near = used together. Move across it; the lens reads the small print.
+    </span>
+    <span id="cm-live" hidden></span>
+  </figcaption>
+
+  <p class="fig-key">
+    <span class="k k0">behaviour &amp; design</span>
+    <span class="k k1">data &amp; language</span>
+    <span class="k k2">research &amp; industry</span>
+    <span class="k k3">practice &amp; tooling</span>
+  </p>
+
+  <!-- the same concepts as text, so the figure isn't pointer-only -->
+  <details class="fig-list">
+    <summary>Read the concept list instead</summary>
+    <ul>
+      {
+        byDocs.map((n) => (
+          <li>
+            <b>{n.term}</b> — in {n.docs} pieces · near {n.neighbours.join(', ')}
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</figure>
+
+<style>
+  .fig {
+    margin: 0;
+  }
+
+  .fig-plate {
+    position: relative;
+    border: 1.5px solid var(--ink-k);
+    background: var(--paper-deep);
+    overflow: hidden;
+    cursor: crosshair;
+    touch-action: pan-y;
+  }
+
+  .cm-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: var(--plate-blend);
+  }
+
+  .cm-edges line {
+    stroke: var(--ink-hair);
+    stroke-width: 1.1;
+  }
+
+  .cm-dots circle {
+    mix-blend-mode: var(--plate-blend);
+    opacity: 0.85;
+  }
+
+  .cm-labels text {
+    font-family: var(--type);
+    fill: var(--ink-k);
+  }
+
+  .cm-major {
+    font-size: 19px;
+    letter-spacing: -0.02em;
+  }
+
+  .cm-all {
+    font-size: 11px;
+  }
+
+  .fig-cap {
+    font-family: var(--type);
+    font-size: 0.68rem;
+    line-height: 1.6;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--paper);
+    background: var(--ink-k);
+    padding: 0.4rem 0.55rem;
+    display: block;
+  }
+
+  .fig-cap strong {
+    color: var(--paper);
+  }
+
+  .fig-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    margin: 0.5rem 0 0;
+    font-family: var(--type);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .k {
+    padding: 0.1rem 0.35rem;
+    border: 1.5px solid var(--ink-hair);
+  }
+
+  .k::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.4em;
+    vertical-align: 0.02em;
+    border-radius: 50%;
+  }
+
+  .k0::before {
+    background: var(--ink-k);
+  }
+  .k1::before {
+    background: var(--ink-b);
+  }
+  .k2::before {
+    background: var(--ink-a);
+  }
+  .k3::before {
+    background: var(--ink-ab);
+  }
+
+  .fig-list {
+    margin-top: 0.6rem;
+    font-family: var(--type);
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+  }
+
+  .fig-list summary {
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-b);
+  }
+
+  .fig-list ul {
+    margin: 0.6rem 0 0;
+    padding-left: 1.1rem;
+    max-height: 16rem;
+    overflow-y: auto;
+    line-height: 1.7;
+  }
+
+  .fig-list b {
+    color: var(--ink-k);
+  }
+
+  .loupe {
+    position: absolute;
+    width: 11rem;
+    height: 11rem;
+    left: var(--lx, 50%);
+    top: var(--ly, 50%);
+    margin: -5.5rem 0 0 -5.5rem;
+    border-radius: 50%;
+    border: 2.5px solid var(--ink-k);
+    box-shadow: 0 5px 0 rgb(43 38 34 / 0.2);
+    overflow: hidden;
+    background: var(--paper);
+    opacity: 0;
+    transition: opacity 110ms linear;
+    pointer-events: none;
+  }
+
+  .loupe.is-on {
+    opacity: 1;
+  }
+
+  .loupe-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: var(--plate-blend);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loupe {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const plate = document.getElementById('cm-plate');
+  const live = document.getElementById('cm-live');
+  const dflt = document.getElementById('cm-default');
+
+  if (plate && live && dflt) {
+    const lens = plate.querySelector('.loupe') as HTMLElement | null;
+    const lensSvg = plate.querySelector('.loupe-svg') as SVGSVGElement | null;
+    const svg = plate.querySelector('.cm-svg') as SVGSVGElement | null;
+    const dots = Array.from(plate.querySelectorAll<SVGCircleElement>('.cm-svg .cm-dots circle'));
+
+    const vb = svg?.viewBox.baseVal;
+    const VBW = vb?.width || 1000;
+    const VBH = vb?.height || 620;
+    const ZOOM = 3;
+
+    const pts = dots.map((c) => ({
+      x: c.cx.baseVal.value,
+      y: c.cy.baseVal.value,
+      term: c.dataset.term ?? '',
+      docs: c.dataset.docs ?? '0',
+      nb: c.dataset.nb ?? '',
+    }));
+
+    let shown = '';
+
+    function report(p: (typeof pts)[number] | null) {
+      if (!p) {
+        if (shown) {
+          shown = '';
+          live.hidden = true;
+          dflt.hidden = false;
+        }
+        return;
+      }
+      if (p.term === shown) return;
+      shown = p.term;
+      live.textContent = `“${p.term}” — in ${p.docs} of 50 pieces · nearest: ${p.nb}`;
+      live.hidden = false;
+      dflt.hidden = true;
+    }
+
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (fine.matches && !still.matches && lens && lensSvg) {
+      plate.addEventListener(
+        'pointermove',
+        (e) => {
+          const r = plate.getBoundingClientRect();
+          const px = e.clientX - r.left;
+          const py = e.clientY - r.top;
+
+          lens.style.setProperty('--lx', `${px}px`);
+          lens.style.setProperty('--ly', `${py}px`);
+
+          // Size the lens window from the real rendered scale, so magnification
+          // is a true 3x regardless of how wide the figure ends up.
+          const unitsPerPx = VBW / r.width;
+          const region = (lens.offsetWidth * unitsPerPx) / ZOOM;
+          const cx = px * unitsPerPx;
+          const cy = py * (VBH / r.height);
+          lensSvg.setAttribute('viewBox', `${cx - region / 2} ${cy - region / 2} ${region} ${region}`);
+          lens.classList.add('is-on');
+
+          // name the nearest concept, if the pointer is genuinely near one
+          let best: (typeof pts)[number] | null = null;
+          let bestD = Infinity;
+          for (const p of pts) {
+            const d = (p.x - cx) ** 2 + (p.y - cy) ** 2;
+            if (d < bestD) {
+              bestD = d;
+              best = p;
+            }
+          }
+          report(bestD < 30 ** 2 ? best : null);
+        },
+        { passive: true },
+      );
+
+      plate.addEventListener('pointerleave', () => {
+        lens.classList.remove('is-on');
+        report(null);
+      });
+    }
+  }
+</script>

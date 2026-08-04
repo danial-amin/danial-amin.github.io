@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Ink from '../components/Ink.astro';
+import ConceptMap from '../components/ConceptMap.astro';
 import SystemsList from '../components/SystemsList.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import WritingList from '../components/WritingList.astro';
@@ -10,7 +11,6 @@ import QuoteStrip from '../components/QuoteStrip.astro';
 import ContactBlock from '../components/ContactBlock.astro';
 import { getWriting } from '../lib/writing';
 import site from '../data/site.json';
-import systems from '../data/systems.json';
 
 const { items: recent, all, alternatesFor } = await getWriting();
 const essays = all.filter((p) => p.data.source === 'essay').length;
@@ -40,14 +40,8 @@ const nameParts = site.name.split(' ');
           <a class="btn btn-out" href="#systems">See what runs</a>
         </div>
       </div>
-
-      {/* a printed plate. the loupe lives here — move over it to resolve the dots */}
-      <figure class="plate" data-loupe data-set style="--set-delay:380ms;margin:0">
-        <div class="plate-screen"></div>
-        <figcaption class="plate-caption">
-          Fig. 1 — {systems.length} live systems · {essays + newsletters} pieces written · look closer
-        </figcaption>
-      </figure>
+      {/* Fig. 1 — a real embedding map of the corpus. The lens reads it. */}
+      <ConceptMap />
     </div>
   </header>
 

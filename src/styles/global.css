@@ -13,8 +13,9 @@
    Ink rules, measured against the paper:
      riso black  #2b2622  13.04:1  → all body text
      medium blue #1268b3   5.01:1  → links, the second readable ink
-     fluoro pink #ff4b8b   2.76:1  → DECORATION ONLY. Fills, screens, and
-                                     misregistration ghosts. Never text.
+     burgundy    #914e72   5.18:1  → fills, screens, misregistration ghosts,
+                                     and text. Type set ON a burgundy fill
+                                     must be --on-a, not riso black (2.52:1).
    ============================================================ */
 
 /* ---------- stock + inks ---------- */
@@ -25,8 +26,14 @@
   --paper-deep: #e7dfcd;
 
   --ink-k: #2b2622;
-  --ink-a: #ff4b8b;
+  --ink-a: #914e72;
   --ink-b: #1268b3;
+  /* text placed ON an --ink-a fill. Burgundy is dark enough that riso black
+     over it is only 2.52:1, so fills get paper-coloured type instead. */
+  --on-a: #f4efe3;
+  /* burgundy over blue, actually multiplied — the fourth colour a two-ink
+     press gives you for free, used for the fourth concept cluster */
+  --ink-ab: #0a1f50;
 
   --ink-body: #2b2622;
   --ink-soft: rgb(43 38 34 / 0.66);
@@ -44,8 +51,12 @@
   --paper-deep: #171513;
 
   --ink-k: #f4efe3;
-  --ink-a: #ff4b8b;
+  /* burgundy at full strength is 2.76:1 on black card, so the dark stock gets
+     a lighter mix of the same ink — 5.21:1, and dark type sits on it */
+  --ink-a: #c07d9f;
   --ink-b: #4aa3e0;
+  --on-a: #221f1d;
+  --ink-ab: #374f8b;
 
   --ink-body: #f4efe3;
   --ink-soft: rgb(244 239 227 / 0.72);
@@ -146,8 +157,8 @@ body {
 
 /**
  * The signature move. Every important word is printed twice: the black pass,
- * and a fluoro pink pass that landed slightly off. The pink sits underneath and
- * multiplies, exactly like a second run through the drum.
+ * and a burgundy pass that landed slightly off. The second ink sits underneath
+ * and multiplies, exactly like a second run through the drum.
  */
 .ink {
   position: relative;
@@ -297,7 +308,7 @@ body {
 
 .nav a[aria-current='page'] {
   color: var(--ink-k);
-  box-shadow: inset 0 -0.5em 0 var(--ink-a);
+  box-shadow: inset 0 -3px 0 var(--ink-a);
 }
 
 .header-tools {
@@ -335,9 +346,9 @@ a {
 }
 
 a:hover {
-  color: var(--ink-k);
+  color: var(--on-a);
   background: var(--ink-a);
-  text-decoration-color: var(--ink-k);
+  text-decoration-color: var(--on-a);
 }
 
 :focus-visible {
@@ -571,7 +582,7 @@ main {
 
 .btn-out:hover {
   background: var(--ink-a);
-  color: var(--ink-k);
+  color: var(--on-a);
   box-shadow: inset 0 0 0 2px var(--ink-k);
   transform: rotate(-0.5deg) translateY(-2px);
 }
@@ -588,7 +599,7 @@ main {
 
 .jump:hover {
   background: var(--ink-a);
-  color: var(--ink-k);
+  color: var(--on-a);
 }
 
 /* ---------- listings ---------- */
@@ -641,6 +652,7 @@ main {
 
 .entry:hover .entry-title mark {
   background: var(--ink-a);
+  color: var(--on-a);
 }
 
 .entry-num {
@@ -748,7 +760,7 @@ main {
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--ink-k);
+  color: var(--on-a);
   background: var(--ink-a);
   padding: 0.12rem 0.4rem;
   transform: rotate(-2deg);
@@ -1072,7 +1084,7 @@ main {
 .gate-error {
   font-family: var(--type);
   font-size: 0.72rem;
-  color: var(--ink-k);
+  color: var(--on-a);
   background: var(--ink-a);
   display: inline-block;
   padding: 0.15rem 0.4rem;
@@ -1157,7 +1169,7 @@ main {
 
 .todo code {
   background: var(--ink-a);
-  color: var(--ink-k);
+  color: var(--on-a);
   padding: 0 0.2em;
 }
 
@@ -1199,8 +1211,9 @@ main {
   color: var(--ink-faint);
 }
 
-.pager a:hover .pager-dir {
-  color: var(--ink-k);
+.pager a:hover .pager-dir,
+.pager a:hover .pager-name {
+  color: var(--on-a);
 }
 
 .pager-name {
@@ -1400,7 +1413,7 @@ main {
 
 .palette-item[data-active='true'] {
   background: var(--ink-a);
-  color: var(--ink-k);
+  color: var(--on-a);
 }
 
 .palette-mark {
@@ -1410,7 +1423,7 @@ main {
 }
 
 .palette-item[data-active='true'] .palette-mark {
-  color: var(--ink-k);
+  color: var(--on-a);
 }
 
 .palette-label {
@@ -1426,7 +1439,7 @@ main {
 }
 
 .palette-item[data-active='true'] .palette-kind {
-  color: var(--ink-k);
+  color: var(--on-a);
 }
 
 .palette-none {
@@ -1545,46 +1558,6 @@ kbd {
   transform: none;
 }
 
-/* ---------- loupe ---------- */
-
-/**
- * A real magnifier. It duplicates the plate's dot screen at 3x and clips it to
- * a circle under the pointer, so the halftone actually resolves instead of a
- * glow appearing. Positioned from --lx/--ly written by Press.
- */
-.loupe {
-  position: absolute;
-  width: 9.5rem;
-  height: 9.5rem;
-  left: var(--lx, 50%);
-  top: var(--ly, 50%);
-  margin: -4.75rem 0 0 -4.75rem;
-  border-radius: 50%;
-  border: 2.5px solid var(--ink-k);
-  box-shadow: 0 6px 0 rgb(43 38 34 / 0.25);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 140ms linear;
-  overflow: hidden;
-  background: var(--paper);
-}
-
-.loupe.is-on {
-  opacity: 1;
-}
-
-.loupe-inner {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(var(--ink-a) 32%, transparent 34%),
-    radial-gradient(var(--ink-b) 30%, transparent 32%);
-  background-size: calc(var(--dot) * 3) calc(var(--dot) * 3),
-    calc(var(--dot) * 4.2) calc(var(--dot) * 4.2);
-  background-position: calc(var(--lx) * -3 + 4.75rem) calc(var(--ly) * -3 + 4.75rem),
-    calc(var(--lx) * -3 + 5rem) calc(var(--ly) * -3 + 5.2rem);
-  mix-blend-mode: var(--plate-blend);
-}
-
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1610,8 +1583,7 @@ kbd {
     transform: translate(var(--rx, 3px), var(--ry, 4px)) !important;
   }
 
-  .bleed,
-  .loupe {
+  .bleed {
     display: none;
   }
 }
