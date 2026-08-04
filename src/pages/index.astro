@@ -19,11 +19,13 @@ const nameParts = site.name.split(' ');
 ---
 
 <Base title={site.name} description={site.tagline}>
-  <header class="cover wide">
+  <header class="cover">
     <p class="cover-issue">
       <span>Espoo, Finland</span>
       <span>Practice &amp; research</span>
       <span>Two inks, off register</span>
+      {/* the one clue that this page listens for typing */}
+      <span class="caret" aria-hidden="true"></span>
     </p>
 
     <h1 class="cover-name">

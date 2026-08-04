@@ -19,7 +19,7 @@ const canonical = canonicalFor.get(post.id) ?? post;
 const isCanonical = canonical.id === post.id;
 const alternates = alternatesFor.get(post.id) ?? [];
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 const isNewsletter = post.data.source === 'newsletter';
 /** masthead label, e.g. "AI Pulse & Data Waves" */
 const label = (p: Post) => (p.data.source === 'newsletter' ? site.newsletterName : 'Essay');
@@ -37,6 +37,14 @@ const canonicalPath = `/writing/${canonical.id}`;
 // this piece and this page is explicitly the extract.
 const full = fullVersionOf(post);
 const here = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+
+/**
+ * The extracts carry no headings, so the rail holds what is actually useful on
+ * this page instead: the length, the link to the full version, and the other
+ * form of the same topic. That is what lets the page use the full shell width
+ * rather than leaving a 40% margin beside a narrow column.
+ */
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
 
 <Base
@@ -45,96 +53,123 @@ const here = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
   canonicalUrl={full?.url}
   canonicalPath={isCanonical ? undefined : canonicalPath}
 >
-  <article class:list={['prose', isNewsletter && 'prose-mirror']}>
-    <p class="typed">{label(post)}</p>
-    <h1>{post.data.title}</h1>
-    <p class="byline">
-      {fmt(post.data.date)}
-      {
-        post.data.linkedinUrl && (
-          <>
-            {' · '}
-            <a href={post.data.linkedinUrl} rel="noopener noreferrer" target="_blank">
-              View on LinkedIn
-            </a>
-          </>
-        )
-      }
-    </p>
+  <article class="piece">
+    <header class="piece-head">
+      <p class="typed">{label(post)}</p>
+      <h1 class="cover-name piece-title">{post.data.title}</h1>
+      {post.data.excerpt && <p class="cover-line piece-deck">{post.data.excerpt}</p>}
+    </header>
 
-    {
-      /* This URL is the shorter form of a topic that exists elsewhere in full. */
-      !isCanonical && (
-        <aside class="crosslink crosslink-notice">
-          <p class="field-key">Fuller version</p>
-          <p>
-            This is the short {inline(post)} version. The complete piece is the{' '}
-            <a href={canonicalPath}>{inline(canonical)} edition</a> — longer, and the one to
-            read.
-          </p>
-        </aside>
-      )
-    }
+    <div class="piece-grid">
+      <aside class="piece-rail">
+        <dl class="piece-facts">
+          <div>
+            <dt>Published</dt>
+            <dd>{fmt(post.data.date)}</dd>
+          </div>
+          <div>
+            <dt>Form</dt>
+            <dd>{label(post)}</dd>
+          </div>
+          <div>
+            <dt>This page</dt>
+            <dd>{here.toLocaleString('en-GB')} words</dd>
+          </div>
+          {
+            full && (
+              <div>
+                <dt>Full essay</dt>
+                <dd>{full.words.toLocaleString('en-GB')} words</dd>
+              </div>
+            )
+          }
+        </dl>
 
-    {
-      full && (
-        <aside class="crosslink crosslink-notice">
-          <p class="field-key">Extract</p>
-          <p>
-            This is the short version — {here.toLocaleString('en-GB')} words. The full essay is{' '}
-            {full.words.toLocaleString('en-GB')} words with its full structure, on the academic
-            site: <a href={full.url} rel="noopener" target="_blank">read it there ↗</a>
-            {ACADEMIC_IS_LOCAL && <span class="local-note"> local: {full.url}</span>}
-          </p>
-        </aside>
-      )
-    }
+        {
+          full && (
+            <p class="piece-cta">
+              <a class="btn" href={full.url} rel="noopener" target="_blank">Read it in full ↗</a>
+              {ACADEMIC_IS_LOCAL && <span class="local-note">local: {full.url}</span>}
+            </p>
+          )
+        }
 
-    <Content />
+        {
+          toc.length > 0 && (
+            <nav class="piece-toc" aria-label="Contents">
+              <p class="piece-rail-h">Contents</p>
+              <ol>
+                {toc.map((h) => (
+                  <li class:list={[h.depth === 3 && 'is-sub']}>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
 
-    {
-      full && (
-        <aside class="crosslink">
-          <p class="field-key">Continue</p>
-          <p>
-            That was the extract. The complete essay —{' '}
-            {full.words.toLocaleString('en-GB')} words — is at{' '}
-            <a href={full.url} rel="noopener" target="_blank">academic.danialamin.com ↗</a>
-          </p>
-        </aside>
-      )
-    }
+        {
+          !isCanonical && (
+            <p class="piece-rail-note">
+              This is the short {inline(post)}. The fuller form is the{' '}
+              <a href={canonicalPath}>{inline(canonical)} edition</a>.
+            </p>
+          )
+        }
 
-    {
-      /* The canonical page points across to the other form(s). */
-      isCanonical && alternates.length > 0 && (
-        <aside class="crosslink">
-          <p class="field-key">Also published as</p>
-          <ul >
-            {alternates.map((alt) => (
-              <li>
-                <a href={`/writing/${alt.id}`}>
-                  {label(alt)} edition ({fmt(alt.data.date)})
-                </a>
-                {alt.data.linkedinUrl && (
-                  <>
-                    {' · '}
-                    <a href={alt.data.linkedinUrl} rel="noopener noreferrer" target="_blank">
-                      on LinkedIn ↗
-                    </a>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        </aside>
-      )
-    }
+        {
+          isCanonical && alternates.length > 0 && (
+            <p class="piece-rail-note">
+              Also published as{' '}
+              {alternates.map((alt, i) => (
+                <>
+                  {i > 0 && ', '}
+                  <a href={`/writing/${alt.id}`}>the {inline(alt)} edition</a>
+                </>
+              ))}
+              .
+            </p>
+          )
+        }
 
-    <p style="margin-top:2rem">
-      <a class="jump" href="/writing">
-        ← All writing
-      </a>
-    </p>
+        {
+          post.data.linkedinUrl && (
+            <p class="piece-rail-note">
+              <a href={post.data.linkedinUrl} rel="noopener noreferrer" target="_blank">
+                View on LinkedIn ↗
+              </a>
+            </p>
+          )
+        }
+
+        {
+          post.data.tags.length > 0 && (
+            <ul class="tags">
+              {post.data.tags.slice(0, 8).map((t) => <li class="tag">{t}</li>)}
+            </ul>
+          )
+        }
+
+        <p class="piece-rail-note"><a class="jump" href="/writing">← All writing</a></p>
+      </aside>
+
+      <div class:list={['prose', isNewsletter && 'prose-mirror']}>
+        <Content />
+
+        {
+          full && (
+            <aside class="crosslink">
+              <p class="field-key">Continue</p>
+              <p>
+                That was the extract — {here.toLocaleString('en-GB')} of{' '}
+                {full.words.toLocaleString('en-GB')} words. The complete essay is at{' '}
+                <a href={full.url} rel="noopener" target="_blank">academic.danialamin.com ↗</a>
+              </p>
+            </aside>
+          )
+        }
+      </div>
+    </div>
   </article>
 </Base>
