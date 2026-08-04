@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Ink from '../components/Ink.astro';
-import ConceptMap from '../components/ConceptMap.astro';
+import Cloud3D from '../components/Cloud3D.astro';
 import SystemsList from '../components/SystemsList.astro';
 import WorkIndex from '../components/WorkIndex.astro';
 import WritingList from '../components/WritingList.astro';
@@ -40,8 +40,8 @@ const nameParts = site.name.split(' ');
           <a class="btn btn-out" href="#systems">See what runs</a>
         </div>
       </div>
-      {/* Fig. 1 — a real embedding map of the corpus. The lens reads it. */}
-      <ConceptMap />
+      {/* Fig. 1 — the cloud only; the full projector lives on the academic site */}
+      <Cloud3D />
     </div>
   </header>
 

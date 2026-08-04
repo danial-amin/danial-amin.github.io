@@ -1604,3 +1604,99 @@ kbd {
   letter-spacing: 0.04em;
   color: var(--ink-faint);
 }
+
+/* ============================================================
+   Cover motion
+
+   The hero had one gesture: the plates registering on load. These add two more,
+   both drawn from what a press does rather than from what software does.
+   ============================================================ */
+
+/**
+ * 1. Scroll-linked registration drift. --drift is written by Press from the
+ *    scroll position, and the second plate slides further out of register as the
+ *    page moves — as though the drum were slipping while the sheet feeds.
+ */
+.js .cover .ink-a {
+  transform: translate(
+    calc(var(--rx, 3px) + var(--drift, 0px)),
+    calc(var(--ry, 4px) + var(--drift, 0px) * 0.55)
+  );
+}
+
+.js .cover .is-set .ink-a,
+.js .cover .ink.is-set .ink-a {
+  transform: translate(
+    calc(var(--rx, 3px) + var(--drift, 0px)),
+    calc(var(--ry, 4px) + var(--drift, 0px) * 0.55)
+  );
+}
+
+/**
+ * 2. Ink still settling. A very slow, very small breath on the plate offset,
+ *    so the cover is never quite static — amplitude is under a pixel, which
+ *    reads as wet ink rather than as animation.
+ */
+@keyframes press-breathe {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0.7px -0.4px;
+  }
+}
+
+.js .cover .ink-k {
+  animation: press-breathe 7.5s ease-in-out infinite;
+}
+
+.js .cover .ink-a {
+  animation: press-breathe 7.5s ease-in-out infinite reverse;
+}
+
+/* 3. The issue line rules itself in, left to right, once. */
+@keyframes rule-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.cover-issue {
+  position: relative;
+  border-bottom: none;
+}
+
+.cover-issue::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--ink-hair);
+  transform-origin: 0 50%;
+}
+
+.js .cover-issue::after {
+  animation: rule-in 900ms var(--snap) 200ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .cover .ink-k,
+  .js .cover .ink-a {
+    animation: none !important;
+  }
+
+  .js .cover .ink-a {
+    transform: translate(var(--rx, 3px), var(--ry, 4px)) !important;
+  }
+
+  .js .cover-issue::after {
+    animation: none;
+    transform: none;
+  }
+}

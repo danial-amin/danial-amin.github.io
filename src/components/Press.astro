@@ -6,6 +6,8 @@
  * Four pointer mechanics, each assigned to one kind of thing rather than all
  * applied everywhere:
  *
+ *   scroll        --drift, which slides the cover's second ink plate out of
+ *                 register as the page moves
  *   [data-lift]   cards and listing rows — lift, tilt, cast a real shadow
  *   [data-magnet] display type          — letters lean toward the pointer
  *   [data-loupe]  halftone plates       — a magnifier that actually magnifies
@@ -256,6 +258,13 @@
     if (scrolled) {
       scrolled = false;
       if (pendingSets.length) sweepSets(vh);
+
+      // registration drift: the second plate slides further out of register as
+      // the sheet feeds through. Capped, so it never becomes illegible.
+      if (!reduced.matches) {
+        const drift = Math.min(sy / 42, 14);
+        root.style.setProperty('--drift', `${drift.toFixed(2)}px`);
+      }
     }
 
     if (moved) {

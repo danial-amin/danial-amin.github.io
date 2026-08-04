@@ -277,17 +277,21 @@ function topEigen(M, k, iters = 260) {
 }
 
 /** classical MDS from a distance matrix */
-function mds(D) {
+/**
+ * Classical MDS. `k` is the number of output dimensions — 2 for the flat
+ * layouts, 3 for the rotating cloud, which is the same decomposition carried one
+ * eigenvector further rather than a separate embedding.
+ */
+function mds(D, k = 2) {
   const n = D.length;
   const sq = D.map((row) => row.map((d) => d * d));
   const rowMean = sq.map((r) => r.reduce((a, b) => a + b, 0) / n);
   const grand = rowMean.reduce((a, b) => a + b, 0) / n;
 
   const B = sq.map((r, i) => r.map((v, j) => -0.5 * (v - rowMean[i] - rowMean[j] + grand)));
-  const [e1, e2] = topEigen(B, 2);
-  const s1 = Math.sqrt(Math.max(e1.value, 0));
-  const s2 = Math.sqrt(Math.max(e2.value, 0));
-  return Array.from({ length: n }, (_, i) => [e1.vector[i] * s1, e2.vector[i] * s2]);
+  const eig = topEigen(B, k);
+  const scale = eig.map((e) => Math.sqrt(Math.max(e.value, 0)));
+  return Array.from({ length: n }, (_, i) => eig.map((e, d) => e.vector[i] * scale[d]));
 }
 
 /** k-means on the full vectors, deterministic k-means++ style seeding */
@@ -346,6 +350,47 @@ function kmeans(vectors, k, iters = 60) {
   return assign;
 }
 
+const dotArr = (a, b) => {
+  let s = 0;
+  for (let i = 0; i < a.length; i++) s += a[i] * b[i];
+  return s;
+};
+
+/**
+ * Principal components of the term-document matrix, so the projector can offer
+ * a second real projection. t-SNE and UMAP are deliberately absent: neither is
+ * deterministic at build time, and this file must produce the same map every
+ * run.
+ */
+function pca(vectors) {
+  const n = vectors.length;
+  const dim = vectors[0].length;
+
+  const mean = new Float64Array(dim);
+  for (const v of vectors) for (let d = 0; d < dim; d++) mean[d] += v[d] / n;
+  const X = vectors.map((v) => Float64Array.from(v, (x, d) => x - mean[d]));
+
+  const C = Array.from({ length: dim }, () => new Float64Array(dim));
+  for (const x of X) {
+    for (let i = 0; i < dim; i++) {
+      for (let j = i; j < dim; j++) {
+        const p = x[i] * x[j];
+        C[i][j] += p;
+        if (i !== j) C[j][i] += p;
+      }
+    }
+  }
+  const denom = Math.max(n - 1, 1);
+  for (let i = 0; i < dim; i++) for (let j = 0; j < dim; j++) C[i][j] /= denom;
+
+  const [e1, e2] = topEigen(C.map((r) => Array.from(r)), 2);
+  const varTotal = Array.from({ length: dim }, (_, i) => C[i][i]).reduce((a, b) => a + b, 0) || 1;
+  return {
+    points: X.map((x) => [dotArr(x, e1.vector), dotArr(x, e2.vector)]),
+    explained: [e1.value / varTotal, e2.value / varTotal],
+  };
+}
+
 /** push overlapping labels apart without destroying the structure */
 function relax(pts, sizes, rounds = 220) {
   const p = pts.map(([x, y]) => [x, y]);
@@ -393,38 +438,61 @@ const D = Array.from({ length: n }, (_, i) =>
   Array.from({ length: n }, (_, j) => Math.sqrt(Math.max(0, 2 - 2 * sim[i][j]))),
 );
 
-const raw = mds(D);
 const clusters = kmeans(vectors, 4);
 
-// normalise into a 0..1000 x 0..620 field
 const W = 1000;
 const H = 620;
-const xs = raw.map((p) => p[0]);
-const ys = raw.map((p) => p[1]);
-const minX = Math.min(...xs);
-const maxX = Math.max(...xs);
-const minY = Math.min(...ys);
-const maxY = Math.max(...ys);
 
-const scaled = raw.map(([x, y]) => [
-  40 + ((x - minX) / (maxX - minX || 1)) * (W - 80),
-  40 + ((y - minY) / (maxY - minY || 1)) * (H - 80),
-]);
-
-// label footprint scales with how often the term appears
 const weights = terms.map((t) => df.get(t));
-const writtenWeights = terms.map((t) => dfWritten.get(t));
 const maxDfv = Math.max(...weights);
+// footprint scales with prominence; 140 points need real separation
 const sizes = terms.map((t, i) => 22 + (weights[i] / maxDfv) * 26);
-const placed = relax(scaled, sizes);
+
+/** normalise a raw layout into the field, then pull points apart */
+function place(raw2) {
+  const xs = raw2.map((p) => p[0]);
+  const ys = raw2.map((p) => p[1]);
+  const [mnX, mxX, mnY, mxY] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const scaled = raw2.map(([x, y]) => [
+    40 + ((x - mnX) / (mxX - mnX || 1)) * (W - 80),
+    40 + ((y - mnY) / (mxY - mnY || 1)) * (H - 80),
+  ]);
+  return relax(scaled, sizes).map(([x, y]) => [
+    +Math.min(Math.max(x, 18), W - 18).toFixed(1),
+    +Math.min(Math.max(y, 18), H - 18).toFixed(1),
+  ]);
+}
+
+const mdsPts = mds(D, 2);
+const pcaOut = pca(vectors);
+const layouts = { mds: place(mdsPts), pca: place(pcaOut.points) };
+const placed = layouts.mds;
+
+/**
+ * The 3D cloud, centred on the origin and scaled into a cube of side ~2 so the
+ * client can rotate it without renormalising every frame.
+ */
+const raw3 = mds(D, 3);
+const spread = [0, 1, 2].map((d) => {
+  const vals = raw3.map((p) => p[d] ?? 0);
+  return { min: Math.min(...vals), max: Math.max(...vals) };
+});
+const cloud = raw3.map((p) =>
+  [0, 1, 2].map((d) => {
+    const { min, max } = spread[d];
+    const t = ((p[d] ?? 0) - min) / (max - min || 1);
+    return +(t * 2 - 1).toFixed(4);
+  }),
+);
 
 const nodes = terms.map((t, i) => {
+  // cosine distance, which is the number the projector's inspector shows
   const neighbours = terms
     .map((other, j) => ({ other, s: sim[i][j], j }))
-    .filter((c) => c.j !== i)
+    .filter((c) => c.j !== i && c.s > 0)
     .sort((a, b) => b.s - a.s)
-    .slice(0, 3)
-    .map((c) => c.other);
+    .slice(0, 8)
+    .map((c) => ({ term: c.other, d: +(1 - c.s).toFixed(3) }));
 
   // the actual pieces this concept appears in, most-used first — makes each
   // node a way into the writing rather than a dead dot
@@ -443,8 +511,6 @@ const nodes = terms.map((t, i) => {
     academic: !!academic.get(t),
     used,
     cluster: clusters[i],
-    x: +Math.min(Math.max(placed[i][0], 18), W - 18).toFixed(1),
-    y: +Math.min(Math.max(placed[i][1], 18), H - 18).toFixed(1),
     r: +(3 + (weights[i] / maxDfv) * 9).toFixed(1),
     neighbours,
   };
@@ -471,11 +537,22 @@ await writeFile(
   JSON.stringify(
     {
       generated: 'run `npm run map` after writing something new',
-      method: 'tf-idf term vectors over documents, cosine distance, classical MDS, k-means(4)',
+      method: 'tf-idf term vectors over documents, cosine distance, k-means(4)',
       docs: writingDocs.length,
       academicDocs: docs.length - writingDocs.length,
+      dims: docs.length,
       width: W,
       height: H,
+      projections: [
+        { id: 'mds', label: 'MDS', note: 'classical multidimensional scaling on cosine distance' },
+        {
+          id: 'pca',
+          label: 'PCA',
+          note: `components 1-2 · ${(pcaOut.explained[0] * 100).toFixed(1)}% + ${(pcaOut.explained[1] * 100).toFixed(1)}% variance`,
+        },
+      ],
+      layouts,
+      cloud,
       nodes,
       edges: edges.map(({ a, b, s }) => ({ a, b, s })),
     },
@@ -489,4 +566,8 @@ console.log('densest concepts:');
 [...nodes]
   .sort((a, b) => b.docs - a.docs)
   .slice(0, 12)
-  .forEach((nd) => console.log(`  ${nd.term.padEnd(28)} in ${nd.docs} pieces  → ${nd.neighbours.join(', ')}`));
+  .forEach((nd) =>
+    console.log(
+      `  ${nd.term.padEnd(28)} in ${nd.docs} pieces  → ${nd.neighbours.slice(0, 3).map((x) => `${x.term} ${x.d}`).join(', ')}`,
+    ),
+  );

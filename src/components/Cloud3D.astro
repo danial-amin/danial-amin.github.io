@@ -1,0 +1,379 @@
+---
+/**
+ * Fig. 1 — the concept space as a rotating 3D point cloud.
+ *
+ * The academic site carries the full three-pane projector; this is the reduced
+ * version of the same idea — the cloud and nothing else. No projection switcher,
+ * no colour-by, no left rail. Drag to orbit, scroll-free, hover for a label,
+ * click for the pieces that use a concept.
+ *
+ * Coordinates are a 3-dimensional classical MDS of the same cosine distance
+ * matrix (scripts/build-concept-map.mjs), so this is one eigenvector further
+ * into the same decomposition rather than a different embedding. Rotation is a
+ * plain Y/X matrix applied per frame to 140 points, which is cheap enough to run
+ * in SVG and keeps the labels as real text.
+ *
+ * Four clusters, four inks — black, blue, burgundy, and burgundy over blue.
+ */
+import map from '../data/concept-map.json';
+
+const { nodes, cloud, docs, academicDocs, dims } = map;
+
+const cutoff = [...nodes].sort((a, b) => b.docs - a.docs)[Math.min(15, nodes.length - 1)]?.docs ?? 0;
+
+const client = nodes.map((n, i) => ({
+  t: n.term,
+  d: n.docs,
+  p: n.papers,
+  a: n.academic,
+  c: n.cluster,
+  r: n.r,
+  big: n.docs >= cutoff,
+  nb: n.neighbours.slice(0, 4),
+  u: n.used.slice(0, 4),
+  v: cloud[i],
+}));
+---
+
+<figure class="cl" data-set>
+  <div class="cl-stage" id="clStage">
+    <svg viewBox="-140 -120 280 240" id="clSvg" role="img"
+      aria-label={`Rotating three-dimensional embedding of ${nodes.length} concepts from ${docs} essays and ${academicDocs} publications.`}>
+      <g id="clPts"></g>
+    </svg>
+
+    <p class="cl-badge">
+      <span>3D · MDS</span>
+      <span>{nodes.length} concepts</span>
+      <span>{dims} dims</span>
+    </p>
+
+    <p class="cl-read" id="clRead" hidden></p>
+
+    <p class="cl-hint" id="clHint">Drag to turn it</p>
+  </div>
+
+  <figcaption class="cl-cap">
+    <strong>Fig. 1</strong> — {nodes.length} concepts from {docs} essays and {academicDocs}
+    {' '}publications, placed by co-occurrence in three dimensions. Ringed points also appear in the
+    papers. <a href="https://academic.danialamin.com/publications" rel="noopener" target="_blank">The
+    full projector is on the academic site ↗</a>
+  </figcaption>
+
+  <script type="application/json" id="clData" set:html={JSON.stringify(client)} />
+</figure>
+
+<style>
+  .cl {
+    margin: 0;
+    border: 2px solid var(--ink-k);
+    box-shadow: 7px 7px 0 var(--ink-a);
+    background: var(--paper-deep);
+  }
+
+  .cl-stage {
+    position: relative;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  .cl-stage.dragging {
+    cursor: grabbing;
+  }
+
+  .cl-stage svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: var(--plate-blend);
+  }
+
+  .cl-dot {
+    mix-blend-mode: var(--plate-blend);
+  }
+
+  .cl-dot.k0 { fill: var(--ink-k); }
+  .cl-dot.k1 { fill: var(--ink-b); }
+  .cl-dot.k2 { fill: var(--ink-a); }
+  .cl-dot.k3 { fill: var(--ink-ab); }
+
+  .cl-dot.ac {
+    stroke: var(--ink-k);
+    stroke-width: 0.6;
+    paint-order: stroke;
+  }
+
+  .cl-lab {
+    font-family: var(--type);
+    fill: var(--ink-k);
+    pointer-events: none;
+  }
+
+  .cl-node.on .cl-dot {
+    fill: var(--ink-a);
+  }
+
+  .cl-node.on .cl-lab {
+    fill: var(--ink-a);
+    font-weight: 700;
+  }
+
+  .cl-badge,
+  .cl-hint,
+  .cl-read {
+    position: absolute;
+    margin: 0;
+    font-family: var(--type);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .cl-badge {
+    top: 0.45rem;
+    left: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .cl-hint {
+    bottom: 0.45rem;
+    right: 0.6rem;
+  }
+
+  /* the readout replaces the hint once something is picked */
+  .cl-read {
+    bottom: 0.45rem;
+    left: 0.6rem;
+    right: 0.6rem;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-size: 0.66rem;
+    color: var(--ink-k);
+    background: var(--paper);
+    border: 1.5px solid var(--ink-k);
+    padding: 0.35rem 0.5rem;
+    line-height: 1.5;
+  }
+
+  .cl-read b {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .cl-read a {
+    color: var(--ink-b);
+    text-decoration: none;
+  }
+
+  .cl-read a:hover {
+    background: var(--ink-a);
+    color: var(--on-a);
+  }
+
+  .cl-read .dim {
+    color: var(--ink-faint);
+  }
+
+  .cl-cap {
+    font-family: var(--type);
+    font-size: 0.64rem;
+    line-height: 1.6;
+    color: var(--paper);
+    background: var(--ink-k);
+    padding: 0.35rem 0.7rem;
+  }
+
+  .cl-cap strong,
+  .cl-cap a {
+    color: var(--paper);
+  }
+
+  .cl-cap a:hover {
+    background: var(--ink-a);
+    color: var(--on-a);
+  }
+</style>
+
+<script>
+  type CN = {
+    t: string; d: number; p: number; a: boolean; c: number; r: number; big: boolean;
+    nb: { term: string; d: number }[];
+    u: { id: string; title: string }[];
+    v: [number, number, number];
+  };
+
+  const stage = document.getElementById('clStage');
+  const raw = document.getElementById('clData');
+  const group = document.getElementById('clPts');
+
+  if (stage && raw && group) {
+    const nodes = JSON.parse(raw.textContent || '[]') as CN[];
+    const read = document.getElementById('clRead')!;
+    const hint = document.getElementById('clHint')!;
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    // one <g> per concept, built once and repositioned per frame
+    const els = nodes.map((n) => {
+      const g = document.createElementNS(SVGNS, 'g');
+      g.setAttribute('class', 'cl-node');
+      g.setAttribute('tabindex', '0');
+      g.setAttribute('role', 'button');
+      g.setAttribute('aria-label', `${n.t}, in ${n.d} essays`);
+
+      const c = document.createElementNS(SVGNS, 'circle');
+      c.setAttribute('class', `cl-dot k${n.c}${n.a ? ' ac' : ''}`);
+      const t = document.createElementNS(SVGNS, 'text');
+      t.setAttribute('class', 'cl-lab');
+      t.textContent = n.t;
+
+      g.append(c, t);
+      group.append(g);
+      return { g, c, t };
+    });
+
+    let yaw = 0.6;
+    let pitch = -0.25;
+    let spin = still.matches ? 0 : 0.0022;
+    let picked = -1;
+
+    const SCALE = 92;
+    const DEPTH = 2.6; // perspective divisor
+
+    function frame() {
+      const cy = Math.cos(yaw);
+      const sy = Math.sin(yaw);
+      const cp = Math.cos(pitch);
+      const sp = Math.sin(pitch);
+
+      // rotate, project, and collect for depth sorting
+      const order: { i: number; z: number; x: number; y: number; k: number }[] = [];
+      for (let i = 0; i < nodes.length; i++) {
+        const [x0, y0, z0] = nodes[i].v;
+        const x1 = x0 * cy - z0 * sy;
+        const z1 = x0 * sy + z0 * cy;
+        const y1 = y0 * cp - z1 * sp;
+        const z2 = y0 * sp + z1 * cp;
+        const k = DEPTH / (DEPTH + z2); // nearer = larger
+        order.push({ i, z: z2, x: x1 * SCALE * k, y: y1 * SCALE * k, k });
+      }
+      // painter's algorithm: far points first, so near ones sit on top
+      order.sort((a, b) => b.z - a.z);
+
+      for (const o of order) {
+        const n = nodes[o.i];
+        const e = els[o.i];
+        e.g.setAttribute('transform', `translate(${o.x.toFixed(2)} ${o.y.toFixed(2)})`);
+        e.c.setAttribute('r', (n.r * 0.36 * o.k).toFixed(2));
+        e.c.setAttribute('fill-opacity', (0.45 + o.k * 0.5).toFixed(2));
+        // only the prominent concepts keep a label, and only when facing us
+        const showLabel = (n.big && o.k > 0.95) || o.i === picked;
+        e.t.setAttribute('x', (n.r * 0.36 * o.k + 2).toFixed(2));
+        e.t.setAttribute('y', '1.6');
+        e.t.setAttribute('font-size', (3.6 * o.k).toFixed(2));
+        e.t.setAttribute('opacity', showLabel ? '1' : '0');
+        // reorder for depth
+        group.append(e.g);
+      }
+    }
+
+    let rafId = 0;
+    function loop() {
+      if (spin) yaw += spin;
+      frame();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    /* ---- orbit ---- */
+
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    stage.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      spin = 0;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      stage.classList.add('dragging');
+      stage.setPointerCapture(e.pointerId);
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      yaw += (e.clientX - lastX) * 0.008;
+      pitch += (e.clientY - lastY) * 0.006;
+      pitch = Math.max(-1.2, Math.min(1.2, pitch));
+      lastX = e.clientX;
+      lastY = e.clientY;
+      if (!rafId) frame();
+    });
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      stage.classList.remove('dragging');
+      // drift resumes, slower, so it never fights the reader
+      if (!still.matches) spin = 0.0012;
+    }
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    /* ---- pick ---- */
+
+    function show(i: number) {
+      picked = i;
+      const n = nodes[i];
+      els.forEach((e, j) => e.g.classList.toggle('on', j === i));
+      const near = n.nb.map((x) => `${x.term} ${x.d.toFixed(2)}`).join(' · ');
+      const links = n.u
+        .map((u) => `<a href="/writing/${u.id}">${u.title}</a>`)
+        .join('<span class="dim"> · </span>');
+      read.innerHTML =
+        `<b>${n.t}</b> <span class="dim">— ${n.d} essays${n.p ? `, ${n.p} papers` : ''}</span><br>` +
+        `<span class="dim">near:</span> ${near}` +
+        (links ? `<br><span class="dim">in:</span> ${links}` : '');
+      read.hidden = false;
+      hint.hidden = true;
+      frame();
+    }
+
+    els.forEach((e, i) => {
+      e.g.addEventListener('pointerenter', () => {
+        if (!dragging) show(i);
+      });
+      e.g.addEventListener('focus', () => show(i));
+      e.g.addEventListener('click', (ev) => ev.stopPropagation());
+    });
+
+    stage.addEventListener('pointerleave', () => {
+      picked = -1;
+      els.forEach((e) => e.g.classList.remove('on'));
+      read.hidden = true;
+      hint.hidden = false;
+      frame();
+    });
+
+    // pause the drift when off screen
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            if (!rafId) loop();
+          } else if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = 0;
+          }
+        }
+      }).observe(stage);
+    } else {
+      loop();
+    }
+
+    frame();
+  }
+</script>
