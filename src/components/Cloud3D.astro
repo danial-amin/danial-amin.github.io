@@ -157,6 +157,8 @@ const client = nodes.map((n, i) => ({
   .cl-badge,
   .cl-hint {
     position: absolute;
+    /* they sit over the svg, so they must not intercept a press */
+    pointer-events: none;
     margin: 0;
     font-family: var(--type);
     font-size: 0.58rem;
@@ -523,8 +525,15 @@ const client = nodes.map((n, i) => ({
         dragging = false;
       });
     }
-    stage.addEventListener('pointerup', endDrag);
-    stage.addEventListener('pointercancel', endDrag);
+    /**
+     * On window, not on the stage. A node's pointerup calls stopPropagation so
+     * the stage's release-the-pin handler does not immediately undo the
+     * selection — which would also have stopped endDrag from ever running,
+     * leaving `pressing` true and the pointer captured. window sees it either
+     * way, and also catches a release outside the figure.
+     */
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
 
     /* ---- pick ---- */
 
@@ -556,6 +565,22 @@ const client = nodes.map((n, i) => ({
       frame();
     }
 
+    /** how far the pointer moved during the current press */
+    function travelled() {
+      return Math.hypot(lastX - startX, lastY - startY);
+    }
+
+    function pick(i: number) {
+      if (pinned === i) {
+        unpin();
+        return;
+      }
+      pinned = i;
+      spin = 0;
+      show(i);
+      els.forEach((el, j) => el.g.classList.toggle('pinned', j === i));
+    }
+
     function unpin() {
       pinned = -1;
       picked = -1;
@@ -576,29 +601,34 @@ const client = nodes.map((n, i) => ({
       e.g.addEventListener('pointerleave', () => e.g.classList.remove('hot'));
       e.g.addEventListener('focus', () => e.g.classList.add('hot'));
       e.g.addEventListener('blur', () => e.g.classList.remove('hot'));
-      e.g.addEventListener('click', (ev) => {
+      /**
+       * Selection happens on pointerup, not on click.
+       *
+       * The click path was unreliable: any press that wandered more than the drag
+       * threshold set `dragging`, and that flag was cleared on the next animation
+       * frame — which lands after click fires, so the handler bailed and nothing
+       * opened. Deciding here, from the distance actually travelled, removes the
+       * click synthesis, the pointer capture and the flag timing from the
+       * equation entirely.
+       */
+      e.g.addEventListener('pointerup', (ev) => {
+        if (travelled() > DRAG_THRESHOLD) return; // that was a drag
         ev.stopPropagation();
-        if (dragging) return; // finished a drag, not a click
-        if (pinned === i) {
-          unpin();
-          return;
-        }
-        pinned = i;
-        spin = 0;
-        show(i);
-        els.forEach((el, j) => el.g.classList.toggle('pinned', j === i));
+        pick(i);
       });
+
       e.g.addEventListener('keydown', (ev) => {
         if (ev.key === 'Enter' || ev.key === ' ') {
           ev.preventDefault();
-          e.g.dispatchEvent(new Event('click', { bubbles: true }));
+          pick(i);
         }
       });
     });
 
     // clicking empty space or pressing Escape releases the pin
-    stage.addEventListener('click', () => {
-      if (dragging) return;
+    // a press on empty space that did not travel releases the pin
+    stage.addEventListener('pointerup', () => {
+      if (travelled() > DRAG_THRESHOLD) return;
       if (pinned >= 0) unpin();
     });
     window.addEventListener('keydown', (ev) => {
