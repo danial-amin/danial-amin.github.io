@@ -147,7 +147,7 @@ function tokens(text) {
 
 const ACADEMIC_BOOST = 1.3;
 
-function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 140 }) {
+function buildMatrix(docs, { minDf = 3, maxDfRatio = 0.5, topTerms = 210 }) {
   const tf = docs.map(() => new Map());
   const df = new Map();
 

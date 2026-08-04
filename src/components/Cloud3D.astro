@@ -19,7 +19,8 @@ import map from '../data/concept-map.json';
 
 const { nodes, cloud, docs, academicDocs, dims } = map;
 
-const cutoff = [...nodes].sort((a, b) => b.docs - a.docs)[Math.min(15, nodes.length - 1)]?.docs ?? 0;
+// how many carry a larger label at rest; the rest are still drawn, just quieter
+const cutoff = [...nodes].sort((a, b) => b.docs - a.docs)[Math.min(23, nodes.length - 1)]?.docs ?? 0;
 
 const client = nodes.map((n, i) => ({
   t: n.term,
@@ -37,7 +38,7 @@ const client = nodes.map((n, i) => ({
 
 <figure class="cl" data-set>
   <div class="cl-stage" id="clStage">
-    <svg viewBox="-140 -120 280 240" id="clSvg" role="img"
+    <svg viewBox="-140 -104 280 236" id="clSvg" role="img"
       aria-label={`Rotating three-dimensional embedding of ${nodes.length} concepts from ${docs} essays and ${academicDocs} publications.`}>
       <g id="clPts"></g>
     </svg>
@@ -48,10 +49,11 @@ const client = nodes.map((n, i) => ({
       <span>{dims} dims</span>
     </p>
 
-    <p class="cl-read" id="clRead" hidden></p>
-
     <p class="cl-hint" id="clHint">Drag to turn it · click a concept to pin it</p>
   </div>
+
+  <!-- underneath, so it never covers the thing it describes -->
+  <div class="cl-read" id="clRead" hidden></div>
 
   <figcaption class="cl-cap">
     <strong>Fig. 1</strong> — {nodes.length} concepts from {docs} essays and {academicDocs}
@@ -64,11 +66,9 @@ const client = nodes.map((n, i) => ({
 </figure>
 
 <style>
+  /* No frame and no fill — the words sit directly on the paper. */
   .cl {
     margin: 0;
-    border: 2px solid var(--ink-k);
-    box-shadow: 7px 7px 0 var(--ink-a);
-    background: var(--paper-deep);
   }
 
   .cl-stage {
@@ -104,24 +104,32 @@ const client = nodes.map((n, i) => ({
     paint-order: stroke;
   }
 
+  /* Every concept is labelled, and the label carries the cluster colour — the
+     dots were doing that work alone while the words were all black. */
   .cl-lab {
     font-family: var(--type);
-    fill: var(--ink-k);
     pointer-events: none;
   }
+
+  .cl-lab.k0 { fill: var(--ink-k); }
+  .cl-lab.k1 { fill: var(--ink-b); }
+  .cl-lab.k2 { fill: var(--ink-a); }
+  .cl-lab.k3 { fill: var(--ink-ab); }
 
   .cl-node.on .cl-dot {
     fill: var(--ink-a);
   }
 
   .cl-node.on .cl-lab {
-    fill: var(--ink-a);
+    fill: var(--ink-k);
     font-weight: 700;
+    paint-order: stroke;
+    stroke: var(--paper);
+    stroke-width: 1.1;
   }
 
   .cl-badge,
-  .cl-hint,
-  .cl-read {
+  .cl-hint {
     position: absolute;
     margin: 0;
     font-family: var(--type);
@@ -144,21 +152,16 @@ const client = nodes.map((n, i) => ({
     right: 0.6rem;
   }
 
-  /* the readout replaces the hint once something is picked */
+  /* sits below the cloud rather than over it */
   .cl-read {
-    bottom: 0.5rem;
-    left: 0.6rem;
-    width: min(24rem, calc(100% - 1.2rem));
-    text-transform: none;
-    letter-spacing: 0.01em;
+    position: static;
+    margin: 0.6rem 0 0;
     font-size: 0.68rem;
+    line-height: 1.45;
     color: var(--ink-k);
     background: var(--paper);
     border: 2px solid var(--ink-k);
     box-shadow: 4px 4px 0 var(--ink-a);
-    padding: 0;
-    line-height: 1.45;
-    pointer-events: auto;
   }
 
   .cl-read :global(.cl-r-h) {
@@ -311,7 +314,7 @@ const client = nodes.map((n, i) => ({
       const c = document.createElementNS(SVGNS, 'circle');
       c.setAttribute('class', `cl-dot k${n.c}${n.a ? ' ac' : ''}`);
       const t = document.createElementNS(SVGNS, 'text');
-      t.setAttribute('class', 'cl-lab');
+      t.setAttribute('class', `cl-lab k${n.c}`);
       t.textContent = n.t;
 
       g.append(c, t);
@@ -358,14 +361,21 @@ const client = nodes.map((n, i) => ({
         const n = nodes[o.i];
         const e = els[o.i];
         e.g.setAttribute('transform', `translate(${o.x.toFixed(2)} ${o.y.toFixed(2)})`);
-        e.c.setAttribute('r', (n.r * 0.5 * o.k).toFixed(2));
+        e.c.setAttribute('r', (n.r * 0.34 * o.k).toFixed(2));
         e.c.setAttribute('fill-opacity', (0.62 + o.k * 0.38).toFixed(2));
-        // only the prominent concepts keep a label, and only when facing us
-        const showLabel = (n.big && o.k > 0.95) || o.i === picked;
-        e.t.setAttribute('x', (n.r * 0.5 * o.k + 2).toFixed(2));
+        /**
+         * Every word is drawn. With 140 of them the crowd is managed by depth
+         * rather than by hiding: those at the back are smaller and fainter, so
+         * the front of the cloud reads and the back becomes texture. The
+         * prominent concepts and the selected one are always fully opaque.
+         */
+        const front = (o.k - 0.72) / 0.5; // roughly 0 at the back, 1 at the front
+        const fade = Math.max(0.16, Math.min(1, front));
+        const lit = n.big || o.i === picked;
+        e.t.setAttribute('x', (n.r * 0.34 * o.k + 1.8).toFixed(2));
         e.t.setAttribute('y', '1.6');
-        e.t.setAttribute('font-size', (3.6 * o.k).toFixed(2));
-        e.t.setAttribute('opacity', showLabel ? '1' : '0');
+        e.t.setAttribute('font-size', ((n.big ? 3.7 : 2.75) * o.k).toFixed(2));
+        e.t.setAttribute('opacity', (lit ? Math.max(0.55, fade) : fade * 0.82).toFixed(2));
         // reorder for depth
         group.append(e.g);
       }
@@ -380,21 +390,50 @@ const client = nodes.map((n, i) => ({
 
     /* ---- orbit ---- */
 
+    /**
+     * Drag has to be distinguished from click, and the pointer must NOT be
+     * captured until it is genuinely a drag.
+     *
+     * The previous version called setPointerCapture on pointerdown, which
+     * redirects every following pointer event — and the click generated from
+     * them — to the stage. A node's own click handler therefore never fired, so
+     * concepts could not be selected and their links were unreachable. Capture
+     * now waits for real movement, and a press that never moves is left alone to
+     * become a click.
+     */
+    const DRAG_THRESHOLD = 4;
+    let pressing = false;
     let dragging = false;
+    let startX = 0;
+    let startY = 0;
     let lastX = 0;
     let lastY = 0;
+    let pointerId = -1;
 
     stage.addEventListener('pointerdown', (e) => {
-      dragging = true;
-      spin = 0;
-      lastX = e.clientX;
-      lastY = e.clientY;
-      stage.classList.add('dragging');
-      stage.setPointerCapture(e.pointerId);
+      pressing = true;
+      dragging = false;
+      pointerId = e.pointerId;
+      startX = lastX = e.clientX;
+      startY = lastY = e.clientY;
     });
 
     stage.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
+      if (!pressing) return;
+
+      if (!dragging) {
+        if (Math.hypot(e.clientX - startX, e.clientY - startY) < DRAG_THRESHOLD) return;
+        // only now is it a drag
+        dragging = true;
+        spin = 0;
+        stage.classList.add('dragging');
+        try {
+          stage.setPointerCapture(pointerId);
+        } catch {
+          /* capture is a nicety; the drag works without it */
+        }
+      }
+
       yaw += (e.clientX - lastX) * 0.008;
       pitch += (e.clientY - lastY) * 0.006;
       pitch = Math.max(-1.2, Math.min(1.2, pitch));
@@ -404,11 +443,21 @@ const client = nodes.map((n, i) => ({
     });
 
     function endDrag() {
-      if (!dragging) return;
-      dragging = false;
-      stage.classList.remove('dragging');
-      // drift resumes, slower, so it never fights the reader
-      if (!still.matches) spin = 0.0012;
+      if (dragging) {
+        stage.classList.remove('dragging');
+        // drift resumes, slower, so it never fights the reader
+        if (!still.matches && pinned < 0) spin = 0.0012;
+        try {
+          stage.releasePointerCapture(pointerId);
+        } catch {
+          /* nothing to release */
+        }
+      }
+      pressing = false;
+      // cleared on the next frame so the click handler can still see it
+      requestAnimationFrame(() => {
+        dragging = false;
+      });
     }
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
@@ -427,9 +476,14 @@ const client = nodes.map((n, i) => ({
         .map((u) => `<li><a href="/writing/${u.id}">${u.title}</a></li>`)
         .join('');
 
+      // four concepts come only from the publications; "0 essays" would be
+      // accurate but reads as an error, so say what it actually is
+      const counts = n.d > 0
+        ? `${n.d} essay${n.d === 1 ? '' : 's'}${n.p ? ` · ${n.p} papers` : ''}`
+        : `${n.p} paper${n.p === 1 ? '' : 's'} only`;
+
       read.innerHTML =
-        `<p class="cl-r-h"><b>${n.t}</b>` +
-        `<span class="dim">${n.d} essays${n.p ? ` · ${n.p} papers` : ''}</span></p>` +
+        `<p class="cl-r-h"><b>${n.t}</b><span class="dim">${counts}</span></p>` +
         `<p class="cl-r-nb">${near}</p>` +
         (links ? `<p class="cl-r-l">Used in</p><ul class="cl-r-u">${links}</ul>` : '');
 
@@ -458,6 +512,7 @@ const client = nodes.map((n, i) => ({
       });
       e.g.addEventListener('click', (ev) => {
         ev.stopPropagation();
+        if (dragging) return; // finished a drag, not a click
         if (pinned === i) {
           unpin();
           return;
@@ -477,6 +532,7 @@ const client = nodes.map((n, i) => ({
 
     // clicking empty space or pressing Escape releases the pin
     stage.addEventListener('click', () => {
+      if (dragging) return;
       if (pinned >= 0) unpin();
     });
     window.addEventListener('keydown', (ev) => {
