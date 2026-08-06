@@ -482,6 +482,29 @@ const nodes = terms.map((t, i) => {
   };
 });
 
+/**
+ * One entry per k-means group, for the legend under the figure.
+ *
+ * Each group is named after the concept that carries it — the term appearing in
+ * the most pieces — with the next two as a subtitle. Naming them by hand was the
+ * alternative and it would go stale on the next publish: the groups are recomputed
+ * from the corpus on every build, so a fixed list of labels would slowly stop
+ * describing the colours it claims to explain. `k` is the index the ink is keyed
+ * to (--c0 … --c7 in the stylesheet).
+ */
+const groups = [...new Set(clusters)].sort((a, b) => a - b).map((k) => {
+  const members = terms
+    .map((t, i) => ({ t, i }))
+    .filter(({ i }) => clusters[i] === k)
+    .sort((a, b) => dfWritten.get(b.t) - dfWritten.get(a.t) || a.t.localeCompare(b.t));
+  return {
+    k,
+    size: members.length,
+    label: members[0]?.t ?? `group ${k}`,
+    also: members.slice(1, 3).map((m) => m.t),
+  };
+});
+
 // a few strongest edges, so the clustering is visible as structure
 const edges = [];
 for (let i = 0; i < n; i++) {
@@ -508,6 +531,7 @@ await writeFile(
       academicDocs: docs.length - writingDocs.length,
       dims: docs.length,
       cloud,
+      groups,
       nodes,
       edges: edges.map(({ a, b, s }) => ({ a, b, s })),
     },

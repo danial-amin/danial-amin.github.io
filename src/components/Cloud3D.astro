@@ -10,14 +10,16 @@
  * Coordinates are a 3-dimensional classical MDS of the same cosine distance
  * matrix (scripts/build-concept-map.mjs), so this is one eigenvector further
  * into the same decomposition rather than a different embedding. Rotation is a
- * plain Y/X matrix applied per frame to 140 points, which is cheap enough to run
+ * plain Y/X matrix applied per frame to 210 points, which is cheap enough to run
  * in SVG and keeps the labels as real text.
  *
- * Four clusters, four inks — black, blue, burgundy, and burgundy over blue.
+ * Eight k-means groups, eight inks, keyed underneath by .cl-key — the generator
+ * names each group after its most-used concept so the key cannot drift from the
+ * colours when a new post changes the grouping.
  */
 import map from '../data/concept-map.json';
 
-const { nodes, cloud, docs, academicDocs, dims } = map;
+const { nodes, cloud, docs, academicDocs, dims, groups } = map;
 
 // how many carry a larger label at rest; the rest are still drawn, just quieter
 const cutoff = [...nodes].sort((a, b) => b.docs - a.docs)[Math.min(23, nodes.length - 1)]?.docs ?? 0;
@@ -48,19 +50,33 @@ const client = nodes.map((n, i) => ({
       <span>{nodes.length} concepts</span>
       <span>{dims} dims</span>
     </p>
-
-    <p class="cl-hint" id="clHint">Drag to turn · click a word to open it</p>
   </div>
 
-  <!-- underneath, so it never covers the thing it describes -->
-  <div class="cl-read" id="clRead" hidden></div>
+  <!-- Everything below the drawing. Grouped so the cover can put the cloud's base
+       on the same line as the buttons beside it and let this follow underneath. -->
+  <div class="cl-under">
+    <p class="cl-hint" id="clHint">Drag to turn · click a word to open it</p>
 
-  <figcaption class="cl-cap">
+    <ul class="cl-key" aria-label="Concept groups, by ink">
+      {groups.map((g) => (
+        <li class:list={[`k${g.k}`]} title={g.also.length ? `also: ${g.also.join(', ')}` : undefined}>
+          <span class="cl-key-dot" aria-hidden="true"></span>
+          <span class="cl-key-t">{g.label}</span>
+          <span class="cl-key-n">{g.size}</span>
+        </li>
+      ))}
+    </ul>
+
+    <!-- underneath, so it never covers the thing it describes -->
+    <div class="cl-read" id="clRead" hidden></div>
+
+    <figcaption class="cl-cap">
     <strong>Fig. 1</strong> — {nodes.length} concepts from {docs} essays and {academicDocs}
     {' '}publications, placed by co-occurrence in three dimensions. Ringed points also appear in the
     papers. <a href="https://academic.danialamin.com/publications" rel="noopener" target="_blank">The
     full projector is on the academic site ↗</a>
-  </figcaption>
+    </figcaption>
+  </div>
 
   <script type="application/json" id="clData" set:html={JSON.stringify(client)} />
 </figure>
@@ -175,12 +191,74 @@ const client = nodes.map((n, i) => ({
     gap: 0.1rem;
   }
 
+  /**
+   * Under the drawing rather than over it. It used to sit inside the stage at the
+   * bottom right, which was empty space only because the viewBox carried 96 units
+   * of padding down there; with the box fitted to the words the hint landed on top
+   * of them.
+   */
   .cl-hint {
-    bottom: 0.45rem;
-    right: 0.6rem;
+    position: static;
+    margin: 0.5rem 0 0;
   }
 
-  /* sits below the cloud rather than over it */
+  /**
+   * The key to the inks.
+   *
+   * Eight groups come out of k-means over the term vectors, and until now the
+   * colours were unexplained — eight inks with nothing saying what they separate.
+   * Each row is named after the concept that carries its group (the term in the
+   * most pieces), which the generator emits alongside the clusters so the labels
+   * cannot fall out of step with the colours after a publish. Hover gives the next
+   * two terms.
+   *
+   * The swatches read from the same --c0..--c7 the dots use, so the key follows the
+   * paper stock into black without a second palette.
+   */
+  .cl-key {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.9rem;
+    margin: 0.7rem 0 0;
+    padding: 0;
+  }
+
+  .cl-key li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+    font-family: var(--type);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: default;
+  }
+
+  .cl-key-dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    flex: none;
+    /* the dots in the cloud carry the same ink at partial opacity by depth */
+    background: var(--ink-k);
+  }
+
+  .cl-key li.k0 .cl-key-dot { background: var(--c0); }
+  .cl-key li.k1 .cl-key-dot { background: var(--c1); }
+  .cl-key li.k2 .cl-key-dot { background: var(--c2); }
+  .cl-key li.k3 .cl-key-dot { background: var(--c3); }
+  .cl-key li.k4 .cl-key-dot { background: var(--c4); }
+  .cl-key li.k5 .cl-key-dot { background: var(--c5); }
+  .cl-key li.k6 .cl-key-dot { background: var(--c6); }
+  .cl-key li.k7 .cl-key-dot { background: var(--c7); }
+
+  .cl-key-n {
+    font-size: 0.55rem;
+    color: var(--ink-faint);
+  }
+
   .cl-read {
     position: static;
     margin: 0.6rem 0 0;
@@ -481,11 +559,17 @@ const client = nodes.map((n, i) => ({
        * badge and the caption are corner overlays with pointer-events: none, so
        * they need no reserved space of their own.
        */
+      /**
+       * No margin along the bottom: the cover puts the key directly under the
+       * drawing and aligns the figure on that edge, so the lowest word's descender
+       * is where the box should end. Eight units of padding there read as the cloud
+       * floating off its own legend.
+       */
       const M = 8;
       const x = minX - M;
       const y = minY - M;
       const w = maxX - minX + M * 2;
-      const h = maxY - minY + M * 2;
+      const h = maxY - minY + M;
       svg.setAttribute('viewBox', `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
     }
 

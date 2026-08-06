@@ -518,7 +518,54 @@ main {
   .cover-body {
     grid-template-columns: 1.4fr 1fr;
     column-gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
+    /* the row ends where the buttons end — see .cover-body > .cl below */
+    align-items: end;
+  }
+
+  /**
+   * The figure's base sits on the same line as the buttons beside it.
+   *
+   * It used to top-align, and since the cloud is taller than the tagline and the
+   * two buttons it hung a long way below them, so the cover had no baseline to
+   * read along. Bottom-aligning the grid alone would have solved it the wrong way
+   * round: the cloud is the tallest item, so it sets the row height and the text
+   * would have dropped to meet it instead.
+   *
+   * So the figure is taken out of the row's height calculation — the stage is
+   * absolutely positioned, leaving the figure with no in-flow content — and the
+   * row is sized by the text column alone. `stretch` then gives the figure that
+   * height and the stage hangs from its bottom edge, rising past the top of the
+   * row rather than pushing anything down. The cloud's own viewBox is fitted
+   * tightly to the words (fitViewBox in Cloud3D.astro), so the bottom of the box
+   * is the bottom of the lowest word: the alignment is with the figure as drawn,
+   * not with padding around it.
+   *
+   * Single column below 900px, where the figure follows the text in the flow and
+   * must keep its own height.
+   */
+  .cover-body > .cl {
+    position: relative;
+    margin: 0;
+  }
+
+  /**
+   * The key and the caption are the figure's only in-flow content, so the row is
+   * as tall as the text column and the figure's bottom edge lands on the buttons'
+   * baseline. The drawing then hangs above that block — `bottom: 100%` puts its
+   * base on the figure's top edge — so it rises out of the row instead of pushing
+   * anything down, and the cover reads along one bottom line.
+   *
+   * The first attempt pinned the drawing itself to the baseline and let the key and
+   * caption overflow below it. The alignment was exact but the overflow walked 38px
+   * into the first section, and it would have grown further whenever the readout
+   * opened. Nothing overflows this way: if the readout makes the figure taller than
+   * the text column, the row simply grows.
+   */
+  .cover-body > .cl .cl-stage {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
   }
 }
 
