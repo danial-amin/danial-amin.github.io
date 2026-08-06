@@ -164,7 +164,9 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
               <p>
                 That was the extract — {here.toLocaleString('en-GB')} of{' '}
                 {full.words.toLocaleString('en-GB')} words. The complete essay is at{' '}
-                <a href={full.url} rel="noopener" target="_blank">academic.danialamin.com ↗</a>
+                {/* the label is read off the href, so an origin override cannot
+                    leave the visible domain contradicting where the link goes */}
+                <a href={full.url} rel="noopener" target="_blank">{new URL(full.url).host} ↗</a>
               </p>
             </aside>
           )

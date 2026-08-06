@@ -5,6 +5,7 @@ import Ink from '../../components/Ink.astro';
 import publications from '../../data/publications.json';
 import news from '../../data/news.json';
 import site from '../../data/site.json';
+import { academicHome } from '../../lib/origins';
 ---
 
 <Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
@@ -24,7 +25,7 @@ import site from '../../data/site.json';
       that gets wrong.
     </p>
     <div class="cover-actions" data-set style="--set-delay:300ms">
-      <a class="btn" href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic site</a>
+      <a class="btn" href={academicHome} rel="noopener noreferrer" target="_blank">Academic site</a>
       <a class="btn btn-out" href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
       <a class="btn btn-out" href={site.socials.orcid} rel="noopener noreferrer" target="_blank">ORCID</a>
     </div>

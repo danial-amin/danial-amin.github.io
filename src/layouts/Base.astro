@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
+import { academicHome } from '../lib/origins';
 import Press from '../components/Press.astro';
 import CommandPalette from '../components/CommandPalette.astro';
 import Eggs from '../components/Eggs.astro';
@@ -127,7 +128,7 @@ const year = new Date().getFullYear();
           <a href={site.socials.github} rel="noopener noreferrer" target="_blank">GitHub</a>
           <a href={site.socials.scholar} rel="noopener noreferrer" target="_blank">Scholar</a>
           <a href={site.cv}>CV</a>
-          <a href={site.academicUrl} rel="noopener noreferrer" target="_blank">Academic</a>
+          <a href={academicHome} rel="noopener noreferrer" target="_blank">Academic</a>
         </div>
         <p class="colophon">
           <span>© {year} {site.name} · {site.location}</span>

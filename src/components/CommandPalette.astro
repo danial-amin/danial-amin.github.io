@@ -8,6 +8,7 @@
  * to keep in sync with the markup.
  */
 import site from '../data/site.json';
+import { academicHome } from '../lib/origins';
 import systems from '../data/systems.json';
 
 type Cmd = {
@@ -51,7 +52,7 @@ const commands: Cmd[] = [
   { label: 'GitHub', kind: 'link', icon: '↗', href: site.socials.github, external: true, keywords: 'code source repos' },
   { label: 'Google Scholar', kind: 'link', icon: '↗', href: site.socials.scholar, external: true, keywords: 'citations papers academic' },
   { label: 'ORCID', kind: 'link', icon: '↗', href: site.socials.orcid, external: true, keywords: 'academic id' },
-  { label: 'Academic site', kind: 'link', icon: '↗', href: site.academicUrl, external: true, keywords: 'publications full record' },
+  { label: 'Academic site', kind: 'link', icon: '↗', href: academicHome, external: true, keywords: 'publications full record' },
 ];
 ---
 

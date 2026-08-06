@@ -18,6 +18,7 @@
  * colours when a new post changes the grouping.
  */
 import map from '../data/concept-map.json';
+import { academicPublications } from '../lib/origins';
 
 const { nodes, cloud, docs, academicDocs, dims, groups } = map;
 
@@ -73,7 +74,7 @@ const client = nodes.map((n, i) => ({
     <figcaption class="cl-cap">
     <strong>Fig. 1</strong> — {nodes.length} concepts from {docs} essays and {academicDocs}
     {' '}publications, placed by co-occurrence in three dimensions. Ringed points also appear in the
-    papers. <a href="https://academic.danialamin.com/publications" rel="noopener" target="_blank">The
+    papers. <a href={academicPublications} rel="noopener" target="_blank">The
     full projector is on the academic site ↗</a>
     </figcaption>
   </div>

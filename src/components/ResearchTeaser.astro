@@ -2,6 +2,7 @@
 import publications from '../data/publications.json';
 import news from '../data/news.json';
 import site from '../data/site.json';
+import { academicHome } from '../lib/origins';
 
 const top = publications.slice(0, 3);
 const latest = news[0];
@@ -32,7 +33,7 @@ const latest = news[0];
 )}
 
 <p style="margin:1.4rem 0 0" data-set>
-  <a class="jump" href={site.academicUrl} rel="noopener noreferrer" target="_blank">
+  <a class="jump" href={academicHome} rel="noopener noreferrer" target="_blank">
     Full academic record ↗
   </a>
 </p>

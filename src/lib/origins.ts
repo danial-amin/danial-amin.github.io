@@ -16,5 +16,18 @@ export const ACADEMIC_ORIGIN =
 /** absolute URL of the full version of an essay */
 export const academicEssay = (slug: string) => `${ACADEMIC_ORIGIN}/writing/${slug.toLowerCase()}`;
 
+/**
+ * The other two places the sister site is linked.
+ *
+ * These used to be written out by hand — `academicUrl` in site.json for the
+ * footer, the research page, the palette and the teaser, and a literal
+ * `https://academic.danialamin.com/publications` inside Cloud3D — which meant
+ * PUBLIC_ACADEMIC_ORIGIN moved the essay links and left everything else pointing
+ * at production. There is one origin now, so redirecting the sister site is one
+ * variable rather than a search-and-replace.
+ */
+export const academicHome = `${ACADEMIC_ORIGIN}/`;
+export const academicPublications = `${ACADEMIC_ORIGIN}/publications`;
+
 /** true when we are pointing at a local dev server rather than the real site */
 export const ACADEMIC_IS_LOCAL = /localhost|127\.0\.0\.1/.test(ACADEMIC_ORIGIN);
