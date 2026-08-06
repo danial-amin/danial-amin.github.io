@@ -1950,3 +1950,190 @@ kbd {
 .piece-grid .prose :is(h2, h3) {
   scroll-margin-top: 5.5rem;
 }
+
+/* ---------- studio ----------
+
+   The editor at /studio. It borrows the gate, the filters and .prose wholesale,
+   so what is here is only the desk itself: the field grid, the two panes, and
+   the bar under them. The preview pane deliberately reuses .prose unchanged —
+   the point of previewing is to see the real thing. */
+
+.studio {
+  margin-top: 0.5rem;
+}
+
+.studio-hint {
+  font-family: var(--type);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-faint);
+  margin: 0.7rem 0 0;
+}
+
+.studio-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.studio-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1.1rem;
+  margin-bottom: 1.6rem;
+}
+
+.studio-field {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.studio-field-wide {
+  grid-column: 1 / -1;
+}
+
+.studio-field label {
+  font-family: var(--type);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ink-soft);
+}
+
+.studio-note {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+}
+
+.studio :is(input, select, textarea) {
+  font-family: var(--type);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border: 1.5px solid var(--ink-hair);
+  background: var(--paper);
+  color: var(--ink-body);
+  border-radius: 0;
+}
+
+.studio :is(input, select, textarea):focus-visible {
+  outline: none;
+  border-color: var(--ink-k);
+  box-shadow: inset 0 0 0 1.5px var(--ink-b);
+}
+
+.studio input[type='checkbox'] {
+  width: auto;
+  accent-color: var(--ink-b);
+}
+
+/* The body is the whole point of the page, so it gets the plate treatment the
+   rest of the site gives its panels. */
+#st-body {
+  border: 2.5px solid var(--ink-k);
+  background: var(--paper-deep);
+  min-height: 26rem;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.studio-tabs {
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.studio-count {
+  margin-left: auto;
+  font-family: var(--type);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.studio-preview {
+  border: 2.5px solid var(--ink-k);
+  background: var(--paper-deep);
+  padding: 0.4rem 1.4rem 1.6rem;
+  min-height: 26rem;
+}
+
+.studio-preview .prose {
+  max-width: 42rem;
+  padding-block: 0.6rem;
+}
+
+.studio-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.1rem;
+  margin-top: 1.3rem;
+}
+
+.studio-replace {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--type);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-soft);
+}
+
+.studio-bar .jump {
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid var(--ink-a);
+  padding: 0;
+  cursor: pointer;
+}
+
+.studio-error {
+  font-family: var(--type);
+  font-size: 0.68rem;
+  color: var(--on-a);
+  background: var(--ink-a);
+  align-self: flex-start;
+  padding: 0.12rem 0.4rem;
+}
+
+.studio-status {
+  font-family: var(--type);
+  font-size: 0.78rem;
+  line-height: 1.7;
+  margin: 1.2rem 0 0;
+  padding: 0.7rem 0.85rem;
+  border-left: 4px solid var(--ink-faint);
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+}
+
+.studio-status[data-kind='ok'] {
+  border-left-color: var(--c5);
+  color: var(--ink-body);
+}
+
+.studio-status[data-kind='bad'] {
+  border-left-color: var(--ink-a);
+  color: var(--ink-body);
+}
+
+.tally[data-kind='bad'] {
+  color: var(--ink-a);
+}
+
+@media (max-width: 46rem) {
+  .studio-fields {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,617 @@
+---
+import Base from '../layouts/Base.astro';
+
+/**
+ * The writing desk: paste markdown, see it rendered exactly as the site will
+ * print it, publish.
+ *
+ * This page is prerendered and holds nothing privileged — the markup below is a
+ * passphrase form and an empty editor. Every operation that matters happens in
+ * /api/preview and /api/publish, both of which refuse to answer without the
+ * grant cookie, so serving the shell statically costs nothing.
+ *
+ * Publishing commits the post to src/content/writing/ on GitHub. It becomes a
+ * real collection entry, in version control, rendered by /writing/[...slug]
+ * like the other fifty — which is why it appears once the deploy that follows
+ * the commit has finished, not the instant the button is pressed.
+ */
+const today = new Date().toISOString().slice(0, 10);
+---
+
+<Base
+  title="Studio"
+  description="Compose and publish a post."
+  noindex
+>
+  <header class="cover">
+    <p class="cover-issue">
+      <span>Section — Studio</span>
+      <span>Paste markdown</span>
+      <span>Commits to the repo</span>
+    </p>
+    <h1 class="cover-name" style="font-size:var(--t-3)">The desk</h1>
+    <p class="cover-line">
+      Markdown in, essay out. Publishing writes the file into the writing
+      collection, so the post is version-controlled and rendered by the same page
+      as everything else.
+    </p>
+  </header>
+
+  <div class="section">
+    <div id="studio-gate" class="gate">
+      <form id="studio-auth">
+        <label for="studio-pass">Passphrase</label>
+        <div class="gate-row">
+          <input
+            id="studio-pass"
+            name="passphrase"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn" type="submit" id="studio-unlock"><span>Unlock</span></button>
+        </div>
+        <p id="studio-auth-error" class="gate-error" hidden aria-live="polite"></p>
+        <p class="studio-hint">The desk has its own passphrase — not the one for the cases.</p>
+      </form>
+    </div>
+
+    <div id="studio" hidden>
+      <p id="studio-target" class="tally" aria-live="polite">Checking the repository…</p>
+
+      <form id="studio-form" class="studio">
+        <div class="studio-fields">
+          <p class="studio-field studio-field-wide">
+            <label for="st-title">Title</label>
+            <input id="st-title" name="title" type="text" autocomplete="off" required />
+            <span class="studio-error" data-error-for="title" hidden></span>
+          </p>
+
+          <p class="studio-field">
+            <label for="st-date">Date</label>
+            <input id="st-date" name="date" type="date" value={today} required />
+            <span class="studio-error" data-error-for="date" hidden></span>
+          </p>
+
+          <p class="studio-field">
+            <label for="st-source">Form</label>
+            <select id="st-source" name="source">
+              <option value="essay">Essay</option>
+              <option value="newsletter">Newsletter</option>
+            </select>
+          </p>
+
+          <p class="studio-field studio-field-wide">
+            <label for="st-slug">Slug <span class="studio-note" id="st-slug-auto">from the title</span></label>
+            <input id="st-slug" name="slug" type="text" autocomplete="off" spellcheck="false" />
+            <span class="studio-error" data-error-for="slug" hidden></span>
+          </p>
+
+          <p class="studio-field studio-field-wide">
+            <label for="st-excerpt">
+              Excerpt <span class="studio-note">left empty, the opening paragraph is used</span>
+            </label>
+            <textarea id="st-excerpt" name="excerpt" rows="2"></textarea>
+            <span class="studio-error" data-error-for="excerpt" hidden></span>
+          </p>
+
+          <p class="studio-field">
+            <label for="st-tags">Tags <span class="studio-note">comma separated</span></label>
+            <input id="st-tags" name="tags" type="text" autocomplete="off" />
+          </p>
+
+          <p class="studio-field">
+            <label for="st-linkedin">LinkedIn URL <span class="studio-note">optional</span></label>
+            <input id="st-linkedin" name="linkedinUrl" type="url" autocomplete="off" />
+            <span class="studio-error" data-error-for="linkedinUrl" hidden></span>
+          </p>
+        </div>
+
+        <div class="filters studio-tabs" role="group" aria-label="Editor mode">
+          <button type="button" data-mode="write" aria-pressed="true">Write</button>
+          <button type="button" data-mode="preview" aria-pressed="false">Preview</button>
+          <span class="studio-count" id="st-count">0 words</span>
+        </div>
+
+        <div id="st-write">
+          <label class="studio-sr" for="st-body">Markdown</label>
+          <textarea
+            id="st-body"
+            name="body"
+            rows="24"
+            spellcheck="false"
+            placeholder="Paste markdown here. A whole .md file works — the frontmatter is read into the fields above."
+          ></textarea>
+          <span class="studio-error" data-error-for="body" hidden></span>
+        </div>
+
+        <div id="st-preview" hidden>
+          <div class="studio-preview">
+            <div class="prose" id="st-preview-body"></div>
+          </div>
+        </div>
+
+        <div class="studio-bar">
+          <button class="btn" type="submit" id="st-publish"><span>Publish</span></button>
+          <label class="studio-replace">
+            <input type="checkbox" id="st-replace" />
+            replace if it exists
+          </label>
+          <button class="jump" type="button" id="st-copy">Copy the .md file</button>
+          <button class="jump" type="button" id="st-clear">Discard draft</button>
+          <button class="jump" type="button" id="st-lock">Lock the desk</button>
+        </div>
+
+        <p id="st-status" class="studio-status" hidden aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</Base>
+
+<script>
+  type Fields = {
+    title: string;
+    date: string;
+    source: string;
+    excerpt: string;
+    tags: string[];
+    linkedinUrl: string;
+    slug: string;
+    body: string;
+  };
+
+  const gate = document.getElementById('studio-gate')!;
+  const studio = document.getElementById('studio')!;
+  const authForm = document.getElementById('studio-auth') as HTMLFormElement;
+  const pass = document.getElementById('studio-pass') as HTMLInputElement;
+  const unlock = document.getElementById('studio-unlock') as HTMLButtonElement;
+  const authError = document.getElementById('studio-auth-error')!;
+  const target = document.getElementById('studio-target')!;
+
+  const form = document.getElementById('studio-form') as HTMLFormElement;
+  const title = document.getElementById('st-title') as HTMLInputElement;
+  const date = document.getElementById('st-date') as HTMLInputElement;
+  const source = document.getElementById('st-source') as HTMLSelectElement;
+  const slug = document.getElementById('st-slug') as HTMLInputElement;
+  const slugAuto = document.getElementById('st-slug-auto')!;
+  const excerpt = document.getElementById('st-excerpt') as HTMLTextAreaElement;
+  const tags = document.getElementById('st-tags') as HTMLInputElement;
+  const linkedin = document.getElementById('st-linkedin') as HTMLInputElement;
+  const body = document.getElementById('st-body') as HTMLTextAreaElement;
+
+  const count = document.getElementById('st-count')!;
+  const publish = document.getElementById('st-publish') as HTMLButtonElement;
+  const replace = document.getElementById('st-replace') as HTMLInputElement;
+  const copyBtn = document.getElementById('st-copy') as HTMLButtonElement;
+  const clearBtn = document.getElementById('st-clear') as HTMLButtonElement;
+  const lockBtn = document.getElementById('st-lock') as HTMLButtonElement;
+  const status = document.getElementById('st-status')!;
+
+  const writePane = document.getElementById('st-write')!;
+  const previewPane = document.getElementById('st-preview')!;
+  const previewBody = document.getElementById('st-preview-body')!;
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.studio-tabs button');
+
+  const DRAFT_KEY = 'studio-draft-v1';
+  /** the slug follows the title until it is edited by hand */
+  let slugTouched = false;
+  /** the last valid composed file, for the copy-out fallback */
+  let composed: string | null = null;
+
+  /* ---------- helpers ---------- */
+
+  function fields(): Fields {
+    return {
+      title: title.value,
+      date: date.value,
+      source: source.value,
+      excerpt: excerpt.value,
+      tags: tags.value
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
+      linkedinUrl: linkedin.value,
+      slug: slug.value,
+      body: body.value,
+    };
+  }
+
+  function say(message: string, kind: 'ok' | 'bad' | 'note' = 'note') {
+    status.hidden = false;
+    status.dataset.kind = kind;
+    status.textContent = message;
+  }
+
+  /** links have to be built rather than interpolated — the URLs come from JSON */
+  function sayWithLinks(message: string, links: { href: string; text: string }[]) {
+    status.hidden = false;
+    status.dataset.kind = 'ok';
+    status.textContent = `${message} `;
+    links.forEach((link, i) => {
+      if (i > 0) status.append(' · ');
+      const a = document.createElement('a');
+      a.className = 'jump';
+      a.href = link.href;
+      a.textContent = link.text;
+      if (link.href.startsWith('http')) {
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+      }
+      status.append(a);
+    });
+  }
+
+  function showErrors(errors: Record<string, string>) {
+    document.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+      const message = errors[el.dataset.errorFor ?? ''];
+      el.textContent = message ?? '';
+      el.hidden = !message;
+    });
+  }
+
+  function slugify(input: string) {
+    return input
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/['\u2019`]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 72)
+      .replace(/-+$/g, '');
+  }
+
+  function syncSlug() {
+    if (slugTouched) return;
+    slug.value = slugify(title.value);
+    slugAuto.hidden = false;
+  }
+
+  function updateCount() {
+    const words = body.value.trim().split(/\s+/).filter(Boolean).length;
+    count.textContent = `${words.toLocaleString('en-GB')} word${words === 1 ? '' : 's'}`;
+  }
+
+  /* ---------- draft ---------- */
+
+  // Two thousand words should survive a reload. The draft is local to this
+  // browser and is cleared once the post is committed.
+  function saveDraft() {
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...fields(), slugTouched }));
+    } catch {
+      /* private mode — the draft simply isn't kept */
+    }
+  }
+
+  function loadDraft() {
+    try {
+      const stored = localStorage.getItem(DRAFT_KEY);
+      if (!stored) return;
+      const draft = JSON.parse(stored) as Fields & { slugTouched?: boolean };
+      title.value = draft.title ?? '';
+      if (draft.date) date.value = draft.date;
+      if (draft.source) source.value = draft.source;
+      excerpt.value = draft.excerpt ?? '';
+      tags.value = (draft.tags ?? []).join(', ');
+      linkedin.value = draft.linkedinUrl ?? '';
+      slug.value = draft.slug ?? '';
+      body.value = draft.body ?? '';
+      slugTouched = Boolean(draft.slugTouched);
+      slugAuto.hidden = slugTouched;
+      updateCount();
+      if (draft.body) say('Draft restored from this browser.', 'note');
+    } catch {
+      /* an unreadable draft is not worth blocking the editor for */
+    }
+  }
+
+  /* ---------- gate ---------- */
+
+  async function checkConfig() {
+    let res: Response;
+    try {
+      res = await fetch('/api/publish', { headers: { accept: 'application/json' } });
+    } catch {
+      authError.textContent = 'The server did not answer. Reload once it is back.';
+      authError.hidden = false;
+      return;
+    }
+    const data = await res.json().catch(() => ({}) as Record<string, unknown>);
+
+    if (res.status === 503) {
+      authError.textContent =
+        'No studio passphrase is configured on the server, so the desk cannot be opened. Set PUBLISH_PASSPHRASE.';
+      authError.hidden = false;
+      return;
+    }
+    if (!res.ok) return; // 401: stay on the gate
+
+    gate.hidden = true;
+    studio.hidden = false;
+
+    if (data.ready) {
+      target.textContent = `Commits to ${data.repo} on ${data.branch} · live after the rebuild`;
+    } else {
+      target.textContent = String(
+        data.message ?? 'Publishing is not configured on the server.',
+      );
+      target.dataset.kind = 'bad';
+      publish.disabled = true;
+      say(
+        'Publishing is off, but Preview and “Copy the .md file” still work — paste the file into the repo by hand.',
+        'note',
+      );
+    }
+
+    loadDraft();
+    title.focus();
+  }
+
+  authForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    authError.hidden = true;
+    unlock.disabled = true;
+    try {
+      const res = await fetch('/api/studio-auth', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ passphrase: pass.value }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { retryInSeconds?: number };
+
+      if (res.ok) {
+        pass.value = '';
+        await checkConfig();
+        return;
+      }
+      authError.textContent =
+        res.status === 429
+          ? `Too many attempts. Try again in ${Math.ceil((data.retryInSeconds ?? 1200) / 60)} minutes.`
+          : res.status === 503
+            ? 'No studio passphrase is configured on the server. Set PUBLISH_PASSPHRASE.'
+            : 'That passphrase is not right.';
+      authError.hidden = false;
+    } catch {
+      authError.textContent = 'The request failed. Check the connection and try again.';
+      authError.hidden = false;
+    } finally {
+      unlock.disabled = false;
+    }
+  });
+
+  /* ---------- paste of a whole file ---------- */
+
+  body.addEventListener('paste', (event) => {
+    const text = event.clipboardData?.getData('text/plain') ?? '';
+    if (!/^\s*---\r?\n/.test(text)) return; // an ordinary paste, leave it alone
+
+    event.preventDefault();
+    void adoptFile(text);
+  });
+
+  /**
+   * A pasted .md file is split by the server, using the same parser the
+   * collection's own files were written with, and the frontmatter lands in the
+   * fields instead of being rendered as a stray table.
+   */
+  async function adoptFile(text: string) {
+    try {
+      const res = await fetch('/api/preview', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error('split failed');
+      const data = (await res.json()) as {
+        found: boolean;
+        body: string;
+        fields: Partial<Fields>;
+      };
+
+      body.value = data.body;
+      const f = data.fields;
+      if (f.title) title.value = f.title;
+      if (f.date) date.value = f.date;
+      if (f.source) source.value = f.source;
+      if (f.excerpt) excerpt.value = f.excerpt;
+      if (f.tags?.length) tags.value = f.tags.join(', ');
+      if (f.linkedinUrl) linkedin.value = f.linkedinUrl;
+      syncSlug();
+      updateCount();
+      saveDraft();
+      say(
+        data.found
+          ? 'Frontmatter read into the fields. Check the date and the slug.'
+          : 'Pasted.',
+        'note',
+      );
+    } catch {
+      // the paste must not be lost because a round trip failed
+      body.value = text;
+      updateCount();
+      saveDraft();
+      say('Pasted as-is — the frontmatter could not be read. Fill the fields by hand.', 'bad');
+    }
+  }
+
+  /* ---------- preview ---------- */
+
+  async function renderPreview() {
+    previewBody.textContent = 'Rendering…';
+    try {
+      const res = await fetch('/api/preview', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(fields()),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        html?: string;
+        file?: string | null;
+        path?: string | null;
+        errors?: Record<string, string>;
+        message?: string;
+      };
+
+      if (!res.ok || !data.ok) {
+        previewBody.textContent = data.message ?? 'The preview could not be rendered.';
+        return;
+      }
+
+      // The author's own markdown, rendered by the site's own processor. Raw
+      // HTML in a post is legitimate and is passed through here as the real page
+      // would pass it through.
+      previewBody.innerHTML = data.html ?? '';
+      composed = data.file ?? null;
+      showErrors(data.errors ?? {});
+      if (data.path) target.dataset.path = data.path;
+    } catch {
+      previewBody.textContent = 'The preview request failed.';
+    }
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const preview = tab.dataset.mode === 'preview';
+      tabs.forEach((t) => t.setAttribute('aria-pressed', String(t === tab)));
+      writePane.hidden = preview;
+      previewPane.hidden = !preview;
+      if (preview) void renderPreview();
+    });
+  });
+
+  /* ---------- publish ---------- */
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    showErrors({});
+    publish.disabled = true;
+    say('Committing…', 'note');
+
+    try {
+      const res = await fetch('/api/publish', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ ...fields(), overwrite: replace.checked }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        reason?: string;
+        message?: string;
+        errors?: Record<string, string>;
+        url?: string;
+        path?: string;
+        replaced?: boolean;
+        retryInSeconds?: number;
+        commit?: { sha: string; url: string };
+      };
+
+      if (res.ok && data.ok) {
+        try {
+          localStorage.removeItem(DRAFT_KEY);
+        } catch {
+          /* nothing to clear */
+        }
+        sayWithLinks(
+          `${data.replaced ? 'Replaced' : 'Committed'} ${data.path} as ${data.commit?.sha}. It goes live at the URL below once the deploy finishes — usually a couple of minutes.`,
+          [
+            { href: data.url ?? '/writing', text: data.url ?? '/writing' },
+            ...(data.commit?.url ? [{ href: data.commit.url, text: 'the commit ↗' }] : []),
+          ],
+        );
+        return;
+      }
+
+      if (res.status === 422 && data.errors) {
+        showErrors(data.errors);
+        say('The post is not publishable yet — see the fields above.', 'bad');
+      } else if (res.status === 409) {
+        replace.checked = false;
+        say(
+          `${data.message ?? 'That path is taken.'} Tick “replace if it exists” to overwrite ${data.path ?? 'it'}.`,
+          'bad',
+        );
+      } else if (res.status === 401) {
+        studio.hidden = true;
+        gate.hidden = false;
+        say('The session expired. Unlock again — your draft is kept.', 'bad');
+      } else if (res.status === 429) {
+        say(`Too many attempts. Try again in ${data.retryInSeconds ?? 300} seconds.`, 'bad');
+      } else {
+        say(data.message ?? 'Publishing failed.', 'bad');
+      }
+    } catch {
+      say('The request failed. Nothing was committed.', 'bad');
+    } finally {
+      publish.disabled = false;
+    }
+  });
+
+  /* ---------- small actions ---------- */
+
+  copyBtn.addEventListener('click', async () => {
+    if (!composed) {
+      await renderPreview(); // composing the file is a side effect of validating it
+      if (!composed) {
+        say('The file cannot be composed until the fields validate.', 'bad');
+        return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(composed);
+      say('The complete .md file is on the clipboard.', 'ok');
+    } catch {
+      say('The clipboard was refused. Use Preview and copy from there.', 'bad');
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    if (!confirm('Discard this draft? It is not recoverable.')) return;
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* nothing to clear */
+    }
+    form.reset();
+    slugTouched = false;
+    composed = null;
+    updateCount();
+    showErrors({});
+    say('Draft discarded.', 'note');
+  });
+
+  lockBtn.addEventListener('click', async () => {
+    // The draft stays in this browser; only the grant is given up.
+    await fetch('/api/studio-auth', { method: 'DELETE' }).catch(() => undefined);
+    studio.hidden = true;
+    gate.hidden = false;
+    say('The desk is locked. The draft is still here.', 'note');
+  });
+
+  slug.addEventListener('input', () => {
+    slugTouched = slug.value.trim().length > 0;
+    slugAuto.hidden = slugTouched;
+  });
+
+  title.addEventListener('input', syncSlug);
+  body.addEventListener('input', updateCount);
+
+  let saveTimer = 0;
+  form.addEventListener('input', () => {
+    window.clearTimeout(saveTimer);
+    saveTimer = window.setTimeout(saveDraft, 600);
+  });
+
+  // ⌘S / Ctrl-S is muscle memory in an editor; here it saves the draft rather
+  // than letting the browser offer to save the page.
+  document.addEventListener('keydown', (event) => {
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's' && !studio.hidden) {
+      event.preventDefault();
+      saveDraft();
+      say('Draft saved in this browser.', 'note');
+    }
+  });
+
+  void checkConfig();
+</script>

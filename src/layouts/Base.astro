@@ -12,9 +12,17 @@ interface Props {
   canonicalPath?: string;
   /** absolute canonical — used when the full version of a piece lives on the academic site */
   canonicalUrl?: string;
+  /** keep the page out of search results — the studio is a tool, not a publication */
+  noindex?: boolean;
 }
 
-const { title = site.name, description = site.tagline, canonicalPath, canonicalUrl } = Astro.props;
+const {
+  title = site.name,
+  description = site.tagline,
+  canonicalPath,
+  canonicalUrl,
+  noindex = false,
+} = Astro.props;
 const pageTitle =
   title === site.name ? `${site.name} — Agentic AI & GenAI representation` : `${title} · ${site.name}`;
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
@@ -39,6 +47,7 @@ const year = new Date().getFullYear();
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#f4efe3" />
     <link rel="canonical" href={canonicalHref} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
