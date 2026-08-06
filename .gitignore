@@ -25,3 +25,9 @@ _legacy/**/.DS_Store
 
 # jetbrains setting folder
 .idea/
+
+# Derived from the writing by scripts/build-concept-map.mjs, which `npm run dev`
+# and `npm run build` both run first. Keeping it out of git is what stops it
+# drifting from the corpus after a post is published from /studio, and stops a
+# one-line commit carrying two thousand lines of moved coordinates.
+src/data/concept-map.json

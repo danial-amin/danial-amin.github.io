@@ -29,15 +29,25 @@ GitHub contents API, which means:
 - `PUBLISH_BRANCH` must be the branch the deploy watches, or the post lands in
   git and never appears.
 
-The concept cloud on the homepage is derived, not stored: `npm run build` runs
-`scripts/build-concept-map.mjs` before `astro build`, so the deploy that follows a
-publish rebuilds `src/data/concept-map.json` from the corpus including the new
-post. The generator is deterministic — no `Math.random`, fixed seeds, and
-eigenvector signs canonicalised from the data — so an unchanged corpus produces a
+The concept cloud on the homepage is derived, not stored. `src/data/concept-map.json`
+is gitignored and rebuilt by `scripts/build-concept-map.mjs`, which both `npm run
+dev` and `npm run build` run first — so the deploy that follows a publish rebuilds
+the map from the corpus including the new post, and there is no checked-in copy
+that can drift or bury a commit under two thousand lines of moved coordinates. Run
+`astro build` directly and the import fails loudly rather than serving a stale map;
+use the npm scripts.
+
+The generator is deterministic — no `Math.random`, fixed seeds, and eigenvector
+signs canonicalised from the data — so an unchanged corpus produces a
 byte-identical file and the cloud does not reshuffle itself between deploys. One
 new post moves terms a median of 13% of the field and turns over about one term in
-the 210. The checked-in JSON is a convenience for `astro dev`; the build always
-regenerates it, so it can lag without affecting the deployed site.
+the 210.
+
+The figure's viewBox is computed, not authored: `fitViewBox` in `Cloud3D.astro`
+sweeps a full turn at the current pitch, projects every word with the same
+arithmetic the renderer uses, and fits the frame to the result. Hand-tuned numbers
+were clipping words off the top and right edges. If you change `SCALE`, the type
+sizes, or the label offsets, the frame follows on its own.
 
 `src/server/post.ts` is the single authority on slug, filename, frontmatter and
 validation. It mirrors the zod schema in `src/content.config.ts` on purpose: a

@@ -318,8 +318,10 @@ const client = nodes.map((n, i) => ({
   const stage = document.getElementById('clStage');
   const raw = document.getElementById('clData');
   const group = document.getElementById('clPts');
+  // the frame is computed from the geometry in fitViewBox, not authored in the markup
+  const svg = document.getElementById('clSvg');
 
-  if (stage && raw && group) {
+  if (stage && raw && group && svg) {
     const nodes = JSON.parse(raw.textContent || '[]') as CN[];
     const read = document.getElementById('clRead')!;
     const hint = document.getElementById('clHint')!;
@@ -376,6 +378,7 @@ const client = nodes.map((n, i) => ({
     measure();
     document.fonts?.ready.then(() => {
       measure();
+      fitViewBox();
       frame();
     });
 
@@ -393,6 +396,98 @@ const client = nodes.map((n, i) => ({
 
     const SCALE = 142;
     const DEPTH = 2.6; // perspective divisor
+
+    /**
+     * Fit the viewBox to what the cloud can actually reach.
+     *
+     * The box used to be four hand-tuned numbers, retuned by hand every time the
+     * spread or the type size changed — and it was wrong in every direction. A
+     * word is drawn as a dot plus a label running off to its right, its size
+     * scaled by the perspective divisor, so the furthest thing from the origin is
+     * not a point at radius 1: it is a long word on a near point, where |v| can be
+     * sqrt(3) and k up to DEPTH/(DEPTH - sqrt(3)) ~ 3. "Registration" at the front
+     * of the cloud reached well past x = 196 and was simply cut off, and because
+     * yaw spins continuously, every word took its turn at being clipped.
+     *
+     * So the extent is measured rather than guessed: sample the orientations the
+     * cloud can be in — yaw all the way round, pitch over the range the drag
+     * handler clamps to — project every word with the same arithmetic frame()
+     * uses, and take the union of the label boxes. 64 x 25 orientations is a few
+     * milliseconds, once, and it cannot disagree with the renderer because it is
+     * the same formulas.
+     *
+     * Widths come from measure(), so this runs again once the webfont lands and
+     * Courier Prime's metrics replace the fallback's.
+     */
+    function fitViewBox() {
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let minY = Infinity;
+      let maxY = -Infinity;
+
+      const YAWS = 72;
+
+      {
+        /**
+         * Only yaw is swept. Pitch is whatever the reader has tilted it to, and it
+         * only changes by dragging — so the envelope that matters is the one full
+         * turn at the current pitch, not the whole sphere.
+         *
+         * Fitting the sphere instead was the first attempt and it cost a third of
+         * the figure: it reserved room for excursions that only happen at extreme
+         * tilts, so the cloud sat small and off-centre in a mostly empty frame.
+         * The drag handler calls this again whenever pitch moves, which is why the
+         * tighter box is safe.
+         */
+        const cp = Math.cos(pitch);
+        const sp = Math.sin(pitch);
+
+        for (let a = 0; a < YAWS; a++) {
+          const t = (a / YAWS) * Math.PI * 2;
+          const cy = Math.cos(t);
+          const sy = Math.sin(t);
+
+          for (let i = 0; i < nodes.length; i++) {
+            const [x0, y0, z0] = nodes[i].v;
+            const x1 = x0 * cy - z0 * sy;
+            const z1 = x0 * sy + z0 * cy;
+            const y1 = y0 * cp - z1 * sp;
+            const z2 = y0 * sp + z1 * cp;
+            const k = DEPTH / (DEPTH + z2);
+
+            const x = x1 * SCALE * k;
+            const y = y1 * SCALE * k;
+            const r = nodes[i].r * 0.46 * k;
+            const fs = (nodes[i].big ? 6.4 : 5) * k;
+            const textW = widths[i] * (fs / REF);
+
+            // the same box the hit rect and the label occupy in frame()
+            if (x - r - 3 < minX) minX = x - r - 3;
+            if (x + r + 5 + textW > maxX) maxX = x + r + 5 + textW;
+            if (y - fs * 0.9 < minY) minY = y - fs * 0.9;
+            if (y + fs * 0.9 > maxY) maxY = y + fs * 0.9;
+          }
+        }
+      }
+
+      /**
+       * A uniform margin, and the cloud sits centred.
+       *
+       * The old box was asymmetric — y from -94 to 202, the cloud pushed up into
+       * the top third — and two commits went into nudging that offset. It was
+       * compensating for this bug: the top was clipping by 171 units, so the cloud
+       * looked bottom-heavy and the fix was applied to the framing instead of the
+       * frame. With the extent measured properly the offset is not needed. The
+       * badge and the caption are corner overlays with pointer-events: none, so
+       * they need no reserved space of their own.
+       */
+      const M = 8;
+      const x = minX - M;
+      const y = minY - M;
+      const w = maxX - minX + M * 2;
+      const h = maxY - minY + M * 2;
+      svg.setAttribute('viewBox', `${x.toFixed(1)} ${y.toFixed(1)} ${w.toFixed(1)} ${h.toFixed(1)}`);
+    }
 
     function frame() {
       const cy = Math.cos(yaw);
@@ -503,6 +598,8 @@ const client = nodes.map((n, i) => ({
       yaw += (e.clientX - lastX) * 0.008;
       pitch += (e.clientY - lastY) * 0.006;
       pitch = Math.max(-1.2, Math.min(1.2, pitch));
+      // the frame is fitted to one turn at the current pitch, so tilting has to refit it
+      fitViewBox();
       lastX = e.clientX;
       lastY = e.clientY;
       if (!rafId) frame();
@@ -655,6 +752,7 @@ const client = nodes.map((n, i) => ({
       loop();
     }
 
+    fitViewBox();
     frame();
   }
 </script>
