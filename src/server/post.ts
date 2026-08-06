@@ -31,6 +31,8 @@ export const MAX_BODY_BYTES = 400_000;
 
 /* ---------- slug ---------- */
 
+const SLUG_MAX = 72;
+
 /**
  * The URL is `/writing/<dir>/<date>-<slug>`, so the slug has to survive being a
  * filename and a path segment. Astro lowercases collection ids, which is why
@@ -38,15 +40,26 @@ export const MAX_BODY_BYTES = 400_000;
  * needed normalising in lib/writing.ts — new ones are lowercase from the start.
  */
 export function slugify(input: string) {
-  return input
+  const full = input
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '') // strip the accents NFKD just split off
     .toLowerCase()
     .replace(/['\u2019`]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 72)
-    .replace(/-+$/g, '');
+    .replace(/^-+|-+$/g, '');
+
+  if (full.length <= SLUG_MAX) return full;
+
+  /**
+   * Cut at a word boundary, not mid-word. A blunt slice(0, 72) put
+   * "...the-frontier-labs-are-still-buying-sc" in a published URL — the first
+   * post through the studio, and the truncation is the part a reader sees. Only
+   * back off to the previous hyphen when that still leaves a usable slug, so a
+   * title made of very long words cannot truncate to almost nothing.
+   */
+  const cut = full.slice(0, SLUG_MAX);
+  const boundary = cut.lastIndexOf('-');
+  return (boundary > SLUG_MAX * 0.5 ? cut.slice(0, boundary) : cut).replace(/-+$/g, '');
 }
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
