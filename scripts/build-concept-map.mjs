@@ -15,7 +15,14 @@
  * Everything is deterministic — no Math.random anywhere — so the map only
  * moves when the writing changes.
  *
- *   npm run map
+ * `npm run build` runs this first, which is what keeps the cloud honest: a post
+ * published from /studio commits a new .md file, the deploy that follows rebuilds
+ * the map from the corpus including it, and the concepts on the homepage are
+ * always the concepts in the writing. Determinism is what makes that safe to run
+ * on every build — an unchanged corpus produces a byte-identical file, so the
+ * cloud does not reshuffle itself under readers between deploys.
+ *
+ *   npm run map    — regenerate by hand, e.g. to see the diff before committing
  */
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -266,6 +273,32 @@ function topEigen(M, k, iters = 260) {
       lambda = m;
       v = w;
     }
+
+    /**
+     * Canonicalise the sign before using the vector.
+     *
+     * Power iteration converges to ±v depending on which side of the eigenvector
+     * the seed happened to fall, and both matrices here change shape when the
+     * writing does — PCA's covariance is documents × documents, so publishing one
+     * post grows it and the seed can land on the opposite side. The eigenvector is
+     * then negated and every coordinate mirrors, so the layout reads as torn up
+     * when the structure barely moved. Measured by publishing one post: both PCA
+     * axes flipped, moving terms a median of 378px on a 1000px field, while MDS —
+     * whose matrix is terms x terms and does not change size — held at 50px.
+     *
+     * The flip landed in `layouts.pca`, which nothing currently renders (Cloud3D
+     * reads `cloud` and `nodes` only). The rule is here because the rendered cloud
+     * comes from the same routine, one eigenvector further, and is open to exactly
+     * the same flip on a larger change to the corpus.
+     *
+     * Fixing it from the data instead — largest absolute component positive, the
+     * convention scipy and scikit-learn use for exactly this reason — makes the
+     * orientation a property of the corpus rather than of the seed. Ties go to the
+     * lower index, so it stays deterministic.
+     */
+    let peak = 0;
+    for (let i = 1; i < n; i++) if (Math.abs(v[i]) > Math.abs(v[peak])) peak = i;
+    if (v[peak] < 0) for (let i = 0; i < n; i++) v[i] = -v[i];
 
     out.push({ value: lambda, vector: v });
     // deflate so the next pass finds the next component
@@ -536,7 +569,7 @@ await writeFile(
   OUT,
   JSON.stringify(
     {
-      generated: 'run `npm run map` after writing something new',
+      generated: 'rebuilt from the corpus by `npm run build` — not written by hand',
       method: 'tf-idf term vectors over documents, cosine distance, k-means(8)',
       docs: writingDocs.length,
       academicDocs: docs.length - writingDocs.length,

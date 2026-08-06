@@ -29,6 +29,16 @@ GitHub contents API, which means:
 - `PUBLISH_BRANCH` must be the branch the deploy watches, or the post lands in
   git and never appears.
 
+The concept cloud on the homepage is derived, not stored: `npm run build` runs
+`scripts/build-concept-map.mjs` before `astro build`, so the deploy that follows a
+publish rebuilds `src/data/concept-map.json` from the corpus including the new
+post. The generator is deterministic — no `Math.random`, fixed seeds, and
+eigenvector signs canonicalised from the data — so an unchanged corpus produces a
+byte-identical file and the cloud does not reshuffle itself between deploys. One
+new post moves terms a median of 13% of the field and turns over about one term in
+the 210. The checked-in JSON is a convenience for `astro dev`; the build always
+regenerates it, so it can lag without affecting the deployed site.
+
 `src/server/post.ts` is the single authority on slug, filename, frontmatter and
 validation. It mirrors the zod schema in `src/content.config.ts` on purpose: a
 post that fails there would otherwise fail the production build and take the
