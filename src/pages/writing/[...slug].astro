@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { render } from 'astro:content';
 import { getWriting, fullVersionOf, type Post } from '../../lib/writing';
-import { ACADEMIC_IS_LOCAL } from '../../lib/origins';
+import { ACADEMIC_IS_LOCAL, ACADEMIC_IS_CANONICAL } from '../../lib/origins';
 import site from '../../data/site.json';
 
 export async function getStaticPaths() {
@@ -34,7 +34,8 @@ function fmt(d: Date) {
 const canonicalPath = `/writing/${canonical.id}`;
 
 // If the long version lives on the academic site, that is the canonical home of
-// this piece and this page is explicitly the extract.
+// this piece and this page is explicitly the extract — but only while the sister
+// site is at its permanent address. See ACADEMIC_IS_CANONICAL.
 const full = fullVersionOf(post);
 const here = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
 
@@ -50,7 +51,7 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 <Base
   title={post.data.title}
   description={post.data.excerpt}
-  canonicalUrl={full?.url}
+  canonicalUrl={ACADEMIC_IS_CANONICAL ? full?.url : undefined}
   canonicalPath={isCanonical ? undefined : canonicalPath}
 >
   <article class="piece">
@@ -164,9 +165,11 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
               <p>
                 That was the extract — {here.toLocaleString('en-GB')} of{' '}
                 {full.words.toLocaleString('en-GB')} words. The complete essay is at{' '}
-                {/* the label is read off the href, so an origin override cannot
-                    leave the visible domain contradicting where the link goes */}
-                <a href={full.url} rel="noopener" target="_blank">{new URL(full.url).host} ↗</a>
+                {/* Named rather than spelled out. It used to print the domain,
+                    which contradicted the href as soon as the origin moved — and
+                    the origin is currently a railway.app hostname, which has no
+                    business in body copy. */}
+                <a href={full.url} rel="noopener" target="_blank">the academic site ↗</a>
               </p>
             </aside>
           )

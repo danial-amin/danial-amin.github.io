@@ -57,6 +57,19 @@ processor, so the preview and the published page cannot drift.
 
 See `.env.example` for the token and repository variables.
 
+## The academic site
+
+Every link to the sister site resolves through `src/lib/origins.ts` — the footer,
+the research page, the command palette, the cloud's caption, and the 27 "read it in
+full" crosslinks with their canonicals. One value moves all of them, overridable
+with `PUBLIC_ACADEMIC_ORIGIN`.
+
+That value currently points at the Railway deployment rather than
+`academic.danialamin.com`, because the domain is still served by GitHub Pages from
+the previous version of the academic site, which has no `/writing` routes — the
+crosslinks 404ed there and the canonicals pointed at the 404s. When the domain is
+moved to the new deployment, put it back in `origins.ts`.
+
 ## Documentation
 
 Full documentation: https://docs.astro.build
