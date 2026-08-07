@@ -7,6 +7,7 @@ import news from '../../data/news.json';
 import site from '../../data/site.json';
 import { academicHome } from '../../lib/origins';
 import { keepWordsWhole } from '../../lib/type';
+import Plate from '../../components/Plate.astro';
 ---
 
 <Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
@@ -37,7 +38,13 @@ import { keepWordsWhole } from '../../lib/type';
       {publications.map((p, i) => (
         <li style={`--i:${i}`}>
           <div class="entry" data-lift>
-            <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="entry-num">
+              {String(i + 1).padStart(2, '0')}
+              {/* seeded by title, not doi: fourteen of these are in review or accepted and
+                  will gain a doi when they land, and a paper should not change its mark
+                  on the day it gets published */}
+              <Plate seed={p.title} size={32} class="entry-plate" />
+            </span>
             <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
               {keepWordsWhole(p.title)}
             </span>

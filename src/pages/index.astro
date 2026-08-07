@@ -52,11 +52,11 @@ const nameParts = site.name.split(' ');
   </Section>
 
   <Section plate num="2" title="Work that shipped" note="Consulting and product engagements, described by outcome." id="work">
-    <WorkIndex />
+    <WorkIndex plates={false} />
   </Section>
 
   <Section plate num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`} id="writing">
-    <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore />
+    <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore plates={false} />
   </Section>
 
   <Section plate num="4" title="Research" note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve." id="research">
