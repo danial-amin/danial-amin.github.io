@@ -26,10 +26,20 @@ const passes = [
   { copy: testimonials, hidden: false },
   { copy: testimonials, hidden: true },
 ];
+
+/**
+ * The belt runs at a fixed speed, not a fixed duration.
+ *
+ * One pass takes `SECONDS_EACH` per card, so adding testimonials makes the loop
+ * longer rather than making the cards fly past — a hardcoded 52s was right for
+ * three quotes and three times too fast for ten.
+ */
+const SECONDS_EACH = 17;
+const run = testimonials.length * SECONDS_EACH;
 ---
 
 <div class="ticker" data-run>
-  <div class="ticker-belt" id="quoteBelt">
+  <div class="ticker-belt" id="quoteBelt" style={`--belt-run:${run}s`}>
     {
       passes.map((pass) => (
         <div class="ticker-pass" aria-hidden={pass.hidden ? 'true' : undefined}>
@@ -39,6 +49,9 @@ const passes = [
               <footer>
                 <strong>{t.name}</strong><br />
                 {t.role}, {t.company}
+                {/* who they are to the work — a recommendation from a manager and one
+                    from a teammate are different claims, and the data says which */}
+                <span class="quote-rel">{t.relationship}</span>
               </footer>
             </blockquote>
           ))}
@@ -66,7 +79,7 @@ const passes = [
   .ticker-belt {
     display: flex;
     width: max-content;
-    animation: belt 52s linear infinite;
+    animation: belt var(--belt-run, 52s) linear infinite;
   }
 
   .ticker-pass {
@@ -78,6 +91,14 @@ const passes = [
     flex: none;
     width: min(28rem, 80vw);
     margin-right: 1.25rem;
+    /* the cards stretch to the tallest, so the attributions ride a shared
+       baseline instead of floating under whichever quote is shortest */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ticker :global(.quote footer) {
+    margin-top: auto;
   }
 
   @keyframes belt {

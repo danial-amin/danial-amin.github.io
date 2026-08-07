@@ -2271,3 +2271,10 @@ kbd {
 .plate-poster {
   transform: rotate(-0.8deg);
 }
+
+/* how the recommender knew the work — sits under the role on a quote card */
+.quote-rel {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--ink-a);
+}
