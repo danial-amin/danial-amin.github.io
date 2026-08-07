@@ -448,6 +448,20 @@ main {
   margin: 0 0 0.2rem;
 }
 
+/**
+ * Display headings balance their lines.
+ *
+ * These are short, uppercase, and set tight, so the default greedy line-breaking
+ * left one word stranded on a second line often enough to look accidental.
+ * `text-wrap: balance` evens the line lengths; where it is unsupported the
+ * heading simply sets as before.
+ */
+.section-title,
+.piece-title,
+.cover-name {
+  text-wrap: balance;
+}
+
 .section-title {
   font-family: var(--display);
   font-size: var(--t-2);

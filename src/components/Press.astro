@@ -151,22 +151,44 @@
   function buildMagnets() {
     magnets = [];
     document.querySelectorAll('[data-magnet]').forEach((host) => {
-      // split once, into spans, preserving spaces as real gaps
+      /**
+       * Split once: a wrapper per word, letters inside it.
+       *
+       * Every letter has to be its own inline-block for the magnet to move it —
+       * and an inline-block boundary is a line-break opportunity. Splitting the
+       * heading straight into letters therefore let the browser break inside
+       * words, which is where "BUILD SOM / ETHING CL / EAR" and "COLLABOR /
+       * ATORS" came from: not a typographic choice, just 13 break opportunities
+       * in a 13-letter word.
+       *
+       * The word wrapper is nowrap, so the only break opportunities left are the
+       * real spaces between words — the ones a typesetter would use.
+       */
       if (!host.dataset.split) {
         const text = host.textContent ?? '';
         host.textContent = '';
-        for (const ch of text) {
-          if (ch === ' ') {
-            host.append(document.createTextNode(' '));
-            continue;
+        const words = text.split(' ');
+
+        words.forEach((word, i) => {
+          if (i > 0) host.append(document.createTextNode(' '));
+          if (!word) return;
+
+          const wrap = document.createElement('span');
+          wrap.className = 'mag-w';
+          wrap.style.display = 'inline-block';
+          wrap.style.whiteSpace = 'nowrap';
+
+          for (const ch of word) {
+            const s = document.createElement('span');
+            s.className = 'mag';
+            s.style.display = 'inline-block';
+            s.style.willChange = 'transform';
+            s.textContent = ch;
+            wrap.append(s);
           }
-          const s = document.createElement('span');
-          s.className = 'mag';
-          s.style.display = 'inline-block';
-          s.style.willChange = 'transform';
-          s.textContent = ch;
-          host.append(s);
-        }
+          host.append(wrap);
+        });
+
         host.dataset.split = '1';
       }
       host.querySelectorAll('.mag').forEach((s) => magnets.push({ el: s }));

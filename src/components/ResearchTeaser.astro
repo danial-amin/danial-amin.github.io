@@ -3,6 +3,7 @@ import publications from '../data/publications.json';
 import news from '../data/news.json';
 import site from '../data/site.json';
 import { academicHome } from '../lib/origins';
+import { keepWordsWhole } from '../lib/type';
 
 const top = publications.slice(0, 3);
 const latest = news[0];
@@ -15,7 +16,7 @@ const latest = news[0];
         <div class="entry" data-lift>
           <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
           <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
-            {p.title}
+            {keepWordsWhole(p.title)}
           </span>
           <span class="entry-meta">{p.venue} · {p.year}</span>
           <p class="entry-blurb">{p.status}</p>

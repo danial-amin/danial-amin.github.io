@@ -1,5 +1,6 @@
 ---
 import projects from '../data/projects.json';
+import { keepWordsWhole } from '../lib/type';
 
 interface Props {
   featuredOnly?: boolean;
@@ -15,7 +16,7 @@ const items = projects.filter((p) => !featuredOnly || p.featured);
       <li style={`--i:${i}`}>
         <a class="entry" href={`/work/${p.id}`} data-lift>
           <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
-          <span class="entry-title"><mark>{p.title}</mark></span>
+          <span class="entry-title"><mark>{keepWordsWhole(p.title)}</mark></span>
           <span class="entry-meta">{p.year}</span>
           <p class="entry-blurb">{p.outcome}</p>
         </a>

@@ -6,6 +6,7 @@ import publications from '../../data/publications.json';
 import news from '../../data/news.json';
 import site from '../../data/site.json';
 import { academicHome } from '../../lib/origins';
+import { keepWordsWhole } from '../../lib/type';
 ---
 
 <Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
@@ -38,7 +39,7 @@ import { academicHome } from '../../lib/origins';
           <div class="entry" data-lift>
             <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
             <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
-              {p.title}
+              {keepWordsWhole(p.title)}
             </span>
             <span class="entry-meta">{p.venue} · {p.year}</span>
             <p class="entry-blurb">{p.status}{p.doi ? ` · doi:${p.doi}` : ''}</p>
@@ -55,7 +56,7 @@ import { academicHome } from '../../lib/origins';
           <div class="entry" data-lift>
             <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
             <span class="entry-title" style="font-family:var(--body);font-weight:600;font-size:0.98rem;text-transform:none">
-              {n.text}
+              {keepWordsWhole(n.text)}
             </span>
             <span class="entry-meta">{n.date}</span>
           </div>

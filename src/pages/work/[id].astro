@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import projectsData from '../../data/projects.json';
+import { keepWordsWhole } from '../../lib/type';
 
 type Project = {
   id: string;
@@ -52,7 +53,7 @@ const hasNarrative = Boolean(
       </p>
 
       <h1 class="cover-name" style="font-size:var(--t-4)">
-        {project.title}
+        {keepWordsWhole(project.title)}
       </h1>
 
       <p class="cover-line" data-set style="--set-delay:280ms">{project.outcome}</p>
@@ -146,7 +147,7 @@ const hasNarrative = Boolean(
       prev ? (
         <a href={`/work/${prev.id}`}>
           <span class="pager-dir">← Previous</span>
-          <span class="pager-name">{prev.title}</span>
+          <span class="pager-name">{keepWordsWhole(prev.title)}</span>
         </a>
       ) : (
         <a href="/work">
@@ -159,7 +160,7 @@ const hasNarrative = Boolean(
       next ? (
         <a class="pager-next" href={`/work/${next.id}`}>
           <span class="pager-dir">Next →</span>
-          <span class="pager-name">{next.title}</span>
+          <span class="pager-name">{keepWordsWhole(next.title)}</span>
         </a>
       ) : (
         <a class="pager-next" href="/work">
