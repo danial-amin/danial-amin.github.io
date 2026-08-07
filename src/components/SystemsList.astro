@@ -4,8 +4,14 @@ import Plate from './Plate.astro';
 
 interface Props {
   detail?: boolean;
+  /**
+   * The card's mark. On for /work, off on the homepage — the same rule the essay
+   * and case teasers follow there: the homepage keeps its six section plates and
+   * nothing else, so the marks live on the pages that are about the things.
+   */
+  plates?: boolean;
 }
-const { detail = true } = Astro.props;
+const { detail = true, plates = true } = Astro.props;
 ---
 
 <div class="cards" data-run>
@@ -20,7 +26,7 @@ const { detail = true } = Astro.props;
         {/* the poster variant, not the row stamp: a card has room for the bigger
             grammar, and it anchors the product the way the header plate anchors a
             case page */}
-        <Plate seed={s.id} size={56} variant="poster" class="card-plate" />
+        {plates && <Plate seed={s.id} size={56} variant="poster" class="card-plate" />}
 
         <h3 class="card-name">
           <a href={`/systems/${s.id}`}>{s.name.split('—')[0].trim()}</a>
