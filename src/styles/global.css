@@ -2278,3 +2278,16 @@ kbd {
   margin-top: 0.3rem;
   color: var(--ink-a);
 }
+
+/* the recommender's name, linked to their profile so the quote is checkable */
+.quote-who {
+  color: var(--ink-k);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--ink-hair);
+}
+
+.quote-who:hover,
+.quote-who:focus-visible {
+  color: var(--ink-b);
+  border-bottom-color: var(--ink-b);
+}

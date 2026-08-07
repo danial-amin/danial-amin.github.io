@@ -47,7 +47,22 @@ const run = testimonials.length * SECONDS_EACH;
             <blockquote class="quote" data-lift>
               <p>“{t.quote}”</p>
               <footer>
-                <strong>{t.name}</strong><br />
+                {/**
+                 * The name links to the recommendation's author, which is what makes
+                 * it checkable rather than a wall of anonymous praise. Clicking a
+                 * moving target would be hopeless, but the belt stops on hover and on
+                 * focus, so by the time a pointer or a Tab has reached the link the
+                 * card has already come to rest.
+                 */}
+                <strong>
+                  <a
+                    class="quote-who"
+                    href={t.linkedin}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    aria-label={`${t.name} on LinkedIn`}
+                  >{t.name} <span aria-hidden="true">↗</span></a>
+                </strong><br />
                 {t.role}, {t.company}
                 {/* who they are to the work — a recommendation from a manager and one
                     from a teammate are different claims, and the data says which */}
