@@ -1,7 +1,6 @@
 ---
 import type { Post } from '../lib/writing';
 import { keepWordsWhole } from '../lib/type';
-import Plate from './Plate.astro';
 
 interface Props {
   posts: Post[];
@@ -34,10 +33,7 @@ function kind(post: Post) {
       >
         <a class="entry" href={`/writing/${post.id}`} data-lift>
           {numbered && (
-            <span class="entry-num">
-              {String(i + 1).padStart(2, '0')}
-              <Plate seed={post.id} size={32} class="entry-plate" />
-            </span>
+            <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
           )}
           <span class="entry-title"><mark>{keepWordsWhole(post.data.title)}</mark></span>
           <span class="entry-meta">{kind(post)} · {fmt(post.data.date)}</span>

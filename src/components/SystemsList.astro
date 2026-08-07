@@ -1,6 +1,5 @@
 ---
 import systems from '../data/systems.json';
-import Plate from './Plate.astro';
 
 interface Props {
   detail?: boolean;
@@ -16,8 +15,6 @@ const { detail = true } = Astro.props;
           <span class="card-no">No. {String(i + 1).padStart(2, '0')}</span>
           <span class="card-state">{s.status}</span>
         </div>
-
-        <Plate seed={s.id} size={56} variant="poster" class="card-plate" />
 
         <h3 class="card-name">
           <a href={`/systems/${s.id}`}>{s.name.split('—')[0].trim()}</a>

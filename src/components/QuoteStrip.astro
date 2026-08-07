@@ -1,17 +1,141 @@
 ---
+/**
+ * The testimonials, on a belt that keeps moving.
+ *
+ * Three static cards read as three static cards; this runs them past continuously,
+ * which suits a section whose job is "people keep saying this" rather than "here are
+ * exactly three opinions". With only three quotes a slideshow would visibly loop
+ * every ten seconds, so it is a belt rather than a carousel with slides.
+ *
+ * Mechanics: the set is printed twice and the belt travels exactly one set width, so
+ * the seam never arrives — the wrap happens while the second copy is where the first
+ * one was. The two copies must tile perfectly for that, which is why the gap lives on
+ * each card as a right margin instead of on the flex container: with `gap` the belt
+ * would be 6 cards + 5 gaps wide and half of it would land half a gap out of step,
+ * putting a visible jolt in every loop.
+ *
+ * It stops when a reader is likely to be reading: on hover, on keyboard focus, and on
+ * the button — motion that carries text has to be stoppable (WCAG 2.2.2), and
+ * hover alone does not count for that. Reduced-motion gets no animation at all and a
+ * plain scrollable row instead.
+ */
 import testimonials from '../data/testimonials.json';
+
+/** the same quotes twice: the second copy is scenery, so it is hidden from readers */
+const passes = [
+  { copy: testimonials, hidden: false },
+  { copy: testimonials, hidden: true },
+];
 ---
 
-<div class="quotes" data-run>
-  {
-    testimonials.map((t, i) => (
-      <blockquote class="quote" data-lift style={`--i:${i}`}>
-        <p>“{t.quote}”</p>
-        <footer>
-          <strong>{t.name}</strong><br />
-          {t.role}, {t.company}
-        </footer>
-      </blockquote>
-    ))
-  }
+<div class="ticker" data-run>
+  <div class="ticker-belt" id="quoteBelt">
+    {
+      passes.map((pass) => (
+        <div class="ticker-pass" aria-hidden={pass.hidden ? 'true' : undefined}>
+          {pass.copy.map((t) => (
+            <blockquote class="quote" data-lift>
+              <p>“{t.quote}”</p>
+              <footer>
+                <strong>{t.name}</strong><br />
+                {t.role}, {t.company}
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      ))
+    }
+  </div>
 </div>
+
+<p class="ticker-controls">
+  <button class="jump" type="button" id="quoteHold" aria-pressed="false">Pause the belt</button>
+</p>
+
+<style>
+  .ticker {
+    /* the belt is wider than the page on purpose */
+    overflow: hidden;
+    /* it runs to both edges of the shell, so it reads as passing through */
+    margin-inline: calc(var(--gutter) * -0.5);
+    padding-block: 0.4rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  }
+
+  .ticker-belt {
+    display: flex;
+    width: max-content;
+    animation: belt 52s linear infinite;
+  }
+
+  .ticker-pass {
+    display: flex;
+  }
+
+  /* the gap is a margin on the card, so the two passes tile exactly — see above */
+  .ticker :global(.quote) {
+    flex: none;
+    width: min(28rem, 80vw);
+    margin-right: 1.25rem;
+  }
+
+  @keyframes belt {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* stop for anyone who looks like they are reading */
+  .ticker:hover .ticker-belt,
+  .ticker:focus-within .ticker-belt,
+  .ticker-belt.is-held {
+    animation-play-state: paused;
+  }
+
+  .ticker-controls {
+    margin: 1rem 0 0;
+  }
+
+  .ticker-controls .jump {
+    background: none;
+    border: none;
+    border-bottom: 1.5px solid var(--ink-a);
+    padding: 0;
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .ticker-belt {
+      animation: none;
+    }
+
+    /* nothing is moving, so the second copy is dead weight */
+    .ticker-pass[aria-hidden='true'] {
+      display: none;
+    }
+
+    .ticker-controls {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const belt = document.getElementById('quoteBelt');
+  const hold = document.getElementById('quoteHold');
+
+  if (belt && hold) {
+    hold.addEventListener('click', () => {
+      const held = belt.classList.toggle('is-held');
+      hold.setAttribute('aria-pressed', String(held));
+      hold.textContent = held ? 'Start the belt' : 'Pause the belt';
+    });
+  }
+</script>
