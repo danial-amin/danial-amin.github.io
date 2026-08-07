@@ -421,7 +421,17 @@ main {
 
 @media (min-width: 940px) {
   .section-grid {
-    grid-template-columns: 13rem 1fr;
+    /**
+     * 14rem, not 13. The head column holds display type at up to 2rem, and words
+     * are never broken mid-word (see buildMagnets in Press.astro) — so a word
+     * wider than this track overflows into the body column instead, which is how
+     * "COLLABORATORS" ended up sitting on top of a testimonial. At 14rem the
+     * longest word in use ("something", 211px) clears with room.
+     *
+     * The constraint is real and worth knowing when writing a new section title:
+     * roughly ten characters is the limit for a single word here.
+     */
+    grid-template-columns: 14rem 1fr;
     column-gap: clamp(1.75rem, 4vw, 3.5rem);
     align-items: start;
   }
@@ -1587,11 +1597,22 @@ kbd {
 }
 
 /* rubber-stamped notice */
+/**
+ * The toast hides by sliding down past the bottom edge — but 160% of its own
+ * height is only ~54px when it holds no text, and it sits 28px up from the
+ * bottom, so an empty toast left about 8px of box plus its 5px burgundy shadow
+ * showing at the bottom of every page. It read as two small stray blocks, and it
+ * cost me a while on the research page thinking the new figure was overflowing.
+ *
+ * Hidden properly now, and the slide is kept for when it is actually shown.
+ */
 .toast {
   position: fixed;
   left: 50%;
   bottom: 1.75rem;
   z-index: 95;
+  visibility: hidden;
+  pointer-events: none;
   transform: translate(-50%, 160%) rotate(-1.5deg);
   font-family: var(--type);
   font-size: 0.74rem;
@@ -1605,6 +1626,7 @@ kbd {
 }
 
 .toast.is-up {
+  visibility: visible;
   transform: translate(-50%, 0) rotate(-1.5deg);
 }
 
@@ -2197,4 +2219,30 @@ kbd {
   .studio-fields {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- plates ----------
+
+   The generated mark per piece (src/lib/plate.ts). In the post header it sits
+   beside the form label; in the index it hangs under the row number, inside the
+   2.4rem rail that column already reserves. */
+
+.piece-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.piece-mark .typed {
+  margin: 0;
+}
+
+.entry-plate {
+  margin-top: 0.45rem;
+  opacity: 0.85;
+}
+
+/* the row's own mark is decoration; the lift belongs to the row */
+.entry:hover .entry-plate {
+  opacity: 1;
 }

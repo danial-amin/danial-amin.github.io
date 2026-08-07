@@ -7,6 +7,7 @@ import news from '../../data/news.json';
 import site from '../../data/site.json';
 import { academicHome } from '../../lib/origins';
 import { keepWordsWhole } from '../../lib/type';
+import PubTimeline from '../../components/PubTimeline.astro';
 ---
 
 <Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
@@ -33,6 +34,8 @@ import { keepWordsWhole } from '../../lib/type';
   </header>
 
   <Section num="1" title="Publications" note="Selected — the complete list lives on the academic site." id="publications">
+    <PubTimeline publications={publications} />
+
     <ul class="listing" data-run>
       {publications.map((p, i) => (
         <li style={`--i:${i}`}>

@@ -4,6 +4,7 @@ import { render } from 'astro:content';
 import { getWriting, fullVersionOf, type Post } from '../../lib/writing';
 import { ACADEMIC_IS_LOCAL, ACADEMIC_IS_CANONICAL } from '../../lib/origins';
 import { keepWordsWhole } from '../../lib/type';
+import Plate from '../../components/Plate.astro';
 import site from '../../data/site.json';
 
 export async function getStaticPaths() {
@@ -57,7 +58,10 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 >
   <article class="piece">
     <header class="piece-head">
-      <p class="typed">{label(post)}</p>
+      <div class="piece-mark">
+        <Plate seed={post.id} size={64} />
+        <p class="typed">{label(post)}</p>
+      </div>
       <h1 class="cover-name piece-title">{keepWordsWhole(post.data.title)}</h1>
       {post.data.excerpt && <p class="cover-line piece-deck">{post.data.excerpt}</p>}
     </header>
