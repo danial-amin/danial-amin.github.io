@@ -47,27 +47,27 @@ const nameParts = site.name.split(' ');
     </div>
   </header>
 
-  <Section num="1" title="Products I run" note="Five in production. Each one exists because something annoyed me enough to build the fix." id="systems">
+  <Section plate num="1" title="Products I run" note="Five in production. Each one exists because something annoyed me enough to build the fix." id="systems">
     <SystemsList />
   </Section>
 
-  <Section num="2" title="Work that shipped" note="Consulting and product engagements, described by outcome." id="work">
+  <Section plate num="2" title="Work that shipped" note="Consulting and product engagements, described by outcome." id="work">
     <WorkIndex />
   </Section>
 
-  <Section num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`} id="writing">
+  <Section plate num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`} id="writing">
     <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore />
   </Section>
 
-  <Section num="4" title="Research" note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve." id="research">
+  <Section plate num="4" title="Research" note="Doctoral work at Vaasa on how GenAI represents the people it claims to serve." id="research">
     <ResearchTeaser />
   </Section>
 
-  <Section num="5" title="What others say" id="proof">
+  <Section plate num="5" title="What others say" id="proof">
     <QuoteStrip />
   </Section>
 
-  <Section num="6" title="Build something clear" id="contact">
+  <Section plate num="6" title="Build something clear" id="contact">
     <ContactBlock />
   </Section>
 </Base>

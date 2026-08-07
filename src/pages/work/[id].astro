@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import projectsData from '../../data/projects.json';
 import { keepWordsWhole } from '../../lib/type';
+import Plate from '../../components/Plate.astro';
 
 type Project = {
   id: string;
@@ -51,6 +52,8 @@ const hasNarrative = Boolean(
         <span aria-hidden="true">/</span>
         <span>Case {String(i + 1).padStart(2, '0')}</span>
       </p>
+
+      <Plate seed={project.id} size={104} variant="poster" class="cover-plate" />
 
       <h1 class="cover-name" style="font-size:var(--t-4)">
         {keepWordsWhole(project.title)}

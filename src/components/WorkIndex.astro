@@ -1,6 +1,7 @@
 ---
 import projects from '../data/projects.json';
 import { keepWordsWhole } from '../lib/type';
+import Plate from './Plate.astro';
 
 interface Props {
   featuredOnly?: boolean;
@@ -15,7 +16,10 @@ const items = projects.filter((p) => !featuredOnly || p.featured);
     items.map((p, i) => (
       <li style={`--i:${i}`}>
         <a class="entry" href={`/work/${p.id}`} data-lift>
-          <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="entry-num">
+            {String(i + 1).padStart(2, '0')}
+            <Plate seed={p.id} size={32} class="entry-plate" />
+          </span>
           <span class="entry-title"><mark>{keepWordsWhole(p.title)}</mark></span>
           <span class="entry-meta">{p.year}</span>
           <p class="entry-blurb">{p.outcome}</p>

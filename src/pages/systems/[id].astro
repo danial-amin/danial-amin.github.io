@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import systems from '../../data/systems.json';
 import site from '../../data/site.json';
+import Plate from '../../components/Plate.astro';
 
 export function getStaticPaths() {
   return systems.map((s) => ({ params: { id: s.id }, props: { system: s } }));
@@ -25,6 +26,8 @@ const name = short(system);
         <span aria-hidden="true">/</span>
         <span>System {String(i + 1).padStart(2, '0')}</span>
       </p>
+
+      <Plate seed={system.id} size={104} variant="poster" class="cover-plate" />
 
       <h1 class="cover-name" style="font-size:var(--t-4)">
         {name}

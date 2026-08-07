@@ -7,7 +7,7 @@ import news from '../../data/news.json';
 import site from '../../data/site.json';
 import { academicHome } from '../../lib/origins';
 import { keepWordsWhole } from '../../lib/type';
-import PubTimeline from '../../components/PubTimeline.astro';
+import Plate from '../../components/Plate.astro';
 ---
 
 <Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
@@ -34,13 +34,14 @@ import PubTimeline from '../../components/PubTimeline.astro';
   </header>
 
   <Section num="1" title="Publications" note="Selected — the complete list lives on the academic site." id="publications">
-    <PubTimeline publications={publications} />
-
     <ul class="listing" data-run>
       {publications.map((p, i) => (
         <li style={`--i:${i}`}>
           <div class="entry" data-lift>
-            <span class="entry-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="entry-num">
+              {String(i + 1).padStart(2, '0')}
+              <Plate seed={p.doi ?? p.title} size={32} class="entry-plate" />
+            </span>
             <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
               {keepWordsWhole(p.title)}
             </span>

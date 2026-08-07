@@ -1,4 +1,5 @@
 ---
+import Plate from './Plate.astro';
 /**
  * A spread. The head sits in the gutter with a stamped page tab; the body runs
  * in the wide column. No "01 / Cases" mono kicker — that pattern was doing the
@@ -9,8 +10,14 @@ interface Props {
   title: string;
   note?: string;
   id?: string;
+  /**
+   * A plate in the head column. Opt-in, because the rail only has room to spare
+   * where the head is short — on the homepage, where every section is a spread and
+   * the column would otherwise be empty below the note.
+   */
+  plate?: boolean;
 }
-const { num, title, note, id } = Astro.props;
+const { num, title, note, id, plate = false } = Astro.props;
 ---
 
 <section class="section" id={id}>
@@ -19,6 +26,7 @@ const { num, title, note, id } = Astro.props;
       <p class="section-num">p. {num}</p>
       <h2 class="section-title" data-magnet>{title}</h2>
       {note && <p class="section-note">{note}</p>}
+      {plate && <Plate seed={`section:${title}`} size={112} variant="poster" class="section-plate" />}
     </div>
     <div class="section-body">
       <slot />

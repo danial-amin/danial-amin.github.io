@@ -62,11 +62,20 @@ function rngOf(seed: string) {
 
 const MOTIFS: Motif[] = ['block', 'quarter', 'half', 'ring', 'bars', 'diag'];
 
-const GRID = 3;
 const MARGIN = 6;
-const CELL = (100 - MARGIN * 2) / GRID;
 
-export function plateFor(seed: string): PlateSpec {
+/**
+ * Two grids, so a plate can hold its place in a hierarchy instead of being the
+ * same mark at two sizes. `stamp` is the 3x3 used in list rails; `poster` is a 2x2
+ * of much larger motifs, for the section heads and case headers where the plate is
+ * doing the work an image would.
+ */
+export type Variant = 'stamp' | 'poster';
+const GRID_FOR: Record<Variant, number> = { stamp: 3, poster: 2 };
+
+export function plateFor(seed: string, variant: Variant = 'stamp'): PlateSpec {
+  const GRID = GRID_FOR[variant];
+  const CELL = (100 - MARGIN * 2) / GRID;
   const rnd = rngOf(seed);
   const pick = <T,>(xs: T[]) => xs[Math.floor(rnd() * xs.length)];
 
@@ -80,10 +89,11 @@ export function plateFor(seed: string): PlateSpec {
   }
 
   /**
-   * Three or four motifs, not up to five. At the 32px the writing index uses, five
-   * shapes on a 3x3 grid stopped reading as a mark and started reading as a smudge.
+   * Three or four motifs on the stamp — five shapes on a 3x3 grid stopped reading
+   * as a mark at 32px and started reading as a smudge. The poster keeps two or
+   * three, because its cells are half the plate each.
    */
-  const count = 3 + Math.floor(rnd() * 2);
+  const count = variant === 'poster' ? 2 + Math.floor(rnd() * 2) : 3 + Math.floor(rnd() * 2);
   const shapes: PlateShape[] = [];
 
   // One motif is double-size when it fits, so the plate has a focal point rather
@@ -97,7 +107,7 @@ export function plateFor(seed: string): PlateSpec {
 
     const canBeBig = !bigUsed && c < GRID - 1 && r < GRID - 1 &&
       !taken.has(`${c + 1},${r}`) && !taken.has(`${c},${r + 1}`) && !taken.has(`${c + 1},${r + 1}`);
-    const big = canBeBig && rnd() < 0.55;
+    const big = variant === 'stamp' && canBeBig && rnd() < 0.55;
 
     const span = big ? 2 : 1;
     for (let dc = 0; dc < span; dc++) for (let dr = 0; dr < span; dr++) taken.add(`${c + dc},${r + dr}`);

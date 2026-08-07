@@ -2246,3 +2246,28 @@ kbd {
 .entry:hover .entry-plate {
   opacity: 1;
 }
+
+/* ---------- plates in place ----------
+
+   One visual language across the site: the generated mark (src/lib/plate.ts) is
+   what carries the graphic weight, rather than a chart or stock imagery. Sizes
+   step by role — a stamp in a list rail, a poster in a card, a larger poster in a
+   section head or a case header. */
+
+.section-plate {
+  margin-top: 1.5rem;
+  opacity: 0.9;
+}
+
+.card-plate {
+  margin: 0.15rem 0 0.7rem;
+}
+
+.cover-plate {
+  margin-bottom: 0.9rem;
+}
+
+/* the poster variant carries fewer, larger motifs, so it can take a little air */
+.plate-poster {
+  transform: rotate(-0.8deg);
+}
