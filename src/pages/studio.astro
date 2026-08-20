@@ -15,7 +15,6 @@ import Base from '../layouts/Base.astro';
  * like the other fifty — which is why it appears once the deploy that follows
  * the commit has finished, not the instant the button is pressed.
  */
-const today = new Date().toISOString().slice(0, 10);
 ---
 
 <Base
@@ -69,7 +68,7 @@ const today = new Date().toISOString().slice(0, 10);
 
           <p class="studio-field">
             <label for="st-date">Date</label>
-            <input id="st-date" name="date" type="date" value={today} required />
+            <input id="st-date" name="date" type="date" required />
             <span class="studio-error" data-error-for="date" hidden></span>
           </p>
 
@@ -192,6 +191,41 @@ const today = new Date().toISOString().slice(0, 10);
   const previewBody = document.getElementById('st-preview-body')!;
   const tabs = document.querySelectorAll<HTMLButtonElement>('.studio-tabs button');
 
+  /**
+   * Today's date, as the author's calendar has it.
+   *
+   * This used to be computed in the frontmatter — on a prerendered page, so it froze
+   * at whatever day the site was last deployed. The field then offered a stale date
+   * that looked plausible, and anything published without noticing carried it: the
+   * build in front of me was thirteen days behind. It was also built from
+   * toISOString(), which is UTC, so a deploy at 01:00 in Helsinki already stamped the
+   * previous day.
+   *
+   * Local date parts, in the browser, at load. `dateTouched` keeps the author's own
+   * choice safe from the refresh below.
+   */
+  const localToday = () => {
+    const d = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+
+  let dateTouched = false;
+
+  /** the studio is a tab people leave open; a date typed yesterday should not ship today */
+  function refreshDate() {
+    if (dateTouched) return;
+    date.value = localToday();
+  }
+
+  date.addEventListener('input', () => {
+    dateTouched = true;
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) refreshDate();
+  });
+
   const DRAFT_KEY = 'studio-draft-v1';
   /** the slug follows the title until it is edited by hand */
   let slugTouched = false;
@@ -290,7 +324,10 @@ const today = new Date().toISOString().slice(0, 10);
       if (!stored) return;
       const draft = JSON.parse(stored) as Fields & { slugTouched?: boolean };
       title.value = draft.title ?? '';
-      if (draft.date) date.value = draft.date;
+      if (draft.date) {
+        date.value = draft.date;
+        dateTouched = true;
+      }
       if (draft.source) source.value = draft.source;
       excerpt.value = draft.excerpt ?? '';
       tags.value = (draft.tags ?? []).join(', ');
@@ -344,6 +381,7 @@ const today = new Date().toISOString().slice(0, 10);
       );
     }
 
+    refreshDate();
     loadDraft();
     title.focus();
   }

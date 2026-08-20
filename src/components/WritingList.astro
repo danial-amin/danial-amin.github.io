@@ -21,8 +21,23 @@ const { posts, alternatesFor, limit, showMore = false, numbered = true, plates =
 const sorted = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const items = limit ? sorted.slice(0, limit) : sorted;
 
+/**
+ * Pinned to UTC on purpose.
+ *
+ * A frontmatter `date: 2026-08-06` is a calendar day, but zod coerces it to an
+ * instant — midnight UTC — and formatting an instant without a zone uses whatever
+ * zone the renderer happens to be in. These pages are prerendered, so that is the
+ * build machine: Railway is UTC and the dates come out right today, but a build
+ * anywhere west of UTC would silently print every post a day early (New York and
+ * Los Angeles both render that date as 5 August). UTC in, UTC out.
+ */
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+  d.toLocaleDateString('en-GB', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  });
 
 function kind(post: Post) {
   const alts = alternatesFor?.get(post.id) ?? [];
