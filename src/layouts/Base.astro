@@ -110,7 +110,16 @@ const year = new Date().getFullYear();
           <span class="header-tools">
             {/* a press setting, not a light/dark switch — white and fluoro ink
                 on black card is a real Riso technique */}
-            <button class="stamp-btn" type="button" id="stock-toggle" aria-label="Change paper stock">
+            {/* "Stock" alone is a printer's word, and the button's only other
+                affordance was an aria-label a sighted reader never sees. The
+                title says what pressing it does. */}
+            <button
+              class="stamp-btn"
+              type="button"
+              id="stock-toggle"
+              title="Print this page on black card instead of cream paper"
+              aria-label="Change paper stock"
+            >
               Stock
             </button>
           </span>
