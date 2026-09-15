@@ -9,12 +9,24 @@ import WritingList from '../components/WritingList.astro';
 import ResearchTeaser from '../components/ResearchTeaser.astro';
 import QuoteStrip from '../components/QuoteStrip.astro';
 import ContactBlock from '../components/ContactBlock.astro';
-import { getWriting } from '../lib/writing';
+import { getWriting, fullVersionOf } from '../lib/writing';
 import site from '../data/site.json';
 
 const { items: recent, all, alternatesFor } = await getWriting();
-const essays = all.filter((p) => p.data.source === 'essay').length;
+const essayPosts = all.filter((p) => p.data.source === 'essay');
+const essays = essayPosts.length;
 const newsletters = all.filter((p) => p.data.source === 'newsletter').length;
+
+/**
+ * How many of the essays are extracts rather than the whole piece.
+ *
+ * The note under this section used to say all of it was "mirrored in full". The
+ * newsletter is; the essays are not — 27 of them run here at about 300 words
+ * against 48,622 on the academic site, and the piece pages say so in their own
+ * footer. Counted rather than written down, so it cannot go stale when an essay
+ * gains or loses its long version.
+ */
+const extracts = essayPosts.filter((p) => fullVersionOf(p)).length;
 const nameParts = site.name.split(' ');
 ---
 
@@ -55,7 +67,7 @@ const nameParts = site.name.split(' ');
     <WorkIndex plates={false} />
   </Section>
 
-  <Section plate num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full.`} id="writing">
+  <Section plate num="3" title="Writing" note={`${essays} essays and ${newsletters} issues of ${site.newsletterName}, mirrored in full — bar ${extracts} essays that run here as extracts, complete on the academic site.`} id="writing">
     <WritingList posts={recent} alternatesFor={alternatesFor} limit={6} showMore plates={false} />
   </Section>
 

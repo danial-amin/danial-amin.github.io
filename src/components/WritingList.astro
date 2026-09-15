@@ -1,5 +1,5 @@
 ---
-import type { Post } from '../lib/writing';
+import { fullVersionOf, type Post } from '../lib/writing';
 import { keepWordsWhole } from '../lib/type';
 import Plate from './Plate.astro';
 
@@ -39,10 +39,18 @@ const fmt = (d: Date) =>
     day: '2-digit',
   });
 
+/**
+ * What the row is, including whether it is the whole thing.
+ *
+ * An extract and a full essay both read as "Essay" in this meta line, which made
+ * the index promise fifty complete pieces and deliver twenty-seven openings. The
+ * piece page already says "That was the extract"; by then the reader has clicked.
+ */
 function kind(post: Post) {
   const alts = alternatesFor?.get(post.id) ?? [];
   if (alts.length) return 'Essay + Newsletter';
-  return post.data.source === 'newsletter' ? 'Newsletter' : 'Essay';
+  if (post.data.source === 'newsletter') return 'Newsletter';
+  return fullVersionOf(post) ? 'Essay · extract' : 'Essay';
 }
 ---
 
