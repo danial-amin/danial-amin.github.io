@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import Ink from '../../components/Ink.astro';
-import publications from '../../data/publications.json';
+import { publications, tally, cite } from '../../lib/publications';
 import news from '../../data/news.json';
 import site from '../../data/site.json';
 import { academicHome } from '../../lib/origins';
@@ -16,7 +16,10 @@ import Plate from '../../components/Plate.astro';
       <span>Section — Research</span>
       <span>University of Vaasa</span>
       <span>PersonaTeam</span>
-      <span>{publications.length} publications</span>
+      {/* counted apart: one "31 publications" would fold ten manuscripts under
+          review and a preprint in with the peer-reviewed work, and this is the
+          audience that checks */}
+      <span>{tally.landed} published · {tally.inReview} in review</span>
     </p>
     <h1 class="cover-name" style="font-size:var(--t-4)">
       <Ink text="Personas" y={4} fromY={20} />
@@ -33,7 +36,7 @@ import Plate from '../../components/Plate.astro';
     </div>
   </header>
 
-  <Section num="1" title="Publications" note="Selected — the complete list lives on the academic site." id="publications">
+  <Section num="1" title="Publications" note="The whole record. Each entry with its BibTeX is on the academic site." id="publications">
     <ul class="listing" data-run>
       {publications.map((p, i) => (
         <li style={`--i:${i}`}>
@@ -48,7 +51,7 @@ import Plate from '../../components/Plate.astro';
             <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
               {keepWordsWhole(p.title)}
             </span>
-            <span class="entry-meta">{p.venue} · {p.year}</span>
+            <span class="entry-meta">{cite(p)}</span>
             <p class="entry-blurb">{p.status}{p.doi ? ` · doi:${p.doi}` : ''}</p>
           </div>
         </li>

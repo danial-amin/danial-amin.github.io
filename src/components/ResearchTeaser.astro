@@ -1,11 +1,19 @@
 ---
-import publications from '../data/publications.json';
+import { selected, cite } from '../lib/publications';
 import news from '../data/news.json';
 import site from '../data/site.json';
 import { academicHome } from '../lib/origins';
 import { keepWordsWhole } from '../lib/type';
 
-const top = publications.slice(0, 3);
+/**
+ * The three that should meet a reader first.
+ *
+ * This used to be `publications.slice(0, 3)`, and publications.json is sorted by
+ * year then title — so the homepage led with whichever paper happened to sort
+ * first, which was an under-review submission. The order is now stated in the
+ * data (`selected`) rather than fallen into.
+ */
+const top = selected.slice(0, 3);
 const latest = news[0];
 ---
 
@@ -18,7 +26,7 @@ const latest = news[0];
           <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
             {keepWordsWhole(p.title)}
           </span>
-          <span class="entry-meta">{p.venue} · {p.year}</span>
+          <span class="entry-meta">{cite(p)}</span>
           <p class="entry-blurb">{p.status}</p>
         </div>
       </li>

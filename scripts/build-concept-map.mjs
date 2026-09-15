@@ -134,7 +134,7 @@ async function loadDocs() {
       id: `pub/${pub.doi ?? pub.year}`,
       title: pub.title,
       kind: 'academic',
-      text: `${pub.title} ${pub.title} ${pub.venue} ${pub.status}`,
+      text: `${pub.title} ${pub.title} ${pub.venue ?? ''} ${pub.status}`,
     });
   }
 
