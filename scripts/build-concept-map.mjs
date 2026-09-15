@@ -402,8 +402,28 @@ function kmeans(vectors, k, iters = 60) {
 const docs = await loadDocs();
 const { terms, vectors, df, tf, academic, dfWritten, dfAcademic } = buildMatrix(docs, {});
 const writingDocs = docs.filter((d) => d.kind === 'writing');
+
+/**
+ * The four kinds of document, counted separately.
+ *
+ * The map used to publish only `docs` and `academicDocs`, and `academicDocs` is
+ * the publications *plus* the news lines. Fig. 1's caption read that number and
+ * printed it as a publication count, so the homepage claimed 34 publications
+ * while /research counted 31 from the same file. Nothing here is a claim about
+ * the record — it is provenance for the cloud — but a number on the page is read
+ * as a claim, so each source is now counted as itself.
+ */
+const count = (prefix) => docs.filter((d) => d.id.startsWith(prefix)).length;
+const corpus = {
+  essays: count('essays/'),
+  newsletter: count('newsletter/'),
+  publications: count('pub/'),
+  news: count('news/'),
+};
+
 console.log(
-  `corpus: ${writingDocs.length} written pieces + ${docs.length - writingDocs.length} academic records` +
+  `corpus: ${corpus.essays} essays + ${corpus.newsletter} newsletter issues` +
+    ` + ${corpus.publications} publications + ${corpus.news} news lines` +
     ` · vocabulary kept: ${terms.length} terms (${[...academic.values()].filter(Boolean).length} academic)`,
 );
 
@@ -529,6 +549,8 @@ await writeFile(
       method: 'tf-idf term vectors over documents, cosine distance, k-means(8)',
       docs: writingDocs.length,
       academicDocs: docs.length - writingDocs.length,
+      // each source counted as itself; `academicDocs` above is publications + news
+      corpus,
       dims: docs.length,
       cloud,
       groups,
