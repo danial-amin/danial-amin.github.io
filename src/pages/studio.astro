@@ -450,7 +450,14 @@ import Base from '../layouts/Base.astro';
       body.value = data.body;
       const f = data.fields;
       if (f.title) title.value = f.title;
-      if (f.date) date.value = f.date;
+      if (f.date) {
+        date.value = f.date;
+        // Without this the refresh-on-tab-focus below would overwrite a pasted
+        // file's own date with today's, which is how a post gets published twice
+        // at two URLs. Setting .value in code fires no input event, so the latch
+        // has to be set by hand.
+        dateTouched = true;
+      }
       if (f.source) source.value = f.source;
       if (f.excerpt) excerpt.value = f.excerpt;
       if (f.tags?.length) tags.value = f.tags.join(', ');
