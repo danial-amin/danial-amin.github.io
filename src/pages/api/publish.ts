@@ -7,7 +7,7 @@ import {
   requireGrant,
 } from '../../server/gate';
 import { commitFile, fileSha, repoConfig } from '../../server/github';
-import { filePath, livePath, renderFile, validate } from '../../server/post';
+import { filePath, livePath, livePathOf, parsePostPath, renderFile, validate } from '../../server/post';
 
 // Server-rendered: it writes to the repo, and it must read the token at request
 // time rather than have it inlined into a static bundle.
@@ -72,8 +72,31 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
   }
 
   const post = checked.post;
-  const path = filePath(post);
   const overwrite = raw.overwrite === true;
+
+  /**
+   * An edit names the file it is replacing; it does not re-derive it.
+   *
+   * filePath() composes a name from the date and the slug, and validate() runs
+   * the slug through slugify() first. For a post whose filename predates that
+   * rule — `personality_ai`, `RAG-works`, five others — recomposing turns
+   * `personality_ai` into `personality-ai`, so "replace this post" would quietly
+   * write a second file beside the first and leave both live. Seven of the
+   * fifty-three are in that state.
+   *
+   * So when the studio says it is editing a specific path, that path is the
+   * target. The frontmatter still comes from the fields and is still validated;
+   * only the filename is taken as given. Anything that is not a post path is
+   * refused rather than coerced.
+   */
+  const editPathRaw = typeof raw.editPath === 'string' ? raw.editPath : null;
+  const editing = editPathRaw ? parsePostPath(editPathRaw) : null;
+  if (editPathRaw && !editing) {
+    return jsonResponse({ ok: false, reason: 'bad-path', message: 'That is not a post path.' }, 400);
+  }
+
+  const path = editing ? editing.path : filePath(post);
+  const url = editing ? livePathOf(editing) : livePath(post);
 
   const existing = await fileSha(config.config, path);
   if (!existing.ok) {
@@ -88,8 +111,30 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
         ok: false,
         reason: 'exists',
         path,
-        url: livePath(post),
+        url,
         message: 'A post already exists at that path. Publish again with replace to overwrite it.',
+      },
+      409,
+    );
+  }
+
+  /**
+   * Editing something that is no longer there.
+   *
+   * The desk can be left open for days, and the branch moves underneath it. If
+   * the file named by editPath has been deleted or renamed since it was opened,
+   * committing would create it again — resurrecting a post that was removed on
+   * purpose. Better to say so and let the author decide.
+   */
+  if (editing && !existing.sha) {
+    return jsonResponse(
+      {
+        ok: false,
+        reason: 'gone',
+        path,
+        message:
+          'The post being edited is no longer on this branch — it was deleted or renamed. ' +
+          'Press “Stop editing” to publish this as a new post.',
       },
       409,
     );
@@ -112,7 +157,7 @@ export const POST: APIRoute = async ({ request, cookies, clientAddress }) => {
       ok: true,
       replaced: Boolean(existing.sha),
       path,
-      url: livePath(post),
+      url,
       commit: result.commit,
       repo: config.config.repo,
       branch: config.config.branch,

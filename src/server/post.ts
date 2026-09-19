@@ -260,9 +260,83 @@ export function renderFile(post: PostInput) {
   return lines.join('\n');
 }
 
+/**
+ * The directories the collection is allowed to hold posts in, and the source
+ * each one means. The inverse of DIR, kept beside it so the two cannot drift.
+ */
+export const POST_DIRS: Record<string, Source> = { essays: 'essay', newsletter: 'newsletter' };
+
+/** the collection's root, for anything that needs to list it */
+export const WRITING_ROOT = CONTENT_ROOT;
+
+export function dirFor(source: Source) {
+  return DIR[source];
+}
+
+export type PostPath = { path: string; source: Source; date: string; slug: string };
+
+/**
+ * Read a repository path back into the identity it encodes.
+ *
+ * This is the inverse of filePath(), and it is also the only thing standing
+ * between a `path` arriving in a query string and the contents API reading
+ * whatever it names. It answers null for anything that is not a post: a path
+ * outside the collection, a directory that is not one of the two forms, a
+ * filename that is not `YYYY-MM-DD-slug.md`, or anything carrying `..` or a
+ * backslash. Callers must treat null as "refuse", not "guess".
+ */
+export function parsePostPath(input: string): PostPath | null {
+  const path = input.trim();
+  if (!path || path.includes('..') || path.includes('\\') || path.startsWith('/')) return null;
+
+  const prefix = `${CONTENT_ROOT}/`;
+  if (!path.startsWith(prefix)) return null;
+
+  const rest = path.slice(prefix.length).split('/');
+  if (rest.length !== 2) return null;
+
+  const [dir, file] = rest;
+  const source = POST_DIRS[dir];
+  if (!source) return null;
+
+  /**
+   * Deliberately looser than SLUG_RE, which governs what a *new* slug may be.
+   *
+   * Seven posts predate that rule — three carry capitals (RAG-works, AI-Ethics,
+   * Specialist-vs-Generalist) and four carry underscores (personality_ai,
+   * llm_bias, red_teaming, llms_as_evaluators). They are published, linked, and
+   * not going to be renamed, so a parser that refuses them would hide a seventh
+   * of the collection from the picker. Nothing dangerous is admitted: no dot, no
+   * slash, no space, so `..` and every traversal shape stay out.
+   */
+  const match = /^(\d{4}-\d{2}-\d{2})-([A-Za-z0-9](?:[A-Za-z0-9_-]*[A-Za-z0-9])?)\.md$/.exec(file);
+  if (!match) return null;
+
+  const [, date, slug] = match;
+  // a filename can carry a date that is not a date — 2026-13-45 matches the shape
+  const [y, m, d] = date.split('-').map(Number);
+  const asDate = new Date(Date.UTC(y, m - 1, d));
+  if (asDate.getUTCFullYear() !== y || asDate.getUTCMonth() !== m - 1 || asDate.getUTCDate() !== d) {
+    return null;
+  }
+
+  return { path, source, date, slug };
+}
+
 /** e.g. `src/content/writing/essays/2026-08-06-a-new-post.md` */
 export function filePath(post: PostInput) {
   return `${CONTENT_ROOT}/${DIR[post.source]}/${post.date}-${post.slug}.md`;
+}
+
+/**
+ * The live URL of a post identified by its path rather than by form fields.
+ *
+ * Astro lowercases collection ids, so the legacy capitalised filenames answer on
+ * lowercase URLs — see the note in lib/writing.ts, where the same normalisation
+ * had to be applied to make their crosslinks resolve.
+ */
+export function livePathOf(p: PostPath) {
+  return `/writing/${DIR[p.source]}/${p.date}-${p.slug}`.toLowerCase();
 }
 
 /** The URL the post will answer on once the build finishes. */
