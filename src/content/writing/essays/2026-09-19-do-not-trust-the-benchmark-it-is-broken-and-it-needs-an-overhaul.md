@@ -6,8 +6,6 @@ excerpt: "We have become increasingly dependent on LLMs, but how do we know whic
 tags: ["essay"]
 ---
 
-# Do Not Trust the Benchmark: It Is Broken and Needs an Overhaul
-
 ## TL;DR
 
 We have become increasingly dependent on LLMs, but how do we know which one is actually good? Some benchmarks are becoming saturated, others have flawed tests, and models can sometimes exploit evaluation procedures without completing the intended task. There is also considerable money attached to how performance is measured and reported. Even a reliable general benchmark might not tell us which model is suitable for our own work. This is why I developed **Isotanta**, a crowdsourced LLM benchmarking platform. More contributors can bring in a broader range of questions, while repeated evaluations can provide more stable estimates of performance. The longer-term goal is to make those evaluations task-specific and personalized.
