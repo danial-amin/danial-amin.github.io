@@ -1,5 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+/**
+ * Titles for the "open a published post" picker.
+ *
+ * The list itself comes from the GitHub API at request time, because that is
+ * the branch's truth and includes a post committed four minutes ago. But asking
+ * GitHub for fifty titles would be fifty more requests, and the titles are not
+ * privileged — they are printed on /writing. So they are baked in here from the
+ * collection, and the picker falls back to the slug for anything published
+ * since this build. The list is never wrong; at worst one row reads as a slug.
+ */
+const titleByPath = Object.fromEntries(
+  (await getCollection('writing')).map((p) => [
+    // Keyed lower-case, and looked up the same way. Astro lower-cases collection
+    // ids, so RAG-works arrives here as rag-works while the GitHub listing
+    // returns the real filename — three posts would have missed their title and
+    // shown a bare slug in the picker.
+    `src/content/writing/${p.id}.md`.toLowerCase(),
+    p.data.title,
+  ]),
+);
 
 /**
  * The writing desk: paste markdown, see it rendered exactly as the site will
@@ -59,6 +81,20 @@ import Base from '../layouts/Base.astro';
       <p id="studio-target" class="tally" aria-live="polite">Checking the repository…</p>
 
       <form id="studio-form" class="studio">
+        {/* Opening a published post. Hidden until the list arrives, so the desk
+            looks exactly as it did for anyone composing something new. */}
+        <div class="studio-open" id="st-open" hidden>
+          <label for="st-open-pick">Open a published post</label>
+          <div class="studio-open-row">
+            <select id="st-open-pick">
+              <option value="">— new post —</option>
+            </select>
+            <button class="jump" type="button" id="st-open-go">Load</button>
+            <button class="jump" type="button" id="st-open-new" hidden>Stop editing</button>
+          </div>
+          <p class="studio-note" id="st-open-note" hidden></p>
+        </div>
+
         <div class="studio-fields">
           <p class="studio-field studio-field-wide">
             <label for="st-title">Title</label>
@@ -147,6 +183,10 @@ import Base from '../layouts/Base.astro';
   </div>
 </Base>
 
+<script define:vars={{ titleByPath }}>
+  window.__studioTitles = titleByPath;
+</script>
+
 <script>
   type Fields = {
     title: string;
@@ -185,6 +225,12 @@ import Base from '../layouts/Base.astro';
   const clearBtn = document.getElementById('st-clear') as HTMLButtonElement;
   const lockBtn = document.getElementById('st-lock') as HTMLButtonElement;
   const status = document.getElementById('st-status')!;
+
+  const openPanel = document.getElementById('st-open')!;
+  const openPick = document.getElementById('st-open-pick') as HTMLSelectElement;
+  const openGo = document.getElementById('st-open-go') as HTMLButtonElement;
+  const openNew = document.getElementById('st-open-new') as HTMLButtonElement;
+  const openNote = document.getElementById('st-open-note')!;
 
   const writePane = document.getElementById('st-write')!;
   const previewPane = document.getElementById('st-preview')!;
@@ -231,6 +277,25 @@ import Base from '../layouts/Base.astro';
   let slugTouched = false;
   /** the last valid composed file, for the copy-out fallback */
   let composed: string | null = null;
+
+  /**
+   * The post being edited, as it was on disk when it was opened.
+   *
+   * Held so the desk can tell the difference between "replace this post" and
+   * "write a new one" — which is the same distinction the filename makes, and
+   * the one that produced a duplicate when it was left to the author to
+   * remember. Null means composing something new.
+   */
+  type Editing = { path: string; source: string; date: string; slug: string; title: string };
+  let editing: Editing | null = null;
+
+  const DIR: Record<string, string> = { essay: 'essays', newsletter: 'newsletter' };
+
+  /** the path the fields would write to right now — the client's copy of filePath() */
+  function currentPath() {
+    const dir = DIR[source.value] ?? 'essays';
+    return `src/content/writing/${dir}/${date.value}-${slug.value}.md`;
+  }
 
   /* ---------- helpers ---------- */
 
@@ -312,7 +377,7 @@ import Base from '../layouts/Base.astro';
   // browser and is cleared once the post is committed.
   function saveDraft() {
     try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...fields(), slugTouched }));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ ...fields(), slugTouched, editing }));
     } catch {
       /* private mode — the draft simply isn't kept */
     }
@@ -322,7 +387,7 @@ import Base from '../layouts/Base.astro';
     try {
       const stored = localStorage.getItem(DRAFT_KEY);
       if (!stored) return;
-      const draft = JSON.parse(stored) as Fields & { slugTouched?: boolean };
+      const draft = JSON.parse(stored) as Fields & { slugTouched?: boolean; editing?: Editing | null };
       title.value = draft.title ?? '';
       if (draft.date) {
         date.value = draft.date;
@@ -336,12 +401,227 @@ import Base from '../layouts/Base.astro';
       body.value = draft.body ?? '';
       slugTouched = Boolean(draft.slugTouched);
       slugAuto.hidden = slugTouched;
+      // an interrupted edit resumes as an edit; otherwise a reload would turn it
+      // back into a new post and the next publish would duplicate it
+      editing = draft.editing ?? null;
+      if (editing) {
+        replace.checked = true;
+        dateTouched = true;
+        slugTouched = true;
+        slugAuto.hidden = true;
+      }
+      reflectEditing();
       updateCount();
-      if (draft.body) say('Draft restored from this browser.', 'note');
+      if (draft.body) {
+        say(editing ? `Draft restored — still editing ${editing.path}.` : 'Draft restored from this browser.', 'note');
+      }
     } catch {
       /* an unreadable draft is not worth blocking the editor for */
     }
   }
+
+  /* ---------- opening a published post ---------- */
+
+  const titles: Record<string, string> = (window as any).__studioTitles ?? {};
+
+  type Row = { path: string; source: string; date: string; slug: string };
+
+  /** "20 Aug 2026 · The Benchmarkolypse…" — the date first, because that is what
+   *  distinguishes two posts on the same subject */
+  function rowLabel(row: Row) {
+    const [y, m, d] = row.date.split('-').map(Number);
+    const when = new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-GB', {
+      timeZone: 'UTC',
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+    });
+    return `${when} · ${titles[row.path.toLowerCase()] ?? row.slug}`;
+  }
+
+  async function loadPostList() {
+    let rows: Row[];
+    try {
+      const res = await fetch('/api/posts', { headers: { accept: 'application/json' } });
+      if (!res.ok) return; // the desk still composes; opening is the extra
+      const data = (await res.json()) as { posts?: Row[] };
+      rows = data.posts ?? [];
+    } catch {
+      return;
+    }
+    if (!rows.length) return;
+
+    openPick.textContent = '';
+    const blank = document.createElement('option');
+    blank.value = '';
+    blank.textContent = '— new post —';
+    openPick.append(blank);
+
+    for (const [value, label] of [
+      ['essay', 'Essays'],
+      ['newsletter', 'Newsletter'],
+    ]) {
+      const group = rows.filter((r) => r.source === value);
+      if (!group.length) continue;
+      const optgroup = document.createElement('optgroup');
+      optgroup.label = `${label} (${group.length})`;
+      for (const row of group) {
+        const option = document.createElement('option');
+        option.value = row.path;
+        option.textContent = rowLabel(row);
+        optgroup.append(option);
+      }
+      openPick.append(optgroup);
+    }
+
+    openPanel.hidden = false;
+    if (editing) openPick.value = editing.path;
+  }
+
+  /**
+   * The path this publish will replace, or null for a new post.
+   *
+   * Sent to the server as `editPath`, which makes the filename explicit instead
+   * of recomposed — the only way to replace the seven posts whose names predate
+   * the slug rule, since validate() would slugify `personality_ai` into
+   * `personality-ai` and write a second file.
+   *
+   * Null the moment the fields no longer describe the open post: at that point
+   * the author is writing a new post, and saying otherwise would pin the
+   * filename to a date the frontmatter no longer carries.
+   */
+  function pinnedPath() {
+    return editing && currentPath() === editing.path ? editing.path : null;
+  }
+
+  function reflectEditing() {
+    openNew.hidden = !editing;
+    if (!editing) {
+      openNote.hidden = true;
+      return;
+    }
+    const now = currentPath();
+    openNote.hidden = false;
+    if (now === editing.path) {
+      openNote.dataset.kind = 'ok';
+      openNote.textContent = `Editing ${editing.path} — publishing replaces it in place.`;
+    } else {
+      /**
+       * The identity moved. This is the duplicate, caught before it is made:
+       * the date or the slug or the form has changed, so publishing would write
+       * a second file and leave the first one live at its own URL.
+       */
+      openNote.dataset.kind = 'bad';
+      openNote.textContent =
+        `The date, slug or form has changed. Publishing now writes a NEW post at ${now} ` +
+        `and leaves ${editing.path} where it is. Put them back to edit in place, or press ` +
+        `“Stop editing” if a new post is what you want.`;
+      /**
+       * Replace was ticked when the post was opened, and it no longer points at
+       * the post it was ticked for. Left ticked, one click would overwrite
+       * whatever happens to sit at the new path — a different post, if the new
+       * date and slug collide with one. Untick it and let the 409 ask.
+       */
+      replace.checked = false;
+    }
+  }
+
+  async function openPost(path: string) {
+    const dirty = body.value.trim().length > 0 || title.value.trim().length > 0;
+    if (dirty && !editing && !confirm('Replace what is in the editor with that post?')) return;
+    if (dirty && editing && editing.path !== path &&
+        !confirm('Discard the edits to the open post and load that one instead?')) return;
+
+    openGo.disabled = true;
+    say('Opening…', 'note');
+    try {
+      const res = await fetch(`/api/posts?path=${encodeURIComponent(path)}`, {
+        headers: { accept: 'application/json' },
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        message?: string;
+        path?: string;
+        fields?: Fields;
+        frontmatterDate?: string;
+      };
+      if (!res.ok || !data.ok || !data.fields) {
+        say(data.message ?? 'That post could not be opened.', 'bad');
+        return;
+      }
+
+      const f = data.fields;
+      title.value = f.title ?? '';
+      date.value = f.date ?? '';
+      source.value = f.source ?? 'essay';
+      excerpt.value = f.excerpt ?? '';
+      tags.value = (f.tags ?? []).join(', ');
+      linkedin.value = f.linkedinUrl ?? '';
+      slug.value = f.slug ?? '';
+      body.value = f.body ?? '';
+
+      /**
+       * Both latches go down, and this is the whole point of the feature.
+       *
+       * The date field refreshes itself to today until it is touched, and the
+       * slug follows the title until it is typed in. Filling them in code fires
+       * neither event, so without these two lines opening a post from August and
+       * switching tabs would quietly stamp it today, and fixing a typo in the
+       * title would move its URL.
+       */
+      dateTouched = true;
+      slugTouched = true;
+      slugAuto.hidden = true;
+
+      editing = {
+        path: data.path ?? path,
+        source: source.value,
+        date: date.value,
+        slug: slug.value,
+        title: title.value,
+      };
+      replace.checked = true;
+      openPick.value = editing.path;
+
+      updateCount();
+      showErrors({});
+      saveDraft();
+      reflectEditing();
+
+      const drift =
+        data.frontmatterDate && data.frontmatterDate !== f.date
+          ? ` Its frontmatter says ${data.frontmatterDate}; the filename wins, so the date shown is ${f.date}.`
+          : '';
+      say(`Opened ${editing.path}. Publishing replaces it.${drift}`, 'ok');
+    } catch {
+      say('The request failed. Nothing was opened.', 'bad');
+    } finally {
+      openGo.disabled = false;
+    }
+  }
+
+  function stopEditing() {
+    editing = null;
+    replace.checked = false;
+    openPick.value = '';
+    reflectEditing();
+    saveDraft();
+  }
+
+  openGo.addEventListener('click', () => {
+    const path = openPick.value;
+    if (!path) {
+      stopEditing();
+      say('Composing a new post.', 'note');
+      return;
+    }
+    void openPost(path);
+  });
+
+  openNew.addEventListener('click', () => {
+    stopEditing();
+    say('No longer editing. Publishing will write a new post.', 'note');
+  });
 
   /* ---------- gate ---------- */
 
@@ -383,6 +663,7 @@ import Base from '../layouts/Base.astro';
 
     refreshDate();
     loadDraft();
+    if (data.ready) void loadPostList();
     title.focus();
   }
 
@@ -465,6 +746,7 @@ import Base from '../layouts/Base.astro';
       syncSlug();
       updateCount();
       saveDraft();
+      reflectEditing();
       say(
         data.found
           ? 'Frontmatter read into the fields. Check the date and the slug.'
@@ -538,7 +820,11 @@ import Base from '../layouts/Base.astro';
       const res = await fetch('/api/publish', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ...fields(), overwrite: replace.checked }),
+        body: JSON.stringify({
+          ...fields(),
+          overwrite: replace.checked,
+          ...(pinnedPath() ? { editPath: pinnedPath() } : {}),
+        }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -558,6 +844,25 @@ import Base from '../layouts/Base.astro';
         } catch {
           /* nothing to clear */
         }
+        /**
+         * A post just published is a post that can be edited, so the picker has
+         * to know about it — and the desk stays on it rather than silently
+         * becoming "new post" again, which is what made the second publish of an
+         * edited draft write a duplicate.
+         */
+        if (data.path) {
+          editing = {
+            path: data.path,
+            source: source.value,
+            date: date.value,
+            slug: slug.value,
+            title: title.value,
+          };
+          replace.checked = true;
+          reflectEditing();
+        }
+        void loadPostList();
+
         sayWithLinks(
           `${data.replaced ? 'Replaced' : 'Committed'} ${data.path} as ${data.commit?.sha}. It goes live at the URL below once the deploy finishes — usually a couple of minutes.`,
           [
@@ -571,6 +876,9 @@ import Base from '../layouts/Base.astro';
       if (res.status === 422 && data.errors) {
         showErrors(data.errors);
         say('The post is not publishable yet — see the fields above.', 'bad');
+      } else if (res.status === 409 && data.reason === 'gone') {
+        // the branch moved under an open desk; committing would resurrect it
+        say(data.message ?? 'The post being edited is no longer there.', 'bad');
       } else if (res.status === 409) {
         replace.checked = false;
         say(
@@ -621,6 +929,7 @@ import Base from '../layouts/Base.astro';
     form.reset();
     slugTouched = false;
     composed = null;
+    stopEditing();
     updateCount();
     showErrors({});
     say('Draft discarded.', 'note');
@@ -637,9 +946,16 @@ import Base from '../layouts/Base.astro';
   slug.addEventListener('input', () => {
     slugTouched = slug.value.trim().length > 0;
     slugAuto.hidden = slugTouched;
+    reflectEditing();
   });
 
-  title.addEventListener('input', syncSlug);
+  title.addEventListener('input', () => {
+    syncSlug();
+    // the title moves the slug, and the slug is half the identity
+    reflectEditing();
+  });
+  date.addEventListener('input', reflectEditing);
+  source.addEventListener('change', reflectEditing);
   body.addEventListener('input', updateCount);
 
   let saveTimer = 0;

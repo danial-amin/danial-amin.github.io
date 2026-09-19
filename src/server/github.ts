@@ -94,6 +94,89 @@ export async function fileSha(
   return { ok: true, sha: data.sha };
 }
 
+export type DirEntry = { name: string; path: string; sha: string };
+
+/**
+ * The files in one directory of the repository.
+ *
+ * Used to list what has been published. It reads the branch rather than the
+ * running container's own content collection on purpose: the collection is a
+ * build-time snapshot, so a post committed four minutes ago — the one most
+ * likely to need an edit — would not be in it until the deploy finishes.
+ *
+ * A missing directory is not an error. The newsletter folder is allowed to be
+ * empty, and answering `[]` is the honest reading of "nothing published yet".
+ */
+export async function listDir(
+  cfg: RepoConfig,
+  path: string,
+): Promise<{ ok: true; entries: DirEntry[] } | GitHubFailure> {
+  const url = `${API}/repos/${cfg.repo}/contents/${encodeURI(path)}?ref=${encodeURIComponent(cfg.branch)}`;
+
+  let res: Response;
+  try {
+    res = await fetch(url, { headers: headers(cfg.token), signal: AbortSignal.timeout(TIMEOUT_MS) });
+  } catch (error) {
+    return failure(504, 'network', `Could not reach GitHub: ${(error as Error).message}`);
+  }
+
+  if (res.status === 404) return { ok: true, entries: [] };
+  if (res.status === 401 || res.status === 403) {
+    return failure(502, 'auth', 'GitHub rejected the token. It needs Contents: read on this repository.');
+  }
+  if (!res.ok) return failure(502, 'github', `GitHub answered ${res.status} listing ${path}.`);
+
+  const data = (await res.json().catch(() => null)) as
+    | { name?: string; path?: string; sha?: string; type?: string }[]
+    | null;
+  if (!Array.isArray(data)) return failure(502, 'github', `${path} is not a directory.`);
+
+  return {
+    ok: true,
+    entries: data
+      .filter((e) => e.type === 'file' && e.name && e.path && e.sha)
+      .map((e) => ({ name: e.name as string, path: e.path as string, sha: e.sha as string })),
+  };
+}
+
+/**
+ * One file's text and sha.
+ *
+ * The sha comes back with it so an edit can be committed against the revision
+ * it was loaded from rather than whatever the path holds at publish time.
+ */
+export async function readFile(
+  cfg: RepoConfig,
+  path: string,
+): Promise<{ ok: true; text: string; sha: string } | GitHubFailure> {
+  const url = `${API}/repos/${cfg.repo}/contents/${encodeURI(path)}?ref=${encodeURIComponent(cfg.branch)}`;
+
+  let res: Response;
+  try {
+    res = await fetch(url, { headers: headers(cfg.token), signal: AbortSignal.timeout(TIMEOUT_MS) });
+  } catch (error) {
+    return failure(504, 'network', `Could not reach GitHub: ${(error as Error).message}`);
+  }
+
+  if (res.status === 404) return failure(404, 'not-found', 'No post at that path on this branch.');
+  if (res.status === 401 || res.status === 403) {
+    return failure(502, 'auth', 'GitHub rejected the token. It needs Contents: read on this repository.');
+  }
+  if (!res.ok) return failure(502, 'github', `GitHub answered ${res.status} reading the file.`);
+
+  const data = (await res.json().catch(() => null)) as
+    | { content?: string; encoding?: string; sha?: string; type?: string }
+    | null;
+
+  if (!data?.sha || data.type !== 'file') return failure(502, 'github', 'That path is not a file.');
+  if (data.encoding !== 'base64' || typeof data.content !== 'string') {
+    // over 1 MB the contents API stops inlining the content; no post is close
+    return failure(502, 'github', 'GitHub did not return the file inline. Is it over 1 MB?');
+  }
+
+  return { ok: true, text: Buffer.from(data.content, 'base64').toString('utf8'), sha: data.sha };
+}
+
 export type Commit = { sha: string; url: string };
 
 export async function commitFile(

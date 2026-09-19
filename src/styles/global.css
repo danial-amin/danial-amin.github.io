@@ -2190,6 +2190,56 @@ kbd {
   padding: 0.12rem 0.4rem;
 }
 
+/* ---------- opening a published post ---------- */
+
+.studio-open {
+  margin: 0 0 1.4rem;
+  padding: 0.75rem 0.9rem 0.85rem;
+  border: 1.5px solid var(--rule);
+  background: var(--paper-deep);
+}
+
+.studio-open > label {
+  display: block;
+  font-family: var(--type);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.4rem;
+}
+
+.studio-open-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* the titles are long; the select takes the room and the buttons keep theirs */
+.studio-open-row select {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.studio-open .studio-note {
+  display: block;
+  margin: 0.55rem 0 0;
+  line-height: 1.6;
+  border-left: 3px solid var(--ink-faint);
+  padding-left: 0.6rem;
+}
+
+.studio-open .studio-note[data-kind='ok'] {
+  border-left-color: var(--c5);
+}
+
+/* the drift warning: this is the one that stops a duplicate being written */
+.studio-open .studio-note[data-kind='bad'] {
+  border-left-color: var(--ink-a);
+  color: var(--ink-body);
+}
+
 .studio-status {
   font-family: var(--type);
   font-size: 0.78rem;
