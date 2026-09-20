@@ -26,7 +26,10 @@ export const GET: APIRoute = ({ cookies }) => {
   if (!verify(cookies.get(CASES_GATE.cookie)?.value, hash, CASES_GATE)) {
     return jsonResponse({ ok: false }, 401);
   }
-  return jsonResponse({ ok: true, cases });
+  // 200 explicitly. This read `jsonResponse({ ok: true, cases })` — no status at
+  // all — and returned 200 only because `new Response(body, { status: undefined })`
+  // falls back to it. The right code by accident is still an accident.
+  return jsonResponse({ ok: true, cases }, 200);
 };
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
