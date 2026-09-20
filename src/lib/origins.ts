@@ -10,25 +10,26 @@
 const fromEnv = import.meta.env.PUBLIC_ACADEMIC_ORIGIN as string | undefined;
 
 /**
- * The production default is the Railway URL, not academic.danialamin.com.
+ * The permanent address, as of the cutover on 2026-09-20.
  *
- * That domain is still served by GitHub Pages from the previous version of the
- * academic site, which has no /writing routes: all 27 "read it in full" links
- * returned 404 there, and the extract pages were setting rel=canonical to those
- * same 404s. The new site — the one with the essays and the projector — answers
- * every one of those 27 slugs on the Railway deployment, which is why it is what
- * the links point at.
+ * This pointed at a railway.app hostname for as long as academic.danialamin.com
+ * was still served by GitHub Pages from the previous academic site, which had no
+ * /writing routes — all 27 "read it in full" links 404ed there, and the extract
+ * pages would have set rel=canonical to those same 404s.
  *
- * This is meant to be temporary. When the domain is moved to the new deployment,
- * put 'https://academic.danialamin.com' back here (or set PUBLIC_ACADEMIC_ORIGIN
- * to it, which needs no commit) — every academic link and canonical on the site
- * follows this one value.
+ * The domain now serves the new deployment. Checked before changing this: all 27
+ * slugs in full-versions.json return 200 on academic.danialamin.com, and the old
+ * /blog/:year/:title/ URLs 301 onto them.
+ *
+ * Because this is the canonical origin again, ACADEMIC_IS_CANONICAL below turns
+ * true and the extracts start handing their rel=canonical across — which is the
+ * whole point of having waited.
  */
 export const ACADEMIC_ORIGIN =
   fromEnv?.replace(/\/+$/, '') ||
   (import.meta.env.DEV
     ? 'http://localhost:4322'
-    : 'https://damin-acadgithubio-production.up.railway.app');
+    : 'https://academic.danialamin.com');
 
 /** absolute URL of the full version of an essay */
 export const academicEssay = (slug: string) => `${ACADEMIC_ORIGIN}/writing/${slug.toLowerCase()}`;
