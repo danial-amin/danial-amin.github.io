@@ -11,20 +11,20 @@ const newsletters = all.filter((p) => p.data.source === 'newsletter').length;
 const merged = [...alternatesFor.keys()].length;
 ---
 
-<Base title="Writing" description={`Essays and full mirrors of ${site.newsletterName}.`}>
+<Base title="Writing" description={`Essays and issues of ${site.newsletterName}.`}>
   <header class="cover">
     <p class="cover-issue">
       <span>Section — Writing</span>
       <span>{essays} essays</span>
       <span>{newsletters} issues</span>
-      <span>Nothing gated</span>
+      <span>Read on this site</span>
     </p>
     <h1 class="cover-name" style="font-size:var(--t-4)">
       <Ink text="Pulse" y={4} fromY={20} />
       <Ink text="& essays" x={5} y={5} fromX={20} fromY={24} />
     </h1>
     <p class="cover-line" data-set style="--set-delay:220ms">
-      On-site mirrors of <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a>, plus the essays. Rows marked <em>extract</em> are the opening of a longer piece on the academic site.
+      Read <a href={site.newsletterUrl} rel="noopener noreferrer" target="_blank">{site.newsletterName}</a> and my essays here. Essays marked <em>extract</em> have a longer version on my academic site.
     </p>
   </header>
 
