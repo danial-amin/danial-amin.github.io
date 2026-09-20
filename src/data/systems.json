@@ -2,46 +2,46 @@
   {
     "id": "inkwell",
     "name": "Inkwell",
-    "blurb": "Private writing companion — AI crafts prompts; you write the answers.",
+    "blurb": "A private journal that suggests writing prompts without writing the entries for you.",
     "url": "https://inkwell.danialamin.com",
     "status": "live",
-    "why": "Most “AI journals” write for you. That kills the point of a journal. I wanted a tool that only nudges — prompts shaped to your themes — while the words stay unmistakably yours.",
-    "built": "Theme-based prompt generation, private accounts, timed and spontaneous nudges. The model never authors the entry."
+    "why": "I wanted a journal that could help someone get started without doing the writing for them. Inkwell suggests prompts based on your themes, but you write the entries yourself.",
+    "built": "Private accounts, theme-based prompts, and scheduled or one-off reminders. The model does not write your entries."
   },
   {
     "id": "council",
     "name": "Council of LLMs",
-    "blurb": "Multiple models deliberate, judge, and consolidate hard questions.",
+    "blurb": "Ask several LLMs the same question, compare their responses, and get a combined answer.",
     "url": "https://council.danialamin.com",
     "status": "live",
-    "why": "One model on a hard question is a single overconfident voice. I wanted deliberation as a product — propose, judge, consolidate — so disagreement becomes signal instead of noise.",
-    "built": "Multi-provider completion, judging rounds, and a consolidation step into one answer you can actually inspect."
+    "why": "A single model can miss something or sound more certain than it should. I built Council to compare responses from several models and make their differences easier to inspect.",
+    "built": "Runs prompts through multiple model providers, compares their responses in judging rounds, and combines them into a final answer."
   },
   {
     "id": "promptlab",
     "name": "Prompt Lab",
-    "blurb": "Experiment with prompts, compare models, iterate in one place.",
+    "blurb": "Test prompts across models and compare the responses in one place.",
     "url": "https://promptlab.danialamin.com",
     "status": "live",
-    "why": "Prompt work usually lives in chat tabs and half-broken scripts. Tiny wording changes matter, and comparing models side-by-side shouldn’t require a new ritual every time.",
-    "built": "Edit prompts and params, run across models, compare outputs in one loop so iteration stays visible."
+    "why": "Testing prompts across different chat tabs and scripts makes it hard to track which wording or model setting produced which response. I built Prompt Lab to put those comparisons in one place.",
+    "built": "Edit prompts and model settings, run tests across models, and compare the outputs side by side."
   },
   {
     "id": "ppr",
     "name": "Persona Paper Reviewer",
-    "blurb": "Review research through persona-aware lenses for HCI and GenAI work.",
+    "blurb": "Review research papers with checks specific to HCI and AI-generated personas.",
     "url": "https://ppr.danialamin.com",
     "status": "live",
-    "why": "HCI and persona papers need reviewers who understand representation risk — not generic “be nicer” feedback. I built PPR to stress manuscripts the way our research actually critiques them.",
-    "built": "Agentic PDF review, revision validation against prior comments, grep-grounded style checks without a page cap."
+    "why": "General manuscript feedback can miss questions about how personas represent people and how that representation was evaluated. I built PPR to check for these issues alongside a standard paper review.",
+    "built": "Reviews PDFs, checks revisions against earlier comments, and searches manuscripts for style and terminology issues."
   },
   {
     "id": "pep",
     "name": "PEP — Persona Ecosystem Playground",
-    "blurb": "Playground for modeling persona ecosystems — minority views to whole populations.",
+    "blurb": "Create and examine AI-generated persona sets using your own research material.",
     "url": "https://pep.danialamin.com",
     "status": "live",
-    "why": "Personas from scattered research are slow, inconsistent, and easy to stereotype. PEP exists to turn unstructured context into structured persona ecosystems you can probe — including minority views.",
-    "built": "Ingest research/transcripts, retrieve with vectors, generate and expand persona sets grounded in your own material."
+    "why": "Building personas from transcripts and other research material takes time. I built PEP to organize that material into persona sets that can be examined, including how they represent minority views.",
+    "built": "Imports research documents and transcripts, retrieves relevant passages, and uses them to generate and expand persona sets."
   }
 ]
