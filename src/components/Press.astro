@@ -28,10 +28,10 @@
   /* ================= reveal pass ================= */
 
   const SET = '[data-set], [data-run], .backpage-note';
-  let pendingSets = [];
-  let io = null;
+  let pendingSets: Element[] = [];
+  let io: IntersectionObserver | null = null;
 
-  function setIn(el) {
+  function setIn(el: Element) {
     el.classList.add('is-set');
     io?.unobserve(el);
   }
@@ -44,7 +44,9 @@
 
     // threshold stays 0 — a ratio threshold is a fraction of the element's own
     // area, so a list taller than ~1/threshold viewports can never reach it.
-    io = new IntersectionObserver(
+    // bound to a const as well as the outer `let`: the callback below captures it,
+    // and a `let` loses its non-null narrowing inside a closure
+    const observer = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (!e.isIntersecting) continue;
@@ -55,6 +57,7 @@
       },
       { rootMargin: '0px 0px -8% 0px', threshold: 0 },
     );
+    io = observer;
 
     pendingSets = [];
     document.querySelectorAll(SET).forEach((el) => {
@@ -62,13 +65,13 @@
         el.classList.add('is-set');
       } else {
         pendingSets.push(el);
-        io.observe(el);
+        observer.observe(el);
       }
     });
   }
 
   /** Fallback so content gated behind an animation can never stay hidden. */
-  function sweepSets(vh) {
+  function sweepSets(vh: number) {
     for (let i = pendingSets.length - 1; i >= 0; i--) {
       const el = pendingSets[i];
       if (el.getBoundingClientRect().top < vh) {
@@ -93,17 +96,21 @@
   /* ---- mechanic 1: lift & tilt (cards, listing rows) ---- */
 
   const LIFT_RANGE = 150;
-  let lifts = [];
+
+  /** `on` tracks whether the row currently carries the lift, so the custom
+   *  properties are only removed once rather than every frame */
+  type Lift = { el: HTMLElement; top: number; h: number; left: number; w: number; on?: boolean };
+  let lifts: Lift[] = [];
 
   function measureLifts() {
     const sy = window.scrollY;
-    lifts = Array.from(document.querySelectorAll('[data-lift]')).map((el) => {
+    lifts = Array.from(document.querySelectorAll<HTMLElement>('[data-lift]')).map((el) => {
       const r = el.getBoundingClientRect();
       return { el, top: r.top + sy, h: r.height, left: r.left, w: r.width };
     });
   }
 
-  function applyLift(sy, vh) {
+  function applyLift(sy: number, vh: number) {
     for (const it of lifts) {
       const top = it.top - sy;
       if (top + it.h < -LIFT_RANGE || top > vh + LIFT_RANGE) continue;
@@ -146,11 +153,15 @@
   /* ---- mechanic 2: magnetic type (display words) ---- */
 
   const MAG_RANGE = 220;
-  let magnets = [];
+
+  /** cx/cy are filled by measureMagnets, which buildMagnets calls before anything
+   *  reads them; they start at 0 rather than undefined so the type stays simple */
+  type Magnet = { el: HTMLElement; cx: number; cy: number; active?: boolean };
+  let magnets: Magnet[] = [];
 
   function buildMagnets() {
     magnets = [];
-    document.querySelectorAll('[data-magnet]').forEach((host) => {
+    document.querySelectorAll<HTMLElement>('[data-magnet]').forEach((host) => {
       /**
        * Split once: a wrapper per word, letters inside it.
        *
@@ -191,7 +202,9 @@
 
         host.dataset.split = '1';
       }
-      host.querySelectorAll('.mag').forEach((s) => magnets.push({ el: s }));
+      host.querySelectorAll<HTMLElement>('.mag').forEach((s) =>
+        magnets.push({ el: s, cx: 0, cy: 0 }),
+      );
     });
     measureMagnets();
   }
@@ -205,7 +218,7 @@
     }
   }
 
-  function applyMagnets(sy, vh) {
+  function applyMagnets(sy: number, vh: number) {
     for (const m of magnets) {
       const cy = m.cy - sy;
       if (cy < -MAG_RANGE || cy > vh + MAG_RANGE) continue;
@@ -253,7 +266,7 @@
    * a long visit slowly stains the page. Nothing is cleared on move — that's
    * the difference between ink and a cursor glow.
    */
-  function stampInk(x, y) {
+  function stampInk(x: number, y: number) {
     if (!ctx) return;
     const now = performance.now();
     if (now - lastStamp < 55) return;
@@ -300,7 +313,7 @@
     applyMagnets(sy, vh);
   }
 
-  function onMove(e) {
+  function onMove(e: PointerEvent) {
     px = e.clientX;
     py = e.clientY;
     moved = true;

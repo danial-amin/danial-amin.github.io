@@ -404,13 +404,25 @@ const client = nodes.map((n, i) => ({
     v: [number, number, number];
   };
 
-  const stage = document.getElementById('clStage');
-  const raw = document.getElementById('clData');
-  const group = document.getElementById('clPts');
+  const stageEl = document.getElementById('clStage');
+  const rawEl = document.getElementById('clData');
+  const groupEl = document.getElementById('clPts');
   // the frame is computed from the geometry in fitViewBox, not authored in the markup
-  const svg = document.getElementById('clSvg');
+  const svgEl = document.getElementById('clSvg');
 
-  if (stage && raw && group && svg) {
+  if (stageEl && rawEl && groupEl && svgEl) {
+    /**
+     * Re-bound inside the guard so the type is non-nullable from here down.
+     *
+     * fitViewBox, frame and endDrag are hoisted `function` declarations, and
+     * TypeScript will not carry a narrowing into one of those — it cannot prove
+     * a hoisted function is not called before the check. Binding once here does.
+     */
+    const stage = stageEl;
+    const raw = rawEl;
+    const group = groupEl;
+    const svg = svgEl;
+
     const nodes = JSON.parse(raw.textContent || '[]') as CN[];
     const read = document.getElementById('clRead')!;
     const hint = document.getElementById('clHint')!;

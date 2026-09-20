@@ -107,11 +107,23 @@ const commands: Cmd[] = [
 </div>
 
 <script>
-  const layer = document.getElementById('palette-layer');
-  const input = document.getElementById('palette-input') as HTMLInputElement | null;
-  const list = document.getElementById('palette-list');
+  const layerEl = document.getElementById('palette-layer');
+  const inputEl = document.getElementById('palette-input') as HTMLInputElement | null;
+  const listEl = document.getElementById('palette-list');
   const empty = document.getElementById('palette-empty');
-  if (layer && input && list) {
+  if (layerEl && inputEl && listEl) {
+    /**
+     * Re-bound inside the guard so the type is non-nullable from here down.
+     *
+     * The check above proves all three exist, but open() and close() are hoisted
+     * `function` declarations — TypeScript cannot prove a hoisted function is
+     * only ever called after the check, so it will not carry the narrowing into
+     * them. Binding once here does, and costs nothing at runtime.
+     */
+    const layer = layerEl;
+    const input = inputEl;
+    const list = listEl;
+
     const items = Array.from(list.querySelectorAll<HTMLAnchorElement>('.palette-item'));
     let visible = items.slice();
     let cursor = 0;
