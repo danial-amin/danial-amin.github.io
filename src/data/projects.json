@@ -2,7 +2,7 @@
   {
     "id": "kyc",
     "title": "KYC Automation & Compliance",
-    "outcome": "Document verification and audit trails for a regulated fintech, built for GDPR scrutiny.",
+    "outcome": "Document verification and audit trails for a regulated fintech, with GDPR requirements in mind.",
     "year": "2023–24",
     "tags": [
       "fintech",
@@ -13,7 +13,7 @@
   {
     "id": "lending",
     "title": "AI-Powered Lending (NCB Jamaica)",
-    "outcome": "Credit risk models with explainability for Caribbean banking constraints.",
+    "outcome": "Credit risk models designed to make lending decisions easier to explain at NCB Jamaica.",
     "year": "2023–24",
     "tags": [
       "ml",
@@ -24,7 +24,7 @@
   {
     "id": "signalguard",
     "title": "SignalGuard",
-    "outcome": "Observability and log intelligence — anomalies, bursts, and drift for AIOps demos that behave like production.",
+    "outcome": "Log monitoring for AIOps demos, including anomalies, sudden spikes, and changes over time.",
     "year": "2024",
     "tags": [
       "aiops",
@@ -35,7 +35,7 @@
   {
     "id": "bayesian-hiring",
     "title": "Bayesian Hiring Agent",
-    "outcome": "Cost-aware, fairer resume screening by orchestrating multiple LLMs under uncertainty.",
+    "outcome": "A multi-model approach to resume screening that uses additional evaluation for uncertain cases.",
     "year": "2025",
     "tags": [
       "agents",
@@ -43,9 +43,9 @@
     ],
     "featured": true,
     "role": "Sole author",
-    "context": "Written up as a sole-authored preprint — \"Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making\", arXiv 2601.01522.",
-    "problem": "Screening at volume forces a choice nobody wants to make explicit: give every candidate the same expensive model pass, or give them all the same cheap one. The first does not scale and the second is where unfair outcomes hide.",
-    "approach": "Treat model choice as a sequential decision under uncertainty rather than a fixed pipeline: orchestrate several LLMs and spend more capable, more costly evaluation only where the decision is genuinely uncertain.",
+    "context": "Described in my sole-authored preprint, \"Bayesian Orchestration of Multi-LLM Agents for Cost-Aware Sequential Decision-Making\" (arXiv 2601.01522).",
+    "problem": "Using an expensive model for every application increases the cost of screening. Using a cheaper model for every application can miss cases that need closer review.",
+    "approach": "Use several LLMs in sequence. When an earlier assessment is uncertain, send the application to a more capable model for another pass.",
     "stack": [
       "Multi-LLM orchestration",
       "Bayesian decision theory",
