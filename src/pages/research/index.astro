@@ -10,15 +10,12 @@ import { keepWordsWhole } from '../../lib/type';
 import Plate from '../../components/Plate.astro';
 ---
 
-<Base title="Research" description="GenAI personas, fairness, and HCI — with the full record on the academic site.">
+<Base title="Research" description="Research on AI-generated personas, representation, and HCI. Full publication details are on my academic site.">
   <header class="cover">
     <p class="cover-issue">
       <span>Section — Research</span>
       <span>University of Vaasa</span>
       <span>PersonaTeam</span>
-      {/* counted apart: one "31 publications" would fold ten manuscripts under
-          review and a preprint in with the peer-reviewed work, and this is the
-          audience that checks */}
       <span>{tally.landed} published · {tally.inReview} in review</span>
     </p>
     <h1 class="cover-name" style="font-size:var(--t-4)">
@@ -26,8 +23,8 @@ import Plate from '../../components/Plate.astro';
       <Ink text="& fairness" x={5} y={5} fromX={20} fromY={24} />
     </h1>
     <p class="cover-line" data-set style="--set-delay:220ms">
-      Doctoral work on how Generative AI represents the people it claims to serve — and what
-      that gets wrong.
+      I study how AI-generated personas represent people and how to evaluate those
+      representations.
     </p>
     <div class="cover-actions" data-set style="--set-delay:300ms">
       <a class="btn" href={academicHome} rel="noopener noreferrer" target="_blank">Academic site</a>
@@ -36,16 +33,13 @@ import Plate from '../../components/Plate.astro';
     </div>
   </header>
 
-  <Section num="1" title="Publications" note="The whole record. Each entry with its BibTeX is on the academic site." id="publications">
+  <Section num="1" title="Publications" note="Publication details and BibTeX entries are on my academic site." id="publications">
     <ul class="listing" data-run>
       {publications.map((p, i) => (
         <li style={`--i:${i}`}>
           <div class="entry" data-lift>
             <span class="entry-num">
               {String(i + 1).padStart(2, '0')}
-              {/* seeded by title, not doi: fourteen of these are in review or accepted and
-                  will gain a doi when they land, and a paper should not change its mark
-                  on the day it gets published */}
               <Plate seed={p.title} size={32} class="entry-plate" />
             </span>
             <span class="entry-title" style="font-family:var(--body);font-weight:700;font-size:1rem;text-transform:none">
