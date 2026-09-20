@@ -183,13 +183,9 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
             <aside class="crosslink">
               <p class="field-key">Continue</p>
               <p>
-                That was the extract — {here.toLocaleString('en-GB')} of{' '}
-                {full.words.toLocaleString('en-GB')} words. The complete essay is at{' '}
-                {/* Named rather than spelled out. It used to print the domain,
-                    which contradicted the href as soon as the origin moved — and
-                    the origin is currently a railway.app hostname, which has no
-                    business in body copy. */}
-                <a href={full.url} rel="noopener" target="_blank">the academic site ↗</a>
+                This is an extract of {here.toLocaleString('en-GB')} words from a{' '}
+                {full.words.toLocaleString('en-GB')}-word essay. Read the full version on{' '}
+                <a href={full.url} rel="noopener" target="_blank">my academic site ↗</a>
               </p>
             </aside>
           )
