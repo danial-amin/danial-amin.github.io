@@ -23,9 +23,6 @@ const { detail = true, plates = true } = Astro.props;
           <span class="card-state">{s.status}</span>
         </div>
 
-        {/* the poster variant, not the row stamp: a card has room for the bigger
-            grammar, and it anchors the product the way the header plate anchors a
-            case page */}
         {plates && <Plate seed={s.id} size={56} variant="poster" class="card-plate" />}
 
         <h3 class="card-name">
@@ -40,7 +37,7 @@ const { detail = true, plates = true } = Astro.props;
               <p class="field-why">{s.why}</p>
             </div>
             <div class="field">
-              <p class="field-key">What shipped</p>
+              <p class="field-key">What it does</p>
               <p class="field-built">{s.built}</p>
             </div>
           </>
