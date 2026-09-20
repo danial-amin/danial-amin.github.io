@@ -9,32 +9,32 @@ import systems from '../../data/systems.json';
 import projects from '../../data/projects.json';
 ---
 
-<Base title="Work" description="Live systems and case studies — with the reasoning behind each.">
+<Base title="Work" description="Tools I maintain and selected client and product projects.">
   <header class="cover">
     <p class="cover-issue">
       <span>Section — Work</span>
       <span>{systems.length} live systems</span>
       <span>{projects.length} open cases</span>
-      <span>Some held back</span>
+      <span>Some client work is private</span>
     </p>
     <h1 class="cover-name" style="font-size:var(--t-4)">
       <Ink text="Systems" y={4} fromY={20} />
       <Ink text="& cases" x={5} y={5} fromX={20} fromY={24} />
     </h1>
     <p class="cover-line" data-set style="--set-delay:220ms">
-      Products I still run, the engagements that shipped, and a shelf I can’t show in public.
+      Tools I maintain, projects I can discuss publicly, and client work I keep private.
     </p>
   </header>
 
-  <Section num="1" title="Products I run" note="Each one exists because something annoyed me enough to build the fix." id="systems">
+  <Section num="1" title="Products I run" note="What each tool does and why I built it." id="systems">
     <SystemsList />
   </Section>
 
-  <Section num="2" title="Engagements" note="Described by outcome, not by tool list." id="cases">
+  <Section num="2" title="Engagements" note="Selected client and product projects." id="cases">
     <WorkIndex featuredOnly={false} showMore={false} />
   </Section>
 
-  <Section num="—" title="Held back" note="Client-sensitive. Checked on the server, not in this page." id="locked">
+  <Section num="—" title="Held back" note="Some client work is available by passphrase only." id="locked">
     <LockedCases />
   </Section>
 </Base>
