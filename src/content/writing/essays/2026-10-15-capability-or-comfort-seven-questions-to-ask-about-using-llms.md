@@ -1,5 +1,5 @@
 ---
-title: "# Capability or Comfort? Seven Questions To Ask About Using LLMs"
+title: "Capability or Comfort? Seven Questions To Ask About Using LLMs"
 date: 2026-10-15
 source: essay
 excerpt: "I recently attended NordiCHI 2026 in Vaasa, and one of the most interesting keynotes for me was by Pontus Wärnestål. His talk raised several questions about how we design, use, and work with AI systems. There was a lot to think about, but one slide in…"
@@ -172,7 +172,7 @@ And perhaps more importantly, do you know the answer today?
 
 ---
 
-*The seven questions are from Pontus Wärnestål's keynote at NordiCHI 2026, held in Vaasa, Finland, from 3–7 October 2026. The additions in square brackets and the reflections are my own. This article was prepared with AI assistance for drafting, editing, and source-checking.*
+*The seven questions are from Pontus Wärnestål's keynote at NordiCHI 2026, held in Vaasa, Finland. The additions in square brackets and the reflections are my own. This article was prepared with AI assistance for drafting, editing, and source-checking.*
 
 ## References
 
