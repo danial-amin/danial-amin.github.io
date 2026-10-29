@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-28T02:18:08.463Z",
+  "lastUpdated": "2026-10-29T02:18:19.313Z",
   "username": "danial-amin",
   "years": [
     "2020",
@@ -12486,14 +12486,13 @@
       },
       {
         "date": "2026-10-28",
-        "count": 0,
-        "level": 0
+        "count": 1,
+        "level": 2
       },
       {
         "date": "2026-10-29",
         "count": 0,
-        "level": 0,
-        "isFuture": true
+        "level": 0
       },
       {
         "date": "2026-10-30",
