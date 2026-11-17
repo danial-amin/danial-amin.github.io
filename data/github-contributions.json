@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-16T09:20:44.539Z",
+  "lastUpdated": "2026-11-17T10:27:57.101Z",
   "username": "danial-amin",
   "years": [
     "2020",
@@ -12376,13 +12376,13 @@
       },
       {
         "date": "2026-10-06",
-        "count": 0,
-        "level": 0
+        "count": 14,
+        "level": 4
       },
       {
         "date": "2026-10-07",
-        "count": 1,
-        "level": 2
+        "count": 12,
+        "level": 4
       },
       {
         "date": "2026-10-08",
@@ -12581,14 +12581,13 @@
       },
       {
         "date": "2026-11-16",
-        "count": 0,
-        "level": 0
+        "count": 2,
+        "level": 3
       },
       {
         "date": "2026-11-17",
         "count": 0,
-        "level": 0,
-        "isFuture": true
+        "level": 0
       },
       {
         "date": "2026-11-18",
